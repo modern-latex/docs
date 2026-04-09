@@ -1,0 +1,29 @@
+---
+title: Comparison
+description: Why Prostha breaks the mold of traditional academic tools.
+---
+
+> As a soon-to-be-broken man once said, you are either perfect, or you are not me.
+
+Prostha bypasses the overhead of monolithic academic frameworks and legacy math tools in several key areas:
+
+### vs. MATLAB & Legacy Math Toolchains
+
+* **Minimal Memory Footprint** – Avoids the massive runtime inflation of legacy tools tied to proprietary Java environments that consume heavy system memory just to initialize a window. Prostha keeps its memory footprint entirely lean and predictable.
+* **Dual Compilation Pipelines** – Built for both rapid development and production deployment, supporting immediate Just-In-Time execution during active simulation testing, alongside clean compilation paths for raw production performance.
+* **Comprehensive Architecture Docs** – Eliminates the guesswork of navigating a closed-source black box.
+  We provide transparent examples and precise documentation mapping out exactly how our backend handles data.
+
+### vs. Heavy Monolithic Frameworks
+
+* **Headless, Low-Abstraction Interface** – Prostha doesn’t hide its rendering behind heavy, slow abstractions or bloated frontends filled with novice spaghetti code down to the brim.
+  It provides a lean, programmatic interface directly to native graphics, allowing you to maximize computation and frame rates.
+* **Low-Latency Scripting Boundaries** – Clean Lua bindings via sol3 give you the flexibility of rapid prototyping with near-native execution speed.
+  You can tweak simulation parameters on the fly, completely eliminating the cycle of waiting for tedious C++ recompiles.
+* **Hardware-Agnostic Compute Offloading** – Included support with external drivers so all computations are balanced correctly and run through their respective pipeline.
+
+### vs. Rolling Your Own Core from Scratch
+
+* Pre-Engineered Native Foundations – Don’t waste your time writing custom memory pools, debugging pointer safety, garbage collection, or wrapping an interface.
+  Prostha handles the foundational engine prepackaged, so you can actually focus fully on your simulation logic.
+* Expanding Ecosystem – Prostha isn’t a locked-in ecosystem. While C++ and Lua form the core performance layer, the engine is architected to easily expose native bindings to other programming environments without requiring a rewrite.
