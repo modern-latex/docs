@@ -1,0 +1,65 @@
+---
+title: Installation
+description: Learn how to set up the Prostha environment and toolchain.
+---
+
+<Steps>
+  <Step>
+    ### Install the Package
+
+    Install the Prostha binary and toolchain to your local environment using your preferred package manager.
+
+    <Tabs items={["macOS", "Linux", "Windows"]} defaultValue="macos">
+      <Tab value="macos">
+        ### Install via Homebrew
+
+        ```bash
+        brew install prostha
+        ```
+      </Tab>
+
+      <Tab value="linux">
+        ### Install via Shell Script
+
+        ```bash
+        curl -fsSL [https://prostha.dev/install.sh](https://prostha.dev/install.sh) | sh
+        ```
+      </Tab>
+
+      <Tab value="windows">
+        ### Install via Winget
+
+        ```powershell
+        winget install prostha
+        ```
+      </Tab>
+    </Tabs>
+
+    <Callout type="info">
+      Building from source? If you are compiling manually via CMake, ensure you add the generated binaries to your system's environment variables or link them directly to your project.
+    </Callout>
+  </Step>
+
+  <Step>
+    ### Verify Your Environment
+
+    Verify that the environment is configured correctly by creating a test script. Create a file named `main.lua` in your working directory and add the following line:
+
+    ```lua title="main.lua"
+    print("Hello, Prostha!")
+    ```
+
+    Run the script using the Prostha CLI to confirm the runtime initializes successfully:
+
+    ```bash
+    prostha main.lua
+    ```
+  </Step>
+
+  <Step>
+    ### Ready for Development
+
+    Congratulations! The Prostha toolchain is now fully available in your environment.
+    You are ready to embed the engine as a native library or use the scripting layer for rapid simulation development.
+  </Step>
+</Steps>
