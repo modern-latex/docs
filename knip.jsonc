@@ -1,0 +1,52 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
+	"ignoreExportsUsedInFile": {
+		"interface": true,
+		"type": true
+	},
+	"tags": ["-lintignore"],
+	"ignore": [
+		"packages/better-auth/src/client/test-plugin.ts",
+		".github/scripts/**"
+	],
+	"ignoreBinaries": ["playwright", "changeset", "open", "remark", "tsx"],
+	"ignoreIssues": {
+		"packages/cli/src/commands/init/index.ts": ["exports"],
+		"packages/cli/src/commands/init/utility/imports.ts": ["exports"],
+		"packages/sso/src/saml/assertions.ts": ["exports"],
+		"packages/sso/src/oidc/discovery.ts": ["exports"]
+	},
+	"ignoreDependencies": ["@changesets/cli", "@vitest/coverage-istanbul"],
+	"rules": {
+		"optionalPeerDependencies": "off",
+		"catalog": "off"
+	},
+	"workspaces": {
+		"packages/*": {
+			"entry": ["src/index.ts!"],
+			"project": ["src/**/*.ts!"]
+		},
+		"packages/better-auth": {
+			"project": [
+				"src/**/*.ts!",
+				"!src/adapters/**/test/*.prisma",
+				"!src/adapters/**/test/.tmp",
+				"!src/adapters/**/test/auth.ts"
+			]
+		},
+		"packages/core": {
+			"ignoreDependencies": [
+				"kysely!",
+				"nanostores!"
+			]
+		},
+		"packages/test-utils": {},
+		"packages/expo": {
+			"ignoreDependencies": ["@better-fetch/fetch", "better-call"]
+		}
+	},
+	"vitest": {
+		"entry": ["**/*.test.ts", "**/*.spec.ts"]
+	},
+	"ignoreWorkspaces": ["demo/**", "apps/docs/**", "e2e/**"]
+}
