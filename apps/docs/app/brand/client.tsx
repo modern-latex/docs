@@ -64,8 +64,8 @@ export function Brand() {
 		<div className="relative min-h-dvh pt-14 lg:pt-0">
 			<div className="relative text-foreground">
 				<div className="flex flex-col lg:flex-row">
-					<aside className="hidden lg:block relative w-full shrink-0 lg:w-[30%] lg:h-dvh border-b lg:border-b-0 lg:border-r border-foreground/[0.06] overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
-						<div className="absolute inset-0 bg-grid text-foreground/[0.04] pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
+					<aside className="hidden lg:block relative w-full shrink-0 lg:w-[30%] lg:h-dvh border-b lg:border-b-0 lg:border-r border-foreground/6 overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
+						<div className="absolute inset-0 bg-grid text-foreground/4 pointer-events-none mask-[radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
 						<div className="relative w-full pt-6 md:pt-10 pb-6 lg:pb-0 flex flex-col justify-center lg:h-full">
 							<div className="space-y-6">
 								<div className="space-y-2">
@@ -77,7 +77,7 @@ export function Brand() {
 											Brand
 										</span>
 									</h1>
-									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-[280px]">
+									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-70">
 										The tokens, components, and motifs that make up the Better Auth
 										visual language. Everything here is pulled live from the same
 										variables used across product and docs.
@@ -95,7 +95,7 @@ export function Brand() {
 										<Link
 											key={item.href}
 											href={item.href}
-											className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/[0.06] last:border-0 group"
+											className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/6 last:border-0 group"
 										>
 											<span className="text-[11px] text-foreground/70 dark:text-foreground/50 uppercase tracking-wider group-hover:text-foreground/90 transition-colors">
 												{item.label}
@@ -121,8 +121,8 @@ export function Brand() {
 
 					<div className="relative w-full lg:w-[70%] overflow-x-hidden no-scrollbar">
 						<div className="px-5 sm:px-6 lg:px-10 lg:pt-16 pb-10">
-							<div className="lg:hidden relative border-b border-foreground/[0.06] overflow-hidden -mx-5 sm:-mx-6 px-5 sm:px-6 mb-5">
-								<div className="absolute inset-0 bg-grid text-foreground/[0.04] pointer-events-none" />
+							<div className="lg:hidden relative border-b border-foreground/6 overflow-hidden -mx-5 sm:-mx-6 px-5 sm:px-6 mb-5">
+								<div className="absolute inset-0 bg-grid text-foreground/4 pointer-events-none" />
 								<div className="relative space-y-2 py-12">
 									<p className="text-[11px] font-mono uppercase tracking-wider text-foreground/50">
 										Design System
@@ -195,7 +195,7 @@ export function Brand() {
 															key={token.name}
 															type="button"
 															onClick={handleCopy}
-															className="bg-background p-3 space-y-2 text-left hover:bg-foreground/[0.02] transition-colors"
+															className="bg-background p-3 space-y-2 text-left hover:bg-foreground/2 transition-colors"
 														>
 															<div className="h-14 w-full border border-foreground/10" style={{ backgroundColor: `var(--${token.name})` }} />
 															<div className="space-y-0.5">
@@ -246,7 +246,7 @@ export function Brand() {
 																key={accent.name}
 																type="button"
 																onClick={handleCopy}
-																className="border border-foreground/10 flex items-center gap-2 p-2 text-left hover:bg-foreground/[0.02] transition-colors"
+																className="border border-foreground/10 flex items-center gap-2 p-2 text-left hover:bg-foreground/2 transition-colors"
 															>
 																<span className={`h-6 w-1 ${accent.color}`} />
 																<div className="flex-1 flex items-baseline justify-between gap-2">
@@ -470,17 +470,17 @@ export function Brand() {
 														<Tabs.Trigger value="sh">Shell</Tabs.Trigger>
 													</Tabs.List>
 													<Tabs.Content value="ts">
-														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
+														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
 															<code>{`import { betterAuth } from "better-auth";\n\nexport const auth = betterAuth({ secret: process.env.AUTH_SECRET });`}</code>
 														</pre>
 													</Tabs.Content>
 													<Tabs.Content value="js">
-														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
+														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
 															<code>{`const { betterAuth } = require("better-auth");\n\nmodule.exports.auth = betterAuth({ secret: process.env.AUTH_SECRET });`}</code>
 														</pre>
 													</Tabs.Content>
 													<Tabs.Content value="sh">
-														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/[0.03] border border-foreground/10 overflow-x-auto">
+														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
 															<code>pnpm add better-auth</code>
 														</pre>
 													</Tabs.Content>

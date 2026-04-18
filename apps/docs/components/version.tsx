@@ -12,7 +12,7 @@ import {
 	versionedDocsHref,
 } from "@/lib/docs-versions";
 
-export function VersionSwitcher({ className }: { className?: string }) {
+export function Version({ className }: { className?: string }) {
 	const pathname = usePathname() || "/docs";
 	const router = useRouter();
 	const [open, setOpen] = useState(false);

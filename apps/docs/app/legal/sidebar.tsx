@@ -23,14 +23,13 @@ export function Sidebar() {
 					href: "/legal/dpa",
 				},
 			].map((page) => {
-				const isActive = pathname === page.href;
 				return (
 					<Link
 						key={page.href}
 						href={page.href}
 						className={cn(
-							"flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/[0.06] last:border-0 transition-colors",
-							isActive
+							"flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/6 last:border-0 transition-colors",
+							pathname === page.href
 								? "text-foreground"
 								: "text-foreground/70 dark:text-foreground/55 hover:text-foreground",
 						)}
@@ -38,7 +37,7 @@ export function Sidebar() {
 						<span className="text-[11px] uppercase tracking-wider">
 							{page.name}
 						</span>
-						{isActive && <span className="text-[11px] font-mono">→</span>}
+						{pathname === page.href && <span className="text-[11px] font-mono">→</span>}
 					</Link>
 				);
 			})}

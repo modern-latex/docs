@@ -103,7 +103,7 @@ void main() {
   gl_FragColor = vec4(vec3(brightness), 1.0);
 }`;
 
-export function HalftoneBackground() {
+export function Halftone() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const frameRef = useRef<number>(0);
 

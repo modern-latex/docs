@@ -17,7 +17,7 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 import { Markdown } from "./markdown";
-import { MessageFeedback } from "./message-feedback";
+import { Feedback } from "./feedback";
 import {
 	Drawer,
 	DrawerClose,
@@ -622,11 +622,7 @@ function Message({
 				<Markdown text={markdown} />
 			</div>
 			{message.role === "assistant" && message.id && !isStreaming && (
-				<MessageFeedback
-					messageId={message.id}
-					userMessageId={
-						messageIndex > 0 ? messages[messageIndex - 1]?.id : undefined
-					}
+				<Feedback
 					content={markdown}
 				/>
 			)}
