@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 const logos: { name: string; icon: React.ReactNode }[] = [
 	{
 		name: "OpenAI",
@@ -184,11 +186,7 @@ function LogoItem({ name, icon }: { name: string; icon: React.ReactNode }) {
 export function TrustedBy() {
 	return (
 		<div className="space-y-3">
-			{/* <p className="text-[11px] uppercase tracking-[0.15em] text-foreground/50 dark:text-foreground/30 font-medium">
-				Trusted by
-			</p> */}
 			<div className="relative overflow-hidden">
-				{/* Fade masks on left and right */}
 				<div
 					className="pointer-events-none absolute inset-0 z-10"
 					style={{
@@ -199,7 +197,6 @@ export function TrustedBy() {
 					}}
 				>
 					<div className="flex animate-logo-marquee w-fit">
-						{/* Repeat 2 times for seamless loop - translates exactly 50% */}
 						{[0, 1].map((setIdx) => (
 							<div key={setIdx} className="flex shrink-0">
 								{logos.map((logo, i) => (
@@ -213,7 +210,6 @@ export function TrustedBy() {
 						))}
 					</div>
 				</div>
-				{/* Invisible spacer to maintain height */}
 				<div className="flex invisible" aria-hidden="true">
 					{logos.slice(0, 1).map((logo, i) => (
 						<LogoItem key={`spacer-${i}`} name={logo.name} icon={logo.icon} />
