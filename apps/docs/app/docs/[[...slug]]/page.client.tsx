@@ -1,4 +1,6 @@
 "use client";
+
+import { useCopyButton } from "@prostha/ui/src/components/use-copy-button";
 import {
 	Popover,
 	PopoverContent,
@@ -11,93 +13,33 @@ import {
 	ExternalLink,
 	MessageCircle,
 } from "lucide-react";
-import type { MouseEventHandler } from "react";
-import {
-	useEffect,
-	useEffectEvent,
-	useRef,
-	useState,
-	useTransition,
-} from "react";
+import { useTransition } from "react";
 import { cn } from "@/lib/utils";
-
-function useCopyButton(
-	onCopy: () => void | Promise<void>,
-): [checked: boolean, onClick: MouseEventHandler] {
-	const [checked, setChecked] = useState(false);
-	const timeoutRef = useRef<number | null>(null);
-
-	const onClick: MouseEventHandler = useEffectEvent(() => {
-		if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
-		const res = Promise.resolve(onCopy());
-
-		void res.then(() => {
-			setChecked(true);
-			timeoutRef.current = window.setTimeout(() => {
-				setChecked(false);
-			}, 1500);
-		});
-	});
-
-	useEffect(() => {
-		return () => {
-			if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
-		};
-	}, []);
-
-	return [checked, onClick];
-}
 
 const cache = new Map<string, string>();
 
-const tocAction =
-	"inline-flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-200 text-foreground/60 hover:text-foreground border border-transparent hover:border-foreground/10 hover:bg-foreground/5 cursor-pointer select-none [&_svg]:size-3";
-
-function CopyMdLinkButton({ rawMdUrl }: { rawMdUrl: string }) {
-	const [checked, onClick] = useCopyButton(() => {
-		const url = new URL(
-			rawMdUrl,
-			typeof window !== "undefined"
-				? window.location.origin
-				: "https://better-auth.com",
-		);
-		return navigator.clipboard.writeText(url.toString());
-	});
-
-	return (
-		<button
-			type="button"
-			className="flex items-center gap-2.5 px-2.5 py-2 text-[12px] text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-colors duration-150 [&_svg]:size-3.5 [&_svg]:shrink-0 w-full"
-			onClick={onClick}
-		>
-			{checked ? <Check /> : <Copy />}
-			{checked ? "Copied!" : "Copy MD Link"}
-		</button>
-	);
-}
-
-export function LLMCopyButton({ rawUrl }: { rawUrl: string }) {
-	const [isLoading, startTransition] = useTransition();
-	const [checked, onClick] = useCopyButton(async () => {
-		const cached = cache.get(rawUrl);
+export function Llms({ url }: { url: string }) {
+	const [loading, transition] = useTransition();
+	const [isCopied, handleCopy] = useCopyButton(async () => {
+		const cached = cache.get(url);
 
 		if (cached) {
 			await navigator.clipboard.writeText(cached);
 			return;
 		}
 
-		const fetchPromise = fetch(rawUrl).then(async (res) => {
+		const promise = fetch(url).then(async (res) => {
 			const text = await res.text();
-			cache.set(rawUrl, text);
+			cache.set(url, text);
 			return text;
 		});
 
-		startTransition(async () => {
-			await fetchPromise;
+		transition(async () => {
+			await promise;
 		});
 
 		const item = new ClipboardItem({
-			"text/plain": fetchPromise.then(
+			"text/plain": promise.then(
 				(text) => new Blob([text], { type: "text/plain" }),
 			),
 		});
@@ -106,65 +48,78 @@ export function LLMCopyButton({ rawUrl }: { rawUrl: string }) {
 
 	return (
 		<button
-			disabled={isLoading}
+			disabled={loading}
 			className={cn(
-				tocAction,
-				checked && "text-foreground border-foreground/10 bg-foreground/5",
+				"inline-flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-200 text-foreground/60 hover:text-foreground border border-transparent hover:border-foreground/10 hover:bg-foreground/5 cursor-pointer select-none [&_svg]:size-3",
+				isCopied && "text-foreground border-foreground/10 bg-foreground/5",
 			)}
-			onClick={onClick}
+			onClick={handleCopy}
 		>
-			{checked ? <Check /> : <Copy />}
-			{checked ? "Copied" : "Copy MD"}
+			{isCopied ? <Check /> : <Copy />}
+			{isCopied ? "Copied" : "Copy MD"}
 		</button>
 	);
 }
 
-export function ViewOptions(props: {
-	markdownUrl: string;
-	githubUrl: string;
-	rawMdUrl: string;
+export function Options(props: {
+	markdown: string;
+	github: string;
+	url: string;
 }) {
-	const markdownUrl = new URL(
-		props.markdownUrl,
+	const base = new URL(
+		props.markdown,
 		typeof window !== "undefined"
 			? window.location.origin
-			: "https://better-auth.com",
+			: "https://prostha.org",
 	);
-	const q = `Read ${markdownUrl}, I want to ask questions about it.`;
+	const query = `Read ${base}, I want to ask questions about it.`;
 
-	const claudeUrl = new URL("https://claude.ai/new");
-	claudeUrl.searchParams.set("q", q);
-	const claude = claudeUrl.toString();
+	const claude = new URL("https://claude.ai/new");
+	claude.searchParams.set("q", query);
 
-	const gptUrl = new URL("https://chatgpt.com/");
-	gptUrl.searchParams.set("hints", "search");
-	gptUrl.searchParams.set("q", q);
-	const gpt = gptUrl.toString();
+	const gpt = new URL("https://chatgpt.com/");
+	gpt.searchParams.set("hints", "search");
+	gpt.searchParams.set("q", query);
 
-	const t3Url = new URL("https://t3.chat/new");
-	t3Url.searchParams.set("q", q);
-	const t3 = t3Url.toString();
+	const t3 = new URL("https://t3.chat/new");
+	t3.searchParams.set("q", query);
 
-	const copilotUrl = new URL("https://copilot.microsoft.com/");
-	copilotUrl.searchParams.set("q", q);
-	const copilot = copilotUrl.toString();
+	const copilot = new URL("https://copilot.microsoft.com/");
+	copilot.searchParams.set("q", query);
 
-	const cursorUrl = new URL("https://cursor.com/link/prompt");
-	cursorUrl.searchParams.set("text", q);
-	const cursor = cursorUrl.toString();
+	const cursor = new URL("https://cursor.com/link/prompt");
+	cursor.searchParams.set("text", query);
+
+	const [copy, onCopy] = useCopyButton(() => {
+		const url = new URL(
+			props.url,
+			typeof window !== "undefined"
+				? window.location.origin
+				: "https://prostha.org",
+		);
+		return navigator.clipboard.writeText(url.toString());
+	});
 
 	return (
 		<Popover>
-			<PopoverTrigger className={cn(tocAction)}>
+			<PopoverTrigger className="inline-flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-200 text-foreground/60 hover:text-foreground border border-transparent hover:border-foreground/10 hover:bg-foreground/5 cursor-pointer select-none [&_svg]:size-3">
 				Open in
 				<ChevronDown />
 			</PopoverTrigger>
-			<PopoverContent className="flex flex-col p-1 min-w-[200px]">
-				<CopyMdLinkButton rawMdUrl={props.rawMdUrl} />
+			<PopoverContent className="flex flex-col p-1 min-w-50">
+				<button
+					type="button"
+					className="flex items-center gap-2.5 px-2.5 py-2 text-[12px] text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-colors duration-150 [&_svg]:size-3.5 [&_svg]:shrink-0 w-full text-left"
+					onClick={onCopy}
+				>
+					{copy ? <Check /> : <Copy />}
+					{copy ? "Copied Link!" : "Copy MD Link"}
+				</button>
+
 				{[
 					{
 						title: "GitHub",
-						href: props.githubUrl,
+						href: props.github,
 						icon: (
 							<svg fill="currentColor" role="img" viewBox="0 0 24 24">
 								<title>GitHub</title>
@@ -174,7 +129,7 @@ export function ViewOptions(props: {
 					},
 					{
 						title: "ChatGPT",
-						href: gpt,
+						href: gpt.toString(),
 						icon: (
 							<svg
 								role="img"
@@ -189,7 +144,7 @@ export function ViewOptions(props: {
 					},
 					{
 						title: "Claude",
-						href: claude,
+						href: claude.toString(),
 						icon: (
 							<svg
 								fill="currentColor"
@@ -204,12 +159,12 @@ export function ViewOptions(props: {
 					},
 					{
 						title: "T3 Chat",
-						href: t3,
+						href: t3.toString(),
 						icon: <MessageCircle />,
 					},
 					{
 						title: "Copilot",
-						href: copilot,
+						href: copilot.toString(),
 						icon: (
 							<svg
 								fill="currentColor"
@@ -224,7 +179,7 @@ export function ViewOptions(props: {
 					},
 					{
 						title: "Cursor",
-						href: cursor,
+						href: cursor.toString(),
 						icon: (
 							<svg
 								fill="currentColor"
@@ -233,7 +188,7 @@ export function ViewOptions(props: {
 								xmlns="http://www.w3.org/2000/svg"
 							>
 								<title>Cursor</title>
-								<path d="M457.43,125.94L244.42,2.96c-6.84-3.95-15.28-3.95-22.12,0L9.3,125.94c-5.75,3.32-9.3,9.46-9.3,16.11v247.99c0,6.65,3.55,12.79,9.3,16.11l213.01,122.98c6.84,3.95,15.28,3.95,22.12,0l213.01-122.98c5.75-3.32,9.3-9.46,9.3-16.11v-247.99c0-6.65-3.55-12.79-9.3-16.11h-.01ZM444.05,151.99l-205.63,356.16c-1.39,2.4-5.06,1.42-5.06-1.36v-233.21c0-4.66-2.49-8.97-6.53-11.31L24.87,145.67c-2.4-1.39-1.42-5.06,1.36-5.06h411.26c5.84,0,9.49,6.33,6.57,11.39h-.01Z" />
+								<path d="M457.43,125.94L244.42,2.96c-6.84-3.95-15.28-3.95-22.12,0L9.3,125.94c-5.75,3.32-9.3,9.46-9.3,16.11v247.99c0,6.65,3.55,12.79,9.3,16.11l213.01,122.98c6.84,3.95,15.28,3.95,22.12,0l213.01-122.98c5.75-3.32,9.3-9.46,9.3-16.11v-247.99c0-6.65-3.55-12.79-9.3-16.11h-.01ZM444.05,151.99l-205.63,356.16c-1.39,2.4-5.06,1.42-5.06,1.36v-233.21c0-4.66-2.49-8.97-6.53-11.31L24.87,145.67c-2.4-1.39-1.42-5.06,1.36-5.06h411.26c5.84,0,9.49,6.33,6.57,11.39h-.01Z" />
 							</svg>
 						),
 					},

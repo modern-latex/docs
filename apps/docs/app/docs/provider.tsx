@@ -1,41 +1,33 @@
 "use client";
 
 import { RootProvider } from "fumadocs-ui/provider/next";
-import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
-import { createContext, use } from "react";
+import { createContext } from "react";
+import Dialog from "@/components/dialog";
 
-const SearchDialog = dynamic(() => import("@/components/search-dialog"), {
-	ssr: false,
-});
-
-export interface PageEntry {
+export interface Entry {
 	name: string;
 	url: string;
 }
 
-export const PagesContext = createContext<PageEntry[]>([]);
-
-export function usePages() {
-	return use(PagesContext);
-}
+export const Context = createContext<Entry[]>([]);
 
 export function DocsProvider({
-	pages,
+	entries,
 	children,
 }: {
-	pages: PageEntry[];
+	entries: Entry[];
 	children: ReactNode;
 }) {
 	return (
-		<PagesContext value={pages}>
+		<Context value={entries}>
 			<RootProvider
 				search={{
-					SearchDialog,
+					SearchDialog: Dialog,
 				}}
 			>
 				{children}
 			</RootProvider>
-		</PagesContext>
+		</Context>
 	);
 }

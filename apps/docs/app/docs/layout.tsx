@@ -1,23 +1,23 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
-import { AIChat, AIChatPanel, AIChatTrigger } from "@/components/ai-chat";
-import { DocsSidebar } from "@/components/docs/docs-sidebar";
+import type { Entry } from "@/app/docs/provider";
+import { DocsProvider } from "@/app/docs/provider";
+import { Chat, Panel, Trigger } from "@/components/chat";
+import { Sidebar } from "@/components/docs/sidebar";
 import { source } from "@/lib/source";
-import type { PageEntry } from "./provider";
-import { DocsProvider } from "./provider";
 
-const pages: PageEntry[] = source.getPages().map((page) => ({
+const entries: Entry[] = source.getPages().map((page) => ({
 	name: page.data.title,
 	url: page.url,
 }));
 
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
-		<DocsProvider pages={pages}>
-			<AIChat>
+		<DocsProvider entries={entries}>
+			<Chat>
 				<Suspense>
-					<DocsSidebar />
+					<Sidebar />
 				</Suspense>
 				<DocsLayout
 					tree={source.pageTree}
@@ -30,16 +30,16 @@ export default function Layout({ children }: { children: ReactNode }) {
 					}}
 				>
 					{children}
-					<AIChatPanel />
-					<AIChatTrigger>
+					<Panel />
+					<Trigger>
 						<span className="text-sm text-muted-foreground">Ask AI</span>
 						<span className="h-5 w-px bg-foreground/10" />
 						<kbd className="inline-flex items-center gap-0.5 text-[10px] font-mono text-muted-foreground">
 							<span className="text-[11px]">&#8984;</span>I
 						</kbd>
-					</AIChatTrigger>
+					</Trigger>
 				</DocsLayout>
-			</AIChat>
+			</Chat>
 		</DocsProvider>
 	);
 }

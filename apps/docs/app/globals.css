@@ -3,7 +3,7 @@
 @import "tw-animate-css";
 @import "fumadocs-ui/css/black.css";
 @import "fumadocs-ui/css/preset.css";
-@source "../components/**/*.{ts,tsx}";
+@source "../../../packages/ui/src/components/**/*.{ts,tsx}";
 @source "../node_modules/fumadocs-ui/dist/**/*.js";
 
 /* biome-ignore lint/correctness/noInvalidPositionAtImportRule: <explanation> */

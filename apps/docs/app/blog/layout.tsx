@@ -1,37 +1,35 @@
-import React from "react";
-import type { Metadata } from "next";
-import { createMetadata } from "@/lib/metadata";
 import { RootProvider } from "fumadocs-ui/provider/next";
+import type { Metadata } from "next";
+import type React from "react";
+import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
 	title: "Blog",
-	description: "Latest updates, articles, and insights about Better Auth",
+	description: "Latest updates, articles, and insights.",
 	openGraph: {
 		url: "/blog",
-		title: "Blog - Better Auth",
-		description: "Latest updates, articles, and insights about Better Auth",
-		images: ["/api/og-release?heading=Better%20Auth%20Blog"],
+		title: "Blog - Prostha",
+		description: "Latest updates, articles, and insights.",
+		images: ["/api/og-release?heading=Prostha%20Blog"],
 	},
 	twitter: {
-		images: ["/api/og-release?heading=Better%20Auth%20Blog"],
-		title: "Blog - Better Auth",
-		description: "Latest updates, articles, and insights about Better Auth",
+		images: ["/api/og-release?heading=Prostha%20Blog"],
+		title: "Blog - Prostha",
+		description: "Latest updates, articles, and insights.",
 	},
 	alternates: {
 		types: {
 			"application/rss+xml": [
 				{
-					title: "Better Auth Blog",
-					url: "https://better-auth.com/blog/rss.xml",
+					title: "Prostha Blog",
+					url: "https://prostha.org/blog/rss.xml",
 				},
 			],
 		},
 	},
 });
 
-export default function Layout({children}: {
-	children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<RootProvider>
 			<div className="relative flex min-h-screen flex-col">

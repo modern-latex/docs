@@ -37,7 +37,9 @@ export function Sidebar() {
 						<span className="text-[11px] uppercase tracking-wider">
 							{page.name}
 						</span>
-						{pathname === page.href && <span className="text-[11px] font-mono">→</span>}
+						{pathname === page.href && (
+							<span className="text-[11px] font-mono">→</span>
+						)}
 					</Link>
 				);
 			})}

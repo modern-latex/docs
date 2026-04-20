@@ -1,75 +1,53 @@
 import { NextResponse } from "next/server";
-import { source } from "../../lib/source";
+import { source } from "@/lib/source";
 
 export const revalidate = false;
 
-interface PageInfo {
-	title: string;
-	description: string;
-	url: string;
-	category: string;
-}
-
-function groupPagesByCategory(pages: any[]): Map<string, PageInfo[]> {
-	const grouped = new Map<string, PageInfo[]>();
-
-	for (const page of pages) {
-		// Skip openapi pages
-		if (page.slugs[0] === "openapi") continue;
-
-		const category = page.slugs[0] || "general";
-		const pageInfo: PageInfo = {
-			title: page.data.title,
-			description: page.data.description || "",
-			url: `/llms.txt${page.url}.md`,
-			category: category,
-		};
-
-		if (!grouped.has(category)) {
-			grouped.set(category, []);
-		}
-		grouped.get(category)!.push(pageInfo);
-	}
-
-	return grouped;
-}
-
-function formatCategoryName(category: string): string {
-	return category
-		.split("-")
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ");
-}
-
 export async function GET() {
 	const pages = source.getPages();
-	const groupedPages = groupPagesByCategory(pages);
 
-	let content = `# Better Auth
+	const groups = pages.reduce(
+		(collection, page) => {
+			const root = page.slugs[0];
+			if (root === "openapi") return collection;
 
-> The most comprehensive authentication framework for TypeScript
+			const category = root || "general";
 
-## Table of Contents
+			if (!collection[category]) collection[category] = [];
+			collection[category].push({
+				title: page.data.title,
+				description: page.data.description ? `: ${page.data.description}` : "",
+				url: `/llms.txt${page.url}.md`,
+			});
 
-`;
+			return collection;
+		},
+		{} as Record<
+			string,
+			Array<{ title: string; description: string; url: string }>
+		>,
+	);
 
-	const sortedCategories = Array.from(groupedPages.keys()).sort();
+	let content = `# Prosthaphaeresis\n\n> LLM-optimized documentation and resources\n\n## Table of Contents\n\n`;
 
-	for (const category of sortedCategories) {
-		const categoryPages = groupedPages.get(category)!;
-		const formattedCategory = formatCategoryName(category);
+	Object.keys(groups)
+		.sort()
+		.forEach((key) => {
+			const title = key
+				.split("-")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
 
-		content += `### ${formattedCategory}\n\n`;
+			content += `### ${title}\n\n`;
 
-		for (const page of categoryPages) {
-			const description = page.description ? `: ${page.description}` : "";
-			content += `- [${page.title}](${page.url})${description}\n`;
-		}
+			groups[key].forEach((page) => {
+				content += `- [${page.title}](${page.url})${page.description}\n`;
+			});
 
-		content += "\n";
-	}
+			content += "\n";
+		});
 
-	return new NextResponse(content, {
+	return new NextResponse(content.trim() + "\n", {
 		headers: {
 			"Content-Type": "text/markdown",
 		},
