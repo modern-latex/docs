@@ -17,7 +17,7 @@ import {
 } from "fumadocs-ui/components/dialog/search";
 import { ArrowRight, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, use } from "react";
+import { use, useMemo } from "react";
 import { Client } from "typesense";
 import { useTypesenseSearch } from "typesense-fumadocs-adapter/client";
 import { Context } from "@/app/docs/provider";
@@ -44,9 +44,7 @@ const client = (() => {
 		nodes: [
 			{
 				host: uri.hostname,
-				port:
-					Number(uri.port) ||
-					(uri.protocol === "https:" ? 443 : 80),
+				port: Number(uri.port) || (uri.protocol === "https:" ? 443 : 80),
 				protocol: uri.protocol.replace(":", ""),
 			},
 		],
@@ -54,21 +52,21 @@ const client = (() => {
 	});
 })();
 
-export default function CustomSearchDialog(props: SharedProps) {
+export default function Dialog(props: SharedProps) {
 	const { search, setSearch, query } = useTypesenseSearch({
 		typesenseCollectionName: "better-auth-docs",
 		client: client!,
 		legacy: true,
 	});
 
-	const entries = use(Context);
+	const context = use(Context);
 	const router = useRouter();
 
 	const page = useMemo<SearchItemType | undefined>(() => {
 		if (search.length === 0) return;
 
 		const match = search.toLowerCase();
-		for (const entry of entries) {
+		for (const entry of context) {
 			if (!entry.name.toLowerCase().includes(match)) continue;
 
 			return {
@@ -80,15 +78,15 @@ export default function CustomSearchDialog(props: SharedProps) {
 						<p>
 							Jump to{" "}
 							<span className="font-medium text-fd-foreground">
-                         {entry.name}
-                      </span>
+								{entry.name}
+							</span>
 						</p>
 					</div>
 				),
 				onSelect: () => router.push(entry.url),
 			};
 		}
-	}, [router, search, entries]);
+	}, [router, search, context]);
 
 	const ai = useMemo<SearchItemType | undefined>(() => {
 		if (!search.trim()) return;
@@ -101,9 +99,7 @@ export default function CustomSearchDialog(props: SharedProps) {
 					<ArrowRight className="size-4 text-purple-500" />
 					<p>
 						Ask AI:{" "}
-						<span className="font-medium text-fd-foreground">
-                      "{search}"
-                   </span>
+						<span className="font-medium text-fd-foreground">"{search}"</span>
 					</p>
 				</div>
 			),
@@ -144,10 +140,10 @@ export default function CustomSearchDialog(props: SharedProps) {
 					items={
 						query.data !== "empty" || page || ai
 							? [
-								...(page ? [page] : []),
-								...(ai ? [ai] : []),
-								...(Array.isArray(query.data) ? query.data : []),
-							]
+									...(page ? [page] : []),
+									...(ai ? [ai] : []),
+									...(Array.isArray(query.data) ? query.data : []),
+								]
 							: null
 					}
 					Item={({ item, onClick }) => (
@@ -163,17 +159,17 @@ export default function CustomSearchDialog(props: SharedProps) {
 					)}
 				/>
 				<SearchDialogFooter>
-                <span className="text-xs text-fd-muted-foreground">
-                   Search powered by{" "}
-					<a
-						href="https://typesense.org"
-						target="_blank"
-						rel="noreferrer noopener"
-						className="underline hover:text-fd-foreground transition-colors"
-					>
-                      Typesense
-                   </a>
-                </span>
+					<span className="text-xs text-fd-muted-foreground">
+						Search powered by{" "}
+						<a
+							href="https://typesense.org"
+							target="_blank"
+							rel="noreferrer noopener"
+							className="underline hover:text-fd-foreground transition-colors"
+						>
+							Typesense
+						</a>
+					</span>
 				</SearchDialogFooter>
 			</SearchDialogContent>
 		</SearchDialog>
