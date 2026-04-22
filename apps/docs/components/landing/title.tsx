@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export function HeroTitle() {
+export function Title() {
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 12 }}
@@ -32,8 +32,7 @@ export function HeroTitle() {
 						/>
 					</svg>
 					<span className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-100 font-light">
-						Introducing{" "}
-						<span className="font-normal">| Agent Auth Protocol</span>
+						Introducing <span className="font-normal">| -------</span>
 					</span>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -57,19 +56,17 @@ export function HeroTitle() {
 					The most comprehensive authentication framework
 				</h1>
 
-				{/* CTA Buttons */}
 				<div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-4 sm:pt-5 pointer-events-auto">
 					<Link
-						href="/docs/installation"
+						href="/docs"
 						className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 bg-neutral-900 text-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 text-xs sm:text-sm font-medium hover:opacity-90 transition-colors"
 					>
 						Get Started
 					</Link>
 					<Link
-						href="https://dash.better-auth.com/sign-in"
+						href="/showcases"
 						className="relative inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 text-neutral-600 dark:text-neutral-300 text-xs sm:text-sm font-medium transition-colors group"
 					>
-						{/* Diagonal lines background */}
 						<span
 							className="absolute inset-0 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity"
 							style={{
@@ -93,7 +90,7 @@ export function HeroTitle() {
 						<span className="absolute -bottom-1.5 -right-1.5 font-mono text-[8px] text-foreground/40 dark:text-foreground/50 leading-none select-none translate-x-1/2 translate-y-1/2">
 							+
 						</span>
-						<span className="relative">Sign In </span>
+						<span className="relative">Showcases</span>
 					</Link>
 				</div>
 			</div>

@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import { Button } from "@prostha/ui/src/components/button";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
+import type React from "react";
 
-export function Theme() {
+export function ThemeProvider() {
 	const { setTheme, resolvedTheme } = useTheme();
 
 	return (
