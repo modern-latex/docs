@@ -2,83 +2,86 @@
 
 import { use, useEffect, useId, useState } from "react";
 
-type Output = {
-    svg: string;
-    bindFunctions?: (element: Element) => void;
-};
-
-type Driver = {
-    initialize: (options: Record<string, unknown>) => void;
-    render: (id: string, text: string) => Promise<Output>;
-};
-
-const Cache = new Map<string, Promise<any>>();
+const Cache = new Map<string, Promise<unknown>>();
 
 function Storage<Generic>(
-    key: string,
-    factory: () => Promise<Generic>,
+	key: string,
+	factory: () => Promise<Generic>,
 ): Promise<Generic> {
-    const cached = Cache.get(key);
-    if (cached) {
-        return cached as Promise<Generic>;
-    }
+	const cached = Cache.get(key);
+	if (cached) {
+		return cached as Promise<Generic>;
+	}
 
-    const created = factory();
-    Cache.set(key, created);
-    return created;
+	const created = factory();
+	Cache.set(key, created);
+	return created;
 }
 
 const Content = ({ chart }: { chart: string }) => {
-    const identifier = useId();
+	const identifier = useId();
 
-    const { default: library } = use(
-        Storage<{ default: Driver }>("mermaid", () => import("mermaid" as any)),
-    );
+	const { default: library } = use(
+		Storage<{
+			default: {
+				initialize: (options: Record<string, unknown>) => void;
+				render: (
+					id: string,
+					text: string,
+				) => Promise<{
+					svg: string;
+					bindFunctions?: (element: Element) => void;
+				}>;
+			};
+		}>("mermaid", () => import("mermaid")),
+	);
 
-    library.initialize({
-        startOnLoad: false,
-        securityLevel: "loose",
-        fontFamily: "inherit",
-        themeCSS: "margin: 1.5rem auto 0;",
-        theme: "default",
-    });
+	library.initialize({
+		startOnLoad: false,
+		securityLevel: "loose",
+		fontFamily: "inherit",
+		themeCSS: "margin: 1.5rem auto 0;",
+		theme: "default",
+	});
 
-    const { svg: markup, bindFunctions: binder } = use(
-        Storage<Output>(
-            `${chart}-theme`,
-            () => {
-                const formatted = chart.replaceAll("\\n", "\n");
-                return library.render(identifier, formatted);
-            },
-        ),
-    );
+	const { svg: markup, bindFunctions: binder } = use(
+		Storage<{
+			svg: string;
+			bindFunctions?: (element: Element) => void;
+		}>(`${chart}-theme`, () => {
+			const formatted = chart.replaceAll("\\n", "\n");
+			return library.render(identifier, formatted);
+		}),
+	);
 
-    return (
-        <div
-            ref={(element) => {
-                if (element && binder) {
-                    binder(element);
-                }
-            }}
-            dangerouslySetInnerHTML={{ __html: markup }}
-        />
-    );
+	return (
+		<div
+			ref={(element) => {
+				if (element) {
+					element.innerHTML = markup;
+					if (binder) {
+						binder(element);
+					}
+				}
+			}}
+		/>
+	);
 };
 
 const Root = ({ chart }: { chart: string }) => {
-    const [mounted, setMounted] = useState(false);
+	const [mounted, setMounted] = useState(false);
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
-    if (!mounted) {
-        return null;
-    }
+	if (!mounted) {
+		return null;
+	}
 
-    return <Content chart={chart} />;
+	return <Content chart={chart} />;
 };
 
 export const Mermaid = Object.assign(Root, {
-    Content: Content,
+	Content: Content,
 });
