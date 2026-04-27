@@ -1,5 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
+import { use, useMemo } from "react";
+
 import type {
 	SearchItemType,
 	SharedProps,
@@ -16,10 +20,9 @@ import {
 	SearchDialogOverlay,
 } from "fumadocs-ui/components/dialog/search";
 import { ArrowRight, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { use, useMemo } from "react";
 import { Client } from "typesense";
 import { useTypesenseSearch } from "typesense-fumadocs-adapter/client";
+
 import { Context } from "@/app/docs/provider";
 
 const client = (() => {

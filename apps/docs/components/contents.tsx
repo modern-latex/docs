@@ -1,5 +1,6 @@
-import type { LucideIcon } from "lucide-react";
 import type { ReactNode, SVGProps } from "react";
+
+import type { LucideIcon } from "lucide-react";
 
 export interface SubItems {
 	title: string;

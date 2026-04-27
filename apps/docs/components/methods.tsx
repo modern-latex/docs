@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+
+import { cn } from "@prostha/ui/src/lib/utils";
 
 const context = React.createContext<{
 	current: string | null;

@@ -1,8 +1,9 @@
 "use client";
 
-import { Check, Copy, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+
+import { cn } from "@prostha/ui/src/lib/utils";
+import { Check, Copy, ThumbsDown, ThumbsUp } from "lucide-react";
 
 interface FeedbackProps {
 	content: string;
