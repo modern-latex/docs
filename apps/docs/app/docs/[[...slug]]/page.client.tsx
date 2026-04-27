@@ -1,6 +1,9 @@
 "use client";
 
+import { useTransition } from "react";
+
 import { useCopyButton } from "@prostha/ui/src/components/use-copy-button";
+import { cn } from "@prostha/ui/src/lib/utils";
 import {
 	Popover,
 	PopoverContent,
@@ -13,8 +16,6 @@ import {
 	ExternalLink,
 	MessageCircle,
 } from "lucide-react";
-import { useTransition } from "react";
-import { cn } from "@/lib/utils";
 
 const cache = new Map<string, string>();
 

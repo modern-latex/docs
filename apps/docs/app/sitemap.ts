@@ -1,5 +1,19 @@
 import type { MetadataRoute } from "next";
-import { blogs, source } from "@/lib/source";
+
+import { loader } from "fumadocs-core/source";
+import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
+
+import { blogCollection, docs } from "@/.source/server";
+
+const source = loader({
+	baseUrl: "/docs",
+	source: docs.toFumadocsSource(),
+});
+
+const blogs = loader({
+	baseUrl: "/blog",
+	source: toFumadocsSource(blogCollection, []),
+});
 
 const url = process.env.NEXT_PUBLIC_APP_URL!;
 

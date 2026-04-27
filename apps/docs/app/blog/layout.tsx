@@ -1,6 +1,9 @@
-import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
+
 import type React from "react";
+
+import { RootProvider } from "fumadocs-ui/provider/next";
+
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({

@@ -1,11 +1,19 @@
-import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
+
+import { loader } from "fumadocs-core/source";
+import { DocsLayout } from "fumadocs-ui/layouts/docs";
+
+import { docs } from "@/.source/server";
 import type { Entry } from "@/app/docs/provider";
 import { DocsProvider } from "@/app/docs/provider";
 import { Chat, Panel, Trigger } from "@/components/chat";
 import { Sidebar } from "@/components/docs/sidebar";
-import { source } from "@/lib/source";
+
+const source = loader({
+	baseUrl: "/docs",
+	source: docs.toFumadocsSource(),
+});
 
 const entries: Entry[] = source.getPages().map((page) => ({
 	name: page.data.title,

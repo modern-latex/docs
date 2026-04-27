@@ -1,13 +1,15 @@
 "use client";
 
-import { CodeBlock } from "@prostha/ui/src/components/code-block";
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
+
 import type React from "react";
 import { useRef, useState } from "react";
+
+import { CodeBlock } from "@prostha/ui/src/components/code-block";
+import { cn } from "@prostha/ui/src/lib/utils";
+import { ChevronDown } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { cn } from "@/lib/utils";
 
 interface Release {
 	tag: string;

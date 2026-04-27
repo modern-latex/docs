@@ -1,5 +1,6 @@
-import { Button } from "@prostha/ui/src/components/button";
 import Link from "next/link";
+
+import { Button } from "@prostha/ui/src/components/button";
 
 export default function NotFound() {
 	return (

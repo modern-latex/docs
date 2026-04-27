@@ -1,5 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+
+import { use, useEffect, useState } from "react";
+
 import { Alert } from "@prostha/ui/src/components/alert";
 import { Badge } from "@prostha/ui/src/components/badge";
 import { Button } from "@prostha/ui/src/components/button";
@@ -7,9 +12,7 @@ import { Callout } from "@prostha/ui/src/components/callout";
 import { Card } from "@prostha/ui/src/components/card";
 import { Input } from "@prostha/ui/src/components/input";
 import { Tabs } from "@prostha/ui/src/components/tabs";
-import Image from "next/image";
-import Link from "next/link";
-import { use, useEffect, useState } from "react";
+
 import Footer from "@/components/landing/footer";
 import { assets } from "@/lib/brand";
 

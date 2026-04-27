@@ -1,5 +1,12 @@
 import { findPath } from "fumadocs-core/page-tree";
-import { source } from "@/lib/source";
+import { loader } from "fumadocs-core/source";
+
+import { docs } from "@/.source/server";
+
+const source = loader({
+	baseUrl: "/docs",
+	source: docs.toFumadocsSource(),
+});
 
 export const revalidate = false;
 

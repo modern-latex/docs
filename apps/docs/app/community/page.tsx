@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { Community } from "@/app/community/client";
 import { createMetadata } from "@/lib/metadata";
 

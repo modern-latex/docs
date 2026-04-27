@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { Contact } from "@/app/contact/client";
 import { createMetadata } from "@/lib/metadata";
 

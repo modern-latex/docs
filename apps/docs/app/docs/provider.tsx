@@ -1,8 +1,10 @@
 "use client";
 
-import { RootProvider } from "fumadocs-ui/provider/next";
 import type { ReactNode } from "react";
 import { createContext } from "react";
+
+import { RootProvider } from "fumadocs-ui/provider/next";
+
 import Dialog from "@/components/dialog";
 
 export interface Entry {

@@ -1,7 +1,21 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { convertToModelMessages, stepCountIs, streamText, tool } from "ai";
+import {
+	convertToModelMessages,
+	createUIMessageStreamResponse,
+	stepCountIs,
+	streamText,
+	tool,
+	toUIMessageStream,
+} from "ai";
+import { loader } from "fumadocs-core/source";
 import * as zod from "zod";
-import { source } from "@/lib/source";
+
+import { docs } from "@/.source/server";
+
+const source = loader({
+	baseUrl: "/docs",
+	source: docs.toFumadocsSource(),
+});
 
 const router = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
 const model = router.chat("nvidia/nemotron-3-ultra-550b-a55b:free");
@@ -66,7 +80,7 @@ export async function POST(request: Request) {
 			index = lines.join("\n");
 		}
 
-		return streamText({
+		const result = streamText({
 			model,
 			maxOutputTokens: 2048,
 			system: `You are a documentation assistant for Better Auth. Answer user questions accurately using available documentation tools. 
@@ -169,7 +183,11 @@ export async function POST(request: Request) {
 				}),
 			},
 			stopWhen: stepCountIs(8),
-		}).toUIMessageStreamResponse();
+		});
+
+		return createUIMessageStreamResponse({
+			stream: toUIMessageStream({ stream: result.stream }),
+		});
 	} catch (error) {
 		console.error(error);
 		return new Response(JSON.stringify({ error: "Something went wrong." }), {

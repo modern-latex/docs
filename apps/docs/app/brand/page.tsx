@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { Brand } from "@/app/brand/client";
 import { createMetadata } from "@/lib/metadata";
 
