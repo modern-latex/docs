@@ -143,7 +143,7 @@ export async function POST(request: Request) {
 					inputSchema: zod.object({ path: zod.string() }),
 					execute: async ({ path }) => {
 						const response = await fetch(
-							`https://api.github.com/repos/prostha/runtime/contents/${encodeURIComponent(path)}?ref=main`,
+							`https://api.github.com/repos/prostha/docs/contents/${encodeURIComponent(path)}?ref=main`,
 							{
 								headers: {
 									Accept: "application/vnd.github.raw+json",

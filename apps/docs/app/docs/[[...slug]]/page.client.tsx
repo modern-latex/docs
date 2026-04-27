@@ -20,7 +20,7 @@ const cache = new Map<string, string>();
 
 export function Llms({ url }: { url: string }) {
 	const [loading, transition] = useTransition();
-	const [isCopied, handleCopy] = useCopyButton(async () => {
+	const [copied, setCopied] = useCopyButton(async () => {
 		const cached = cache.get(url);
 
 		if (cached) {
@@ -51,12 +51,12 @@ export function Llms({ url }: { url: string }) {
 			disabled={loading}
 			className={cn(
 				"inline-flex items-center gap-1.5 px-2 py-1 text-[11px] uppercase tracking-wider whitespace-nowrap transition-all duration-200 text-foreground/60 hover:text-foreground border border-transparent hover:border-foreground/10 hover:bg-foreground/5 cursor-pointer select-none [&_svg]:size-3",
-				isCopied && "text-foreground border-foreground/10 bg-foreground/5",
+				copied && "text-foreground border-foreground/10 bg-foreground/5",
 			)}
-			onClick={handleCopy}
+			onClick={setCopied}
 		>
-			{isCopied ? <Check /> : <Copy />}
-			{isCopied ? "Copied" : "Copy MD"}
+			{copied ? <Check /> : <Copy />}
+			{copied ? "Copied" : "Copy MD"}
 		</button>
 	);
 }

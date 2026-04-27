@@ -42,7 +42,7 @@ export function Community() {
 								<div className="flex items-stretch gap-0 border border-foreground/8">
 									<div className="flex-1 px-3 py-2.5 text-center border-r border-foreground/8">
 										<p className="text-[9px] font-mono uppercase tracking-widest text-foreground/50 dark:text-foreground/45 mb-1">
-											NPM
+											Downloads
 										</p>
 										<p className="text-sm font-light text-foreground/80 tabular-nums">
 											0
@@ -139,7 +139,7 @@ export function Community() {
 									{[
 										{
 											icon: icons.download,
-											label: "NPM Downloads",
+											label: "Downloads",
 											note: "/ week",
 										},
 										{ icon: icons.star, label: "GitHub Stars", note: "stars" },

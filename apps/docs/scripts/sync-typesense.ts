@@ -4,84 +4,62 @@ import { Client } from "typesense";
 import type { DocumentRecord } from "typesense-fumadocs-adapter";
 import { sync } from "typesense-fumadocs-adapter";
 
-export function getTypesenseSyncSkipReason(env: NodeJS.ProcessEnv) {
-	const url = env.NEXT_PUBLIC_TYPESENSE_SERVER_URL;
-	const adminKey = env.TYPESENSE_ADMIN_API_KEY;
-
-	if (!url || !adminKey) {
-		return "[Typesense] env vars not set, skipping sync.";
-	}
-
-	if (!env.VERCEL) {
-		return "[Typesense] not running on Vercel, skipping sync.";
-	}
-
-	if (!env.VERCEL_ENV) {
-		return "[Typesense] Vercel environment is missing, skipping sync.";
-	}
-
-	if (env.VERCEL_ENV !== "production") {
-		return `[Typesense] Vercel environment is "${env.VERCEL_ENV}", skipping sync.`;
-	}
-
-	if (env.VERCEL_GIT_COMMIT_REF !== "main") {
-		return `[Typesense] Branch is "${env.VERCEL_GIT_COMMIT_REF}", skipping sync.`;
-	}
-
-	return null;
+if (!process.env.NEXT_PUBLIC_TYPESENSE_SERVER_URL || !process.env.TYPESENSE_ADMIN_API_KEY) {
+	console.log("Required environment variables are missing. Synchronization aborted.");
+	process.exit(0);
 }
 
-async function main() {
-	const skipReason = getTypesenseSyncSkipReason(process.env);
-	if (skipReason) {
-		console.log(skipReason);
-		return;
-	}
+if (!process.env.VERCEL) {
+	console.log("Execution context is not Vercel. Synchronization aborted.");
+	process.exit(0);
+}
 
-	const url = process.env.NEXT_PUBLIC_TYPESENSE_SERVER_URL;
-	const adminKey = process.env.TYPESENSE_ADMIN_API_KEY;
-	if (!url || !adminKey) {
-		console.warn(
-			"[Typesense] env vars not set after skip check, skipping sync.",
-		);
-		return;
-	}
+if (!process.env.VERCEL_ENV) {
+	console.log("Vercel environment metadata is missing. Synchronization aborted.");
+	process.exit(0);
+}
 
-	const filePath = ".next/server/app/api/docs/static.json.body";
-	if (!fs.existsSync(filePath)) {
-		console.log("[Typesense] build output not found, skipping sync.");
-		return;
+if (process.env.VERCEL_ENV !== "production") {
+	console.log(`Skipping synchronization for non-production environment: "${process.env.VERCEL_ENV}".`);
+	process.exit(0);
+}
+
+if (process.env.VERCEL_GIT_COMMIT_REF !== "main") {
+	console.log(`Skipping synchronization for non-main branch: "${process.env.VERCEL_GIT_COMMIT_REF}".`);
+	process.exit(0);
+}
+
+if (import.meta.main) {
+	const path = ".next/server/app/api/docs/static.json.body";
+	if (!fs.existsSync(path)) {
+		console.warn(`Build artifact not found at "${path}". Synchronization aborted.`);
+		process.exit(0);
 	}
 
 	try {
-		const serverUrl = new URL(url);
-		const content = fs.readFileSync(filePath, "utf8");
+		const url = new URL(process.env.NEXT_PUBLIC_TYPESENSE_SERVER_URL);
+		const content = fs.readFileSync(path, "utf8");
 		const records = JSON.parse(content) as DocumentRecord[];
 
 		const client = new Client({
 			nodes: [
 				{
-					host: serverUrl.hostname,
-					port:
-						Number(serverUrl.port) ||
-						(serverUrl.protocol === "https:" ? 443 : 80),
-					protocol: serverUrl.protocol.replace(":", ""),
+					host: url.hostname,
+					port: Number(url.port) || (url.protocol === "https:" ? 443 : 80),
+					protocol: url.protocol.replace(":", ""),
 				},
 			],
-			apiKey: adminKey,
+			apiKey: process.env.TYPESENSE_ADMIN_API_KEY,
 			connectionTimeoutSeconds: 30,
 		});
 
 		await sync(client, {
-			typesenseCollectionName: "better-auth-docs",
+			typesenseCollectionName: "prostha-docs",
 			documents: records,
 		});
-		console.log(`[Typesense] search updated: ${records.length} records`);
-	} catch (error) {
-		console.warn("[Typesense] failed to sync index, continuing build:", error);
-	}
-}
 
-if (import.meta.main) {
-	void main();
+		console.log(`Search index successfully updated. Synchronized ${records.length} records.`);
+	} catch (error) {
+		console.error("Failed to synchronize search index. Proceeding with build process.", error);
+	}
 }
