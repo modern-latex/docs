@@ -1,9 +1,11 @@
 "use client";
 
+import type * as React from "react";
+
 import { cva } from "class-variance-authority";
 import { CircleCheck, CircleX, Info, TriangleAlert } from "lucide-react";
-import type * as React from "react";
-import { cn } from "@/lib/utils";
+
+import { cn } from "../lib/utils";
 
 const Maps = {
 	info: <Info className="size-5 fill-blue-500 text-fd-card" />,
