@@ -1,0 +1,81 @@
+---
+title: Migrating from LaTeX
+description: What compiles unchanged, what is different, and how to adapt a document that leans on TeX's internals.
+---
+
+Most LaTeX documents compile with mLaTeX as they are. A paper with `\documentclass`, common packages, mathematics, figures, references and a bibliography should need no changes at all. This page covers the rest: what mLaTeX deliberately does differently, and how to adapt a document that depends on it.
+
+## What stays the same
+
+* **The language.** Commands, environments, `\newcommand`, `\newenvironment`, `\def`, category codes, counters, lengths and the `\if` family work as they do in LaTeX.
+* **Your preamble.** `\usepackage` lines load as written. 509 packages are known; an unknown one is a warning, and its commands are looked up in a glossary of about 630 when they are used.
+* **Command-line habits.** pdfLaTeX's options are accepted: `-interaction=batchmode`, `-jobname`, `-output-directory`, `-halt-on-error`, `-file-line-error`, `-draftmode`.
+* **Error messages.** `Undefined control sequence`, ``File `foo.sty' not found``, ``Citation `key' undefined`` and the rest use LaTeX's own words.
+
+## What is different
+
+### One run, no auxiliary files
+
+LaTeX writes what it learns about a document to an `.aux` file and reads it back on the next run, which is why a document is compiled two or three times. mLaTeX resolves references, page numbers, the table of contents, citations and the index in a second pass held in memory, within a single run.
+
+**What to change:** nothing. Drop the extra runs and `latexmk` from your build. If you call `\nofiles` or check for a `.aux` file, that code is simply never needed.
+
+### No BibTeX, Biber or makeindex
+
+`\bibliography{refs}` and biblatex's `\addbibresource{refs.bib}` read the `.bib` file directly, and `\index` entries are sorted by the engine.
+
+**What to change:** remove the `bibtex`, `biber` and `makeindex` steps. A `.bbl` file shipped beside the document, as journals and the arXiv receive papers, is still read when the `.bib` it names is missing.
+
+### `.sty` and `.cls` files are not read
+
+Packages are part of the program, written in mLaTeX's own language. A `.sty` or `.cls` file on disk is never loaded, so a package of your own, or a journal's class that mLaTeX does not know, does not run as TeX code.
+
+**What to change:** for a class mLaTeX does not know, nothing: it is set as `article` at the size and columns its options ask for, with a warning. For a style file of your own, move its definitions into a package folder, `name/main.mtex`, beside the document, and keep `\usepackage{name}`. See [Writing Packages](/docs/packages/writing). Short definitions can also go straight into the preamble.
+
+### No shell escape
+
+`\write18`, `--shell-escape` and anything built on them do not exist. A document cannot run programs.
+
+**What to change:** packages that used shell escape for their main job load without it. `minted`'s code is set as a plain listing in the typewriter face, without Pygments' colours, and `svg` pictures are drawn by the engine rather than converted by Inkscape. A document that generated content by running a program needs that content generated beforehand, or supplied by a program that embeds mLaTeX. See [Embedding](/docs/embedding).
+
+### Files are not written
+
+`\openout`, `\write` to a file and `\immediate\write` do nothing, and `filecontents` keeps its file in memory for the run only. The PDF is the only file mLaTeX writes.
+
+**What to change:** a document that writes a file and reads it back works as long as it uses `filecontents`, which mLaTeX keeps for the rest of the run. Packages that normally pass data between runs through files are handled inside the engine: an `acronym` used before its list is spelled out, and `glossaries`' `\gls` writes a term's long form the first time. `\printglossary` does not print a list yet.
+
+### Fonts come from mLaTeX
+
+The body is set in Latin Modern, and mathematics in the fonts mLaTeX ships. `fontspec`'s `\setmainfont` and unicode-math's `\setmathfont` choose the nearest face mLaTeX carries, such as STIX Two for Times, rather than loading a font from your system by name.
+
+**What to change:** nothing, unless your document depends on a particular system font. Scripts the carried fonts cannot draw, such as Chinese and Japanese, are drawn with your system's fonts.
+
+### Output is close, not identical
+
+mLaTeX follows TeX's algorithms for breaking paragraphs, placing floats and spacing mathematics, with TeX's parameters. Its fonts, metrics and many details are its own, so lines, pages and figure positions can fall slightly differently from pdfLaTeX's.
+
+**What to change:** nothing for most documents. If a document's layout was tuned by hand for one engine, such as manual `\newpage` or `\vspace` adjustments, check those spots.
+
+## A checklist
+
+<Steps>
+  <Step>
+    Compile the document as it is: `mlatex paper.tex`.
+  </Step>
+
+  <Step>
+    Read the warnings. An unknown package or class is named; its commands may still work through the glossary.
+  </Step>
+
+  <Step>
+    Fix any errors. `--file-line-error` gives each one's file, line and column.
+  </Step>
+
+  <Step>
+    Move private `.sty` files into `name/main.mtex` package folders, or into the preamble.
+  </Step>
+
+  <Step>
+    Remove the extra runs, BibTeX, Biber, makeindex and shell-escape steps from your build.
+  </Step>
+</Steps>

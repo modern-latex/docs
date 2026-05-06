@@ -43,6 +43,11 @@
 			"name": "misspelled",
 			"path": "./.cspell/misspelled.txt",
 			"addWords": true
+		},
+		{
+			"name": "typesetting",
+			"path": "./.cspell/typesetting.txt",
+			"addWords": true
 		}
 	],
 	"dictionaries": [
@@ -53,7 +58,8 @@
 		"custom-words",
 		"names",
 		"alt-languages",
-		"misspelled"
+		"misspelled",
+		"typesetting"
 	],
 	"ignoreRegExpList": [
 		"usernames\\s*=\\s*\\{[^}]*\\}",
