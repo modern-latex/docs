@@ -1,0 +1,96 @@
+---
+title: Diagrams and Plots
+description: TikZ, pgfplots, commutative diagrams, circuits, trees and LaTeX's own pictures, all drawn by the engine.
+---
+
+Pictures written in TikZ and the packages built on it are drawn by mLaTeX directly, as vectors in the PDF. There is no PGF macro layer underneath, which is why a picture costs microseconds rather than seconds.
+
+## TikZ
+
+```latex
+\usepackage{tikz}
+
+\begin{tikzpicture}[scale=1.5]
+  \draw[very thin, gray] (0,0) grid (3,2);
+  \draw[thick, ->] (0,0) -- (3,0);
+  \draw[blue!60, dashed] (0,0) rectangle (2,1);
+  \draw[red] (1,1) circle (0.5);
+  \node[draw, rounded corners] (a) at (0,2) {Start};
+  \node[draw, right=of a] (b) {End};
+  \draw[->] (a) -- node[above] {go} (b);
+\end{tikzpicture}
+```
+
+What is drawn:
+
+* **Paths.** Lines, `|-` and `-|`, `rectangle`, `circle`, `ellipse`, `arc`, `grid`, `cycle`, curves with `.. controls ..` and `to[bend left]` or `to[out=,in=,looseness=]`, relative `+( )` and `++( )` points and polar `(angle:radius)` points. `\draw`, `\fill`, `\filldraw`, colours by name and mixture, line widths, dashes and arrow tips, `-{Latex[length=2mm]}` included.
+* **Nodes.** `draw`, `fill`, `circle`, `ellipse`, `rounded corners`, `dashed`, `double`, `inner sep`, `minimum width` and `height`, `text width`, `font`, `align` and anchors; `positioning`'s `right=of a` with `node distance`; labels on a line with `midway`, `pos=`, `near start`, `auto` and `swap`; `\coordinate`.
+* **Computation.** Coordinates may be formulas, `({1+1},{sin(30)*2})`; the `calc` library's `($(a)!0.5!(b)$)` and its kin; `let \p1 = (a) in ...`; `\foreach` with ranges, `count=` and several variables; `plot` of coordinates or a function over `domain` in `samples` steps.
+* **Structure.** `\matrix` of nodes and of math nodes, `edge` and `loop above` for automata, styles with `\tikzset` and `/.style`, `overlay` and `remember picture` for pictures placed on the page, and `baseline` for a picture inline with text.
+
+A key mLaTeX does not draw is a warning, and the picture is drawn without it. `\tikz` inline, `\begin{tikzpicture}`, and `.tikz` files through `\includegraphics` all work.
+
+## pgfplots
+
+```latex
+\usepackage{pgfplots}
+
+\begin{tikzpicture}
+  \begin{axis}[xlabel=$x$, ylabel=$f(x)$, grid=major, legend pos=north west]
+    \addplot[blue, domain=0:2, samples=50] {x^2};
+    \addplot[red, only marks] coordinates {(0,0) (1,1) (2,4)};
+    \legend{$x^2$, data}
+  \end{axis}
+\end{tikzpicture}
+```
+
+* Axes: `axis`, `semilogxaxis`, `semilogyaxis` and `loglogaxis`, with ticks, labels, titles, grids and `axis lines=left` or `middle`.
+* Plots of coordinates, of a table inline or in a file, of a function, or parametric; marks, `only marks`, dashes and widths; `ybar` with `symbolic x coords`; legends.
+* Error bars, with `y dir=both` and explicit, fixed or relative amounts.
+* `fill between` two named plots, with `soft clip`.
+* Three dimensions: `\addplot3` of coordinates, tables or functions of x and y, as `surf` or `mesh`, seen from any `view`, with colormaps (`hot`, `jet`, `viridis`, `cool` and more) and a `colorbar`.
+
+Options that set styles for every plot at once, and group plots, are read and ignored.
+
+## Commutative diagrams
+
+```latex
+\usepackage{tikz-cd}
+\begin{tikzcd}
+  A \arrow[r, "f"] \arrow[d, "g"'] & B \arrow[d, "h"] \\
+  C \arrow[r, "k"'] & D
+\end{tikzcd}
+```
+
+`tikz-cd`'s arrows and labels (`hook`, `two heads`, `mapsto`, `dashed`, `bend left`, `shift left`, `phantom` and the rest), xy-pic's `\xymatrix` with its labels, shapes, curves and framed objects, and amscd's `CD` are drawn. A diagram alone in a display is centred on its equation number.
+
+## Circuits and trees
+
+* **Quantum circuits.** `quantikz` and Qcircuit's `\Qcircuit`: wires, boxed gates, controls joined to targets, swaps, meters, classical wires and labels.
+* **Trees.** `forest`'s `[S [NP] [VP]]`, and `qtree`'s and `tikz-qtree`'s `\Tree [.S the cat ]`, each parent centred over its children.
+* **Feynman diagrams.** `tikz-feynman`'s `\feynmandiagram` and `axodraw2`'s pictures. `feynmp`'s diagrams, which need MetaPost, are not drawn; their place is kept.
+
+## LaTeX's own picture
+
+```latex
+\setlength{\unitlength}{1cm}
+\begin{picture}(4,2)
+  \put(0,0){\line(1,1){2}}
+  \put(2,1){\circle{1}}
+  \put(3,0){\vector(0,1){2}}
+\end{picture}
+```
+
+`\put`, `\multiput`, `\line`, `\vector`, `\circle`, `\oval`, `\qbezier` and the framed boxes are drawn. PSTricks' `pspicture`, with its lines, circles, frames and labels, is drawn the same way.
+
+## Other drawing packages
+
+| Package        | How it is drawn                                             |
+| -------------- | ----------------------------------------------------------- |
+| `pgf`          | Its basic layer's paths, as the TikZ paths they make        |
+| `tkz-euclide`  | Points, segments, lines and circles of Euclidean geometry   |
+| `smartdiagram` | The list's items joined by arrows                           |
+| `pgfgantt`     | A table of tasks and their spans                            |
+| `bohr`         | An atom's nucleus and electron shells                       |
+| `circuitikz`   | Loads as TikZ; its component symbols are not drawn          |
+| `modiagram`    | Its levels are read; the diagram's place is kept as a frame |

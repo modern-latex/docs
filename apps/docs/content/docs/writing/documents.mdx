@@ -1,0 +1,136 @@
+---
+title: Documents and Classes
+description: The shape of a document, the classes mLaTeX knows, and how a document is split across files.
+---
+
+## The shape of a document
+
+A document is a preamble, which says what kind of document it is and what it uses, and a body between `\begin{document}` and `\end{document}`:
+
+```latex title="report.tex"
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Energy Estimates}
+\author{Mara Ellison \and Tobias Renner}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We revisit the energy method for the Navier--Stokes equations.
+\end{abstract}
+
+\section{Introduction}
+The motion of a viscous fluid is governed by\dots
+
+\end{document}
+```
+
+Everything you know from LaTeX works here: `\section` and its kin, `\tableofcontents`, `\appendix`, `\footnote`, lists, theorems, and your own commands and environments.
+
+***
+
+## Classes
+
+`\documentclass` sets the page: its paper size, type size and columns, read from the class's options (`a4paper`, `letterpaper`, `10pt`, `11pt`, `12pt`, `twocolumn` and the rest).
+
+| Class                               | What it is                                                                                                                            |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `article`, `report`, `book`         | LaTeX's standard classes. A report's and a book's chapters, `\frontmatter`, `\mainmatter` and `\backmatter` work as they do in LaTeX. |
+| `letter`                            | LaTeX's letter class: `\address`, `\signature`, the `letter` block, `\opening`, `\closing`, `\ps`, `\encl` and `\cc`.                 |
+| `beamer`                            | Slides. See [Slides](/docs/writing/slides).                                                                                           |
+| `IEEEtran`                          | IEEE conference and journal papers: two columns, Roman section numbers, author blocks side by side.                                   |
+| `acmart`                            | ACM papers; `sigconf` and `sigplan` in two columns.                                                                                   |
+| `llncs`                             | Springer's Lecture Notes in Computer Science, authors numbered to their institutes.                                                   |
+| `svjour3`                           | Springer journal articles.                                                                                                            |
+| `elsarticle`                        | Elsevier journal articles; `5p` in two columns.                                                                                       |
+| `revtex4-2`, `revtex4-1`, `revtex4` | APS and AIP papers; `reprint` in two columns, `preprint` in one.                                                                      |
+| `amsart`                            | AMS articles, with addresses, subject classification and keywords.                                                                    |
+| `scrartcl`, `scrreprt`, `scrbook`   | KOMA-Script's classes, with their subject, subtitle and publishers fields.                                                            |
+
+Any other class is set as `article` at the size and columns its options ask for, with a warning, so a journal template mLaTeX does not know still compiles. What only a publisher's production system reads, such as DOIs, rights blocks and CCS concepts, is read and ignored.
+
+## Sections and structure
+
+`\part`, `\chapter` (in reports and books), `\section`, `\subsection`, `\subsubsection`, `\paragraph` and `\subparagraph`, numbered to `secnumdepth` and listed in the contents to `tocdepth`. The starred forms are unnumbered. `\appendix` switches to lettered numbering, and the `appendix` package's `appendices` block is read too.
+
+Headings can be redesigned with `titlesec`:
+
+```latex
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries\color{blue}}{\thesection.}{1em}{}[\titlerule]
+```
+
+## Lists
+
+`itemize`, `enumerate` and `description`, nested four deep, and LaTeX's general `list` block. `enumitem`'s options are read by the lists themselves:
+
+```latex
+\begin{enumerate}[label=(\roman*), nosep]
+  \item First
+  \item Second
+\end{enumerate}
+```
+
+`\setlist[itemize]{noitemsep}` sets options for every list of a kind, and `paralist`'s compact lists and `tasks`' columns of exercises work too.
+
+## Theorems and proofs
+
+`amsthm`'s `\newtheorem`, `\theoremstyle` and the `proof` block, set as amsthm sets them:
+
+```latex
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+
+\begin{theorem}[Fermat]
+No three positive integers satisfy $a^n + b^n = c^n$ for $n > 2$.
+\end{theorem}
+\begin{proof}
+The margin is too small.
+\end{proof}
+```
+
+`thmtools`' `\declaretheorem` and `ntheorem`'s styles are read as well.
+
+## Your own commands
+
+`\newcommand`, `\renewcommand`, `\providecommand`, `\DeclareRobustCommand`, xparse's `\NewDocumentCommand`, and TeX's `\def`, `\edef` and `\let` all work. So do `\newenvironment` and `\NewDocumentEnvironment`, with begin and end code running inside the environment's group as in LaTeX.
+
+```latex
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newenvironment{note}{\begin{quote}\small\textbf{Note.}}{\end{quote}}
+```
+
+## Splitting a document
+
+`\input{chapter}` and `\include{chapter}` read another file in place, looked for beside the file being read, then as `chapter.mtex` and `chapter.tex`. A file is read only from the document's own folder and the folders given with `-I`:
+
+```bash
+mlatex -I chapters -I figures thesis.tex
+```
+
+A file the document carries itself, in a `filecontents` block, is kept for the run, so a later `\input` or `\bibliography` finds it. Nothing is written to disk:
+
+```latex
+\begin{filecontents}{refs.bib}
+@book{knuth84, author = {Donald E. Knuth}, title = {The \TeX book},
+  publisher = {Addison-Wesley}, year = 1984}
+\end{filecontents}
+```
+
+## Leaving text out
+
+`%` comments out the rest of a line. The `comment` package's `comment` block leaves out everything up to its `\end{comment}`, and `\excludecomment{name}` makes more blocks like it.
+
+## Values from a program
+
+When mLaTeX runs inside another program, the program can hand the document named values, read with `\variable`:
+
+```latex
+Dear \variable{customer}, your balance is \variable{balance}.
+```
+
+See [Embedding](/docs/embedding).
