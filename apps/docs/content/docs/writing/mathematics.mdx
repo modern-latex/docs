@@ -1,0 +1,85 @@
+---
+title: Mathematics
+description: Formulas inline and displayed, amsmath's environments, alphabets, and the packages built on them.
+---
+
+Formulas are written as in LaTeX and set with TeX's rules, using the measurements in an OpenType mathematics font: New Computer Modern Math by default.
+
+## Inline and displayed
+
+```latex
+The identity $e^{i\pi} + 1 = 0$ links five constants, and
+\[
+  \int_{-\infty}^{\infty} e^{-x^2}\,dx = \sqrt{\pi}.
+\]
+```
+
+`$...$` and `\(...\)` are inline; `\[...\]`, `$$...$$` and the `equation` environment are displayed. A fraction, sum or limit inline is set smaller, with limits to the side, as TeX sets them.
+
+## amsmath
+
+Most of amsmath is part of the engine and works whether or not the package is loaded: `equation`, `align`, `gather` and `multline` and their starred forms; `aligned`, `split`, `gathered` and `cases` inside a formula; the matrices; `\text`, `\dfrac`, `\tfrac`, `\binom`, `\eqref`, `\tag`, `\notag`, `\numberwithin`, `\operatorname` and `\overset`.
+
+```latex
+\begin{align}
+  \partial_t u + (u\cdot\nabla)u - \nu\Delta u + \nabla p &= f, \label{eq:momentum}\\
+  \nabla\cdot u &= 0. \notag
+\end{align}
+By \eqref{eq:momentum}, \dots
+```
+
+```latex
+\[
+  |x| = \begin{cases}
+    x  & \text{if } x \ge 0,\\
+    -x & \text{otherwise,}
+  \end{cases}
+  \qquad
+  A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
+\]
+```
+
+A displayed equation too wide for its number moves left, or puts its number on the line below, as amsmath does.
+
+## Symbols and alphabets
+
+* Greek letters, relations, arrows, operators, delimiters and dots, with `\left`, `\right` and `\middle` growing to fit.
+* Alphabets: `\mathbb`, `\mathcal`, `\mathscr`, `\mathfrak`, `\mathrm`, `\mathsf`, `\mathtt`, `\mathit`, `\mathbf`, and bold italic with `\boldsymbol` or `\bm`. `amssymb`, `amsfonts`, `mathrsfs`, `bm`, `dsfont` and `bbm` are accepted; their symbols are already in the mathematics font.
+* Accents, including wide ones that stretch over what they cover: `\hat`, `\widehat`, `\tilde`, `\widetilde`, `\vec`, `\overrightarrow`, `\bar`, `\overline`, `\dot`, `\ddot`, `\mathring`.
+* `\overbrace`, `\underbrace`, `\overbracket` and `\underbracket`, with labels set above and below.
+* TeX's `\over`, `\atop` and `\choose`, and `\dbinom` and `\tbinom`.
+
+```latex
+\[
+  \underbrace{1 + 2 + \cdots + n}_{n \text{ terms}} = \frac{n(n+1)}{2}
+\]
+```
+
+## Packages built on mathematics
+
+| Package                 | What it adds                                                         |
+| ----------------------- | -------------------------------------------------------------------- |
+| `mathtools`             | amsmath's fixes and additions; loads amsmath                         |
+| `physics`               | Derivatives, brackets and the notations physicists write every line  |
+| `braket`, `dirac`       | Dirac's bras and kets                                                |
+| `cancel`                | Terms struck through: `\cancel`, `\bcancel`, `\xcancel`, `\cancelto` |
+| `mhchem`                | Chemical formulas and equations: `\ce{2H2 + O2 -> 2H2O}`             |
+| `siunitx`               | Numbers and units, set as maths                                      |
+| `esint`                 | Integrals over surfaces and volumes                                  |
+| `stmaryrd`              | St Mary's Road symbols, double brackets among them                   |
+| `nicefrac`, `xfrac`     | Small slashed fractions: `\nicefrac{1}{2}`, `\sfrac{1}{2}`           |
+| `commath`, `derivative` | Short forms for calculus                                             |
+| `unicode-math`          | `\setmathfont`, and the `\sym` alphabets                             |
+
+## Choosing the mathematics font
+
+```latex
+\usepackage{unicode-math}
+\setmathfont{STIX Two Math}
+```
+
+mLaTeX carries New Computer Modern Math, STIX Two Math, Fira Math, Asana Math and the TeX Gyre Bonum, DejaVu, Pagella, Schola and Termes maths, and `\setmathfont` picks the nearest of them to the name given.
+
+## Numbering
+
+Equations are numbered by `equation`, `align` and `gather`, and not by their starred forms or by lines marked `\notag`. `\numberwithin{equation}{section}` numbers them 2.1, 2.2 and so on, and `\tag{*}` gives a line a tag of your own.
