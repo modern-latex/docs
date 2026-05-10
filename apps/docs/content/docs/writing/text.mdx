@@ -1,0 +1,102 @@
+---
+title: Text and Fonts
+description: Faces, sizes, colour, spacing, symbols and code, and the fonts mLaTeX carries.
+---
+
+## Faces and sizes
+
+LaTeX's font commands work as they do in LaTeX:
+
+| Kind   | Commands                                                                                                         |
+| ------ | ---------------------------------------------------------------------------------------------------------------- |
+| Family | `\textrm`, `\textsf`, `\texttt`, and `\rmfamily`, `\sffamily`, `\ttfamily`                                       |
+| Series | `\textbf`, `\textmd`, and `\bfseries`, `\mdseries`                                                               |
+| Shape  | `\textit`, `\textsl`, `\textsc`, `\textup`, `\emph`                                                              |
+| Size   | `\tiny`, `\scriptsize`, `\footnotesize`, `\small`, `\normalsize`, `\large`, `\Large`, `\LARGE`, `\huge`, `\Huge` |
+
+Formulas take the size and colour of the text around them, so `{\small $x$}` is small and a heading's formula is a heading's size.
+
+To set the whole body in sans serif, as some classes and templates do:
+
+```latex
+\renewcommand{\familydefault}{\sfdefault}
+```
+
+## The fonts mLaTeX carries
+
+mLaTeX ships its fonts with it, so a document looks the same on every machine.
+
+| Use                   | Fonts                                                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Body text             | Latin Modern: roman, sans, typewriter, small capitals, and their cuts                                                                                        |
+| Other scripts         | New Computer Modern, the same design with Greek, Cyrillic, Hebrew, Armenian, Georgian and Devanagari; STIX Two Text                                          |
+| Arabic, Persian, Urdu | Noto Naskh Arabic                                                                                                                                            |
+| Mathematics           | New Computer Modern Math (regular, book, bold, sans), STIX Two Math, Fira Math, Asana Math, and the TeX Gyre Bonum, DejaVu, Pagella, Schola and Termes maths |
+
+A character the body's font cannot draw is taken from New Computer Modern, then from the mathematics font for a symbol, and finally from your system's fonts for a script mLaTeX carries nothing for, such as Chinese, Japanese or Korean. Text is shaped with HarfBuzz, so ligatures, kerning and joining scripts come out as the font intends.
+
+### Choosing other fonts
+
+`fontspec`'s `\setmainfont` and unicode-math's `\setmathfont` choose the nearest face mLaTeX carries rather than one from your system by name:
+
+```latex
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}    % set in STIX Two, the nearest Times-like face
+\setmathfont{STIX Two Math}
+```
+
+A name with nothing near it leaves the text in the current face, with a warning. Font packages such as `times`, `palatino`, `helvet`, `mathptmx` or `newtxtext` are accepted, and the document is set in Latin Modern.
+
+## Colour
+
+`\textcolor`, `\color`, `\colorbox`, `\fcolorbox`, `\definecolor` and `\colorlet` are part of the engine, with xcolor's mixtures:
+
+```latex
+\definecolor{accent}{RGB}{47,111,189}
+\textcolor{accent}{Important} and \textcolor{blue!60!black}{a darker blue}.
+```
+
+A colour chosen inside a box stays in that box.
+
+## Spacing
+
+* `\\`, `\\[6pt]`, `\newline` and `\linebreak` break lines; `\newpage`, `\clearpage` and `\pagebreak` break pages.
+* `\vspace`, `\hspace`, `\vfill` and `\hfill`, with `\vspace*` keeping its space at the top of a page.
+* `\setlength{\parskip}{6pt}` and `\setlength{\parindent}{0pt}`, or the `parskip` package, for spaced rather than indented paragraphs.
+* `setspace`'s `\onehalfspacing` and `\doublespacing` for wider lines.
+* Sentence spacing follows TeX: a full stop, question mark or exclamation mark is followed by a wider space, unless `\frenchspacing` is on. Write `\@` after a capital that ends a sentence.
+
+Paragraphs are broken the way TeX breaks them, with its penalties, tolerances and hyphenation patterns, so `microtype` is accepted and needs to do nothing.
+
+## Special characters and symbols
+
+* TeX's specials: `\%`, `\$`, `\&`, `\#`, `\_`, `\{`, `\}`, `\textbackslash`.
+* Accents, typed directly (`é`, `ñ`, `ø`) or as commands (`\'e`, `\~n`, `\o`). Input is always UTF-8; `inputenc` and `fontenc` are accepted and need no options.
+* Logos: `\TeX`, `\LaTeX`, `\LaTeXe`.
+* `pifont`'s `\ding`, `gensymb`'s `\degree` and `\celsius`, `eurosym`'s `\euro`, and `tipa`'s phonetic symbols.
+* `fontawesome5` icons are drawn as the nearest Unicode symbol from your system's fonts; a brand logo, which Unicode does not have, is a dot. `emoji`'s `\emoji{rocket}` takes the character from your system's fonts.
+
+## Quotations, units and emphasis
+
+* `csquotes`' `\enquote{...}` curls quotation marks the right way.
+* `siunitx` sets numbers and units as it does in LaTeX: `\num{123456.789}`, `\qty{9.81}{\metre\per\second\squared}`, `\ang{45}`.
+* `soul` and `ulem` underline, strike out and space letters; `\emph` stays italic.
+
+## Code
+
+`verbatim` and `\verb` set text exactly as typed. `listings` sets source code with line numbers and frames:
+
+```latex
+\usepackage{listings}
+\lstset{basicstyle=\small\ttfamily, numbers=left, frame=single}
+
+\begin{lstlisting}
+int main() { return 0; }
+\end{lstlisting}
+```
+
+`fancyvrb`'s `Verbatim` and `minted`'s `minted` block and `\mintinline` are read too. Code is set in the typewriter face without syntax colouring, since mLaTeX never runs Pygments.
+
+## Hyphenation
+
+English hyphenation is built into the program. Choosing another language with babel or polyglossia loads that language's patterns; see [Languages](/docs/writing/languages). `\-` marks where a word may break, and `\hyphenation{...}` is accepted.

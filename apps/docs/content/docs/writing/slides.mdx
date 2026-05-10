@@ -1,0 +1,72 @@
+---
+title: Slides
+description: beamer presentations with frames, overlays, blocks, columns and themes.
+---
+
+The `beamer` class sets each frame as a page of its own, 128 by 96 millimetres, in eleven-point sans serif.
+
+```latex title="talk.tex"
+\documentclass{beamer}
+\usetheme{Madrid}
+\title[Energy Estimates]{Energy Estimates for Navier--Stokes}
+\author{Mara Ellison}
+\date{\today}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}{Motivation}
+  \begin{itemize}
+    \item<1-> Smooth solutions satisfy an energy equality
+    \item<2-> The decay is exponential without forcing
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Main result}
+  \begin{block}{Theorem}
+    The kinetic energy decays as $e^{-\nu\lambda_1 t}$.
+  \end{block}
+\end{frame}
+\end{document}
+```
+
+## Frames
+
+A frame's title is its argument or the `\frametitle` it opens with, set at its head; what it holds is centred in the rest, or placed at the top with `[t]`. `\frame{\titlepage}` sets the title page, with its title, subtitle, author, institute and date.
+
+* `block`, `alertblock` and `exampleblock` under a coloured bar.
+* `columns`, with `\begin{column}{0.5\textwidth}` or `\column`.
+* `\tableofcontents` as an outline, and `\AtBeginSection`'s frames.
+* Theorems and proofs, set as in an article.
+
+## Overlays
+
+A frame becomes as many slides as its overlays ask for, each a page of the PDF.
+
+| Command                                  | Effect                                                                                                |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `\pause`                                 | Hides the rest of the frame until the next step; `\pause[3]` names the step                           |
+| `\only<2>{...}`                          | Present on slide 2 only, taking no room on the others                                                 |
+| `\uncover<2->{...}`, `\visible<2->{...}` | Keeps its room on every slide, seen from slide 2                                                      |
+| `\invisible<2>{...}`                     | The other way round                                                                                   |
+| `\onslide<2->{...}`                      | Like `\uncover`, or sets everything after it when given no argument                                   |
+| `\alt<2>{a}{b}`, `\temporal`             | One thing on some slides, another on the rest                                                         |
+| `\item<2->`                              | An item from slide 2                                                                                  |
+| `\begin{itemize}[<+->]`                  | One item per step                                                                                     |
+| `\alert<2>{...}`                         | Highlighted on slide 2; `\textbf<2>`, `\textit`, `\emph`, `\color` and `\textcolor` take overlays too |
+
+Overlay specifications are read as beamer reads them: `2`, `2-`, `-3`, `1-3,5`, `+-`, `.-` and `+(1)-`. What a slide does not show keeps its place, so the slides of a frame line up. `onlyenv`, `uncoverenv`, `visibleenv` and `invisibleenv`, and blocks given an overlay, work too.
+
+## Themes
+
+`\usetheme` draws an outer theme's head and foot, frame titles on a band or in the structure's colour, an inner theme's bullets, and a colour theme's colours:
+
+* **Themes:** Madrid, AnnArbor, Boadilla, CambridgeUS, Warsaw, Copenhagen, Luebeck, Malmoe, Berlin, Darmstadt, Ilmenau, Frankfurt, Dresden, Singapore, Szeged, Antibes, JuanLesPins, Montpellier, Rochester, Pittsburgh, the sidebar themes and metropolis.
+* **Colour themes:** whale, dolphin, seahorse, beaver, crane, wolverine, spruce, dove, seagull, fly and more.
+* `\useoutertheme`, `\useinnertheme` and `\usecolortheme` work alone too.
+
+A short title, author or date, `\title[Short]{...}`, is what the foot carries. A theme mLaTeX does not know is drawn as the default, with a warning.
+
+<Callout type="info">
+  A sidebar theme's sidebar is not drawn yet; its frames are set without it.
+</Callout>
