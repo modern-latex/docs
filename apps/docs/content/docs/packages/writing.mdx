@@ -1,0 +1,98 @@
+---
+title: Writing Packages
+description: A package is a folder with one file in it. Write one beside your document, with no rebuild.
+---
+
+In mLaTeX a package is a folder holding one file, `main.mtex`, written in the same language as a document. There are no `.sty` or `.cls` files. The work LaTeX's packages do with thousands of lines of TeX, such as rebuilding the page, juggling category codes and running several passes, is done by the engine's own primitives in C++. A package is what is left: the commands a document writes, defined in terms of those primitives. Most are a few dozen lines.
+
+## A first package
+
+```latex title="letterhead/main.mtex"
+% letterhead: a company's name and address, set at the top of a letter.
+%
+%   \usepackage[compact]{letterhead}
+%   \company{Acme Ltd.}\address{1 High Street}
+%   \begin{document}\letterhead ...
+
+\@define\@company{}
+\@define\@address{}
+\@define\company[1]{\@define\@company{#1}}
+\@define\address[1]{\@define\@address{#1}}
+
+\@define\letterhead{%
+  \begin{flushright}
+    {\Large\bfseries\@company}\\
+    \@address
+  \end{flushright}
+  \@ifvariable{letterhead.compact}{\vskip 1em}{\vskip 3em}}
+```
+
+Save it as `letterhead/main.mtex` beside your document and load it as usual:
+
+```latex title="invoice.tex"
+\documentclass{article}
+\usepackage[compact]{letterhead}
+\company{Acme Ltd.}
+\address{1 High Street}
+\begin{document}
+\letterhead
+Invoice number 42.
+\end{document}
+```
+
+Nothing is rebuilt and nothing is installed: the folder is found because it sits beside the document.
+
+## Where a package is found
+
+`\usepackage{name}` looks for `name/main.mtex` in this order:
+
+1. **Handed in by a program** that embeds mLaTeX, from memory. A program can ship its own house style without writing a file anywhere. See [Embedding](/docs/embedding).
+2. **Compiled into mLaTeX**: the [supported packages](/docs/packages).
+3. **Beside the document**, as a folder `name/` next to it, or in a folder given with `-I`:
+
+   ```bash
+   mlatex -I ~/styles paper.tex
+   ```
+
+If none of these has it, a package that is another one under a different name loads that one, and an unknown package is marked as loaded with a warning, its commands looked up in the glossary when used.
+
+A package is read once however often it is asked for, and it is marked as loaded before it is read, so two packages that ask for each other do not loop.
+
+## Options
+
+Every option a document gives becomes a variable named after the package:
+
+```latex
+\usepackage[compact, margin=2cm]{letterhead}
+```
+
+sets `letterhead.compact` to `true` and `letterhead.margin` to `2cm`. Read them with `\@variable{letterhead.margin}` and test them with `\@ifvariable{letterhead.compact}{yes}{no}`. The list as written is kept too, as `letterhead.options`, for a package that reads its options in order.
+
+A command that takes a key list of its own, the way `\geometry{...}` and `\sisetup{...}` do, sets variables the same way with `\@setkeys{family}{key=value,...}`.
+
+## Names
+
+* Give your package's internal names an `\@` prefix and the package's name: `\@letterhead@rule`. The `\@` names cannot be redefined by a document by accident.
+* A package named after a LaTeX package should define the commands that package defines, meaning what they mean there, and not commands that belong to another package.
+
+## What a package should not do
+
+* **Define environments.** Every environment a document uses, such as `itemize`, `figure`, `tabular` or `tcolorbox`, is part of the engine. A package gives commands. A document's own `\newenvironment` still works as it does in LaTeX.
+* **Rebuild the page.** Headings, floats, footnotes, columns, lists, tables and heads and feet are primitives. To change how one looks, set the lengths, counters and names it reads, such as `\parskip`, `\secnumdepth`, `\figurename` or fancyhdr's `\fancyhead`, rather than building it again from boxes.
+* **Play with category codes.** A package's file is read whole before it runs, so a `\catcode` change in it reaches the document, not the rest of the package.
+
+## Another package first
+
+`\@requirepackage{name}` loads another package first, as `\RequirePackage` does. `\@providepackage{a,b}` marks packages as loaded without reading anything, for names whose whole job the engine already does.
+
+## Testing a package
+
+Write a small document that uses everything the package is for, and compile it:
+
+```bash
+mlatex --file-line-error test.tex
+```
+
+A package that comes with mLaTeX has such a document of its own in the engine's `tests/packages` folder, and the tests fail if it reports any error or unknown command. A package you would like to see included can be proposed on [GitHub](https://github.com/aveloux/mlatex).
+
+The language used inside packages is described in [The mtex Language](/docs/packages/language).

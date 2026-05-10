@@ -1,0 +1,92 @@
+---
+title: The mtex Language
+description: The language packages and documents are written in, which is TeX's with plainer names beside TeX's own.
+---
+
+mLaTeX's language is TeX's, with plainer names beside TeX's own. Both spellings work everywhere. Packages usually use the `\@` forms, which a document cannot redefine by accident, and the plain forms are there for documents.
+
+## Defining
+
+```latex
+\@define\greet[2][Hello]{#1, #2!}   % two parameters, the first optional
+\@define\pair#1,#2;{#1 then #2}     % delimited parameters, as \def's
+\@alias\salute\greet                % a copy of what it means now, as \let
+\@forget\salute                     % undefined again
+```
+
+`\newcommand`, `\renewcommand`, `\providecommand`, `\def`, `\edef`, `\let`, `\NewDocumentCommand` and `\DeclareRobustCommand` all exist as in LaTeX. A definition made inside a group ends with it unless it is `\global`. LaTeX's commands accept a paragraph in an argument unless starred (`\newcommand*`); `\def` and `\@define` do not, unless preceded by `\long`. `\g@addto@macro\list{more}` adds to a macro for good.
+
+## Values from outside
+
+```latex
+\@variable{letterhead.margin}                  % a package option, or a value a program set
+\@ifvariable{letterhead.compact}{yes}{no}      % whether it is set
+\variable{customer}                            % the same, in a document
+```
+
+Package options and values handed in by a program are both variables. `etoolbox`'s toggles are variables too, so a program can switch one before the document runs.
+
+## Numbers and lengths
+
+TeX's registers, with their names:
+
+```latex
+\newcount\@letterhead@lines   \@letterhead@lines=3
+\advance\@letterhead@lines by 2
+\newdimen\@letterhead@gap     \@letterhead@gap=1.5em
+\newskip\@letterhead@skip     \@letterhead@skip=6pt plus 2pt minus 1pt
+\the\numexpr 3*(4+5)/2\relax                   % 14, rounded as e-TeX rounds
+\the\dimexpr\textwidth-2cm\relax
+```
+
+`\set`, `\increase`, `\scale` and `\reduce` are the plain names for assigning, `\advance`, `\multiply` and `\divide`. `\setlength` and `\addtolength` take sums, as the calc package's do: `\setlength{\x}{\textwidth-2cm}`.
+
+For money and anything else that must come out to the exact digit, `\calculate{3 * 12.50}` and xfp's `\fpeval{2*(3+4)/5}` work in exact decimals rather than binary floating point.
+
+## Deciding
+
+The whole `\if` family: `\ifnum`, `\ifdim`, `\ifx`, `\ifcase`, `\ifodd`, `\ifdefined`, `\ifcsname`, `\ifmmode`, `\ifvmode`, `\iftrue` and `\iffalse`, each with `\else` and `\fi`, and `\unless` before any of them.
+
+`\@iftest{test}{yes}{no}` reads a test the way ifthen writes one:
+
+```latex
+\@iftest{\value{section} > 1 \AND \NOT \equal{\x}{a}}{later}{first}
+```
+
+`\@ifstar`, `\@ifnextchar` and `\@ifundefined` work as in LaTeX's kernel. A body that `\@ifnextchar` or `\@ifstar` decides in must end in it, since what it looks at is the document's next token only when nothing of the body is left after it.
+
+`\@ifempty` is a TeX test, not a choice between two groups:
+
+```latex
+\@ifempty{#1} none\else #1\fi
+```
+
+## Text and data
+
+`xstring`'s tests and functions (`\IfSubStr`, `\StrBefore`, `\StrLen`, `\StrSubstitute` and the rest) and `csvsimple`'s and `datatool`'s tables (`\csvreader`, `\DTLloaddb`, `\DTLforeach` and the rest) are part of the engine. Each is worked out in one pass, so a package that takes text apart or reads rows of data can use them instead of walking through characters with macros.
+
+## Repeating
+
+`\repeat[3]{text}` reads its text three times. Plain TeX's `\loop ... \repeat` works as the kernel defines it, and `\whiledo` comes with ifthen.
+
+## Hooks
+
+`\AtBeginDocument{...}` and `\AtEndDocument{...}` run code where the document opens and closes. `\@addtohook{name}{code}` and `\@usehook{name}` keep and run hooks of a package's own.
+
+## Characters
+
+`\catcode` works as TeX's does: a change reaches every character the document has not been read up to yet, so ``\catcode`\!=13`` makes every following `!` active, and a change made in a group ends with it. `@` is an ordinary character in a document, as in LaTeX, and `\makeatletter` and `\makeatother` work.
+
+## Links and text given later
+
+`\@link{address}{text}` is text that goes to an address, and `\@linkto{label}{text}` text that goes to where a label stands: links once hyperref is loaded, plain text without it.
+
+`\@forward{key}` stands for text that `\@fulfil{key}{text}` supplies, before or after. This is how an acronym used before its list defines it is spelled out.
+
+## Requests
+
+`\httpget{address}` is replaced by what the address returns, and `\httppost{address}{body}` sends a body and is replaced by the reply. Both are refused when mLaTeX runs with `--offline`; see [Security](/docs/security).
+
+## LaTeX3
+
+The basics of expl3 work, enough for a preamble's own LaTeX3 macros: `\ExplSyntaxOn` and `\ExplSyntaxOff`, `\cs_new:Npn` and `\cs_set:Npn` and their forms, token lists, integers, booleans, `\str_if_eq:nnTF`, `\str_case:nn`, `\fp_eval:n`, `\keys_define:nn` and messages.
