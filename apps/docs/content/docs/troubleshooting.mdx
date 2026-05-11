@@ -1,0 +1,96 @@
+---
+title: Troubleshooting
+description: What mLaTeX's messages mean and what to do about them.
+---
+
+Messages come with the line and column they refer to, and use LaTeX's own words where LaTeX has them. Run with `--file-line-error` to put the file name in front of each one:
+
+```text
+mistakes.tex:7:17: error (primitive): \includegraphics could not read 'nopicture.png'
+```
+
+An **error** makes the run's exit status `1`, though a PDF of what could be set is still written unless `--halt-on-error` is given. A **warning** is printed and changes nothing.
+
+## Errors
+
+### Undefined control sequence
+
+```text
+3:8: error (macro): Undefined control sequence \nosuchcommand
+```
+
+The command is not defined anywhere: not by the engine, a loaded package, the glossary or the document. Check its spelling, check that its package is loaded, and see whether the package is [supported](/docs/packages). The rest of the line is set without it.
+
+### A block ended by the wrong end
+
+```text
+6:16: error (environment): \begin{itemize} ended by \end{enumerate}
+12:15: error (environment): \begin{quote} ended by \end{document}
+*** (job aborted, no legal \end found)
+```
+
+An environment was closed by the wrong `\end`, or never closed. The line and column point to the `\end` that did not match.
+
+### File not found
+
+```text
+8:7: error (primitive): File `nochapter.tex' not found
+```
+
+An `\input` or `\include` names a file that is in none of the folders mLaTeX reads from: the document's own folder, the folder of the file being read, and the folders given with `-I`. Absolute paths and paths with `..` are refused on purpose; see [Security](/docs/security).
+
+### A picture that cannot be read
+
+```text
+7:17: error (primitive): \includegraphics could not read 'nopicture.png'
+```
+
+The picture is not in the document's folder, a `\graphicspath` folder or an `-I` folder, or it is not a PNG, JPEG, WebP, PDF, EPS or SVG file. A picture in a form mLaTeX cannot draw keeps its place as an empty frame, with a warning instead.
+
+### A bibliography file that cannot be read
+
+```text
+5:22: error (primitive): No bibliography file named 'nofile.bib' could be read
+```
+
+`\bibliography` or `\addbibresource` names a `.bib` file that is not in the folders mLaTeX reads from. If the document ships with a `.bbl` file of the same name as the document, that is set instead.
+
+### Refused because the run is offline
+
+```text
+9:9: error (primitive): \httpget of 'https://example.com' refused: the run is offline
+```
+
+The document asked for something from the network while mLaTeX ran with `--offline`. Download it beforehand and refer to the local file, or drop `--offline` for documents you trust.
+
+## Warnings
+
+| Warning                                                                         | Meaning                                                                                              |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| ``File `name.sty' not found; its commands are read as the glossary knows them`` | The package is unknown. Its commands are looked up in the glossary when used.                        |
+| ``File `name.cls' not found; the document is set as article``                   | The class is unknown. The document is set as `article`, at the size and columns its options ask for. |
+| ``Label `a' multiply defined``                                                  | Two `\label`s share a name; references go to one of them.                                            |
+| ``Reference `x' undefined``                                                     | A `\ref` names a label that never appears. It prints `??`.                                           |
+| ``Citation `key' undefined``                                                    | A `\cite` names an entry no bibliography holds.                                                      |
+| `Environment foo undefined`                                                     | A `\begin{foo}` that nothing defines, set as a plain group.                                          |
+
+TikZ keys mLaTeX does not draw are warnings too, and the picture is drawn without them.
+
+## The command line
+
+| Message                                                               | Meaning                                                                                        |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `mlatex: no document at paper.tex`                                    | The file does not exist; exit status `1`.                                                      |
+| `mlatex: no option --nope; see mlatex --help`                         | An unknown option; exit status `2`.                                                            |
+| `mlatex: no assets directory found above ...; name one with --assets` | The program cannot find its fonts. Keep it beside its `assets` folder, or pass `--assets=DIR`. |
+| `mlatex: --log-level takes its value after =`                         | The logger's options take their value after `=`, not as the next argument.                     |
+
+## Output differs from pdfLaTeX
+
+mLaTeX follows TeX's algorithms but uses its own fonts, metrics and implementation, so line and page breaks can fall slightly differently. A package can also be only partly supported: the [Supported Packages](/docs/packages) page lists what each one leaves out. If something looks wrong rather than just different, please [open an issue](https://github.com/aveloux/mlatex/issues) with the smallest document that shows it.
+
+## Looking deeper
+
+* `--draft-mode` checks a whole document without writing a PDF.
+* `--time-statistics` shows how long each stage of the engine took.
+* `-d` (or `--debug=lexer,parser`) and `--trace` log the engine's steps, and `--log-file=FILE` writes them to a file.
