@@ -1,0 +1,118 @@
+---
+title: Command Line
+description: Every option of the mlatex program, with examples.
+---
+
+```bash
+mlatex [options] [document]
+```
+
+`mlatex` sets one document into a PDF. A document named without an extension is looked for as `NAME.mtex`, then `NAME.tex`, then `NAME.bib`. With no document named, the engine's own sample paper is set.
+
+## Writing conventions
+
+* Options take one dash or two: `-interaction=batch-mode` and `--interaction=batch-mode` are the same.
+* A value follows its option after `=` or as the next argument: `-o out` and `--output-directory=out`.
+* Names are words with dashes between them. TeX's run-together spellings, `-jobname`, `-draftmode` and `batchmode`, are accepted too, so scripts written for pdfLaTeX run unchanged.
+* `--` ends the options, for a document whose name starts with a dash.
+
+## Output
+
+| Option                         | Effect                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `-o`, `--output-directory=DIR` | Write the PDF into `DIR`, creating it if needed. Without it, the PDF goes beside the document.    |
+| `-j`, `--job-name=NAME`        | Name the PDF `NAME.pdf` instead of after the document. TeX's `-jobname` works too.                |
+| `-n`, `--draft-mode`           | Read and set the document, reporting every error, but write no PDF. TeX's `-draftmode` works too. |
+| `--halt-on-error`              | Leave no PDF when the document has an error.                                                      |
+| `-O`, `--open`                 | Show the PDF in the system's viewer once it is written.                                           |
+
+```bash
+mlatex -o build -j final thesis.tex          # build/final.pdf
+```
+
+## Input
+
+| Option                          | Effect                                                                                                                                                                          |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-I`, `--include-directory=DIR` | Also look in `DIR`, after the document's own folder, for what it reads: `\input`, `\include`, `\usepackage`, `\includegraphics` and bibliographies. Repeat it for more folders. |
+| `--assets=DIR`                  | Read the fonts and hyphenation patterns from `DIR` instead of the `assets` folder found above the program.                                                                      |
+| `--offline`                     | Make no network requests. `\httpget`, `\httppost` and pictures from `https://` addresses become errors and nothing is sent. Use it for documents you did not write.             |
+| `-w`, `--watch`                 | Set the document again each time it is saved, until interrupted.                                                                                                                |
+
+```bash
+mlatex -I chapters -I figures --watch --open thesis.tex
+```
+
+## Messages
+
+| Option                     | Effect                                                                                                                                                     |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-i`, `--interaction=MODE` | `batch-mode` prints nothing but errors. `non-stop-mode`, `scroll-mode` and `error-stop-mode` print what was done. TeX's `batchmode` and the rest work too. |
+| `-q`, `--quiet`            | The same as `--interaction=batch-mode`.                                                                                                                    |
+| `--file-line-error`        | Print each error as `file:line:column: message`.                                                                                                           |
+| `-T`, `--time`             | Print how long each part of the run took.                                                                                                                  |
+| `--time-statistics`        | Print every stage of the engine, what it made and how long each stage took.                                                                                |
+| `-h`, `--help`             | Print the options and exit.                                                                                                                                |
+| `-v`, `--version`          | Print the version and exit.                                                                                                                                |
+
+## Diagnostics
+
+These are for investigating the engine itself rather than a document.
+
+| Option                  | Effect                                                                                                                   |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `-d`, `--debug[=PARTS]` | Log the engine's steps: every part, or those named among `lexer`, `mouth`, `parser`, `layout`, `memory` and `semantics`. |
+| `--trace`               | Log every step, in full.                                                                                                 |
+| `--log-level=LEVEL`     | `traceback`, `debug`, `info`, `warn`, `error` or `silent`. The value must follow `=`.                                    |
+| `--log-file=FILE`       | Write the log to `FILE`. The value must follow `=`.                                                                      |
+| `--no-color`            | Log without colour.                                                                                                      |
+
+## Target
+
+| Option                  | Effect                                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `-t`, `--target=TARGET` | What the document is made into. `aot`, a PDF now, is the default. `jit` (just in time) and `wasm` (WebAssembly) are accepted and do nothing yet. |
+
+## Exit status
+
+| Status | Meaning                                                                                                         |
+| ------ | --------------------------------------------------------------------------------------------------------------- |
+| `0`    | The document was set with nothing reported. Warnings do not count.                                              |
+| `1`    | The document had an error, or could not be found, read, or given its assets.                                    |
+| `2`    | The command line was wrong: an unknown option, a missing value, a folder that does not exist, or two documents. |
+
+## Recipes
+
+<Tabs items={["Build systems", "Live preview", "CI", "Untrusted documents"]}>
+  <Tab value="Build systems">
+    ```bash
+    mlatex -q --halt-on-error --file-line-error paper.tex
+    ```
+
+    Quiet, no PDF on error, and errors in the form editors understand.
+  </Tab>
+
+  <Tab value="Live preview">
+    ```bash
+    mlatex --watch --open paper.tex
+    ```
+
+    Sets the document on every save and opens the PDF once; most viewers reload it when it changes.
+  </Tab>
+
+  <Tab value="CI">
+    ```bash
+    mlatex -q -o out paper.tex && test -f out/paper.pdf
+    ```
+
+    The exit status is `0` only for a clean document.
+  </Tab>
+
+  <Tab value="Untrusted documents">
+    ```bash
+    mlatex -q --offline --halt-on-error upload.tex
+    ```
+
+    No network access, and nothing written but the PDF. See [Security](/docs/security).
+  </Tab>
+</Tabs>
