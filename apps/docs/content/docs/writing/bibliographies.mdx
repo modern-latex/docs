@@ -28,7 +28,17 @@ Literate programming~\cite{knuth84} changed how programs are written.
 }
 ```
 
-`\cite{a,b}` cites several entries, `\cite[p.~5]{knuth84}` adds a note, and `\nocite{key}` lists an entry without citing it; `\nocite{*}` lists every entry in the file. Entries are chosen, sorted, labelled and set in the style named.
+### \cite
+
+`\cite{key}` cites an entry by its key and prints its label. `\cite{a,b}` cites several at once, and `\cite[p.~5]{knuth84}` adds a note after the label.
+
+### \nocite
+
+`\nocite{key}` lists an entry in the bibliography without citing it in the text; `\nocite{*}` lists every entry in the file.
+
+### \bibliographystyle and \bibliography
+
+`\bibliographystyle{style}` chooses the style, and `\bibliography{refs}` names the `.bib` file, without its extension, and sets the bibliography where it stands. Entries are chosen, sorted, labelled and set in the style named.
 
 ### Styles
 
@@ -43,7 +53,11 @@ Literate programming~\cite{knuth84} changed how programs are written.
 
 A style mLaTeX does not know is set as `plain`.
 
-## By author and year: natbib
+***
+
+## natbib
+
+natbib cites by author and year:
 
 ```latex
 \usepackage{natbib}
@@ -53,7 +67,29 @@ A style mLaTeX does not know is set as `plain`.
 \bibliography{refs}
 ```
 
-`\citet`, `\citep`, `\citeauthor`, `\citeyear`, `\citealt`, `\citealp` and `\citenum`, their capitalised forms, and the `numbers` option, which cites every entry by number.
+### Citations in the text and in parentheses
+
+| Command            | Prints             |
+| ------------------ | ------------------ |
+| `\citet{key}`      | Knuth (1984)       |
+| `\citep{key}`      | (Knuth, 1984)      |
+| `\citealt{key}`    | Knuth 1984         |
+| `\citealp{key}`    | Knuth, 1984        |
+| `\citeauthor{key}` | Knuth              |
+| `\citeyear{key}`   | 1984               |
+| `\citenum{key}`    | The entry's number |
+
+The capitalised forms `\Citet`, `\Citep` and `\Citeauthor` are read too, and `\citeyearpar` prints the year in parentheses.
+
+### Notes
+
+`\citep[p.~5]{key}` adds a note after, and `\citep[see][p.~5]{key}` one before and one after.
+
+### Numbers
+
+The `numbers` option, `\usepackage[numbers]{natbib}`, cites every entry by number instead.
+
+***
 
 ## biblatex
 
@@ -66,7 +102,21 @@ A style mLaTeX does not know is set as `plain`.
 \end{document}
 ```
 
-`\textcite`, `\parencite`, `\autocite`, `\smartcite` and `\supercite` work, and each style is set as the BibTeX style nearest it:
+### \addbibresource
+
+`\addbibresource{refs.bib}` in the preamble names a `.bib` file, with its extension. It can be given more than once.
+
+### Citations
+
+* `\textcite{key}` cites in the text, as natbib's `\citet`.
+* `\parencite{key}`, `\autocite{key}` and `\smartcite{key}` cite in parentheses, as `\citep`.
+* `\supercite{key}` cites by the entry's number.
+* `\footcite{key}` cites in a footnote.
+* `\Textcite`, `\Parencite` and `\Autocite` are read too.
+
+### Styles
+
+The `style` option chooses the style, and each is set as the BibTeX style nearest it:
 
 | biblatex style                                             | Set as                      |
 | ---------------------------------------------------------- | --------------------------- |
@@ -76,17 +126,39 @@ A style mLaTeX does not know is set as `plain`.
 | `nature`, `science`, the physics styles, or `sorting=none` | Numbered in the order cited |
 | any other                                                  | Numbered, sorted by author  |
 
-`\printbibliography` reads `heading=none`, `heading=bibintoc` and `title=`. A report's or a book's bibliography is a chapter, as those classes have it.
+### \printbibliography
+
+`\printbibliography` sets the bibliography where it stands. It reads `heading=none`, `heading=bibintoc` and `title=`. A report's or a book's bibliography is a chapter, as those classes have it.
+
+***
 
 ## Where the entries come from
 
-* **A `.bib` file** beside the document, in a folder given with `-I`, or handed in by a program.
-* **Imported with `\input`.** `\input{refs.bib}` makes a `.bib` file a source of the bibliography, as `\addbibresource` does, and `\bibliography{}` or `\printbibliography` then sets what it holds.
-* **Carried in the document.** A `filecontents` block holding the entries is kept for the run, so the document is a single file.
-* **A ready-made `.bbl`.** A paper sent to a journal or the arXiv often carries the `.bbl` file BibTeX wrote instead of its `.bib`. When none of the files `\bibliography` names can be read, the document's own `.bbl` is set in its place.
-* **Written by hand.** A `thebibliography` block with `\bibitem` entries works as in LaTeX, natbib's `\bibitem[Knuth(1984)]{knuth}` included.
+### A .bib file
 
-The `.bib` reader understands `@string` abbreviations, `#` concatenation, month names, `@comment`, and `@preamble`, whose text is placed ahead of the list so that commands the entries use are defined.
+A `.bib` file beside the document, in a folder given with `-I`, or handed in by a program.
+
+### Imported with \input
+
+`\input{refs.bib}` makes a `.bib` file a source of the bibliography, as `\addbibresource` does, and `\bibliography{}` or `\printbibliography` then sets what it holds.
+
+### Carried in the document
+
+A `filecontents` block holding the entries is kept for the run, so the document is a single file.
+
+### A ready-made .bbl
+
+A paper sent to a journal or the arXiv often carries the `.bbl` file BibTeX wrote instead of its `.bib`. When none of the files `\bibliography` names can be read, the document's own `.bbl` is set in its place.
+
+### Written by hand
+
+A `thebibliography` block with `\bibitem` entries works as in LaTeX, natbib's `\bibitem[Knuth(1984)]{knuth}` included.
+
+### What the .bib reader understands
+
+`@string` abbreviations, `#` concatenation, month names, `@comment`, and `@preamble`, whose text is placed ahead of the list so that commands the entries use are defined.
+
+***
 
 ## Looking a bibliography over
 
@@ -96,6 +168,14 @@ Give a `.bib` file as the document to set every entry it holds, cited or not, as
 mlatex refs.bib
 ```
 
+***
+
 ## Mistakes
 
-A citation with no entry is a warning, ``Citation `key' undefined``, and prints `?`. A `.bib` file that cannot be read is an error that names it.
+### A citation with no entry
+
+A citation with no entry is a warning, ``Citation `key' undefined``, and prints `?`.
+
+### A file that cannot be read
+
+A `.bib` file that cannot be read is an error that names it. See [Troubleshooting](/docs/troubleshooting).

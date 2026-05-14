@@ -21,14 +21,58 @@ Pictures written in TikZ and the packages built on it are drawn by mLaTeX direct
 \end{tikzpicture}
 ```
 
-What is drawn:
+### Pictures
 
-* **Paths.** Lines, `|-` and `-|`, `rectangle`, `circle`, `ellipse`, `arc`, `grid`, `cycle`, curves with `.. controls ..` and `to[bend left]` or `to[out=,in=,looseness=]`, relative `+( )` and `++( )` points and polar `(angle:radius)` points. `\draw`, `\fill`, `\filldraw`, colours by name and mixture, line widths, dashes and arrow tips, `-{Latex[length=2mm]}` included.
-* **Nodes.** `draw`, `fill`, `circle`, `ellipse`, `rounded corners`, `dashed`, `double`, `inner sep`, `minimum width` and `height`, `text width`, `font`, `align` and anchors; `positioning`'s `right=of a` with `node distance`; labels on a line with `midway`, `pos=`, `near start`, `auto` and `swap`; `\coordinate`.
-* **Computation.** Coordinates may be formulas, `({1+1},{sin(30)*2})`; the `calc` library's `($(a)!0.5!(b)$)` and its kin; `let \p1 = (a) in ...`; `\foreach` with ranges, `count=` and several variables; `plot` of coordinates or a function over `domain` in `samples` steps.
-* **Structure.** `\matrix` of nodes and of math nodes, `edge` and `loop above` for automata, styles with `\tikzset` and `/.style`, `overlay` and `remember picture` for pictures placed on the page, and `baseline` for a picture inline with text.
+`\begin{tikzpicture}[options] ... \end{tikzpicture}` sets a picture as a box in the text. `\tikz[options]{...}` sets a small one inline, and a `.tikz` file can be placed with `\includegraphics`.
 
-A key mLaTeX does not draw is a warning, and the picture is drawn without it. `\tikz` inline, `\begin{tikzpicture}`, and `.tikz` files through `\includegraphics` all work.
+### Drawing commands
+
+| Command       | What it does                       |
+| ------------- | ---------------------------------- |
+| `\draw`       | Strokes a path.                    |
+| `\fill`       | Fills a path.                      |
+| `\filldraw`   | Fills a path and strokes its edge. |
+| `\node`       | Places text, framed or not.        |
+| `\coordinate` | Names a point without drawing it.  |
+
+Colours by name and mixture, line widths, dashes and arrow tips, `-{Latex[length=2mm]}` included, are read from the options in brackets.
+
+### Paths
+
+* Lines with `--`, and corners with `|-` and `-|`.
+* `rectangle`, `circle`, `ellipse`, `arc`, `grid` and `cycle`.
+* Curves with `.. controls ..`, and `to[bend left]` or `to[out=,in=,looseness=]`.
+* Relative points `+( )` and `++( )`, and polar points `(angle:radius)`.
+
+### Nodes
+
+* Shapes and looks: `draw`, `fill`, `circle`, `ellipse`, `rounded corners`, `dashed`, `double`.
+* Sizes: `inner sep`, `minimum width`, `minimum height` and `text width`, with `font` and `align`.
+* Anchors, such as `(a.north)` and `(a.30)`.
+* Placing: `positioning`'s `right=of a`, with `node distance`.
+* Labels on a line: `midway`, `pos=`, `near start`, `auto` and `swap`.
+
+### Computing coordinates
+
+* Coordinates may be formulas: `({1+1},{sin(30)*2})`.
+* The `calc` library's `($(a)!0.5!(b)$)` and its kin.
+* `let \p1 = (a) in ...`.
+* `\foreach` with ranges, `count=` and several variables.
+* `plot` of coordinates, or of a function over `domain` in `samples` steps.
+
+### Structure
+
+* `\matrix` of nodes and of math nodes.
+* `edge` and `loop above`, for automata.
+* Styles with `\tikzset` and `/.style`.
+* `overlay` and `remember picture`, for pictures placed on the page.
+* `baseline`, for a picture inline with text.
+
+### Keys that are not drawn
+
+A key mLaTeX does not draw is a warning, and the picture is drawn without it.
+
+***
 
 ## pgfplots
 
@@ -44,15 +88,45 @@ A key mLaTeX does not draw is a warning, and the picture is drawn without it. `\
 \end{tikzpicture}
 ```
 
-* Axes: `axis`, `semilogxaxis`, `semilogyaxis` and `loglogaxis`, with ticks, labels, titles, grids and `axis lines=left` or `middle`.
-* Plots of coordinates, of a table inline or in a file, of a function, or parametric; marks, `only marks`, dashes and widths; `ybar` with `symbolic x coords`; legends.
-* Error bars, with `y dir=both` and explicit, fixed or relative amounts.
-* `fill between` two named plots, with `soft clip`.
-* Three dimensions: `\addplot3` of coordinates, tables or functions of x and y, as `surf` or `mesh`, seen from any `view`, with colormaps (`hot`, `jet`, `viridis`, `cool` and more) and a `colorbar`.
+### Axes
+
+`axis`, `semilogxaxis`, `semilogyaxis` and `loglogaxis`, with ticks, labels, titles, grids and `axis lines=left` or `middle`.
+
+### \addplot
+
+`\addplot[options]` draws one plot in an axis:
+
+* of `coordinates {(0,0) (1,1)}`;
+* of a table, inline or in a file;
+* of a function, such as `{x^2}`, or a parametric one.
+
+Marks, `only marks`, dashes and widths are read, and `ybar` with `symbolic x coords` draws bar charts.
+
+### Legends
+
+`\legend{first, second}` names the plots in order, placed by `legend pos`.
+
+### Error bars
+
+Error bars, with `y dir=both` and explicit, fixed or relative amounts.
+
+### Filling between plots
+
+`fill between` two named plots, with `soft clip`.
+
+### Three dimensions
+
+`\addplot3` of coordinates, tables or functions of x and y, as `surf` or `mesh`, seen from any `view`, with colormaps (`hot`, `jet`, `viridis`, `cool` and more) and a `colorbar`.
+
+### What is ignored
 
 Options that set styles for every plot at once, and group plots, are read and ignored.
 
+***
+
 ## Commutative diagrams
+
+### tikz-cd
 
 ```latex
 \usepackage{tikz-cd}
@@ -62,13 +136,33 @@ Options that set styles for every plot at once, and group plots, are read and ig
 \end{tikzcd}
 ```
 
-`tikz-cd`'s arrows and labels (`hook`, `two heads`, `mapsto`, `dashed`, `bend left`, `shift left`, `phantom` and the rest), xy-pic's `\xymatrix` with its labels, shapes, curves and framed objects, and amscd's `CD` are drawn. A diagram alone in a display is centred on its equation number.
+`\arrow[r]` points right, `d` down, `l` left and `u` up, and letters combine, as in `dr`. A label in quotes is set beside the arrow; a `'` after it puts it on the other side. `hook`, `two heads`, `mapsto`, `dashed`, `bend left`, `shift left`, `phantom` and the rest are drawn.
+
+### xy-pic and amscd
+
+xy-pic's `\xymatrix`, with its labels, shapes, curves and framed objects, and amscd's `CD` are drawn too.
+
+### In a display
+
+A diagram alone in a display is centred on its equation number.
+
+***
 
 ## Circuits and trees
 
-* **Quantum circuits.** `quantikz` and Qcircuit's `\Qcircuit`: wires, boxed gates, controls joined to targets, swaps, meters, classical wires and labels.
-* **Trees.** `forest`'s `[S [NP] [VP]]`, and `qtree`'s and `tikz-qtree`'s `\Tree [.S the cat ]`, each parent centred over its children.
-* **Feynman diagrams.** `tikz-feynman`'s `\feynmandiagram` and `axodraw2`'s pictures. `feynmp`'s diagrams, which need MetaPost, are not drawn; their place is kept.
+### Quantum circuits
+
+`quantikz` and Qcircuit's `\Qcircuit`: wires, boxed gates, controls joined to targets, swaps, meters, classical wires and labels.
+
+### Trees
+
+`forest`'s `[S [NP] [VP]]`, and `qtree`'s and `tikz-qtree`'s `\Tree [.S the cat ]`, each parent centred over its children.
+
+### Feynman diagrams
+
+`tikz-feynman`'s `\feynmandiagram` and `axodraw2`'s pictures. `feynmp`'s diagrams, which need MetaPost, are not drawn; their place is kept.
+
+***
 
 ## LaTeX's own picture
 
@@ -81,7 +175,19 @@ Options that set styles for every plot at once, and group plots, are read and ig
 \end{picture}
 ```
 
-`\put`, `\multiput`, `\line`, `\vector`, `\circle`, `\oval`, `\qbezier` and the framed boxes are drawn. PSTricks' `pspicture`, with its lines, circles, frames and labels, is drawn the same way.
+### The picture block
+
+`\begin{picture}(width,height)` takes its size in `\unitlength`, and everything in it is placed with `\put(x,y){...}`.
+
+### What it draws
+
+`\put`, `\multiput`, `\line`, `\vector`, `\circle`, `\oval`, `\qbezier` and the framed boxes are drawn.
+
+### PSTricks
+
+PSTricks' `pspicture`, with its lines, circles, frames and labels, is drawn the same way.
+
+***
 
 ## Other drawing packages
 
