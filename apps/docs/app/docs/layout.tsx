@@ -9,6 +9,7 @@ import type { Entry } from "@/app/docs/provider";
 import { DocsProvider } from "@/app/docs/provider";
 import { Chat, Panel, Trigger } from "@/components/chat";
 import { Sidebar } from "@/components/docs/sidebar";
+import { releases } from "@/lib/versions";
 
 const source = loader({
 	baseUrl: "/docs",
@@ -20,12 +21,12 @@ const entries: Entry[] = source.getPages().map((page) => ({
 	url: page.url,
 }));
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default async function Layout({ children }: { children: ReactNode }) {
 	return (
 		<DocsProvider entries={entries}>
 			<Chat>
 				<Suspense>
-					<Sidebar />
+					<Sidebar versions={await releases()} />
 				</Suspense>
 				<DocsLayout
 					tree={source.pageTree}
