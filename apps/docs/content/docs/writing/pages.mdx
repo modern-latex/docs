@@ -5,18 +5,59 @@ description: Paper, margins and columns, heads and feet, and what goes into the 
 
 ## Paper and margins
 
-The class's options set the paper (`a4paper`, `letterpaper`, `a5paper`, `legalpaper`) and the type size. `geometry` sets the rest:
+### The class's options
+
+The class's options set the paper (`a4paper`, `letterpaper`, `a5paper`, `b5paper`, `legalpaper`, `executivepaper`, and `landscape` to turn it) and the type size. See [Documents and Classes](/docs/writing/documents#choosing-a-class).
+
+### geometry
+
+`geometry` sets the rest, as package options or later with `\geometry`:
 
 ```latex
 \usepackage[a4paper, margin=2cm]{geometry}
 \geometry{left=3cm, right=2cm}
 ```
 
-`geometry` reads `paperwidth`, `paperheight`, `margin`, `hmargin`, `vmargin`, `left`, `right`, `top` and `bottom`, and a later, more specific key wins over an earlier, more general one, as in LaTeX. LaTeX's own lengths mean what they mean there too: `\setlength{\topmargin}{...}`, `\oddsidemargin`, `\textwidth`, `\headsep` and `\footskip`. `fullpage` and `a4wide` are accepted.
+| Key                         | What it sets                           |
+| --------------------------- | -------------------------------------- |
+| `paperwidth`, `paperheight` | The paper's size.                      |
+| `margin`                    | Every margin.                          |
+| `hmargin`, `vmargin`        | The left and right, or top and bottom. |
+| `left`, `right`             | One side.                              |
+| `top`, `bottom`             | The top or bottom.                     |
+
+A later, more specific key wins over an earlier, more general one, as in LaTeX.
+
+### LaTeX's own lengths
+
+LaTeX's page lengths mean what they mean there too: `\setlength{\topmargin}{...}`, `\oddsidemargin`, `\textwidth`, `\headsep` and `\footskip`. `fullpage` and `a4wide` are accepted.
+
+***
 
 ## Columns
 
-`twocolumn` as a class option, `\twocolumn[...]` with a full-width part above, `\onecolumn`, and `multicol`'s `multicols` block. Columns are balanced on the last page. `figure*` and `table*` span both columns.
+### Two columns
+
+`twocolumn` as a class option sets the whole document in two columns. `\twocolumn[...]` starts two columns with a full-width part above, such as a title and abstract, and `\onecolumn` goes back to one.
+
+### multicol
+
+`multicol`'s `multicols` block sets part of a page in columns:
+
+```latex
+\usepackage{multicol}
+\begin{multicols}{3}
+  Three columns of text, balanced on the last page.
+\end{multicols}
+```
+
+Columns are balanced on the last page.
+
+### Floats across columns
+
+`figure*` and `table*` span both columns.
+
+***
 
 ## Heads and feet
 
@@ -30,28 +71,72 @@ The class's options set the paper (`a4paper`, `letterpaper`, `a5paper`, `legalpa
 \fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
 ```
 
-`\pagestyle`, `\thispagestyle`, `fancyhdr`, KOMA-Script's `scrlayer-scrpage` and `titleps` set heads and feet. `\markboth` and `\markright` set what `\leftmark` and `\rightmark` show. `\pagenumbering{roman}` and `\setcounter{page}{n}` change the page numbers.
+### Page styles
+
+`\pagestyle{style}` sets every page's head and foot from then on, and `\thispagestyle{style}` only the current page's. LaTeX's styles are `plain`, with the number in the foot, `empty`, with nothing, and `headings`, with running heads.
+
+### fancyhdr
+
+`\pagestyle{fancy}` uses fancyhdr's head and foot. `\fancyhf{}` clears them, and `\fancyhead[L]`, `[C]` and `[R]` and `\fancyfoot` fill each part. fancyhdr's older spellings, `\lhead`, `\chead`, `\rhead`, `\lfoot`, `\cfoot` and `\rfoot`, work too, and `\renewcommand{\headrulewidth}{0pt}` removes the rule under the head.
+
+### Other packages
+
+KOMA-Script's `scrlayer-scrpage` and `titleps` set heads and feet too.
+
+### Running heads
+
+`\markboth{left}{right}` and `\markright{right}` set what `\leftmark` and `\rightmark` show, on that page and the pages after it until another is set.
+
+### Page numbers
+
+`\pagenumbering{roman}` switches to roman numbers (`arabic`, `roman`, `Roman`, `alph` and `Alph`), starting again at one. `\setcounter{page}{n}` sets the current page's number.
+
+***
 
 ## Page breaks
 
-`\newpage`, `\clearpage`, `\cleardoublepage` and `\pagebreak` break pages, and `\vfill` and `\vspace{\fill}` share out what a page leaves. A page holding nothing but a numbering change or a contents entry is never shipped as a blank page.
+### Breaking pages
+
+`\newpage`, `\clearpage`, `\cleardoublepage` and `\pagebreak` break pages. `\cleardoublepage` breaks as `\clearpage` does, without adding a blank page to reach a right-hand one.
+
+### Filling a page
+
+`\vfill` and `\vspace{\fill}` share out what a page leaves.
+
+### Empty pages
+
+A page holding nothing but a numbering change or a contents entry is never shipped as a blank page.
 
 ***
 
 ## The PDF
 
-mLaTeX writes the PDF itself:
+mLaTeX writes the PDF itself.
 
-* **Fonts** are embedded, cut down to the glyphs the document uses.
-* **Pictures**: JPEGs are embedded unchanged; PNG and WebP are compressed; PDF pages, EPS and SVG pictures are embedded as vectors.
-* **Links and bookmarks** come with `hyperref`; see [References and Links](/docs/writing/references).
-* **Information.** `\hypersetup`'s `pdftitle`, `pdfauthor`, `pdfsubject` and `pdfkeywords` are the file's title, author, subject and keywords.
-* **The same document gives the same file.** The PDF's identifier is made from its own bytes.
+### Fonts
+
+Fonts are embedded, cut down to the glyphs the document uses.
+
+### Pictures
+
+JPEGs are embedded unchanged; PNG and WebP are compressed; PDF pages, EPS and SVG pictures are embedded as vectors.
+
+### Links and bookmarks
+
+Links and bookmarks come with `hyperref`; see [References and Links](/docs/writing/references).
+
+### Information
+
+`\hypersetup`'s `pdftitle`, `pdfauthor`, `pdfsubject` and `pdfkeywords` are the file's title, author, subject and keywords:
 
 ```latex
 \usepackage{hyperref}
 \hypersetup{pdftitle={Energy Estimates}, pdfauthor={Mara Ellison}}
 ```
+
+### The same document gives the same file
+
+The PDF's identifier is made from its own bytes, so compiling the same document twice gives the same file.
 
 ### PDF/A
 

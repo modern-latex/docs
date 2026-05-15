@@ -5,7 +5,7 @@ description: Formulas inline and displayed, amsmath's environments, alphabets, a
 
 Formulas are written as in LaTeX and set with TeX's rules, using the measurements in an OpenType mathematics font: New Computer Modern Math by default.
 
-## Inline and displayed
+## Writing formulas
 
 ```latex
 The identity $e^{i\pi} + 1 = 0$ links five constants, and
@@ -14,11 +14,27 @@ The identity $e^{i\pi} + 1 = 0$ links five constants, and
 \]
 ```
 
-`$...$` and `\(...\)` are inline; `\[...\]`, `$$...$$` and the `equation` environment are displayed. A fraction, sum or limit inline is set smaller, with limits to the side, as TeX sets them.
+### Inline formulas
+
+`$...$` and `\(...\)` set a formula inside a line. A fraction, sum or limit inline is set smaller, with its limits to the side, as TeX sets them, so the line keeps its spacing.
+
+### Displayed formulas
+
+`\[...\]` and `$$...$$` set a formula on its own line, centred. The `equation` block does the same and numbers it.
+
+### Text inside a formula
+
+`\text{...}` sets words in the text's face inside a formula, as in `\text{if } x \ge 0`.
+
+***
 
 ## amsmath
 
-Most of amsmath is part of the engine and works whether or not the package is loaded: `equation`, `align`, `gather` and `multline` and their starred forms; `aligned`, `split`, `gathered` and `cases` inside a formula; the matrices; `\text`, `\dfrac`, `\tfrac`, `\binom`, `\eqref`, `\tag`, `\notag`, `\numberwithin`, `\operatorname` and `\overset`.
+Most of amsmath is part of the engine and works whether or not the package is loaded.
+
+### align
+
+`align` sets several equations lined up at their `&`, each numbered unless marked `\notag`. `\\` ends a line:
 
 ```latex
 \begin{align}
@@ -28,32 +44,152 @@ Most of amsmath is part of the engine and works whether or not the package is lo
 By \eqref{eq:momentum}, \dots
 ```
 
+`alignat` lines up several columns with the spacing you give, and `flalign` spreads its columns to the margins.
+
+### gather and multline
+
+`gather` centres several equations without lining them up. `multline` breaks one long equation over lines: the first to the left, the last to the right.
+
+```latex
+\begin{gather}
+  a = b + c \\
+  d = e
+\end{gather}
+\begin{multline}
+  a + b + c + d + e + f \\
+  + g + h + i
+\end{multline}
+```
+
+### Blocks inside a formula
+
+`aligned`, `gathered` and `split` line up equations inside a larger formula, sharing one number. `cases` sets a choice:
+
 ```latex
 \[
   |x| = \begin{cases}
     x  & \text{if } x \ge 0,\\
-    -x & \text{otherwise,}
+    -x & \text{otherwise.}
   \end{cases}
-  \qquad
-  A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}
 \]
 ```
 
+### Matrices
+
+| Block         | Brackets             |
+| ------------- | -------------------- |
+| `matrix`      | None                 |
+| `pmatrix`     | Parentheses          |
+| `bmatrix`     | Square brackets      |
+| `Bmatrix`     | Braces               |
+| `vmatrix`     | Vertical bars        |
+| `Vmatrix`     | Double vertical bars |
+| `smallmatrix` | None, at text size   |
+
+```latex
+\[
+  A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \qquad
+  \det A = \begin{vmatrix} 1 & 2 \\ 3 & 4 \end{vmatrix}
+\]
+```
+
+LaTeX's own `array` block works too, with a column type for each column.
+
+### Fractions and binomials
+
+* `\frac{a}{b}` is a fraction; `\dfrac` is always display-sized and `\tfrac` always text-sized.
+* `\binom{n}{k}` is a binomial coefficient, with `\dbinom` and `\tbinom`.
+* TeX's `\over`, `\atop` and `\choose` work as in TeX.
+
+### Operators
+
+`\operatorname{name}` sets an operator name upright with an operator's spacing. `\DeclareMathOperator{\tr}{tr}` in the preamble makes it a command:
+
+```latex
+\DeclareMathOperator{\tr}{tr}
+$\tr A = \operatorname{rank} B$
+```
+
+### Stacking and arrows
+
+* `\overset{above}{symbol}` and `\underset{below}{symbol}` stack a small formula over or under a symbol.
+* `\substack{i < n \\ j < m}` sets several lines under a sum.
+* `\sideset` puts marks at the corners of a large operator.
+* `\xrightarrow{f}` and `\xleftarrow{g}` are arrows that stretch to their labels.
+
+### Wide equations
+
 A displayed equation too wide for its number moves left, or puts its number on the line below, as amsmath does.
+
+***
 
 ## Symbols and alphabets
 
-* Greek letters, relations, arrows, operators, delimiters and dots, with `\left`, `\right` and `\middle` growing to fit.
-* Alphabets: `\mathbb`, `\mathcal`, `\mathscr`, `\mathfrak`, `\mathrm`, `\mathsf`, `\mathtt`, `\mathit`, `\mathbf`, and bold italic with `\boldsymbol` or `\bm`. `amssymb`, `amsfonts`, `mathrsfs`, `bm`, `dsfont` and `bbm` are accepted; their symbols are already in the mathematics font.
-* Accents, including wide ones that stretch over what they cover: `\hat`, `\widehat`, `\tilde`, `\widetilde`, `\vec`, `\overrightarrow`, `\bar`, `\overline`, `\dot`, `\ddot`, `\mathring`.
-* `\overbrace`, `\underbrace`, `\overbracket` and `\underbracket`, with labels set above and below.
-* TeX's `\over`, `\atop` and `\choose`, and `\dbinom` and `\tbinom`.
+### Symbols
+
+Greek letters, relations, arrows, operators, delimiters and dots are all there, with the names LaTeX and amssymb give them. `amssymb`, `amsfonts`, `mathrsfs`, `bm`, `dsfont` and `bbm` are accepted; their symbols are already in the mathematics font.
+
+### Delimiters that grow
+
+`\left` and `\right` grow a pair of delimiters to fit what is between them, and `\middle` grows one in between. `\bigl`, `\Bigl`, `\biggl` and `\Biggl`, with their `r` partners, choose a size by hand:
+
+```latex
+\[
+  \left( \frac{a}{b} \middle| c \right) \qquad \Bigl[ x \Bigr]
+\]
+```
+
+### Alphabets
+
+| Command     | Alphabet        | Example        |
+| ----------- | --------------- | -------------- |
+| `\mathbb`   | Blackboard bold | `\mathbb{R}`   |
+| `\mathcal`  | Calligraphic    | `\mathcal{L}`  |
+| `\mathscr`  | Script          | `\mathscr{F}`  |
+| `\mathfrak` | Fraktur         | `\mathfrak{g}` |
+| `\mathrm`   | Upright         | `\mathrm{d}x`  |
+| `\mathsf`   | Sans serif      | `\mathsf{P}`   |
+| `\mathtt`   | Typewriter      | `\mathtt{x}`   |
+| `\mathit`   | Italic          | `\mathit{ab}`  |
+| `\mathbf`   | Bold upright    | `\mathbf{v}`   |
+
+Bold italic, for vectors and Greek letters, comes from `\boldsymbol` or `bm`'s `\bm`.
+
+### Accents
+
+Accents sit over a symbol, and the wide ones stretch over what they cover: `\hat`, `\widehat`, `\tilde`, `\widetilde`, `\vec`, `\overrightarrow`, `\bar`, `\overline`, `\dot`, `\ddot` and `\mathring`.
+
+### Braces over and under
+
+`\overbrace`, `\underbrace`, `\overbracket` and `\underbracket` set a brace with a label above or below:
 
 ```latex
 \[
   \underbrace{1 + 2 + \cdots + n}_{n \text{ terms}} = \frac{n(n+1)}{2}
 \]
 ```
+
+***
+
+## Numbering
+
+### Numbered and unnumbered
+
+Equations are numbered by `equation`, `align` and `gather`, and not by their starred forms (`equation*`, `align*`, `gather*`) or by lines marked `\notag` or `\nonumber`.
+
+### Referring to equations
+
+`\label{name}` after an equation names it, and `\eqref{name}` refers to it with the number in parentheses. See [References and Links](/docs/writing/references).
+
+### Numbering within sections
+
+`\numberwithin{equation}{section}` numbers equations 2.1, 2.2 and so on, starting again in each section.
+
+### Tags
+
+`\tag{*}` gives a line a tag of your own in place of its number, and `\tag*{(A)}` sets a tag without parentheses added.
+
+***
 
 ## Packages built on mathematics
 
@@ -71,15 +207,19 @@ A displayed equation too wide for its number moves left, or puts its number on t
 | `commath`, `derivative` | Short forms for calculus                                             |
 | `unicode-math`          | `\setmathfont`, and the `\sym` alphabets                             |
 
+***
+
 ## Choosing the mathematics font
+
+### unicode-math
+
+`\setmathfont` chooses the font formulas are set in:
 
 ```latex
 \usepackage{unicode-math}
 \setmathfont{STIX Two Math}
 ```
 
-mLaTeX carries New Computer Modern Math, STIX Two Math, Fira Math, Asana Math and the TeX Gyre Bonum, DejaVu, Pagella, Schola and Termes maths, and `\setmathfont` picks the nearest of them to the name given.
+### The fonts to choose from
 
-## Numbering
-
-Equations are numbered by `equation`, `align` and `gather`, and not by their starred forms or by lines marked `\notag`. `\numberwithin{equation}{section}` numbers them 2.1, 2.2 and so on, and `\tag{*}` gives a line a tag of your own.
+mLaTeX carries New Computer Modern Math, STIX Two Math, Fira Math, Asana Math and the TeX Gyre Bonum, DejaVu, Pagella, Schola and Termes maths. `\setmathfont` picks the nearest of them to the name given.
