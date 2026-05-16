@@ -21,11 +21,35 @@ description: tabular and its extensions, tables over several pages, and tables b
 \end{table}
 ```
 
-`tabular` takes LaTeX's column types `l`, `c`, `r` and `p{width}`, `|` for vertical rules, and `\hline`, `\cline{2-3}` and `\multicolumn{2}{c}{...}`. The `table` float places it; see [Pictures and Floats](/docs/writing/pictures) for how floats are positioned.
+### tabular
 
-## Rules worth reading
+`\begin{tabular}{columns}` takes one letter for each column, then the rows: `&` between cells and `\\` at the end of a row.
 
-`booktabs`' rules are drawn with the weights and spacing booktabs gives them, heavy at the top and bottom and light between:
+| Column     | Contents                                        |
+| ---------- | ----------------------------------------------- |
+| `l`        | Left-aligned                                    |
+| `c`        | Centred                                         |
+| `r`        | Right-aligned                                   |
+| `p{width}` | A paragraph of that width, wrapped, top-aligned |
+| `\|`       | A vertical rule between columns                 |
+
+### Rules
+
+`\hline` draws a rule across the table, and `\cline{2-3}` across columns 2 to 3 only.
+
+### Spanning columns
+
+`\multicolumn{2}{c}{Heading}` makes one cell across two columns, with its own alignment.
+
+### The table float
+
+The `table` block places the table and gives it its caption and label. See [Pictures and Floats](/docs/writing/pictures) for how floats are positioned.
+
+***
+
+## booktabs
+
+`booktabs`' rules are drawn with the weights and spacing booktabs gives them, heavy at the top and bottom and light between.
 
 ```latex
 \usepackage{booktabs}
@@ -41,9 +65,35 @@ description: tabular and its extensions, tables over several pages, and tables b
 \end{tabular}
 ```
 
-## Column types
+### \toprule, \midrule and \bottomrule
 
-`array`'s additions are read by `tabular` itself: `m{width}` and `b{width}` columns, `>{...}` and `<{...}` around a column, `@{...}` and `!{...}`, and column types of your own:
+The rule above the table, the rule under its head, and the rule closing it.
+
+### \cmidrule
+
+`\cmidrule{1-2}` draws a light rule across some columns. `(lr)` trims it at the left and right, so rules over columns side by side do not touch.
+
+***
+
+## array
+
+`array`'s additions are read by `tabular` itself.
+
+### m and b columns
+
+`m{width}` is a paragraph column centred against the row, and `b{width}` one aligned at its bottom.
+
+### Before and after a column
+
+`>{...}` runs code before every cell of a column and `<{...}` after it, as in `>{\bfseries}l` for a bold column.
+
+### Between columns
+
+`@{...}` replaces the space between two columns with what it holds, and `!{...}` puts something between them while keeping the space.
+
+### Column types of your own
+
+`\newcolumntype` names a column type:
 
 ```latex
 \usepackage{array}
@@ -51,16 +101,40 @@ description: tabular and its extensions, tables over several pages, and tables b
 \begin{tabular}{C{3cm}C{3cm}} ... \end{tabular}
 ```
 
+***
+
 ## Tables to a width
 
-* `tabularx`: `\begin{tabularx}{\textwidth}{lX}`, its `X` columns sharing what the others leave.
-* `tabulary`: columns `L`, `C`, `R` and `J` share the width by how much text they hold.
-* `tabu`: `\begin{tabu} to \linewidth {X[l] X[c] X[r]}`.
-* tabularray's `tblr`, with `colspec=`, is read as the tabular it describes.
+### tabularx
+
+`tabularx` takes a width and shares what the other columns leave among its `X` columns:
+
+```latex
+\usepackage{tabularx}
+\begin{tabularx}{\textwidth}{lX}
+  Name & A description long enough to wrap onto a second line. \\
+\end{tabularx}
+```
+
+### tabulary
+
+`tabulary`'s columns `L`, `C`, `R` and `J` share the width by how much text they hold.
+
+### tabu
+
+`\begin{tabu} to \linewidth {X[l] X[c] X[r]}` sets a table to a width with `X` columns aligned as given.
+
+### tabularray
+
+tabularray's `tblr`, with `colspec=`, is read as the tabular it describes.
+
+***
 
 ## Tables over several pages
 
-`longtable` is set a row at a time, so a page can end between any two rows. The rows before `\endhead` repeat at the top of every page the table continues on, the rows before `\endfoot` close every page it breaks off, and `\endfirsthead` and `\endlastfoot` give the first and last pages their own:
+### longtable
+
+`longtable` is set a row at a time, so a page can end between any two rows:
 
 ```latex
 \usepackage{longtable}
@@ -78,33 +152,92 @@ description: tabular and its extensions, tables over several pages, and tables b
 \end{longtable}
 ```
 
+### Heads and feet
+
+* The rows before `\endhead` repeat at the top of every page the table continues on.
+* The rows before `\endfoot` close every page it breaks off.
+* `\endfirsthead` and `\endlastfoot` give the first and last pages their own.
+
+### Other long tables
+
 `longtable*`, `supertabular`, `xtabular`, `xltabular`, tabularray's `longtblr` and tabu's `longtabu` break the same way.
+
+***
 
 ## Cells
 
-| Package          | What it does                                                                                                                |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `multirow`       | `\multirow{2}{*}{Text}` stands in the middle of the rows it spans, or level with the first for `[t]` and the last for `[b]` |
-| `makecell`       | `\makecell{Two\\lines}` in one cell, and `\thead` for a bold head                                                           |
-| `diagbox`        | A cell split by a diagonal, a label either side                                                                             |
-| `colortbl`       | `\rowcolor`, `\cellcolor` and `\columncolor`; rules stay black                                                              |
-| `threeparttable` | A table, its caption and its notes kept together                                                                            |
-| `bigstrut`       | A taller strut for a cell a rule runs close to                                                                              |
+### multirow
+
+`\multirow{2}{*}{Text}` makes one cell down two rows. It stands in the middle of the rows it spans, or level with the first for `[t]` and the last for `[b]`:
+
+```latex
+\usepackage{multirow}
+\begin{tabular}{ll}
+  \multirow{2}{*}{Fluids} & Water \\
+                          & Oil   \\
+\end{tabular}
+```
+
+### makecell
+
+`\makecell{Two\\lines}` puts several lines in one cell, and `\thead` sets a bold head.
+
+### diagbox
+
+`\diagbox{Row}{Column}` splits a cell by a diagonal, a label either side.
+
+### colortbl
+
+`\rowcolor`, `\cellcolor` and `\columncolor` colour rows, cells and columns. Rules stay black.
+
+```latex
+\usepackage{colortbl}
+\begin{tabular}{lr}
+  \rowcolor{lightgray} Item & Price \\
+  Tea & \cellcolor{yellow} 2 \\
+\end{tabular}
+```
+
+### threeparttable
+
+`threeparttable` keeps a table, its caption and its notes together.
+
+### bigstrut
+
+`\bigstrut` makes a cell taller, for a cell a rule runs close to.
+
+### Approximated packages
 
 <Callout type="warn">
   `dcolumn`'s `D` column sets numbers centred rather than aligned on the decimal point, and `hhline`'s rules are drawn as one rule across the table.
 </Callout>
 
+***
+
 ## Tables from data
 
-`csvsimple` and `datatool` are built in, so a table can be filled from a file of comma-, semicolon- or tab-separated values:
+`csvsimple` and `datatool` are built in, so a table can be filled from a file of comma-, semicolon- or tab-separated values.
+
+### csvsimple
+
+`\csvautobooktabular{file}` sets a whole file as a booktabs table, its first line the head:
 
 ```latex
 \usepackage{csvsimple}
 \csvautobooktabular{results.csv}
 ```
 
-`\csvreader` with `head to column names`, `\DTLloaddb`, `\DTLforeach`, `\DTLsort` and `\DTLsumcolumn` are there too, and pgfplotstable's `\pgfplotstabletypeset` sets a table from its file.
+`\csvreader` with `head to column names` sets each row as you write it.
+
+### datatool
+
+`\DTLloaddb` loads a file, and `\DTLforeach`, `\DTLsort` and `\DTLsumcolumn` go through, sort and add up its rows.
+
+### pgfplotstable
+
+pgfplotstable's `\pgfplotstabletypeset` sets a table from its file.
+
+***
 
 ## Right to left
 
