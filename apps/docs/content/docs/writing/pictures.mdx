@@ -14,7 +14,36 @@ description: Including pictures in every common format, and placing figures and 
 \end{figure}
 ```
 
-`\includegraphics` is part of the engine, so `graphicx` and `graphics` are accepted and need nothing loaded. It reads `width`, `height`, `scale`, `angle` and `keepaspectratio`. A picture named without an extension is looked for as `.png`, `.jpg`, `.jpeg`, `.webp`, `.pdf`, `.eps`, `.ps` and `.svg`, in the document's folder, the folders `\graphicspath` lists, and the folders given with `-I`.
+### \includegraphics
+
+`\includegraphics[options]{name}` sets a picture where it stands. It is part of the engine, so `graphicx` and `graphics` are accepted and need nothing loaded.
+
+| Option            | What it does                                                         |
+| ----------------- | -------------------------------------------------------------------- |
+| `width`           | Scales the picture to a width, such as `0.8\linewidth`.              |
+| `height`          | Scales the picture to a height.                                      |
+| `scale`           | Scales the picture by a factor, such as `0.5`.                       |
+| `angle`           | Turns the picture by that many degrees.                              |
+| `keepaspectratio` | With both `width` and `height`, fits inside them without stretching. |
+
+### Where pictures are found
+
+A picture named without an extension is looked for as `.png`, `.jpg`, `.jpeg`, `.webp`, `.pdf`, `.eps`, `.ps` and `.svg`, in this order:
+
+1. Pictures a program handed in from memory, when mLaTeX is [embedded](/docs/embedding).
+2. The document's folder, and the folders given with `-I`.
+3. The folders `\graphicspath` lists, as in `\graphicspath{{figures/}{plots/}}`.
+4. The network, for a name that is an `http://` or `https://` address.
+
+### Pictures from the web
+
+`\includegraphics{https://example.com/chart.png}` fetches the picture when the document is set. Run with `--offline` to refuse every network request instead; see [Security](/docs/security).
+
+### Placeholders
+
+`mwe`'s `example-image`, `example-image-a` and their kin are drawn as framed boxes of the right size with their names in them, so a layout can be checked before its pictures exist.
+
+***
 
 ## Formats
 
@@ -28,25 +57,27 @@ description: Including pictures in every common format, and placing figures and 
 | SVG             | Its shapes, paths, transforms, styles and text are drawn as vectors; `\includesvg{name}` works too |
 | `.tikz`, `.pgf` | Read as the TikZ picture they contain                                                              |
 
-A picture's natural size follows the resolution in its file, or 72 dpi when it gives none, as in pdfTeX. A form mLaTeX cannot draw keeps its place as an empty frame of the right size, with a warning.
+### Size
+
+A picture's natural size follows the resolution in its file, or 72 dpi when it gives none, as in pdfTeX.
+
+### Pictures that cannot be drawn
+
+A picture in a form mLaTeX cannot draw keeps its place as an empty frame of the right size, with a warning.
 
 <Callout type="info">
   Text inside an EPS or SVG picture is set in the nearest of PDF's standard fonts rather than the font the file embeds, and an SVG gradient is drawn in its first colour.
 </Callout>
 
-## Pictures from the web
-
-`\includegraphics{https://example.com/chart.png}` fetches the picture when the document is set. Run with `--offline` to refuse every network request instead; see [Security](/docs/security).
-
-## Placeholders
-
-`mwe`'s `example-image`, `example-image-a` and their kin are drawn as framed boxes of the right size with their names in them, so a layout can be checked before its pictures exist.
-
 ***
 
 ## Floats
 
-Figures and tables float to where LaTeX's own algorithm puts them, within the placement you allow:
+Figures and tables float to where LaTeX's own algorithm puts them, within the placement you allow.
+
+### Placement
+
+The letters in brackets after `\begin{figure}` say where the float may go:
 
 | Option | Meaning                                                 |
 | ------ | ------------------------------------------------------- |
@@ -57,21 +88,49 @@ Figures and tables float to where LaTeX's own algorithm puts them, within the pl
 | `!`    | Ignore the limits on how much of a page floats may take |
 | `H`    | Exactly here; needs the `float` package                 |
 
-`\topfraction`, `\bottomfraction`, `\textfraction`, `\floatpagefraction`, `topnumber` and the rest are respected, figures and tables each keep their order, and `figure*` and `table*` span both columns of a two-column page. `\clearpage`, or placeins' `\FloatBarrier`, sets everything still waiting.
+### Limits and order
+
+`\topfraction`, `\bottomfraction`, `\textfraction`, `\floatpagefraction`, `topnumber` and the rest are respected, and figures and tables each keep their order.
+
+### Two columns
+
+`figure*` and `table*` span both columns of a two-column page.
+
+### Setting floats that wait
+
+`\clearpage`, or placeins' `\FloatBarrier`, sets every float still waiting before going on.
+
+### Floats from other packages
 
 `wrapfig`'s `wrapfigure`, `rotating`'s `sidewaysfigure` and `sidecap`'s `SCfigure` are accepted and set as floats of the engine's own.
 
+***
+
 ## Captions
 
-`\caption` and `\label` work as in LaTeX, and the `caption` package's `font`, `labelfont` and `labelsep` options are read:
+### \caption and \label
+
+`\caption{text}` numbers a float and sets its caption; `\label` after it names it for `\ref`. `\caption[short]{long}` gives the list of figures a shorter entry.
+
+### The caption package
+
+The `caption` package's `font`, `labelfont` and `labelsep` options are read:
 
 ```latex
 \usepackage[font=small, labelfont=bf, labelsep=period]{caption}
 ```
 
-`\captionof{figure}{...}` captions something outside a float.
+### Captions outside a float
+
+`\captionof{figure}{...}` captions something outside a float, as if it were a figure.
+
+***
 
 ## Figures made of parts
+
+### subcaption
+
+A `subfigure` block inside a figure is one part of it, with its own caption:
 
 ```latex
 \usepackage{subcaption}
@@ -90,13 +149,25 @@ Figures and tables float to where LaTeX's own algorithm puts them, within the pl
 \end{figure}
 ```
 
-Each part is lettered, and a reference to one prints as `1a`. `subfig`'s `\subfloat` works the same way.
+Each part is lettered, and a reference to one prints as `1a`.
+
+### subfig
+
+`subfig`'s `\subfloat[caption]{picture}` works the same way.
+
+***
 
 ## Floats of your own
+
+### newfloat and float
+
+`newfloat`'s `\DeclareFloatingEnvironment` and `float`'s `\newfloat` make a new kind of float with its own counter and caption name:
 
 ```latex
 \usepackage{newfloat}
 \DeclareFloatingEnvironment[name=Scheme]{scheme}
 ```
 
-`newfloat`'s `\DeclareFloatingEnvironment` and `float`'s `\newfloat` make a new kind of float with its own counter and caption name. `algorithm` is one already, for pseudocode.
+### algorithm
+
+`algorithm` is one already, for pseudocode.
