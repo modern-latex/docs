@@ -9,6 +9,8 @@ agsm
 algc
 algorithmicx
 alltt
+Alph
+alph
 amsart
 amsbsy
 amscd
@@ -41,7 +43,14 @@ bfseries
 Biber
 bibintoc
 bigdelim
+Biggl
+biggl
+Bigl
+bigl
+Bigr
 binom
+Bmatrix
+bmatrix
 Boadilla
 braket
 bxcoloremoji
@@ -112,6 +121,7 @@ fclose
 fdsymbol
 feynmp
 fixltx
+flalign
 fmtcount
 fncychap
 fopen
@@ -159,6 +169,7 @@ Ilmenau
 imakeidx
 infty
 invisibleenv
+itshape
 kets
 kinsoku
 KOMA
@@ -260,6 +271,7 @@ Renner
 rmfamily
 scrartcl
 scrreprt
+scshape
 semilogxaxis
 sfdefault
 sffamily
@@ -319,11 +331,14 @@ uncoverenv
 unsrt
 upgreek
 upquote
+upshape
 varioref
 vect
 viridis
 visibleenv
 vmargin
+Vmatrix
+vmatrix
 wasysym
 whiledo
 widthof
