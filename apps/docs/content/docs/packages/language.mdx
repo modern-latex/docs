@@ -14,7 +14,33 @@ mLaTeX's language is TeX's, with plainer names beside TeX's own. Both spellings 
 \@forget\salute                     % undefined again
 ```
 
-`\newcommand`, `\renewcommand`, `\providecommand`, `\def`, `\edef`, `\let`, `\NewDocumentCommand` and `\DeclareRobustCommand` all exist as in LaTeX. A definition made inside a group ends with it unless it is `\global`. LaTeX's commands accept a paragraph in an argument unless starred (`\newcommand*`); `\def` and `\@define` do not, unless preceded by `\long`. `\g@addto@macro\list{more}` adds to a macro for good.
+### @define
+
+`\@define\name[count][default]{body}` defines a command with `count` parameters, `#1` to `#9`. With a default, the first parameter is optional and takes the default when it is left out.
+
+Written without brackets, the parameters are TeX's: `\@define\pair#1,#2;{...}` reads up to the `,` for `#1` and up to the `;` for `#2`, as `\def` does.
+
+### @alias and @forget
+
+`\@alias\new\old` makes `\new` a copy of what `\old` means now, as `\let` does; changing `\old` later leaves `\new` alone. `\@forget\name` makes a command undefined again.
+
+### LaTeX's and TeX's definitions
+
+`\newcommand`, `\renewcommand`, `\providecommand`, `\def`, `\edef`, `\let`, `\NewDocumentCommand` and `\DeclareRobustCommand` all exist as in LaTeX.
+
+### Groups and \global
+
+A definition made inside a group ends with it unless it is `\global`.
+
+### Paragraphs in arguments
+
+LaTeX's commands accept a paragraph in an argument unless starred (`\newcommand*`); `\def` and `\@define` do not, unless preceded by `\long`.
+
+### Adding to a macro
+
+`\g@addto@macro\list{more}` adds to the end of a macro, for good.
+
+***
 
 ## Values from outside
 
@@ -24,9 +50,27 @@ mLaTeX's language is TeX's, with plainer names beside TeX's own. Both spellings 
 \variable{customer}                            % the same, in a document
 ```
 
-Package options and values handed in by a program are both variables. `etoolbox`'s toggles are variables too, so a program can switch one before the document runs.
+### @variable and \variable
+
+`\@variable{name}` is replaced by the value set under `name`. `\variable` is its name in a document. A name that nothing set is an error.
+
+### @ifvariable
+
+`\@ifvariable{name}{yes}{no}` chooses by whether a value is set, so a package can give a default.
+
+### Package options
+
+The options a document loads a package with are variables, under the package's name: `\usepackage[margin=2cm]{letterhead}` sets `letterhead.margin`. See [Writing Packages](/docs/packages/writing#options).
+
+### Values from a program
+
+Values handed in by a program are variables too. `etoolbox`'s toggles are variables as well, so a program can switch one before the document runs.
+
+***
 
 ## Numbers and lengths
+
+### Registers
 
 TeX's registers, with their names:
 
@@ -35,17 +79,66 @@ TeX's registers, with their names:
 \advance\@letterhead@lines by 2
 \newdimen\@letterhead@gap     \@letterhead@gap=1.5em
 \newskip\@letterhead@skip     \@letterhead@skip=6pt plus 2pt minus 1pt
+```
+
+| Declaration | Holds                                                    |
+| ----------- | -------------------------------------------------------- |
+| `\newcount` | A whole number                                           |
+| `\newdimen` | A length                                                 |
+| `\newskip`  | A length that can stretch and shrink, `plus` and `minus` |
+
+### Arithmetic
+
+Each of TeX's operations has a plainer name beside it:
+
+| TeX         | Plain name  | What it does       |
+| ----------- | ----------- | ------------------ |
+| `=`         | `\set`      | Assigns a value    |
+| `\advance`  | `\increase` | Adds to a register |
+| `\multiply` | `\scale`    | Multiplies it      |
+| `\divide`   | `\reduce`   | Divides it         |
+
+### Expressions
+
+e-TeX's `\numexpr` and `\dimexpr` work out a whole expression, with parentheses:
+
+```latex
 \the\numexpr 3*(4+5)/2\relax                   % 14, rounded as e-TeX rounds
 \the\dimexpr\textwidth-2cm\relax
 ```
 
-`\set`, `\increase`, `\scale` and `\reduce` are the plain names for assigning, `\advance`, `\multiply` and `\divide`. `\setlength` and `\addtolength` take sums, as the calc package's do: `\setlength{\x}{\textwidth-2cm}`.
+### Lengths
+
+`\setlength` and `\addtolength` take sums, as the calc package's do: `\setlength{\x}{\textwidth-2cm}`.
+
+### Exact decimals
 
 For money and anything else that must come out to the exact digit, `\calculate{3 * 12.50}` and xfp's `\fpeval{2*(3+4)/5}` work in exact decimals rather than binary floating point.
 
+***
+
 ## Deciding
 
-The whole `\if` family: `\ifnum`, `\ifdim`, `\ifx`, `\ifcase`, `\ifodd`, `\ifdefined`, `\ifcsname`, `\ifmmode`, `\ifvmode`, `\iftrue` and `\iffalse`, each with `\else` and `\fi`, and `\unless` before any of them.
+### TeX's conditionals
+
+The whole `\if` family works, each with `\else` and `\fi`:
+
+| Test                  | True when                                     |
+| --------------------- | --------------------------------------------- |
+| `\ifnum`              | Two numbers compare as asked, `<`, `=` or `>` |
+| `\ifdim`              | Two lengths compare as asked                  |
+| `\ifx`                | Two tokens mean the same                      |
+| `\ifcase`             | Chooses among cases by a number               |
+| `\ifodd`              | A number is odd                               |
+| `\ifdefined`          | A command is defined                          |
+| `\ifcsname`           | A command named by text is defined            |
+| `\ifmmode`            | In a formula                                  |
+| `\ifvmode`            | Between paragraphs                            |
+| `\iftrue`, `\iffalse` | Always, or never                              |
+
+`\unless` before any of them turns it round.
+
+### @iftest
 
 `\@iftest{test}{yes}{no}` reads a test the way ifthen writes one:
 
@@ -53,7 +146,11 @@ The whole `\if` family: `\ifnum`, `\ifdim`, `\ifx`, `\ifcase`, `\ifodd`, `\ifdef
 \@iftest{\value{section} > 1 \AND \NOT \equal{\x}{a}}{later}{first}
 ```
 
+### @ifstar, @ifnextchar and @ifundefined
+
 `\@ifstar`, `\@ifnextchar` and `\@ifundefined` work as in LaTeX's kernel. A body that `\@ifnextchar` or `\@ifstar` decides in must end in it, since what it looks at is the document's next token only when nothing of the body is left after it.
+
+### @ifempty
 
 `\@ifempty` is a TeX test, not a choice between two groups:
 
@@ -61,32 +158,93 @@ The whole `\if` family: `\ifnum`, `\ifdim`, `\ifx`, `\ifcase`, `\ifodd`, `\ifdef
 \@ifempty{#1} none\else #1\fi
 ```
 
+***
+
 ## Text and data
 
-`xstring`'s tests and functions (`\IfSubStr`, `\StrBefore`, `\StrLen`, `\StrSubstitute` and the rest) and `csvsimple`'s and `datatool`'s tables (`\csvreader`, `\DTLloaddb`, `\DTLforeach` and the rest) are part of the engine. Each is worked out in one pass, so a package that takes text apart or reads rows of data can use them instead of walking through characters with macros.
+### xstring
+
+`xstring`'s tests and functions (`\IfSubStr`, `\StrBefore`, `\StrLen`, `\StrSubstitute` and the rest) are part of the engine.
+
+### Tables of data
+
+`csvsimple`'s and `datatool`'s tables (`\csvreader`, `\DTLloaddb`, `\DTLforeach` and the rest) are part of the engine too.
+
+Each is worked out in one pass, so a package that takes text apart or reads rows of data can use them instead of walking through characters with macros.
+
+***
 
 ## Repeating
 
-`\repeat[3]{text}` reads its text three times. Plain TeX's `\loop ... \repeat` works as the kernel defines it, and `\whiledo` comes with ifthen.
+### \repeat
+
+`\repeat[3]{text}` reads its text three times.
+
+### \loop and \whiledo
+
+Plain TeX's `\loop ... \repeat` works as the kernel defines it, and `\whiledo` comes with ifthen.
+
+***
 
 ## Hooks
 
-`\AtBeginDocument{...}` and `\AtEndDocument{...}` run code where the document opens and closes. `\@addtohook{name}{code}` and `\@usehook{name}` keep and run hooks of a package's own.
+### The document's start and end
+
+`\AtBeginDocument{...}` and `\AtEndDocument{...}` run code where the document opens and closes.
+
+### Hooks of your own
+
+`\@addtohook{name}{code}` adds code to a hook of a package's own, and `\@usehook{name}` runs it.
+
+***
 
 ## Characters
 
-`\catcode` works as TeX's does: a change reaches every character the document has not been read up to yet, so ``\catcode`\!=13`` makes every following `!` active, and a change made in a group ends with it. `@` is an ordinary character in a document, as in LaTeX, and `\makeatletter` and `\makeatother` work.
+### \catcode
+
+`\catcode` works as TeX's does: a change reaches every character the document has not been read up to yet, so ``\catcode`\!=13`` makes every following `!` active, and a change made in a group ends with it.
+
+### @ in names
+
+`@` is an ordinary character in a document, as in LaTeX, and `\makeatletter` and `\makeatother` work.
+
+***
 
 ## Links and text given later
 
+### @link and @linkto
+
 `\@link{address}{text}` is text that goes to an address, and `\@linkto{label}{text}` text that goes to where a label stands: links once hyperref is loaded, plain text without it.
+
+### @forward and @fulfil
 
 `\@forward{key}` stands for text that `\@fulfil{key}{text}` supplies, before or after. This is how an acronym used before its list defines it is spelled out.
 
+***
+
 ## Requests
 
-`\httpget{address}` is replaced by what the address returns, and `\httppost{address}{body}` sends a body and is replaced by the reply. Both are refused when mLaTeX runs with `--offline`; see [Security](/docs/security).
+### \httpget
+
+`\httpget{address}` is replaced by what the address returns.
+
+### \httppost
+
+`\httppost{address}{body}` sends a body and is replaced by the reply.
+
+Both are refused when mLaTeX runs with `--offline`; see [Security](/docs/security).
+
+***
 
 ## LaTeX3
 
-The basics of expl3 work, enough for a preamble's own LaTeX3 macros: `\ExplSyntaxOn` and `\ExplSyntaxOff`, `\cs_new:Npn` and `\cs_set:Npn` and their forms, token lists, integers, booleans, `\str_if_eq:nnTF`, `\str_case:nn`, `\fp_eval:n`, `\keys_define:nn` and messages.
+### expl3
+
+The basics of expl3 work, enough for a preamble's own LaTeX3 macros:
+
+* `\ExplSyntaxOn` and `\ExplSyntaxOff`.
+* `\cs_new:Npn` and `\cs_set:Npn` and their forms.
+* Token lists, integers and booleans.
+* `\str_if_eq:nnTF` and `\str_case:nn`.
+* `\fp_eval:n`.
+* `\keys_define:nn` and messages.
