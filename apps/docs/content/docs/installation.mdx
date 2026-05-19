@@ -5,6 +5,12 @@ description: Install mLaTeX from a package, or build it from source.
 
 ## From a package
 
+<Callout type="info">
+  No release has been published yet. Until one is, build mLaTeX from source as below.
+</Callout>
+
+### Packages for each system
+
 Prebuilt packages will be attached to each release on [GitHub](https://github.com/aveloux/mlatex/releases). Each one is named for its system and architecture, such as `mlatex-0.1.0-windows-x64.msi` or `mlatex_0.1.0_arm64.deb`.
 
 | System  | Packages                  | Installs to                |
@@ -14,6 +20,8 @@ Prebuilt packages will be attached to each release on [GitHub](https://github.co
 | macOS   | `.dmg`, `.tar.gz`, `.zip` | wherever the folder is put |
 | Linux   | `.deb`, `.rpm`            | `/opt/mlatex`              |
 | Linux   | `.tar.gz`, `.zip`         | wherever it is unpacked    |
+
+### Installing
 
 <Tabs items={["Windows", "macOS", "Linux"]}>
   <Tab value="Windows">
@@ -39,11 +47,13 @@ Prebuilt packages will be attached to each release on [GitHub](https://github.co
   </Tab>
 </Tabs>
 
-The program is `bin/mlatex` inside the installed folder, with the fonts and hyphenation patterns in `assets/` beside it. Add that `bin` folder to your `PATH` to run `mlatex` from anywhere. The command is named `mlatex` so that it never collides with the `latex` a TeX distribution installs, and the Linux packages stay out of `/usr/bin` for the same reason.
+### What is installed
 
-<Callout type="info">
-  No release has been published yet. Until one is, build mLaTeX from source as below.
-</Callout>
+The program is `bin/mlatex` inside the installed folder, with the fonts and hyphenation patterns in `assets/` beside it. Add that `bin` folder to your `PATH` to run `mlatex` from anywhere.
+
+### The command's name
+
+The command is named `mlatex` so that it never collides with the `latex` a TeX distribution installs, and the Linux packages stay out of `/usr/bin` for the same reason.
 
 ***
 
@@ -113,15 +123,27 @@ The program is `bin/mlatex` inside the installed folder, with the fonts and hyph
   </Step>
 </Steps>
 
+***
+
 ## Where mLaTeX finds its fonts
 
-The fonts and hyphenation patterns live in an `assets` folder. mLaTeX looks for it by walking up from the program's own location to the first folder that holds `assets/fonts`, so a build tree, an installed copy or an unpacked archive all work wherever they are. If you move the program away from its assets, name them yourself:
+### Walking up from the program
+
+The fonts and hyphenation patterns live in an `assets` folder. mLaTeX looks for it by walking up from the program's own location to the first folder that holds `assets/fonts`, so a build tree, an installed copy or an unpacked archive all work wherever they are.
+
+### --assets
+
+If you move the program away from its assets, name them yourself:
 
 ```bash
 mlatex --assets=/path/to/assets paper.tex
 ```
 
+***
+
 ## Making packages
+
+### cpack
 
 From a Release build tree, `cpack` makes the packages for the system and architecture of that build:
 
@@ -129,4 +151,10 @@ From a Release build tree, `cpack` makes the packages for the system and archite
 cpack --config cmake-build-release/CPackConfig.cmake
 ```
 
-An `.msi` needs WiX: version 3, or the `wix` .NET tool, version 4 or later. WiX 7 asks for its EULA to be accepted once per machine with `wix eula accept wix7`. Another architecture is another build, for example `clang-cl` targeting ARM64 with the `arm64-windows` triplet.
+### Windows installers
+
+An `.msi` needs WiX: version 3, or the `wix` .NET tool, version 4 or later. WiX 7 asks for its EULA to be accepted once per machine with `wix eula accept wix7`.
+
+### Other architectures
+
+Another architecture is another build, for example `clang-cl` targeting ARM64 with the `arm64-windows` triplet.
