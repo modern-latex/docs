@@ -1,0 +1,43 @@
+---
+title: acmart
+description: 'ACM papers.'
+---
+
+## Loading
+
+```latex
+\documentclass{acmart}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Commands
+
+`\affiliation`, `\city`, `\country`, `\institution`, `\keywords`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="acmart.tex"
+\documentclass[sigconf]{acmart}
+\begin{document}
+\title{An ACM Paper}
+\author{Grace Hopper}
+\affiliation{\institution{Harvard University}\city{Cambridge}\country{USA}}
+\email{grace@example.org}
+\begin{abstract}
+Compilers, explained.
+\end{abstract}
+\keywords{compilers, languages}
+\maketitle
+\section{Introduction}
+Some text~\cite{knuth}.
+\begin{acks}
+We thank the referees.
+\end{acks}
+\begin{thebibliography}{1}
+\bibitem{knuth} D. Knuth. \emph{The Art of Computer Programming}. 1968.
+\end{thebibliography}
+\end{document}
+```

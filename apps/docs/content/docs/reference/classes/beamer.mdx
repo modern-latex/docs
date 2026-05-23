@@ -1,0 +1,57 @@
+---
+title: beamer
+description: 'Slides.'
+---
+
+## Loading
+
+```latex
+\documentclass{beamer}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Commands
+
+`\alert`, `\column`, `\frametitle`, `\pause`, `\tableofcontents`, `\titlepage`, `\usecolortheme`, `\usetheme`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="beamer.tex"
+\documentclass{beamer}
+\usetheme{Madrid}\usecolortheme{beaver}
+\begin{document}
+\title{Slides}
+\author{Alan Turing}
+\institute{Bletchley Park}
+\begin{frame}
+\titlepage
+\end{frame}
+\begin{frame}{Outline}
+\tableofcontents
+\end{frame}
+\section{Machines}
+\begin{frame}{A frame}
+\begin{itemize}
+\item<1-> first
+\item<2-> second \pause
+\item third
+\end{itemize}
+\begin{block}{Definition}
+A machine reads a tape.
+\end{block}
+\begin{alertblock}{Warning}
+It may not halt.
+\end{alertblock}
+\end{frame}
+\begin{frame}
+\frametitle{Columns}
+\begin{columns}
+\column{0.5\textwidth} Left \alert{side}.
+\column{0.5\textwidth} Right side.
+\end{columns}
+\end{frame}
+\end{document}
+```
