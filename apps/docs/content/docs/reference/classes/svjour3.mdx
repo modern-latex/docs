@@ -1,0 +1,37 @@
+---
+title: svjour3
+description: 'Springer journal articles.'
+---
+
+## Loading
+
+```latex
+\documentclass{svjour3}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Commands
+
+`\at`, `\email`, `\institute`, `\keywords`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="svjour3.tex"
+\documentclass[twocolumn]{svjour3}
+\begin{document}
+\title{A Springer Journal Article}
+\author{Niels Bohr \and Werner Heisenberg}
+\institute{N. Bohr \at Copenhagen \\ \email{bohr@example.org} \and W. Heisenberg \at Leipzig}
+\date{Received: date / Accepted: date}
+\maketitle
+\begin{abstract}
+Complementarity.
+\keywords{quantum \and measurement}
+\end{abstract}
+\section{Introduction}
+Text.
+\end{document}
+```
