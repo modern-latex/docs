@@ -1,0 +1,35 @@
+---
+title: comment
+description: 'Text left out.'
+---
+
+## Loading
+
+```latex
+\usepackage{comment}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\excludecomment`, `\includecomment`, `\processcomment`, `\specialcomment`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="comment.tex"
+\documentclass{article}
+\usepackage{comment}
+\begin{document}
+Kept.
+\begin{comment}
+Left out entirely.
+\end{comment}
+\excludecomment{draft}
+\includecomment{final}
+\begin{draft} gone \end{draft}
+\begin{final} kept too \end{final}
+\end{document}
+```
