@@ -1,0 +1,40 @@
+---
+title: verbatim
+description: 'The kernel''s verbatim block made to read long files and a comment block that sets nothing.'
+---
+
+## Loading
+
+```latex
+\usepackage{verbatim}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\verbatiminput`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="verbatim.tex"
+\documentclass{article}
+\usepackage{verbatim}
+\begin{filecontents}{nothing.txt}
+read verbatim
+\end{filecontents}
+\begin{document}
+\begin{verbatim}
+  kept exactly as typed & $ % #
+\end{verbatim}
+\begin{verbatim*}
+spaces shown
+\end{verbatim*}
+\verbatiminput{nothing.txt}
+\begin{comment}
+Left out.
+\end{comment}
+\end{document}
+```
