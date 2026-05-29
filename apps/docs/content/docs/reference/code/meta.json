@@ -1,0 +1,18 @@
+{
+  "title": "Code and Verbatim",
+  "pages": [
+    "index",
+    "alltt",
+    "comment",
+    "fancyvrb",
+    "fvextra",
+    "listings",
+    "listingsutf8",
+    "lstautogobble",
+    "minted",
+    "moreverb",
+    "spverbatim",
+    "upquote",
+    "verbatim"
+  ]
+}
