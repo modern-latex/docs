@@ -1,0 +1,31 @@
+---
+title: abstract
+description: 'More say over the abstract, whose block is the engine''s own.'
+---
+
+## Loading
+
+```latex
+\usepackage{abstract}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\abstracttitle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="abstract.tex"
+\documentclass{article}
+\usepackage[runin]{abstract}
+\renewcommand{\abstractname}{Summary}
+\begin{document}
+\begin{abstract}
+The abstract, headed as the package heads it.
+\end{abstract}
+\end{document}
+```
