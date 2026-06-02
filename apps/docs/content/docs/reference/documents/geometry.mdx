@@ -1,0 +1,30 @@
+---
+title: geometry
+description: 'The sheet and its margins, set by name.'
+---
+
+## Loading
+
+```latex
+\usepackage{geometry}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\geometry`, `\newgeometry`, `\restoregeometry`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="geometry.tex"
+\documentclass{article}
+\usepackage[a4paper,margin=2cm,top=3cm,landscape]{geometry}
+\begin{document}
+\newgeometry{margin=1in}
+A page with other margins.
+\restoregeometry
+\end{document}
+```

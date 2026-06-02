@@ -1,0 +1,24 @@
+---
+title: lastpage
+description: 'The document''s last page, for "page 3 of \pageref{LastPage}".'
+---
+
+## Loading
+
+```latex
+\usepackage{lastpage}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="lastpage.tex"
+\documentclass{article}
+\usepackage{lastpage}
+\begin{document}
+Page \thepage{} of \pageref{LastPage}.
+\end{document}
+```

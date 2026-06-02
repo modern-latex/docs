@@ -1,0 +1,73 @@
+---
+title: Documents and Pages
+description: Page layout, heads and feet, titles, columns, documents in pieces, and what goes into the PDF.
+---
+
+64 packages. Each page says how mLaTeX supports one, lists the commands it gives, and shows a document that uses it, taken from the engine's own tests so that it compiles as written.
+
+| Name                                                             | What it does                                                                                                             |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [`a4wide`](/docs/reference/documents/a4wide)                     | A wider text block than the article class's on A4                                                                        |
+| [`abstract`](/docs/reference/documents/abstract)                 | More say over the abstract, whose block is the engine's own                                                              |
+| [`accsupp`](/docs/reference/documents/accsupp)                   | Accessibility                                                                                                            |
+| [`afterpage`](/docs/reference/documents/afterpage)               | Code to run once the page being set is finished                                                                          |
+| [`anysize`](/docs/reference/documents/anysize)                   | Margins                                                                                                                  |
+| [`appendix`](/docs/reference/documents/appendix)                 | The appendices block, which starts them as `\appendix` does, and the package's headings over them                        |
+| [`attachfile`](/docs/reference/documents/attachfile)             | File attachments                                                                                                         |
+| [`authblk`](/docs/reference/documents/authblk)                   | Authors and their affiliations, each author numbered to the affiliations they belong to                                  |
+| [`background`](/docs/reference/documents/background)             | A background                                                                                                             |
+| [`balance`](/docs/reference/documents/balance)                   | Balanced last page                                                                                                       |
+| [`bookmark`](/docs/reference/documents/bookmark)                 | Bookmarks                                                                                                                |
+| [`changepage`](/docs/reference/documents/changepage)             | `adjustwidth`, and whether the page being set is odd                                                                     |
+| [`cmap`](/docs/reference/documents/cmap)                         | Searchable PDF text                                                                                                      |
+| [`cuted`](/docs/reference/documents/cuted)                       | A strip across columns                                                                                                   |
+| [`docmute`](/docs/reference/documents/docmute)                   | Documents included as files                                                                                              |
+| [`draftwatermark`](/docs/reference/documents/draftwatermark)     | A watermark                                                                                                              |
+| [`embedfile`](/docs/reference/documents/embedfile)               | Embedded files                                                                                                           |
+| [`emptypage`](/docs/reference/documents/emptypage)               | Empty pages empty                                                                                                        |
+| [`epigraph`](/docs/reference/documents/epigraph)                 | A quotation at a chapter's head, set right, its source under it                                                          |
+| [`eso-pic`](/docs/reference/documents/eso-pic)                   | Pictures behind pages                                                                                                    |
+| [`fancyhdr`](/docs/reference/documents/fancyhdr)                 | Heads and feet of the page's own choosing                                                                                |
+| [`filecontents`](/docs/reference/documents/filecontents)         | Files written from the document                                                                                          |
+| [`flushend`](/docs/reference/documents/flushend)                 | Balanced last page                                                                                                       |
+| [`fncychap`](/docs/reference/documents/fncychap)                 | Chapter headings                                                                                                         |
+| [`fullpage`](/docs/reference/documents/fullpage)                 | An inch of margin all round, and the text the rest of the sheet                                                          |
+| [`geometry`](/docs/reference/documents/geometry)                 | The sheet and its margins, set by name                                                                                   |
+| [`hyperxmp`](/docs/reference/documents/hyperxmp)                 | XMP metadata                                                                                                             |
+| [`import`](/docs/reference/documents/import)                     | Importing files                                                                                                          |
+| [`lastpage`](/docs/reference/documents/lastpage)                 | The document's last page, for "page 3 of `\pageref{LastPage}`"                                                           |
+| [`layout`](/docs/reference/documents/layout)                     | The page's layout drawn                                                                                                  |
+| [`lineno`](/docs/reference/documents/lineno)                     | Numbered lines for a draft                                                                                               |
+| [`lscape`](/docs/reference/documents/lscape)                     | Landscape pages                                                                                                          |
+| [`media9`](/docs/reference/documents/media9)                     | Media                                                                                                                    |
+| [`multicol`](/docs/reference/documents/multicol)                 | Several columns                                                                                                          |
+| [`needspace`](/docs/reference/documents/needspace)               | A page break unless so much room is left                                                                                 |
+| [`nextpage`](/docs/reference/documents/nextpage)                 | Clearing to a page                                                                                                       |
+| [`pagecolor`](/docs/reference/documents/pagecolor)               | Page colour                                                                                                              |
+| [`paracol`](/docs/reference/documents/paracol)                   | Text in parallel columns, `\switchcolumn` moving to the next — set as balanced columns, each switch a break between them |
+| [`parskip`](/docs/reference/documents/parskip)                   | Paragraphs set apart by space rather than by indentation, half a line between them                                       |
+| [`pdfcomment`](/docs/reference/documents/pdfcomment)             | PDF annotations                                                                                                          |
+| [`pdflscape`](/docs/reference/documents/pdflscape)               | Landscape pages in PDF                                                                                                   |
+| [`pdfsync`](/docs/reference/documents/pdfsync)                   | Source sync                                                                                                              |
+| [`pdfx`](/docs/reference/documents/pdfx)                         | PDF/A and PDF/X                                                                                                          |
+| [`placeins`](/docs/reference/documents/placeins)                 | `\FloatBarrier`, which keeps floats from passing it                                                                      |
+| [`quotchap`](/docs/reference/documents/quotchap)                 | Chapters with quotations                                                                                                 |
+| [`ragged2e`](/docs/reference/documents/ragged2e)                 | Ragged text that still hyphenates                                                                                        |
+| [`savetrees`](/docs/reference/documents/savetrees)               | Saving paper                                                                                                             |
+| [`scrextend`](/docs/reference/documents/scrextend)               | KOMA's extras                                                                                                            |
+| [`scrlayer-scrpage`](/docs/reference/documents/scrlayer-scrpage) | KOMA-Script's heads and feet — inner, centre and outer — in the scrheadings style, drawn as fancyhdr draws its own       |
+| [`sectsty`](/docs/reference/documents/sectsty)                   | Section fonts                                                                                                            |
+| [`setspace`](/docs/reference/documents/setspace)                 | The distance between lines                                                                                               |
+| [`showframe`](/docs/reference/documents/showframe)               | The frame of the page                                                                                                    |
+| [`standalone`](/docs/reference/documents/standalone)             | Standalone pieces                                                                                                        |
+| [`subfiles`](/docs/reference/documents/subfiles)                 | Documents in pieces                                                                                                      |
+| [`textpos`](/docs/reference/documents/textpos)                   | A block of text at a place on the page                                                                                   |
+| [`titleps`](/docs/reference/documents/titleps)                   | Page styles of a document's own, their heads and feet set left, centre and right — drawn as fancyhdr draws its own       |
+| [`titlesec`](/docs/reference/documents/titlesec)                 | Headings of a document's own design                                                                                      |
+| [`titling`](/docs/reference/documents/titling)                   | The title block's parts, each with a before and an after to change                                                       |
+| [`tocloft`](/docs/reference/documents/tocloft)                   | How the lists of contents, figures and tables look                                                                       |
+| [`totpages`](/docs/reference/documents/totpages)                 | The document's number of pages, as the label TotPages on its last                                                        |
+| [`typearea`](/docs/reference/documents/typearea)                 | KOMA's text area                                                                                                         |
+| [`vmargin`](/docs/reference/documents/vmargin)                   | Margins                                                                                                                  |
+| [`wallpaper`](/docs/reference/documents/wallpaper)               | Pictures behind pages                                                                                                    |
+| [`watermark`](/docs/reference/documents/watermark)               | Watermarks                                                                                                               |
