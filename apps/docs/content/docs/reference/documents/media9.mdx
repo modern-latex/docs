@@ -1,0 +1,28 @@
+---
+title: media9
+description: 'Media.'
+---
+
+## Loading
+
+```latex
+\usepackage{media9}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\includemedia`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="media9.tex"
+\documentclass{article}
+\usepackage{media9}
+\begin{document}
+\includemedia[width=2cm,height=1cm]{}{video.mp4} Text.
+\end{document}
+```
