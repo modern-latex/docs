@@ -1,0 +1,34 @@
+---
+title: needspace
+description: 'A page break unless so much room is left.'
+---
+
+## Loading
+
+```latex
+\usepackage{needspace}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\baselineskip`, `\Needspace`, `\needspace`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="needspace.tex"
+\documentclass{article}
+\usepackage{needspace}
+\begin{document}
+Text. \needspace{5\baselineskip} A block kept together.
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Ignored; pages break where room runs out.
+</Callout>

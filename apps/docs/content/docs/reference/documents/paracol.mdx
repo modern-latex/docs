@@ -1,0 +1,38 @@
+---
+title: paracol
+description: 'Text in parallel columns, \switchcolumn moving to the next — set as balanced columns, each switch a break between them.'
+---
+
+## Loading
+
+```latex
+\usepackage{paracol}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\columnratio`, `\csname`, `\endparacol`, `\globalcounter`, `\paracol`, `\setcolumnwidth`, `\switchcolumn`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="paracol.tex"
+\documentclass{article}
+\usepackage{paracol}
+\begin{document}
+\begin{paracol}{2}
+Left column text.
+\switchcolumn
+Right column text.
+\end{paracol}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Set as balanced columns.
+</Callout>
