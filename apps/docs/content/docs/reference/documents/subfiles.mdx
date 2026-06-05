@@ -1,0 +1,31 @@
+---
+title: subfiles
+description: 'Documents in pieces.'
+---
+
+## Loading
+
+```latex
+\usepackage{subfiles}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\subfile`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="subfiles.tex"
+\documentclass{article}
+\usepackage{subfiles}
+\begin{filecontents}{chapter.mtex}
+A sub-file's text.
+\end{filecontents}
+\begin{document}
+\subfile{chapter.mtex}
+\end{document}
+```

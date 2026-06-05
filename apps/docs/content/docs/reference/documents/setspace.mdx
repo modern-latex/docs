@@ -1,0 +1,36 @@
+---
+title: setspace
+description: 'The distance between lines.'
+---
+
+## Loading
+
+```latex
+\usepackage{setspace}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\baselinestretch`, `\doublespace`, `\doublespacing`, `\enddoublespace`, `\endonehalfspace`, `\endsinglespace`, `\endspacing`, `\onehalfspace`, `\onehalfspacing`, `\setstretch`, `\singlespace`, `\singlespacing`, `\SingleSpacing`, `\spacing`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="setspace.tex"
+\documentclass{article}
+\usepackage{setspace}
+\begin{document}
+\onehalfspacing
+One and a half.
+\doublespacing
+Double.
+\begin{singlespace}
+Single.
+\end{singlespace}
+\setstretch{1.2}
+\begin{spacing}{1.5} Spaced. \end{spacing}
+\end{document}
+```
