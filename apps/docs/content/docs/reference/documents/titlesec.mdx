@@ -1,0 +1,39 @@
+---
+title: titlesec
+description: 'Headings of a document''s own design.'
+---
+
+## Loading
+
+```latex
+\usepackage{titlesec}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\chaptertitlename`, `\color`, `\filcenter`, `\filinner`, `\filleft`, `\filouter`, `\filright`, `\subsection`, `\thesection`, `\thesubsection`, `\thetitle`, `\titleclass`, `\titleformat`, `\titlelabel`, `\titlerule`, `\titlespacing`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="titlesec.tex"
+\documentclass{article}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\begin{document}
+\titleformat{\section}{\Large\bfseries\color{blue}}{\thesection}{1em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+\titleformat{\subsection}[runin]{\bfseries}{\thesubsection}{0.5em}{}
+\section{A designed heading}
+\subsection{Run in} text follows.
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Frames and other code after the title are ignored.
+</Callout>

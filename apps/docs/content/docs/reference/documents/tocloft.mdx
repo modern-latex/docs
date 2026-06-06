@@ -1,0 +1,38 @@
+---
+title: tocloft
+description: 'How the lists of contents, figures and tables look.'
+---
+
+## Loading
+
+```latex
+\usepackage{tocloft}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\cftaddnumtitleline`, `\cftaddtitleline`, `\cftafterloftitle`, `\cftafterlottitle`, `\cftaftertoctitle`, `\cftchapaftersnum`, `\cftchapfont`, `\cftchapleader`, `\cftchappagefont`, `\cftchappresnum`, `\cftdot`, `\cftdotfill`, `\cftdotsep`, `\cftfigfont`, `\cftfigleader`, `\cftfigpagefont`, `\cftloftitlefont`, `\cftlottitlefont`, `\cftmarklof`, `\cftmarklot`, `\cftmarktoc`, `\cftnodots`, `\cftpagenumbersoff`, `\cftpagenumberson`, `\cftsecaftersnum`, `\cftsecfont`, `\cftsecindent`, `\cftsecleader`, `\cftsecpagefont`, `\cftsecpresnum`, `\cftsetindents`, `\cftsubsecaftersnum`, `\cftsubsecfont`, `\cftsubsecleader`, `\cftsubsecpagefont`, `\cftsubsecpresnum`, `\cftsubsubsecfont`, `\cftsubsubsecleader`, `\cftsubsubsecpagefont`, `\cfttabfont`, `\cfttableader`, `\cfttabpagefont`, `\cfttoctitlefont`, `\listoffigures`, `\newlistentry`, `\newlistof`, `\tableofcontents`, `\tocloftpagestyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tocloft.tex"
+\documentclass{article}
+\usepackage{tocloft}
+\begin{document}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftsecindent}{1em}
+\tableofcontents
+\listoffigures
+\section{One}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Its fonts and leaders are ignored.
+</Callout>
