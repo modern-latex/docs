@@ -1,0 +1,28 @@
+---
+title: bicaption
+description: 'Captions in two languages.'
+---
+
+## Loading
+
+```latex
+\usepackage{bicaption}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\bicaption`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="bicaption.tex"
+\documentclass{article}
+\usepackage{bicaption}
+\begin{document}
+\begin{figure}[h]\centering\rule{1cm}{1cm}\bicaption{English}{Deutsch}\end{figure}
+\end{document}
+```
