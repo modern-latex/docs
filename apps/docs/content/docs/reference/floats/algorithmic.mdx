@@ -1,0 +1,44 @@
+---
+title: algorithmic
+description: 'The older pseudocode package, its commands in capitals.'
+---
+
+## Loading
+
+```latex
+\usepackage{algorithmic}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\AND`, `\COMMENT`, `\ELSE`, `\ELSIF`, `\ENDFOR`, `\ENDIF`, `\ENDLOOP`, `\ENDWHILE`, `\ENSURE`, `\FALSE`, `\FOR`, `\FORALL`, `\geq`, `\IF`, `\leftarrow`, `\LOOP`, `\NOT`, `\OR`, `\PRINT`, `\REPEAT`, `\REQUIRE`, `\RETURN`, `\STATE`, `\TO`, `\TRUE`, `\UNTIL`, `\WHILE`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="algorithmic.tex"
+\documentclass{article}
+\usepackage{algorithmic}
+\begin{document}
+\begin{algorithmic}[1]
+\REQUIRE $n \geq 0$
+\ENSURE $y = x^n$
+\STATE $y \leftarrow 1$
+\FOR{$i = 1$ to $n$}
+\STATE $y \leftarrow y x$
+\ENDFOR
+\IF{$y > 10$}
+\STATE big
+\ELSE
+\STATE small
+\ENDIF
+\WHILE{false}
+\STATE nothing
+\ENDWHILE
+\RETURN $y$
+\end{algorithmic}
+\end{document}
+```

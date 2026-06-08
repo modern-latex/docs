@@ -1,0 +1,48 @@
+---
+title: algorithm
+description: 'The float pseudocode is set in, in the ruled style.'
+---
+
+## Loading
+
+```latex
+\usepackage{algorithm}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\algorithmname`, `\floatname`, `\listalgorithmname`, `\listofalgorithms`, `\neq`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="algorithm.tex"
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\begin{document}
+\begin{algorithm}[htbp]
+\caption{Euclid's algorithm}\label{alg:euclid}
+\begin{algorithmic}[1]
+\Procedure{Euclid}{$a,b$}
+\While{$b\neq 0$}
+\State $t \gets b$
+\State $b \gets a \bmod b$
+\State $a \gets t$
+\EndWhile
+\State \Return $a$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+Algorithm~\ref{alg:euclid} is Euclid's.
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  The list of algorithms is not printed.
+</Callout>
