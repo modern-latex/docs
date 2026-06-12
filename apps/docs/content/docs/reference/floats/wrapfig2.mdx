@@ -1,0 +1,24 @@
+---
+title: wrapfig2
+description: 'Wrapfig, the second.'
+---
+
+## Loading
+
+```latex
+\usepackage{wrapfig2}
+```
+
+Loads [`wrapfig`](/docs/reference/floats/wrapfig) under this name, so a document asking for either gets the same.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="wrapfig2.tex"
+\documentclass{article}
+\usepackage{wrapfig2}
+\begin{document}
+\begin{wrapfigure}{r}{3cm}\rule{2cm}{1cm}\end{wrapfigure}Wrapped text.
+\end{document}
+```

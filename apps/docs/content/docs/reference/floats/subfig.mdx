@@ -1,0 +1,33 @@
+---
+title: subfig
+description: '\subfloat[caption]{content}, a lettered part of a figure, set as subcaption''s own box.'
+---
+
+## Loading
+
+```latex
+\usepackage{subfig}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\subfloat`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="subfig.tex"
+\documentclass{article}
+\usepackage{subfig}
+\begin{document}
+\begin{figure}[htbp]
+\centering
+\subfloat[Left]{\rule{1cm}{1cm}}\hfill
+\subfloat[Right]{\rule{1cm}{1cm}}
+\caption{Two parts.}
+\end{figure}
+\end{document}
+```
