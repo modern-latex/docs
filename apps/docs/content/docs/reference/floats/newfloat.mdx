@@ -1,0 +1,29 @@
+---
+title: newfloat
+description: 'Floats of new kinds, by keys.'
+---
+
+## Loading
+
+```latex
+\usepackage{newfloat}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\DeclareFloatingEnvironment`, `\ForEachFloatingEnvironment`, `\newfloatsetup`, `\PrepareListOf`, `\SetupFloatingEnvironment`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="newfloat.tex"
+\documentclass{article}
+\usepackage{newfloat}
+\begin{document}
+\DeclareFloatingEnvironment[fileext=los, name=Scheme]{scheme}
+\begin{scheme}[htbp]\centering A scheme.\caption{The first scheme}\end{scheme}
+\end{document}
+```
