@@ -1,0 +1,28 @@
+---
+title: fix-cm
+description: 'Computer Modern at any size.'
+---
+
+## Loading
+
+```latex
+\usepackage{fix-cm}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\fontsize`, `\selectfont`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fix-cm.tex"
+\documentclass{article}
+\usepackage{fix-cm}
+\begin{document}
+{\fontsize{30}{36}\selectfont Large} text.
+\end{document}
+```
