@@ -1,0 +1,30 @@
+---
+title: bidi
+description: 'Paragraphs right to left or left to right, with \setRTL and \setLTR.'
+---
+
+## Loading
+
+```latex
+\usepackage{bidi}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\LR`, `\LRE`, `\RL`, `\RLE`, `\setLR`, `\setLTR`, `\setRL`, `\setRTL`, `\unsetRL`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="bidi.tex"
+\documentclass{article}
+\usepackage{bidi}
+\begin{document}
+\setLTR Left to right text.
+\setRTL Right to left text.
+\setLTR Back again.
+\end{document}
+```
