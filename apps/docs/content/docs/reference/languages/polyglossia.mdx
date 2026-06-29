@@ -1,0 +1,33 @@
+---
+title: polyglossia
+description: 'Languages named by command, each with a command and an environment of its own.'
+---
+
+## Loading
+
+```latex
+\usepackage{polyglossia}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\disablehyphenation`, `\enablehyphenation`, `\foreignlanguage`, `\iflanguageloaded`, `\iflanguageoption`, `\languagename`, `\resetdefaultlanguage`, `\selectbackgroundlanguage`, `\selectlanguage`, `\setdefaultlanguage`, `\setlanguagealias`, `\setmainlanguage`, `\setotherlanguage`, `\setotherlanguages`, `\textfrench`, `\textgerman`, `\textlang`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="polyglossia.tex"
+\documentclass{article}
+\usepackage{polyglossia}
+\setmainlanguage{english}
+\setotherlanguages{french,german}
+\begin{document}
+Text in English. \textfrench{Du fran\c{c}ais.} \textgerman{Deutsch.}
+\begin{french}
+Un paragraphe.
+\end{french}
+\end{document}
+```
