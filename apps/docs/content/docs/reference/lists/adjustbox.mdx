@@ -1,0 +1,28 @@
+---
+title: adjustbox
+description: 'Adjusted boxes.'
+---
+
+## Loading
+
+```latex
+\usepackage{adjustbox}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\adjincludegraphics`, `\adjustbox`, `\adjustimage`, `\clipbox`, `\DeclareGraphicsExtensions`, `\DeclareGraphicsRule`, `\epsfbox`, `\includepdf`, `\includepdfmerge`, `\includepdfset`, `\lapbox`, `\marginbox`, `\maxsizebox`, `\trimbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="adjustbox.tex"
+\documentclass{article}
+\usepackage{adjustbox}
+\begin{document}
+\adjustbox{max width=2cm}{wide content} \begin{adjustbox}{center}centred\end{adjustbox}
+\end{document}
+```
