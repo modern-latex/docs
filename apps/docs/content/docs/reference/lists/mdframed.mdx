@@ -1,0 +1,39 @@
+---
+title: mdframed
+description: 'A framed block that may run over pages, the engine''s own, in the colors its options name.'
+---
+
+## Loading
+
+```latex
+\usepackage{mdframed}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\mdfdefinestyle`, `\mdfsetup`, `\newmdenv`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="mdframed.tex"
+\documentclass{article}
+\usepackage{mdframed}
+\usepackage{xcolor}
+\begin{document}
+\begin{mdframed}[linecolor=blue, linewidth=1pt, backgroundcolor=yellow!10]
+A framed block that may run over pages.
+\end{mdframed}
+\newmdenv[linecolor=red]{warning}
+\begin{warning}Careful.\end{warning}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  New frame kinds are ignored.
+</Callout>
