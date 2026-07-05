@@ -1,0 +1,24 @@
+---
+title: trimclip
+description: 'Boxes trimmed.'
+---
+
+## Loading
+
+```latex
+\usepackage{trimclip}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="trimclip.tex"
+\documentclass{article}
+\usepackage{trimclip}
+\begin{document}
+\clipbox{0pt 0pt 0pt 0pt}{clipped} \trimbox{1pt}{trimmed}
+\end{document}
+```

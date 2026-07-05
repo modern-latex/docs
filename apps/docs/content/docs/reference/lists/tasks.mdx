@@ -1,0 +1,32 @@
+---
+title: tasks
+description: 'Exercises numbered a), b), c), set in so many columns.'
+---
+
+## Loading
+
+```latex
+\usepackage{tasks}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endtasks`, `\NewTasksEnvironment`, `\RenewTasksEnvironment`, `\settasks`, `\task`, `\tasks`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tasks.tex"
+\documentclass{article}
+\usepackage{tasks}
+\begin{document}
+\begin{tasks}(2)
+\task First
+\task Second
+\task Third
+\end{tasks}
+\end{document}
+```
