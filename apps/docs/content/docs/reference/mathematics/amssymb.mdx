@@ -1,0 +1,28 @@
+---
+title: amssymb
+description: 'Its symbols, which are already in the mathematics font.'
+---
+
+## Loading
+
+```latex
+\usepackage{amssymb}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\approxeq`, `\because`, `\beth`, `\blacksquare`, `\C`, `\checkmark`, `\circledR`, `\curlyvee`, `\geqslant`, `\gimel`, `\gtrsim`, `\leqslant`, `\lesssim`, `\lozenge`, `\mathbb`, `\mathfrak`, `\mho`, `\N`, `\nleq`, `\Q`, `\R`, `\rightleftharpoons`, `\subsetneq`, `\therefore`, `\triangleq`, `\twoheadrightarrow`, `\varnothing`, `\Z`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="amssymb.tex"
+\documentclass{article}
+\usepackage{amssymb}
+\begin{document}
+$\mathbb{R} \mathfrak{g} \therefore \because \varnothing \leqslant \geqslant \nleq \subsetneq \square \blacksquare \lozenge \checkmark \mho \beth \gimel \circledR \curlyvee \rightleftharpoons \twoheadrightarrow \lesssim \gtrsim \approxeq \triangleq$
+\end{document}
+```

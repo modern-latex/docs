@@ -1,0 +1,53 @@
+---
+title: amsthm
+description: 'Theorem-like statements and proofs.'
+---
+
+## Loading
+
+```latex
+\usepackage{amsthm}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\newtheorem`, `\newtheoremstyle`, `\openbox`, `\qedhere`, `\theoremstyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="amsthm.tex"
+\documentclass{article}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheoremstyle{note}{3pt}{3pt}{}{}{\itshape}{:}{.5em}{}
+\begin{document}
+\begin{theorem}[Pythagoras]\label{thm:p}
+$a^2 + b^2 = c^2$.
+\end{theorem}
+\begin{proof}
+By rearrangement. \qedhere
+\end{proof}
+\begin{lemma}
+A lemma.
+\end{lemma}
+\begin{definition}
+A definition.
+\end{definition}
+\begin{remark}
+A remark.
+\end{remark}
+\begin{proof}[Proof of the lemma]
+Obvious.
+\end{proof}
+Theorem~\ref{thm:p}.
+\end{document}
+```
