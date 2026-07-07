@@ -1,0 +1,28 @@
+---
+title: amsopn
+description: 'Operator names.'
+---
+
+## Loading
+
+```latex
+\usepackage{amsopn}
+```
+
+Loads [`amsmath`](/docs/reference/mathematics/amsmath) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\Ker`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="amsopn.tex"
+\documentclass{article}
+\usepackage{amsopn}
+\begin{document}
+\DeclareMathOperator{\Ker}{Ker}$\Ker f \operatorname{tr} A$
+\end{document}
+```

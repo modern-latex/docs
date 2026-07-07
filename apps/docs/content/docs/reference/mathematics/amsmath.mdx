@@ -1,0 +1,49 @@
+---
+title: amsmath
+description: 'Displays, alignments, matrices and the rest; most of it is part of the engine already.'
+---
+
+## Loading
+
+```latex
+\usepackage{amsmath}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\Aboxed`, `\adjustlimits`, `\allowdisplaybreaks`, `\binom`, `\bmod`, `\boxed`, `\cfrac`, `\Coloneqq`, `\coloneqq`, `\cramped`, `\dblcolon`, `\DeclareMathOperator`, `\DeclarePairedDelimiterX`, `\dfrac`, `\displaybreak`, `\eqqcolon`, `\eqref`, `\genfrac`, `\idotsint`, `\iint`, `\impliedby`, `\implies`, `\intertext`, `\lefteqn`, `\mathbin`, `\mathclap`, `\mathclose`, `\mathinner`, `\mathllap`, `\mathmakebox`, `\mathop`, `\mathopen`, `\mathord`, `\mathpunct`, `\mathrel`, `\mathrlap`, `\mathtoolsset`, `\min`, `\MoveEqLeft`, `\mspace`, `\newtagform`, `\nobreakdash`, `\notag`, `\numberwithin`, `\operatorname`, `\operatorwithlimits`, `\operatorwithout`, `\overset`, `\pmod`, `\pod`, `\prescript`, `\shortintertext`, `\shoveleft`, `\shoveright`, `\sideset`, `\smashoperator`, `\splitdfrac`, `\splitfrac`, `\tag`, `\text`, `\tfrac`, `\underset`, `\usetagform`, `\vcentcolon`, `\xhookleftarrow`, `\xhookrightarrow`, `\xLeftarrow`, `\xleftarrow`, `\xleftrightarrow`, `\xLeftrightarrow`, `\xmapsto`, `\xRightarrow`, `\xrightarrow`, `\xrightharpoonup`, `\xrightleftharpoons`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="amsmath.tex"
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+\begin{align}
+a &= b + c \label{eq:a} \\
+d &= e \tag{*} \\
+f &= g \notag
+\end{align}
+\begin{gather}
+x = y \\ z = w
+\end{gather}
+\begin{multline}
+p = q + r + s \\ + t + u
+\end{multline}
+\begin{equation}
+\begin{split}
+a &= b \\ &= c
+\end{split}
+\end{equation}
+\begin{alignat}{2}
+x &= 1 &\quad y &= 2
+\end{alignat}
+\[ \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \quad \binom{n}{k} \quad \dfrac{1}{2} \quad \tfrac{1}{2} \quad \text{text} \quad \operatorname{sgn} x \quad \overset{!}{=} \quad \underset{x}{\min} \quad \xrightarrow{f} \quad \iint \quad \idotsint \]
+\[ f(x) = \begin{cases} 1 & x > 0 \\ 0 & \text{otherwise} \end{cases} \]
+Equation~\eqref{eq:a}, and \numberwithin{equation}{section} is read.
+\end{document}
+```

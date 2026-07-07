@@ -1,0 +1,28 @@
+---
+title: amsbsy
+description: 'Bold symbols.'
+---
+
+## Loading
+
+```latex
+\usepackage{amsbsy}
+```
+
+Loads [`amsmath`](/docs/reference/mathematics/amsmath) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\boldsymbol`, `\pmb`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="amsbsy.tex"
+\documentclass{article}
+\usepackage{amsbsy}
+\begin{document}
+$\boldsymbol{\beta} \pmb{x}$
+\end{document}
+```
