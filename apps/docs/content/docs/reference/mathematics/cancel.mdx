@@ -1,0 +1,28 @@
+---
+title: cancel
+description: 'A term struck through in a formula.'
+---
+
+## Loading
+
+```latex
+\usepackage{cancel}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\bcancel`, `\cancel`, `\cancelto`, `\xcancel`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="cancel.tex"
+\documentclass{article}
+\usepackage{cancel}
+\begin{document}
+$\cancel{x} + \bcancel{y} + \xcancel{z} + \cancelto{0}{w}$
+\end{document}
+```

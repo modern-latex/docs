@@ -1,0 +1,28 @@
+---
+title: braket
+description: 'Dirac''s bras and kets, and set-builder braces that grow with what they hold.'
+---
+
+## Loading
+
+```latex
+\usepackage{braket}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\Bra`, `\bra`, `\Braket`, `\braket`, `\ket`, `\Ket`, `\phi`, `\psi`, `\Set`, `\set`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="braket.tex"
+\documentclass{article}
+\usepackage{braket}
+\begin{document}
+$\bra{\psi} \quad \ket{\phi} \quad \braket{\psi|\phi} \quad \Braket{\psi|A|\phi} \quad \set{x | x > 0}$
+\end{document}
+```
