@@ -1,0 +1,28 @@
+---
+title: commath
+description: 'The notations of calculus and analysis written short.'
+---
+
+## Loading
+
+```latex
+\usepackage{commath}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\abs`, `\cbr`, `\del`, `\Dif`, `\dif`, `\envert`, `\enVert`, `\eval`, `\fullfunction`, `\intcc`, `\intco`, `\intoc`, `\intoo`, `\md`, `\norm`, `\od`, `\pbr`, `\pd`, `\sbr`, `\set`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="commath.tex"
+\documentclass{article}
+\usepackage{commath}
+\begin{document}
+$\dif x \quad \od{y}{x} \quad \pd{f}{x} \quad \abs{x} \quad \norm{v} \quad \set{1,2}$
+\end{document}
+```
