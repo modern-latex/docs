@@ -1,0 +1,28 @@
+---
+title: esint
+description: 'The integrals over surfaces and volumes, which the maths face has.'
+---
+
+## Loading
+
+```latex
+\usepackage{esint}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\cdot`, `\iint`, `\oiint`, `\oint`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="esint.tex"
+\documentclass{article}
+\usepackage{esint}
+\begin{document}
+$\oiint_S F \cdot dS \quad \iint \quad \oint$
+\end{document}
+```

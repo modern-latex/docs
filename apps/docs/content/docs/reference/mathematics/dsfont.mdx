@@ -1,0 +1,28 @@
+---
+title: dsfont
+description: 'Double-struck letters, as the maths face draws them.'
+---
+
+## Loading
+
+```latex
+\usepackage{dsfont}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\mathds`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="dsfont.tex"
+\documentclass{article}
+\usepackage{dsfont}
+\begin{document}
+$\mathds{1} \quad \mathds{N}$
+\end{document}
+```
