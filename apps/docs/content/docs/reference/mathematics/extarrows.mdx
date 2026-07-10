@@ -1,0 +1,28 @@
+---
+title: extarrows
+description: 'Extensible arrows.'
+---
+
+## Loading
+
+```latex
+\usepackage{extarrows}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\xlongequal`, `\xLongrightarrow`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="extarrows.tex"
+\documentclass{article}
+\usepackage{extarrows}
+\begin{document}
+$A \xLongrightarrow{f} B \quad C \xlongequal{g} D$
+\end{document}
+```
