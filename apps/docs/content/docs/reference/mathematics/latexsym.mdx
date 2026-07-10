@@ -1,0 +1,28 @@
+---
+title: latexsym
+description: 'LaTeX symbols.'
+---
+
+## Loading
+
+```latex
+\usepackage{latexsym}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\Box`, `\Diamond`, `\Join`, `\leadsto`, `\lhd`, `\mho`, `\rhd`, `\unlhd`, `\unrhd`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="latexsym.tex"
+\documentclass{article}
+\usepackage{latexsym}
+\begin{document}
+$\Box \Diamond \lhd \rhd \unlhd \unrhd \mho \Join \leadsto$
+\end{document}
+```

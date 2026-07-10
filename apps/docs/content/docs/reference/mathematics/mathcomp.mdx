@@ -1,0 +1,28 @@
+---
+title: mathcomp
+description: 'Text symbols in maths.'
+---
+
+## Loading
+
+```latex
+\usepackage{mathcomp}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\tcmu`, `\tcohm`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="mathcomp.tex"
+\documentclass{article}
+\usepackage{mathcomp}
+\begin{document}
+$\tcohm \quad \tcmu$
+\end{document}
+```
