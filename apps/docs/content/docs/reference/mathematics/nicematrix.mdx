@@ -1,0 +1,24 @@
+---
+title: nicematrix
+description: 'Matrices and tables.'
+---
+
+## Loading
+
+```latex
+\usepackage{nicematrix}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="nicematrix.tex"
+\documentclass{article}
+\usepackage{nicematrix}
+\begin{document}
+$\begin{pNiceMatrix} 1 & 2 \\ 3 & 4 \end{pNiceMatrix}$ \begin{NiceTabular}{cc}a&b\\c&d\end{NiceTabular}
+\end{document}
+```

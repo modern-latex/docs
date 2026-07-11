@@ -1,0 +1,30 @@
+---
+title: ntheorem
+description: 'Theorems, the other package.'
+---
+
+## Loading
+
+```latex
+\usepackage{ntheorem}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\newtheorem`, `\qedsymbol`, `\theorembodyfont`, `\theoremclass`, `\theoremheaderfont`, `\theoremindent`, `\theoremnumbering`, `\theorempostwork`, `\theoremprework`, `\theoremseparator`, `\theoremsymbol`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ntheorem.tex"
+\documentclass{article}
+\usepackage{ntheorem}
+\begin{document}
+\theoremstyle{break}
+\newtheorem{theorem}{Theorem}
+\begin{theorem}A theorem, its body under its head.\end{theorem}
+\end{document}
+```
