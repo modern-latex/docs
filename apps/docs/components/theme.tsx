@@ -1,19 +1,53 @@
 "use client";
-import { useTheme } from "next-themes";
 
+import React from "react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
-export function ThemeToggle() {
+export function Theme() {
 	const { setTheme, resolvedTheme } = useTheme();
 
 	return (
 		<Button
 			variant="link"
 			size="icon"
-			onClick={() => setTheme(resolvedTheme === "light" ? "dark" : "light")}
+			onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+				const targetTheme = resolvedTheme === "light" ? "dark" : "light";
+
+				if (!document.startViewTransition) {
+					setTheme(targetTheme);
+					return;
+				}
+
+				const x = event.clientX;
+				const y = event.clientY;
+				const endRadius = Math.hypot(
+					Math.max(x, window.innerWidth - x),
+					Math.max(y, window.innerHeight - y),
+				);
+
+				const transition = document.startViewTransition(() => {
+					setTheme(targetTheme);
+				});
+
+				transition.ready.then(() => {
+					document.documentElement.animate(
+						{
+							clipPath: [
+								`circle(0px at ${x}px ${y}px)`,
+								`circle(${endRadius}px at ${x}px ${y}px)`,
+							],
+						},
+						{
+							duration: 400,
+							easing: "ease-in-out",
+							pseudoElement: "::view-transition-new(root)",
+						},
+					);
+				});
+			}}
 			suppressHydrationWarning
 		>
-			{/* Sun icon - visible in light mode */}
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="1em"
@@ -49,7 +83,7 @@ export function ThemeToggle() {
 				</g>
 				<circle cx="12" cy="12" r="6" fill="#424242" />
 			</svg>
-			{/* Moon icon - visible in dark mode */}
+
 			<svg
 				className="hidden [html.dark_&]:block h-6 w-5"
 				viewBox="0 0 32 32"
@@ -59,7 +93,7 @@ export function ThemeToggle() {
 			>
 				<path
 					d="M16 2.66667V29.3333C19.5362 29.3333 22.9276 27.9286 25.4281 25.4281C27.9286 22.9276 29.3333 19.5362 29.3333 16C29.3333 12.4638 27.9286 9.07239 25.4281 6.57191C22.9276 4.07142 19.5362 2.66667 16 2.66667Z"
-					fill="#fff"
+					fill="#ffffff"
 				/>
 			</svg>
 			<span className="sr-only">Toggle theme</span>

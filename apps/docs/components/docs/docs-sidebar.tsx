@@ -9,9 +9,9 @@ import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { ListItem } from "@/components/sidebar-content";
 import { contents } from "@/components/sidebar-content";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Theme } from "@/components/theme";
 import { Badge } from "@/components/ui/badge";
-import { SidebarVersionSwitcher } from "@/components/version-switcher";
+import { SidebarVersionSwitcher } from "@/components/version";
 import {
 	getVersionFromPathname,
 	stripVersionPrefix,
@@ -194,7 +194,7 @@ export function DocsSidebar() {
 					</svg>
 				</a>
 				<div className="ms-auto [&_button]:text-foreground/40 [&_button:hover]:text-foreground/70">
-					<ThemeToggle />
+					<Theme />
 				</div>
 			</div>
 		</motion.aside>

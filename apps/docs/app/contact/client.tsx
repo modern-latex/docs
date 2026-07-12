@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import Footer from "@/components/landing/footer";
-import { HalftoneBackground } from "@/components/landing/halftone-bg";
+import { Halftone } from "@/components/landing/halftone";
 import { Form } from "@prostha/ui/src/components/form";
 import { Button } from "@prostha/ui/src/components/button";
 import { Input } from "@prostha/ui/src/components/input";
@@ -41,7 +41,7 @@ export function Contact() {
 
 					<aside className="hidden lg:block relative w-full shrink-0 lg:w-[30%] lg:h-dvh border-b lg:border-b-0 lg:border-r border-foreground/6 overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
 						<div className="absolute inset-0 pointer-events-none">
-							<HalftoneBackground />
+							<Halftone />
 						</div>
 						<div className="relative w-full pt-6 md:pt-10 pb-6 lg:pb-0 flex flex-col justify-center lg:h-full">
 							<motion.div
@@ -58,7 +58,7 @@ export function Contact() {
 											at scale.
 										</span>
 									</h1>
-									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-[260px]">
+									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-65">
 										Keep your users on your own infrastructure with enterprise-grade
 										auth, SSO, RBAC, and dedicated support.
 									</p>
@@ -83,7 +83,7 @@ export function Contact() {
 
 							<div className="lg:hidden relative border-b border-foreground/6 overflow-hidden -mx-5 sm:-mx-6 px-5 sm:px-6 mb-5">
 								<div className="absolute inset-0 pointer-events-none">
-									<HalftoneBackground />
+									<Halftone />
 								</div>
 								<div className="relative space-y-2 py-16">
 									<h1 className="text-2xl md:text-3xl xl:text-4xl text-neutral-800 dark:text-neutral-200 tracking-tight leading-tight">
@@ -182,7 +182,7 @@ export function Contact() {
 																	{...field}
 																	rows={4}
 																	placeholder="Tell us about your project and requirements..."
-																	className="min-h-[100px]"
+																	className="min-h-25"
 																/>
 															</Form.Control>
 															<Form.Message />

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { use } from "react";
+import { Halftone } from "@/components/landing/halftone";
 import Footer from "@/components/landing/footer";
-import { HalftoneBackground } from "@/components/landing/halftone-bg";
 import { createMetadata } from "@/lib/metadata";
 import { Changelog } from "./client";
 
@@ -71,8 +71,8 @@ export default function ChangelogPage() {
 
 	return (
 		<div className="flex flex-col lg:flex-row min-h-dvh pt-14 lg:pt-0">
-			<div className="hidden lg:block relative w-full lg:w-[30%] lg:h-dvh shrink-0 border-b lg:border-b-0 lg:border-r border-foreground/[0.06] overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
-				<HalftoneBackground />
+			<div className="hidden lg:block relative w-full lg:w-[30%] lg:h-dvh shrink-0 border-b lg:border-b-0 lg:border-r border-foreground/6 overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
+				<Halftone />
 				<div className="relative w-full pt-6 md:pt-10 pb-6 lg:pb-0 flex flex-col justify-center lg:h-full">
 					<div className="space-y-1">
 						<div className="flex items-center gap-1.5">
@@ -84,13 +84,13 @@ export default function ChangelogPage() {
 						<h1 className="text-2xl md:text-3xl xl:text-4xl text-neutral-800 dark:text-neutral-200 tracking-tight leading-tight">
 							All changes, fixes, and updates
 						</h1>
-						<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-[240px]">
+						<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-60">
 							Every release shipped to runtime, straight from GitHub.
 						</p>
 					</div>
 
 					<div className="border-t border-foreground/10 pt-4 mt-5 space-y-0">
-						<div className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/[0.06]">
+						<div className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/6">
 							<span className="text-xs text-foreground/70 dark:text-foreground/50 uppercase tracking-wider">Latest</span>
 							<span className="text-xs text-foreground/85 dark:text-foreground/75 font-mono">{releases?.[0]?.tag ?? "\u2014"}</span>
 						</div>
@@ -108,8 +108,8 @@ export default function ChangelogPage() {
 			</div>
 
 			<div className="w-full lg:w-[70%] flex flex-col">
-				<div className="lg:hidden relative border-b border-foreground/[0.06] overflow-hidden px-5 sm:px-6">
-					<HalftoneBackground />
+				<div className="lg:hidden relative border-b border-foreground/6 overflow-hidden px-5 sm:px-6">
+					<Halftone />
 					<div className="relative space-y-2 py-16">
 						<div className="flex items-center gap-1.5">
 							<svg xmlns="http://www.w3.org/2000/svg" width="0.9em" height="0.9em" viewBox="0 0 24 24" className="text-foreground/60" aria-hidden="true">

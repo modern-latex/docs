@@ -2,7 +2,7 @@ import Image from "next/image";
 import { HeroReadMe } from "@/components/landing/hero-readme";
 import { HeroTitle } from "@/components/landing/hero-title";
 import { LineFieldBackground } from "@/components/landing/line-field-bg";
-import { SignatureMark } from "@/components/landing/signature-mark";
+import { Breadcrumb } from "@/components/landing/breadcrumb";
 import { getCommunityStats, getContributors } from "@/lib/community-stats";
 
 export default async function HomePage() {
@@ -63,7 +63,7 @@ export default async function HomePage() {
 						</div>
 						<HeroTitle />
 						<div className="hidden lg:block absolute left-5 right-5 lg:left-7 lg:right-3 bottom-4 z-[3]">
-							<SignatureMark />
+							<Breadcrumb />
 						</div>
 					</div>
 

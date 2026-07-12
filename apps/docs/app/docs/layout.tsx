@@ -7,14 +7,14 @@ import { source } from "@/lib/source";
 import type { PageEntry } from "./provider";
 import { DocsProvider } from "./provider";
 
-const allPages: PageEntry[] = source.getPages().map((page) => ({
+const pages: PageEntry[] = source.getPages().map((page) => ({
 	name: page.data.title,
 	url: page.url,
 }));
 
 export default function Layout({ children }: { children: ReactNode }) {
 	return (
-		<DocsProvider pages={allPages}>
+		<DocsProvider pages={pages}>
 			<AIChat>
 				<Suspense>
 					<DocsSidebar />

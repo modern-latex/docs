@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BlogLeftPanel } from "@/components/blog/blog-left-panel";
+import { Panel } from "@/components/blog/panel";
 import Footer from "@/components/landing/footer";
 import { Callout } from "@prostha/ui/src/components/callout";
 import { createMetadata } from "@/lib/metadata";
@@ -31,13 +31,13 @@ export default async function Page({
 
 		return (
 			<div className="flex flex-col lg:flex-row h-full min-h-dvh pt-14 lg:pt-0">
-				<BlogLeftPanel postCount={posts.length} />
+				<Panel postCount={posts.length} />
 
 				<div className="w-full lg:w-[70%] flex flex-col">
 					<div className="px-5 pt-5 lg:p-8 lg:pt-20">
 						<h2 className="flex items-center gap-3 text-sm sm:text-[15px] font-mono text-neutral-900 dark:text-neutral-100">
 							BLOGS
-							<span className="flex-1 h-px bg-foreground/[0.15]" />
+							<span className="flex-1 h-px bg-foreground/15" />
 						</h2>
 					</div>
 
@@ -46,11 +46,11 @@ export default async function Page({
 							<Link
 								key={post.slugs.join("/")}
 								href={`/blog/${post.slugs.join("/")}`}
-								className="group block border-b border-dashed border-foreground/[0.06] px-5 sm:px-6 lg:px-8 py-5 transition-colors hover:bg-foreground/[0.02]"
+								className="group block border-b border-dashed border-foreground/6 px-5 sm:px-6 lg:px-8 py-5 transition-colors hover:bg-foreground/2"
 							>
 								<div className="flex gap-5 items-center">
 									{post.data?.image && (
-										<div className="shrink-0 w-56 aspect-[1200/630] overflow-hidden border border-foreground/[0.06] hidden sm:block">
+										<div className="shrink-0 w-56 aspect-1200/630 overflow-hidden border border-foreground/6 hidden sm:block">
 											<Image
 												src={post.data.image}
 												alt={post.data.title}
@@ -113,7 +113,7 @@ export default async function Page({
 
 	return (
 		<div className="flex flex-col lg:flex-row h-full min-h-dvh pt-14 lg:pt-0">
-			<BlogLeftPanel
+			<Panel
 				post={{
 					title: blogs.getPage(slug)!.data.title,
 					description: blogs.getPage(slug)!.data.description,

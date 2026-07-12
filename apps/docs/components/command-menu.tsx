@@ -28,7 +28,7 @@ import {
 } from "react";
 import { cn } from "@/lib/utils";
 import { Markdown } from "./markdown";
-import { MessageFeedback } from "./message-feedback";
+import { Feedback } from "./feedback";
 
 // ─── Context ─────────────────────────────────────────────────────────────────
 
@@ -711,7 +711,7 @@ function AIMessage({
 				<Markdown text={markdown} />
 			</div>
 			{message.role === "assistant" && message.id && !isStreaming && (
-				<MessageFeedback
+				<Feedback
 					messageId={message.id}
 					userMessageId={
 						messages && messageIndex !== undefined && messageIndex > 0

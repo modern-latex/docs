@@ -1,66 +1,58 @@
 import type { MetadataRoute } from "next";
 import { blogs, source } from "@/lib/source";
 
-const BASE_URL = "https://better-auth.com";
+const url = process.env.NEXT_PUBLIC_APP_URL!;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const basePages: MetadataRoute.Sitemap = [
+	let pages: MetadataRoute.Sitemap = [
 		{
-			url: BASE_URL,
+			url: url,
 			lastModified: new Date(),
 			changeFrequency: "daily",
 			priority: 1.0,
 		},
 		{
-			url: `${BASE_URL}/blog`,
+			url: `${url}/blog`,
 			lastModified: new Date(),
 			changeFrequency: "weekly",
 			priority: 0.8,
 		},
 		{
-			url: `${BASE_URL}/changelog`,
+			url: `${url}/changelog`,
 			lastModified: new Date(),
 			changeFrequency: "weekly",
 			priority: 0.8,
 		},
 		{
-			url: `${BASE_URL}/community`,
-			lastModified: new Date(),
-			changeFrequency: "weekly",
-			priority: 0.8,
-		},
-		{
-			url: `${BASE_URL}/enterprise`,
-			lastModified: new Date(),
-			changeFrequency: "weekly",
-			priority: 0.8,
-		},
-		{
-			url: `${BASE_URL}/pricing`,
+			url: `${url}/community`,
 			lastModified: new Date(),
 			changeFrequency: "weekly",
 			priority: 0.8,
 		},
 	];
 
-	const docPages: MetadataRoute.Sitemap = await Promise.all(
-		source.getPages().map(async (page) => {
-			const { lastModified } = await page.data.load();
-			return {
-				url: `${BASE_URL}${page.url}`,
-				lastModified: lastModified ? new Date(lastModified) : new Date(),
-				changeFrequency: "weekly",
-				priority: 0.7,
-			};
-		}),
+	pages = pages.concat(
+		await Promise.all(
+			source.getPages().map(async (page) => {
+				const { lastModified } = await page.data.load();
+				return {
+					url: `${url}${page.url}`,
+					lastModified: lastModified ? new Date(lastModified) : new Date(),
+					changeFrequency: "weekly" as const,
+					priority: 0.7,
+				};
+			}),
+		)
 	);
 
-	const blogPages: MetadataRoute.Sitemap = blogs.getPages().map((page) => ({
-		url: `${BASE_URL}${page.url.replace("/blogs/", "/blog/")}`,
-		lastModified: page.data.date ? new Date(page.data.date) : new Date(),
-		changeFrequency: "monthly",
-		priority: 0.6,
-	}));
+	pages = pages.concat(
+		blogs.getPages().map((page) => ({
+			url: `${url}${page.url.replace("/blogs/", "/blog/")}`,
+			lastModified: page.data.date ? new Date(page.data.date) : new Date(),
+			changeFrequency: "monthly" as const,
+			priority: 0.6,
+		}))
+	);
 
-	return [...basePages, ...docPages, ...blogPages];
+	return pages;
 }

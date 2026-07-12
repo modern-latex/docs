@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Footer from "@/components/landing/footer";
-import { HalftoneBackground } from "@/components/landing/halftone-bg";
+import { Halftone } from "@/components/landing/halftone";
 import { Github, Discord, Reddit, X, Star, Download, Users } from "@prostha/ui/src/icons";
 
 export function Community() {
@@ -11,9 +11,9 @@ export function Community() {
 		<div className="relative min-h-dvh pt-14 lg:pt-0">
 			<div className="relative text-foreground">
 				<div className="flex flex-col lg:flex-row">
-					<div className="hidden lg:block relative w-full shrink-0 lg:w-[30%] lg:h-dvh border-b lg:border-b-0 lg:border-r border-foreground/[0.06] overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
+					<div className="hidden lg:block relative w-full shrink-0 lg:w-[30%] lg:h-dvh border-b lg:border-b-0 lg:border-r border-foreground/6 overflow-clip px-5 sm:px-6 lg:px-10 lg:sticky lg:top-0">
 						<div className="hidden lg:block">
-							<HalftoneBackground />
+							<Halftone />
 						</div>
 						<motion.div
 							initial={false}
@@ -32,13 +32,13 @@ export function Community() {
 										<br />
 										<span className="text-foreground/50">build together.</span>
 									</h1>
-									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-[260px]">
+									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-65">
 										Connect with developers building with Better Auth.
 									</p>
 								</div>
 
-								<div className="flex items-stretch gap-0 border border-foreground/[0.08]">
-									<div className="flex-1 px-3 py-2.5 text-center border-r border-foreground/[0.08]">
+								<div className="flex items-stretch gap-0 border border-foreground/8">
+									<div className="flex-1 px-3 py-2.5 text-center border-r border-foreground/8">
 										<p className="text-[9px] font-mono uppercase tracking-widest text-foreground/50 dark:text-foreground/45 mb-1">
 											NPM
 										</p>
@@ -49,7 +49,7 @@ export function Community() {
 											</span>
 										</p>
 									</div>
-									<div className="flex-1 px-3 py-2.5 text-center border-r border-foreground/[0.08] bg-foreground/[0.03]">
+									<div className="flex-1 px-3 py-2.5 text-center border-r border-foreground/8 bg-foreground/3">
 										<p className="text-[9px] font-mono uppercase tracking-widest text-foreground/50 dark:text-foreground/45 mb-1">
 											Stars
 										</p>
@@ -82,7 +82,7 @@ export function Community() {
 												delay: 0.3 + rank * 0.06,
 												ease: "easeOut",
 											}}
-											className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/[0.06] last:border-0"
+											className="flex items-baseline justify-between py-1.5 border-b border-dashed border-foreground/6 last:border-0"
 										>
 											<span className="text-xs text-foreground/70 dark:text-foreground/50 uppercase tracking-wider">
 												{item.label}
@@ -99,8 +99,8 @@ export function Community() {
 
 					<div className="relative w-full lg:w-[70%] overflow-x-hidden no-scrollbar">
 						<div className="px-5 lg:p-8 lg:pt-20 space-y-8">
-							<div className="lg:hidden relative border-b border-foreground/[0.06] overflow-hidden -mx-5 sm:-mx-6 px-5 sm:px-6 mb-5">
-								<HalftoneBackground />
+							<div className="lg:hidden relative border-b border-foreground/6 overflow-hidden -mx-5 sm:-mx-6 px-5 sm:px-6 mb-5">
+								<Halftone />
 								<div className="relative space-y-2 py-16">
 									<div className="flex items-center gap-1.5">
 										<Users className="w-4 h-4 text-foreground/60" />
@@ -145,7 +145,7 @@ export function Community() {
 											initial={false}
 											animate={{ opacity: 1, y: 0 }}
 											transition={{ duration: 0.3, delay: 0.1 + step * 0.06, ease: "easeOut" }}
-											className="relative border border-dashed border-foreground/[0.08] hover:border-foreground/[0.14] transition-all duration-300 group"
+											className="relative border border-dashed border-foreground/8 hover:border-foreground/[0.14] transition-all duration-300 group"
 										>
 											<div className="p-5">
 												<div className="flex items-center gap-2 mb-3">
@@ -217,11 +217,11 @@ export function Community() {
 											initial={false}
 											animate={{ opacity: 1, y: 0 }}
 											transition={{ duration: 0.3, delay: 0.2 + place * 0.06, ease: "easeOut" }}
-											className="relative border border-dashed border-foreground/[0.08] hover:border-foreground/[0.14] transition-all duration-300 group"
+											className="relative border border-dashed border-foreground/8 hover:border-foreground/[0.14] transition-all duration-300 group"
 										>
 											<div className="flex flex-col h-full p-5">
 												<div className="flex flex-col items-center gap-2 mb-3">
-													<div className="bg-muted/20 border border-foreground/[0.06] p-2 rounded-full">
+													<div className="bg-muted/20 border border-foreground/6 p-2 rounded-full">
 														<site.icon className="size-8 text-foreground/50" />
 													</div>
 													<h3 className="text-base font-mono uppercase tracking-widest text-foreground/40">
@@ -229,7 +229,7 @@ export function Community() {
 													</h3>
 												</div>
 
-												<div className="border-t border-dashed border-foreground/[0.06] pt-3 mb-4">
+												<div className="border-t border-dashed border-foreground/6 pt-3 mb-4">
 													<div className="flex items-baseline justify-between">
 														<span className="text-[9px] text-foreground/30 uppercase tracking-widest font-mono">
 															{site.label}

@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Theme } from "@/components/theme";
 import { getVersionFromPathname, versionedDocsHref } from "@/lib/docs-versions";
 import { cn } from "@/lib/utils";
 import { Icons } from "../icons";
@@ -516,7 +516,7 @@ export function Navigation() {
 							</button>
 						)}
 						<div className="flex items-center justify-center size-8 text-foreground/50 [&_button]:text-foreground/50 [&_button:hover]:text-foreground/80">
-							<ThemeToggle />
+							<Theme />
 						</div>
 						<button
 							type="button"

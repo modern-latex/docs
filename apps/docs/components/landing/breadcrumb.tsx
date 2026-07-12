@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Icons } from "@/components/icons";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { Theme } from "@/components/theme";
 
-export function SignatureMark() {
+export function Breadcrumb() {
 	return (
 		<div className="flex items-center justify-between gap-3 text-[11px] font-mono text-foreground/50 select-none">
 			<div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ export function SignatureMark() {
 				<div className="flex items-center">
 					<span className="h-3 w-px bg-foreground/15 mr-1" />
 					<div className="-mx-2">
-						<ThemeToggle />
+						<Theme />
 					</div>
 				</div>
 			</div>
