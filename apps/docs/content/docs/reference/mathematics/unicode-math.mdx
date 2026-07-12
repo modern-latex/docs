@@ -1,0 +1,29 @@
+---
+title: unicode-math
+description: 'Formulas in an OpenType maths face, which is how the engine sets every formula already.'
+---
+
+## Loading
+
+```latex
+\usepackage{unicode-math}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\setmathfont`, `\symbb`, `\symbf`, `\symbfit`, `\symbfup`, `\symcal`, `\symfrak`, `\symit`, `\symnormal`, `\symrm`, `\symscr`, `\symsf`, `\symsfup`, `\symtt`, `\symup`, `\unimathsetup`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="unicode-math.tex"
+\documentclass{article}
+\usepackage{unicode-math}
+\begin{document}
+\setmathfont{STIX Two Math}
+$\symbf{x} + \symit{y} = \mathbb{R} \quad α + β = γ \quad \symsf{A}$
+\end{document}
+```
