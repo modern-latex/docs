@@ -18,8 +18,8 @@ import {
 	PluginEcosystem,
 	ServerClientTabs,
 	SocialProvidersSection,
-} from "./framework-sections";
-import { TrustedBy } from "./trusted-by";
+} from "./framework";
+import { Users } from "./users";
 
 const mcpCommands = [
 	{ name: "Cursor", command: "npx auth mcp --cursor" },
@@ -984,7 +984,7 @@ function ReadmeFooter({ stats }: { stats: CommunityHeroStats }) {
 	);
 }
 
-export function HeroReadMe({
+export function Hero({
 	contributors,
 	stats,
 }: {
@@ -1039,7 +1039,7 @@ export function HeroReadMe({
 							</span>
 						</div>
 
-						<TrustedBy />
+						<Users />
 
 						<div className="flex items-center gap-4 my-4">
 							<span className="text-lg font-medium text-foreground/90 dark:text-foreground/80 tracking-tight shrink-0">

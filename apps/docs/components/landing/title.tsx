@@ -9,7 +9,7 @@ export function HeroTitle() {
 			initial={{ opacity: 0, y: 12 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ duration: 0.5, ease: "easeOut" }}
-			className="relative z-[2] w-full py-16 flex flex-col justify-center h-full pointer-events-none"
+			className="relative z-2 w-full py-16 flex flex-col justify-center h-full pointer-events-none"
 		>
 			<div>
 				<a
@@ -83,14 +83,14 @@ export function HeroTitle() {
 							}}
 						/>
 						{/* Top border */}
-						<span className="absolute top-0 -left-[6px] -right-[6px] h-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
+						<span className="absolute top-0 -left-1.5 -right-1.5 h-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
 						{/* Bottom border */}
-						<span className="absolute bottom-0 -left-[6px] -right-[6px] h-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
+						<span className="absolute bottom-0 -left-1.5 -right-1.5 h-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
 						{/* Left border */}
-						<span className="absolute left-0 -top-[6px] -bottom-[6px] w-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
+						<span className="absolute left-0 -top-1.5 -bottom-1.5 w-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
 						{/* Right border */}
-						<span className="absolute right-0 -top-[6px] -bottom-[6px] w-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
-						<span className="absolute -bottom-[6px] -right-[6px] font-mono text-[8px] text-foreground/40 dark:text-foreground/50 leading-none select-none translate-x-1/2 translate-y-1/2">
+						<span className="absolute right-0 -top-1.5 -bottom-1.5 w-px bg-foreground/20 group-hover:bg-foreground/30 transition-colors" />
+						<span className="absolute -bottom-1.5 -right-1.5 font-mono text-[8px] text-foreground/40 dark:text-foreground/50 leading-none select-none translate-x-1/2 translate-y-1/2">
 							+
 						</span>
 						<span className="relative">Sign In </span>
