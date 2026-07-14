@@ -1,5 +1,8 @@
 "use client";
 
+import { Accordion } from "@prostha/ui/src/components/accordion";
+import { Badge } from "@prostha/ui/src/components/badge";
+import { icons } from "@prostha/ui/src/icons";
 import { AnimatePresence, motion } from "framer-motion";
 import {
 	ChevronDownIcon,
@@ -11,21 +14,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Theme } from "@/components/theme";
+import { contents } from "@/components/contents";
+import { ThemeProvider } from "@/components/theme-provider";
 import { getVersionFromPathname, versionedDocsHref } from "@/lib/docs-versions";
 import { cn } from "@/lib/utils";
-import { Icons } from "../icons";
 import { BetterAuthWordmark } from "../icons/logo";
-import { contents } from "../sidebar-content";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "../ui/accordion";
-import { Badge } from "../ui/badge";
-import LogoContextMenu from "./logo-context-menu";
+import Brand from "./brand";
 
 interface NavFileItem {
 	name: string;
@@ -98,22 +94,6 @@ const CommunityIcon: React.FC<{ className?: string }> = ({ className }) => (
 	</svg>
 );
 
-const CareersIcon: React.FC<{ className?: string }> = ({ className }) => (
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="1em"
-		height="1em"
-		viewBox="0 0 24 24"
-		className={className}
-		aria-hidden="true"
-	>
-		<path
-			fill="currentColor"
-			d="M3.212 20.423q-.085.039-.186.038t-.187-.03q-.127-.064-.175-.188t-.023-.231q.013-.193.175-.321q.163-.13.396-.177q.315-.277.75-.304q.434-.027.848.002q.342.023.564-.02t.403-.28q.189-.368.215-.78q.027-.413.08-.836q.051-.5.233-.936t.607-.696q.315-.277.753-.304q.437-.027.85.002q.343.023.572-.02t.41-.28q.188-.368.205-.78t.07-.836q.051-.5.233-.936t.607-.696q.315-.277.753-.295t.85.012q.343.023.572-.029t.41-.29q.188-.368.208-.78t.072-.836q.052-.5.243-.936q.192-.437.617-.696q.315-.277.753-.295t.85.012q.343.023.572-.029t.41-.29q.188-.368.208-.78t.072-.836q.052-.5.243-.927q.192-.427.617-.705q.315-.277.753-.298q.437-.02.85.009l.717-.021q.345-.01.607-.138q.146-.033.252.072q.105.104.119.25q-.014.193-.176.325t-.395.18q-.316.276-.753.303q-.438.027-.851-.002q-.343-.023-.571.029q-.23.052-.41.29q-.188.368-.209.78t-.072.836q-.052.5-.243.937q-.191.436-.616.696q-.316.277-.75.294q-.435.017-.848-.012q-.343-.023-.565.029t-.403.29q-.188.368-.215.78t-.08.836q-.051.494-.223.934q-.172.439-.597.699q-.335.277-.77.297q-.434.02-.847-.009q-.324-.023-.565.045q-.242.069-.403.288q-.17.348-.206.76t-.088.836q-.052.5-.237.937q-.184.436-.61.696q-.315.277-.759.306t-.858.001q-.323-.023-.552.026q-.229.05-.41.288q-.169.348-.198.76t-.082.836q-.052.5-.243.937q-.192.436-.617.696q-.315.277-.75.306q-.434.03-.848.001q-.323-.023-.606-.005q-.284.017-.523.209M6 10q-1.652 0-2.826-1.174T2 6q0-1.677 1.174-2.839T6 2q1.677 0 2.839 1.162T10 6q0 1.652-1.161 2.826T6 10m0-1q1.275 0 2.138-.875T9 6q0-1.275-.862-2.137T6 3q-1.25 0-2.125.863T3 6q0 1.25.875 2.125T6 9m10.616 13q-.672 0-1.144-.472T15 20.385v-3.77q0-.67.472-1.143q.472-.472 1.144-.472h3.769q.67 0 1.143.472q.472.472.472 1.144v3.769q0 .67-.472 1.143q-.472.472-1.143.472zm0-1h3.769q.269 0 .442-.173t.173-.442v-3.77q0-.269-.173-.442T20.385 16h-3.77q-.269 0-.442.173t-.173.443v3.768q0 .27.173.443t.443.173M6 6"
-		/>
-	</svg>
-);
-
 const TimelinePattern: React.FC<{ className?: string }> = ({ className }) => (
 	<svg
 		width="56"
@@ -182,41 +162,6 @@ const ScribblePattern: React.FC<{ className?: string }> = ({ className }) => (
 	</svg>
 );
 
-const _HorizontalLinesPattern: React.FC<{ className?: string }> = ({
-	className,
-}) => {
-	const rows = 40;
-	const width = 100;
-	const height = rows * 3;
-	const lines: React.ReactElement[] = [];
-	for (let i = 0; i < rows; i++) {
-		const y = i * 3 + 1;
-		lines.push(
-			<line
-				key={i}
-				x1={0}
-				y1={y}
-				x2={width}
-				y2={y}
-				stroke="currentColor"
-				strokeWidth="0.75"
-			/>,
-		);
-	}
-	return (
-		<svg
-			width="100%"
-			height="100%"
-			viewBox={`0 0 ${width} ${height}`}
-			preserveAspectRatio="none"
-			className={className}
-			aria-hidden="true"
-		>
-			{lines}
-		</svg>
-	);
-};
-
 const VerticalLinesPattern: React.FC<{ className?: string }> = ({
 	className,
 }) => {
@@ -248,54 +193,6 @@ const VerticalLinesPattern: React.FC<{ className?: string }> = ({
 			aria-hidden="true"
 		>
 			{lines}
-		</svg>
-	);
-};
-
-const _CareersPattern: React.FC<{ className?: string }> = ({ className }) => {
-	const cols = 80;
-	const rows = 48;
-	const cell = 2;
-	const gap = 1;
-	const stride = cell + gap;
-	const width = cols * stride;
-	const height = rows * stride;
-	const rects: React.ReactElement[] = [];
-	for (let r = 0; r < rows; r++) {
-		for (let c = 0; c < cols; c++) {
-			const nx = c / (cols - 1);
-			const ny = r / (rows - 1);
-			// Diagonal gradient from top-right (dense) to bottom-left (sparse).
-			// t = 0 at top-right, t = 1 at bottom-left, iso-lines run diagonally.
-			const t = (1 - nx + ny) / 2;
-			const density = 1 - t * 0.95;
-			// Deterministic pseudo-random hash per cell.
-			const seed = (c * 1664525 + r * 1013904223) ^ ((c + 17) * (r + 31));
-			const rand = ((seed >>> 0) % 10000) / 10000;
-			if (rand < density) {
-				rects.push(
-					<rect
-						key={`${c}-${r}`}
-						x={c * stride}
-						y={r * stride}
-						width={cell}
-						height={cell}
-					/>,
-				);
-			}
-		}
-	}
-	return (
-		<svg
-			width="100%"
-			height="100%"
-			viewBox={`0 0 ${width} ${height}`}
-			preserveAspectRatio="none"
-			fill="currentColor"
-			className={className}
-			aria-hidden="true"
-		>
-			{rects}
 		</svg>
 	);
 };
@@ -358,7 +255,6 @@ interface LinkResource {
 
 const linkResources: LinkResource[] = [
 	{ title: "Community", href: "/community", Icon: CommunityIcon },
-	{ title: "Careers", href: "/careers", Icon: CareersIcon },
 	{ title: "Brand", href: "/brand", Icon: Palette },
 	{ title: "Legal", href: "/legal", Icon: Scale },
 ];
@@ -476,9 +372,7 @@ export function Navigation() {
 						className="flex h-full items-center gap-1 px-4 py-3 transition-colors duration-150"
 					>
 						<div className="flex flex-col gap-2 w-full">
-							<LogoContextMenu
-								logo={<BetterAuthWordmark className="w-35 h-auto" />}
-							/>
+							<Brand logo={<BetterAuthWordmark className="w-35 h-auto" />} />
 						</div>
 					</Link>
 				</motion.div>
@@ -516,7 +410,7 @@ export function Navigation() {
 							</button>
 						)}
 						<div className="flex items-center justify-center size-8 text-foreground/50 [&_button]:text-foreground/50 [&_button:hover]:text-foreground/80">
-							<Theme />
+							<ThemeProvider />
 						</div>
 						<button
 							type="button"
@@ -538,7 +432,7 @@ export function Navigation() {
 											return s.list.some(
 												(l) =>
 													l.href === pathname ||
-													(l.subpages?.length &&
+													(l.subitems?.length &&
 														pathname.startsWith(`${l.href}/`)),
 											);
 										});
@@ -590,9 +484,7 @@ export function Navigation() {
 							href="/"
 							className={`flex h-full items-center gap-1 shrink-0 px-4 lg:px-7 py-3 border-r ${tabDividerClass} transition-colors duration-150`}
 						>
-							<LogoContextMenu
-								logo={<BetterAuthWordmark className="w-35 h-auto" />}
-							/>
+							<Brand logo={<BetterAuthWordmark className="w-35 h-auto" />} />
 						</Link>
 					)}
 					{/* File tabs */}
@@ -755,7 +647,8 @@ export function Navigation() {
 											</Link>
 										))}
 									</div>
-									<div className="grid grid-cols-4 divide-x divide-foreground/[0.06] border-t border-foreground/[0.06]">
+
+									<div className="grid grid-cols-3 divide-x divide-foreground/[0.06] border-t border-foreground/[0.06]">
 										{linkResources.map((r) => (
 											<Link
 												key={r.title}
@@ -856,39 +749,12 @@ export function Navigation() {
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
 											aria-label="npm"
 										>
-											<Icons.npm className="size-3.5" />
+											<icons.npm className="size-3.5" />
 										</a>
 									</div>
 								</motion.div>
 							)}
 						</AnimatePresence>
-					</motion.div>
-					{/* Get Started CTA — always visible */}
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ duration: 0.2, delay: 0.2, ease: "easeOut" }}
-						className="flex items-stretch shrink-0"
-					>
-						<a
-							href="https://dash.better-auth.com/sign-in"
-							className="flex items-center cursor-pointer gap-1.5 px-5 py-3 bg-foreground text-background hover:opacity-90 transition-colors duration-150"
-						>
-							<span className="font-mono text-xs uppercase tracking-wider">
-								sign-in
-							</span>
-							<svg
-								className="h-2.5 w-2.5 opacity-50"
-								viewBox="0 0 10 10"
-								fill="none"
-							>
-								<path
-									d="M1 9L9 1M9 1H3M9 1V7"
-									stroke="currentColor"
-									strokeWidth="1.2"
-								/>
-							</svg>
-						</a>
 					</motion.div>
 				</motion.div>
 			</div>
@@ -930,7 +796,6 @@ export function Navigation() {
 										</button>
 
 										{/* Doc sidebar sections */}
-
 										<div className="flex flex-col">
 											{contents.map((section, index) => (
 												<div key={section.title}>
@@ -1025,7 +890,7 @@ export function Navigation() {
 																	if (!item.href) return null;
 																	const active =
 																		pathname === item.href ||
-																		(!!item.subpages?.length &&
+																		(!!item.subitems?.length &&
 																			pathname.startsWith(`${item.href}/`));
 																	return (
 																		<Link
@@ -1125,7 +990,7 @@ export function Navigation() {
 										{/* Accordion groups */}
 										<Accordion
 											type="multiple"
-											defaultValue={[
+											value={[
 												...mobileMenuSections
 													.filter((s) =>
 														s.children?.some((item) =>
@@ -1137,17 +1002,13 @@ export function Navigation() {
 											className="w-full"
 										>
 											{mobileMenuSections.map((section) => (
-												<AccordionItem
-													key={section.name}
-													value={section.name}
-													className="border-foreground/6"
-												>
+												<Accordion.Item key={section.name} value={section.name}>
 													{section.children ? (
 														<>
-															<AccordionTrigger className="px-5 py-3.5 font-mono text-base uppercase tracking-wider text-foreground/75 dark:text-foreground/60 hover:text-foreground hover:no-underline">
+															<Accordion.Trigger className="px-5 py-3.5 font-mono text-base uppercase tracking-wider text-foreground/75 dark:text-foreground/60 hover:text-foreground hover:no-underline">
 																{section.name}
-															</AccordionTrigger>
-															<AccordionContent className="pb-0">
+															</Accordion.Trigger>
+															<Accordion.Content className="pb-0">
 																{section.children.map((item) => (
 																	<Link
 																		key={item.name}
@@ -1169,7 +1030,7 @@ export function Navigation() {
 																		{item.name}
 																	</Link>
 																))}
-															</AccordionContent>
+															</Accordion.Content>
 														</>
 													) : (
 														<Link
@@ -1185,36 +1046,12 @@ export function Navigation() {
 															{section.name}
 														</Link>
 													)}
-												</AccordionItem>
+												</Accordion.Item>
 											))}
 										</Accordion>
 									</>
 								)}
 							</div>
-
-							{/* Sticky footer with sign-in CTA */}
-							{!(isDocs && mobileView === "docs") && (
-								<div className="shrink-0 border-t border-foreground/[0.06] bg-background px-5 py-4">
-									<a
-										href="https://dash.better-auth.com/sign-in"
-										onClick={() => setMobileMenuOpen(false)}
-										className="flex items-center justify-center gap-1.5 w-full py-3 bg-foreground text-background font-mono text-sm uppercase tracking-wider transition-opacity hover:opacity-90"
-									>
-										sign-in
-										<svg
-											className="h-2.5 w-2.5 opacity-50"
-											viewBox="0 0 10 10"
-											fill="none"
-										>
-											<path
-												d="M1 9L9 1M9 1H3M9 1V7"
-												stroke="currentColor"
-												strokeWidth="1.2"
-											/>
-										</svg>
-									</a>
-								</div>
-							)}
 						</div>
 					</motion.div>
 				)}

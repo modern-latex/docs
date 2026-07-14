@@ -9,9 +9,6 @@ void main() {
   gl_Position = vec4(a_position, 0.0, 1.0);
 }`;
 
-// Vertical straight lines with a top-to-bottom halftone envelope — cleared
-// behind the logo, strong fade above, lighter fade below. Output is
-// monochrome; CSS handles the invert between dark and light themes.
 const FRAGMENT_SHADER = `
 precision highp float;
 
@@ -119,7 +116,7 @@ void main() {
   gl_FragColor = vec4(vec3(brightness), 1.0);
 }`;
 
-export function LineFieldBackground() {
+export function Tiles() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const frameRef = useRef<number>(0);
 

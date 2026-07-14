@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type React from "react";
 
 const logos: { name: string; icon: React.ReactNode }[] = [
 	{
@@ -183,7 +183,7 @@ function LogoItem({ name, icon }: { name: string; icon: React.ReactNode }) {
 	);
 }
 
-export function TrustedBy() {
+export function Usage() {
 	return (
 		<div className="space-y-3">
 			<div className="relative overflow-hidden">

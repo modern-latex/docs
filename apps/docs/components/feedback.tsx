@@ -9,10 +9,7 @@ interface FeedbackProps {
 	className?: string;
 }
 
-export function Feedback({
-							 content,
-							 className,
-						 }: FeedbackProps) {
+export function Feedback({ content, className }: FeedbackProps) {
 	const [status, setStatus] = useState<"positive" | "negative" | null>(null);
 	const [copied, setCopied] = useState(false);
 
@@ -72,7 +69,8 @@ export function Feedback({
 				onClick={() => {
 					if (copied) return;
 
-					navigator.clipboard.writeText(content)
+					navigator.clipboard
+						.writeText(content)
 						.then(() => {
 							setCopied(true);
 							setTimeout(() => setCopied(false), 2000);

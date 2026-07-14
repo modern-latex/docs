@@ -1,18 +1,3 @@
-export const BetterAuthMark = ({ className }: { className?: string }) => {
-	return (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 400 300"
-			className={className || "size-5"}
-		>
-			<path
-				className="fill-black dark:fill-white"
-				d="M200 0h200v300H200V200h100V100H200zM0 0h100v100h100v100H100v100H0z"
-			/>
-		</svg>
-	);
-};
-
 export const BetterAuthWordmark = ({ className }: { className?: string }) => {
 	return (
 		<svg
