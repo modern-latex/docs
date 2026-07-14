@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { icons } from "@prostha/ui/src/icons";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import Footer from "@/components/landing/footer";
 import { Halftone } from "@/components/landing/halftone";
-import { Github, Discord, Reddit, X, Star, Download, Users } from "@prostha/ui/src/icons";
 
 export function Community() {
 	return (
@@ -24,8 +24,10 @@ export function Community() {
 							<div className="space-y-6">
 								<div className="space-y-2">
 									<div className="flex items-center gap-1.5">
-										<Users className="w-4 h-4 text-foreground/60" />
-										<span className="text-sm text-foreground/60">Community</span>
+										<icons.users className="w-4 h-4 text-foreground/60" />
+										<span className="text-sm text-foreground/60">
+											Community
+										</span>
 									</div>
 									<h1 className="text-2xl md:text-3xl xl:text-4xl text-neutral-800 dark:text-neutral-200 tracking-tight leading-tight">
 										Join the community,
@@ -103,7 +105,7 @@ export function Community() {
 								<Halftone />
 								<div className="relative space-y-2 py-16">
 									<div className="flex items-center gap-1.5">
-										<Users className="w-4 h-4 text-foreground/60" />
+										<icons.users className="w-4 h-4 text-foreground/60" />
 										<span className="text-sm text-foreground/60">
 											Community
 										</span>
@@ -135,16 +137,32 @@ export function Community() {
 
 								<div className="grid grid-cols-2 gap-0">
 									{[
-										{ icon: Download, label: "NPM Downloads", note: "/ week" },
-										{ icon: Star, label: "GitHub Stars", note: "stars" },
-										{ icon: Users, label: "Contributors", note: "people" },
-										{ icon: Discord, label: "Discord Members", note: "members" },
+										{
+											icon: icons.download,
+											label: "NPM Downloads",
+											note: "/ week",
+										},
+										{ icon: icons.star, label: "GitHub Stars", note: "stars" },
+										{
+											icon: icons.users,
+											label: "Contributors",
+											note: "people",
+										},
+										{
+											icon: icons.discord,
+											label: "Discord Members",
+											note: "members",
+										},
 									].map((metric, step) => (
 										<motion.div
 											key={metric.label}
 											initial={false}
 											animate={{ opacity: 1, y: 0 }}
-											transition={{ duration: 0.3, delay: 0.1 + step * 0.06, ease: "easeOut" }}
+											transition={{
+												duration: 0.3,
+												delay: 0.1 + step * 0.06,
+												ease: "easeOut",
+											}}
 											className="relative border border-dashed border-foreground/8 hover:border-foreground/[0.14] transition-all duration-300 group"
 										>
 											<div className="p-5">
@@ -181,34 +199,34 @@ export function Community() {
 									{[
 										{
 											name: "Discord",
-											icon: Discord,
-											href: "https://discord.gg/better-auth",
+											icon: icons.discord,
+											href: "https://discord.gg/3gFJ5Put6k",
 											action: "Join Discord",
 											count: "0",
 											label: "members",
 										},
 										{
 											name: "GitHub",
-											icon: Github,
-											href: "https://github.com/better-auth/better-auth",
+											icon: icons.github,
+											href: "https://github.com/prosthaphaeresis",
 											action: "View on GitHub",
 											count: "Open Source",
 											label: "repository",
 										},
 										{
 											name: "Reddit",
-											icon: Reddit,
-											href: "https://reddit.com/r/better_auth",
+											icon: icons.reddit,
+											href: "https://reddit.com/r/prosthaphaeresis",
 											action: "Join Subreddit",
 											count: "0",
 											label: "members",
 										},
 										{
 											name: "X (Twitter)",
-											icon: X,
-											href: "https://x.com/better_auth",
+											icon: icons.x,
+											href: "https://x.com/prosthaphaeresis",
 											action: "Follow on X",
-											count: "@better_auth",
+											count: "@prosthaphaeresis",
 											label: "handle",
 										},
 									].map((site, place) => (
@@ -216,7 +234,11 @@ export function Community() {
 											key={site.name}
 											initial={false}
 											animate={{ opacity: 1, y: 0 }}
-											transition={{ duration: 0.3, delay: 0.2 + place * 0.06, ease: "easeOut" }}
+											transition={{
+												duration: 0.3,
+												delay: 0.2 + place * 0.06,
+												ease: "easeOut",
+											}}
 											className="relative border border-dashed border-foreground/8 hover:border-foreground/[0.14] transition-all duration-300 group"
 										>
 											<div className="flex flex-col h-full p-5">

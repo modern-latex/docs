@@ -1,3 +1,4 @@
+import { Callout } from "@prostha/ui/src/components/callout";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -6,32 +7,26 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import React from "react";
 import { Panel } from "@/components/blog/panel";
 import Footer from "@/components/landing/footer";
-import { Callout } from "@prostha/ui/src/components/callout";
 import { createMetadata } from "@/lib/metadata";
 import { blogs } from "@/lib/source";
 import { cn } from "@/lib/utils";
-import React from "react";
 
 export default async function Page({
-									   params,
-								   }: {
+	params,
+}: {
 	params: Promise<{ slug?: string[] }>;
 }) {
-	const { slug } = await params;
+	const parsed = await params;
 
-	if (!slug) {
-		const posts = blogs
-			.getPages()
-			.filter((page) => !page.data.draft)
-			.sort((firstPost, secondPost) => {
-				return new Date(secondPost.data.date).getTime() - new Date(firstPost.data.date).getTime();
-			});
-
+	if (!parsed.slug) {
 		return (
 			<div className="flex flex-col lg:flex-row h-full min-h-dvh pt-14 lg:pt-0">
-				<Panel postCount={posts.length} />
+				<Panel
+					count={blogs.getPages().filter((item) => !item.data.draft).length}
+				/>
 
 				<div className="w-full lg:w-[70%] flex flex-col">
 					<div className="px-5 pt-5 lg:p-8 lg:pt-20">
@@ -42,64 +37,75 @@ export default async function Page({
 					</div>
 
 					<div className="flex flex-col">
-						{posts.map((post) => (
-							<Link
-								key={post.slugs.join("/")}
-								href={`/blog/${post.slugs.join("/")}`}
-								className="group block border-b border-dashed border-foreground/6 px-5 sm:px-6 lg:px-8 py-5 transition-colors hover:bg-foreground/2"
-							>
-								<div className="flex gap-5 items-center">
-									{post.data?.image && (
-										<div className="shrink-0 w-56 aspect-1200/630 overflow-hidden border border-foreground/6 hidden sm:block">
-											<Image
-												src={post.data.image}
-												alt={post.data.title}
-												width={320}
-												height={192}
-												className="w-full h-full object-cover"
-											/>
-										</div>
-									)}
-									<div className="flex-1 min-w-0">
-										<h2 className="text-lg font-medium tracking-tight text-neutral-800 dark:text-neutral-200 group-hover:text-neutral-950 dark:group-hover:text-white transition-colors">
-											{post.data.title}
-										</h2>
-										{post.data.description && (
-											<p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 line-clamp-1 max-w-4xl">
-												{post.data.description}
-											</p>
-										)}
-										<div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400 dark:text-neutral-500">
-											{post.data.author?.name && (
-												<>
-                                                    <span className="text-neutral-500 dark:text-neutral-400">
-                                                        {post.data.author.name}
-                                                    </span>
-													<span>&middot;</span>
-												</>
-											)}
-											<span>
-                                                {new Date(post.data.date).toLocaleDateString("en-US", {
-													month: "short",
-													day: "numeric",
-													year: "numeric",
-												})}
-                                            </span>
-										</div>
-										{post.data.tags && post.data.tags.length > 0 && (
-											<div className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400 dark:text-neutral-500">
-												{post.data.tags.slice(0, 3).map((tag: string) => (
-													<span key={tag}>#{tag}</span>
-												))}
+						{blogs
+							.getPages()
+							.filter((item) => !item.data.draft)
+							.sort(
+								(first, second) =>
+									new Date(second.data.date).getTime() -
+									new Date(first.data.date).getTime(),
+							)
+							.map((post) => (
+								<Link
+									key={post.slugs.join("/")}
+									href={`/blog/${post.slugs.join("/")}`}
+									className="group block border-b border-dashed border-foreground/6 px-5 sm:px-6 lg:px-8 py-5 transition-colors hover:bg-foreground/2"
+								>
+									<div className="flex gap-5 items-center">
+										{post.data?.image && (
+											<div className="shrink-0 w-56 aspect-1200/630 overflow-hidden border border-foreground/6 hidden sm:block">
+												<Image
+													src={post.data.image}
+													alt={post.data.title}
+													width={320}
+													height={192}
+													className="w-full h-full object-cover"
+												/>
 											</div>
 										)}
+										<div className="flex-1 min-w-0">
+											<h2 className="text-lg font-medium tracking-tight text-neutral-800 dark:text-neutral-200 group-hover:text-neutral-950 dark:group-hover:text-white transition-colors">
+												{post.data.title}
+											</h2>
+											{post.data.description && (
+												<p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 line-clamp-1 max-w-4xl">
+													{post.data.description}
+												</p>
+											)}
+											<div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400 dark:text-neutral-500">
+												{post.data.author?.name && (
+													<>
+														<span className="text-neutral-500 dark:text-neutral-400">
+															{post.data.author.name}
+														</span>
+														<span>&middot;</span>
+													</>
+												)}
+												<span>
+													{new Date(post.data.date).toLocaleDateString(
+														"en-US",
+														{
+															month: "short",
+															day: "numeric",
+															year: "numeric",
+														},
+													)}
+												</span>
+											</div>
+											{post.data.tags && post.data.tags.length > 0 && (
+												<div className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] font-mono text-neutral-400 dark:text-neutral-500">
+													{post.data.tags.slice(0, 3).map((tag: string) => (
+														<span key={tag}>#{tag}</span>
+													))}
+												</div>
+											)}
+										</div>
+										<span className="shrink-0 text-[11px] font-mono text-neutral-300 dark:text-neutral-600 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 transition-colors self-center">
+											&rarr;
+										</span>
 									</div>
-									<span className="shrink-0 text-[11px] font-mono text-neutral-300 dark:text-neutral-600 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 transition-colors self-center">
-                                        &rarr;
-                                    </span>
-								</div>
-							</Link>
-						))}
+								</Link>
+							))}
 					</div>
 					<Footer />
 				</div>
@@ -107,26 +113,25 @@ export default async function Page({
 		);
 	}
 
-	if (!blogs.getPage(slug) || blogs.getPage(slug)?.data?.draft) {
-		notFound();
-	}
+	const page = blogs.getPage(parsed.slug);
+	if (!page || page.data.draft) return notFound();
 
 	return (
 		<div className="flex flex-col lg:flex-row h-full min-h-dvh pt-14 lg:pt-0">
 			<Panel
 				post={{
-					title: blogs.getPage(slug)!.data.title,
-					description: blogs.getPage(slug)!.data.description,
-					date: blogs.getPage(slug)!.data.date,
-					author: blogs.getPage(slug)!.data.author,
-					toc: blogs.getPage(slug)!.data.toc ?? [],
+					title: page.data.title,
+					description: page.data.description,
+					date: page.data.date,
+					author: page.data.author,
+					toc: page.data.toc ?? [],
 				}}
 			/>
 
 			<div className="w-full lg:w-[70%] flex flex-col">
 				<div className="relative px-5 sm:px-6 lg:px-8 pb-24 pt-8 lg:py-24">
 					<article className="prose prose-neutral dark:prose-invert max-w-3xl prose-headings:tracking-tight prose-a:decoration-dashed prose-a:underline-offset-4 prose-pre:rounded-none prose-pre:border prose-pre:border-foreground/10 prose-img:rounded-none [&_[data-header-label]+h2]:mt-2 [&_[data-header-label]+h3]:mt-2 [&_[data-header-label]+h4]:mt-1">
-						{React.createElement(blogs.getPage(slug)!.data.body, {
+						{React.createElement(page.data.body, {
 							components: {
 								...defaultMdxComponents,
 								Step,
@@ -136,39 +141,23 @@ export default async function Page({
 								Accordion,
 								Accordions,
 								Callout: ({
-											  children,
-											  type,
-											  ...props
-										  }: {
+									children,
+									type,
+									...props
+								}: {
 									children: React.ReactNode;
-									type?: "info" | "warn" | "error" | "success" | "warning" | "none";
-									[key: string]: any;
+									type?:
+										| "info"
+										| "warn"
+										| "error"
+										| "success"
+										| "warning"
+										| "none";
 								}) => (
 									<Callout type={type === "none" ? undefined : type} {...props}>
 										{children}
 									</Callout>
 								),
-								HeaderLabel: ({
-												  children,
-												  variant = "default",
-											  }: {
-									children: React.ReactNode;
-									variant?: "default" | "info" | "warning";
-								}) => {
-									const colors = {
-										default: "text-neutral-600 dark:text-neutral-300",
-										info: "text-blue-500 dark:text-blue-400",
-										warning: "text-amber-600 dark:text-amber-400",
-									};
-									return (
-										<span
-											data-header-label="true"
-											className={`text-[11px] font-semibold tracking-wide not-prose block select-none ${colors[variant]}`}
-										>
-                                            {children}
-                                        </span>
-									);
-								},
 								Contributors: ({ usernames }: { usernames: string[] }) => (
 									<div className="flex flex-wrap gap-1.5 not-prose">
 										{usernames.map((username) => (
@@ -184,30 +173,22 @@ export default async function Page({
 										))}
 									</div>
 								),
-								a: ({ className, href, children, ...props }: any) => {
-									const classes = cn(
-										"font-medium underline decoration-dashed underline-offset-4",
-										className,
-									);
-									if (typeof href === "string" && /^(https?:)?\/\//.test(href)) {
-										return (
-											<a
-												className={classes}
-												href={href}
-												target="_blank"
-												rel="noreferrer noopener"
-												{...props}
-											>
-												{children}
-											</a>
-										);
-									}
-									return (
-										<Link className={classes} href={href} {...(props as any)}>
-											{children}
-										</Link>
-									);
-								},
+								a: ({ className, href, children, ...props }: any) => (
+									<a
+										className={cn(
+											"font-medium underline decoration-dashed underline-offset-4",
+											className,
+										)}
+										href={href}
+										{...(typeof href === "string" &&
+										/^(https?:)?\/\//.test(href)
+											? { target: "_blank", rel: "noreferrer noopener" }
+											: {})}
+										{...props}
+									>
+										{children}
+									</a>
+								),
 							},
 						})}
 					</article>
@@ -219,47 +200,60 @@ export default async function Page({
 }
 
 export async function generateMetadata({
-										   params,
-									   }: {
+	params,
+}: {
 	params: Promise<{ slug?: string[] }>;
 }): Promise<Metadata> {
-	const { slug } = await params;
-	if (!slug) {
+	const parsed = await params;
+	if (!parsed.slug) {
 		return createMetadata({
-			title: "Blog - Better Auth",
-			description: "Latest updates, articles, and insights about Better Auth",
+			title: "Blog - Prostha",
+			description: "Latest updates, articles, and insights about Prostha",
 		});
 	}
-	const page = blogs.getPage(slug);
+	const page = blogs.getPage(parsed.slug);
 	if (!page || page.data.draft) return notFound();
-	const { title, description, date } = page.data;
-
-	const image = page.data.image || `/api/og-release?${new URLSearchParams({
-		heading: title,
-		...(description && { description }),
-		...(date && {
-			date: new Date(date).toLocaleDateString("en-US", {
-				month: "short",
-				day: "numeric",
-				year: "numeric",
-			}),
-		}),
-	}).toString()}`;
 
 	return createMetadata({
-		title,
-		description,
+		title: page.data.title,
+		description: page.data.description,
 		openGraph: {
-			title,
-			description,
+			title: page.data.title,
+			description: page.data.description,
 			type: "article",
-			images: [image],
+			images: [
+				page.data.image ||
+					`/api/og-release?${new URLSearchParams({
+						heading: page.data.title,
+						description: page.data.description || "",
+						date: page.data.date
+							? new Date(page.data.date).toLocaleDateString("en-US", {
+									month: "short",
+									day: "numeric",
+									year: "numeric",
+								})
+							: "",
+					}).toString()}`,
+			],
 		},
 		twitter: {
 			card: "summary_large_image" as const,
-			title,
-			description,
-			images: [image],
+			title: page.data.title,
+			description: page.data.description,
+			images: [
+				page.data.image ||
+					`/api/og-release?${new URLSearchParams({
+						heading: page.data.title,
+						description: page.data.description || "",
+						date: page.data.date
+							? new Date(page.data.date).toLocaleDateString("en-US", {
+									month: "short",
+									day: "numeric",
+									year: "numeric",
+								})
+							: "",
+					}).toString()}`,
+			],
 		},
 	});
 }
@@ -267,6 +261,6 @@ export async function generateMetadata({
 export function generateStaticParams() {
 	return blogs
 		.getPages()
-		.filter((page) => !page.data.draft)
-		.map((page) => ({ slug: page.slugs }));
+		.filter((item) => !item.data.draft)
+		.map((item) => ({ slug: item.slugs }));
 }

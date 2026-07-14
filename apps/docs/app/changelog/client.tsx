@@ -1,11 +1,12 @@
 "use client";
 
+import { CodeBlock } from "@prostha/ui/src/components/code-block";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import type React from "react";
+import { useRef, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { ChevronDown } from "lucide-react";
-import { DynamicCodeBlock } from "@/components/ui/dynamic-code-block";
 import { cn } from "@/lib/utils";
 
 interface Release {
@@ -18,18 +19,17 @@ interface Release {
 }
 
 export function Changelog({ releases }: { releases: Release[] }) {
-	const reference = useRef<Record<string, HTMLDivElement | null>>({});
+	const root = useRef<Record<string, HTMLDivElement | null>>({});
 	const [tags, setTags] = useState<Record<string, boolean>>({});
 
 	return (
 		<div className="flex flex-col">
 			{releases.map((item) => {
-
 				return (
 					<div
 						key={item.tag}
 						ref={(node) => {
-							reference.current[item.tag] = node;
+							root.current[item.tag] = node;
 						}}
 						className="group border-b border-dashed px-5 sm:px-6 lg:px-8 py-16 first:pt-8"
 					>
@@ -59,7 +59,9 @@ export function Changelog({ releases }: { releases: Release[] }) {
 								<div
 									className={cn(
 										"changelog-content max-w-3xl",
-										item.expandable && !tags[item.tag] && "max-h-[400px] overflow-y-hidden",
+										item.expandable &&
+											!tags[item.tag] &&
+											"max-h-100 overflow-y-hidden",
 									)}
 								>
 									<Markdown
@@ -99,7 +101,12 @@ export function Changelog({ releases }: { releases: Release[] }) {
 													{...props}
 												/>
 											),
-											a: ({ className, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { className?: string }) => (
+											a: ({
+												className,
+												...props
+											}: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+												className?: string;
+											}) => (
 												<a
 													target="_blank"
 													rel="noopener noreferrer"
@@ -111,11 +118,8 @@ export function Changelog({ releases }: { releases: Release[] }) {
 												/>
 											),
 											strong: (props) => (
-												<strong className="font-medium text-foreground/90" {...props} />
-											),
-											blockquote: (props) => (
-												<blockquote
-													className="mt-4 border-l-2 border-foreground/15 pl-4 italic text-sm text-muted-foreground"
+												<strong
+													className="font-medium text-foreground/90"
 													{...props}
 												/>
 											),
@@ -135,12 +139,24 @@ export function Changelog({ releases }: { releases: Release[] }) {
 												/>
 											),
 											pre: ({ children }) => {
-												const child = children as React.ReactElement<{ className?: string; children?: string }>;
+												const child = children as React.ReactElement<{
+													className?: string;
+													children?: string;
+												}>;
 												return (
 													<div className="my-4">
-														<DynamicCodeBlock
-															lang={(child?.props?.className || "").replace(/language-/, "") || "text"}
-															code={typeof child?.props?.children === "string" ? child.props.children.trim() : ""}
+														<CodeBlock
+															language={
+																(child?.props?.className || "").replace(
+																	/language-/,
+																	"",
+																) || "text"
+															}
+															code={
+																typeof child?.props?.children === "string"
+																	? child.props.children.trim()
+																	: ""
+															}
 															codeblock={{ className: "border rounded-md" }}
 														/>
 													</div>
@@ -165,11 +181,12 @@ export function Changelog({ releases }: { releases: Release[] }) {
 											},
 											table: (props) => (
 												<div className="my-4 overflow-x-auto">
-													<table className="w-full text-sm border-collapse" {...props} />
+													<table
+														className="w-full text-sm border-collapse"
+														{...props}
+													/>
 												</div>
 											),
-											thead: (props) => <thead className="border-b" {...props} />,
-											tbody: (props) => <tbody {...props} />,
 											tr: (props) => (
 												<tr
 													className="border-b border-foreground/6 transition-colors hover:bg-muted/50"
@@ -183,7 +200,10 @@ export function Changelog({ releases }: { releases: Release[] }) {
 												/>
 											),
 											td: (props) => (
-												<td className="px-3 py-2.5 align-middle text-sm" {...props} />
+												<td
+													className="px-3 py-2.5 align-middle text-sm"
+													{...props}
+												/>
 											),
 										}}
 									>
@@ -191,7 +211,7 @@ export function Changelog({ releases }: { releases: Release[] }) {
 									</Markdown>
 								</div>
 								{item.expandable && !tags[item.tag] && (
-									<div className="h-20 absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/80 to-transparent pointer-events-none" />
+									<div className="h-20 absolute inset-x-0 bottom-0 bg-linear-to-t from-background via-background/80 to-transparent pointer-events-none" />
 								)}
 							</div>
 							{item.expandable && (
@@ -200,7 +220,10 @@ export function Changelog({ releases }: { releases: Release[] }) {
 									onClick={() => {
 										if (tags[item.tag]) {
 											setTags((current) => ({ ...current, [item.tag]: false }));
-											reference.current[item.tag]?.scrollIntoView({ behavior: "smooth", block: "start" });
+											root.current[item.tag]?.scrollIntoView({
+												behavior: "smooth",
+												block: "start",
+											});
 										} else {
 											setTags((current) => ({ ...current, [item.tag]: true }));
 										}

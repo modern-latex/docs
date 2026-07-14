@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { createMetadata } from "@/lib/metadata";
 import { Contact } from "@/app/contact/client";
+import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
-	title: "Enterprise",
-	description: "Better Auth for enterprise — SSO, SAML, audit logs, and dedicated support.",
+	title: "Contact",
+	description: "Dedicated portal for any inconveniences or required support.",
 });
 
 export default function Page() {

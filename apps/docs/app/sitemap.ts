@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 					priority: 0.7,
 				};
 			}),
-		)
+		),
 	);
 
 	pages = pages.concat(
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			lastModified: page.data.date ? new Date(page.data.date) : new Date(),
 			changeFrequency: "monthly" as const,
 			priority: 0.6,
-		}))
+		})),
 	);
 
 	return pages;
