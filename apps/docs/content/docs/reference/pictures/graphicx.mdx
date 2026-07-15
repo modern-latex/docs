@@ -1,0 +1,28 @@
+---
+title: graphicx
+description: 'Pictures and transforms.'
+---
+
+## Loading
+
+```latex
+\usepackage{graphicx}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\adjincludegraphics`, `\adjustbox`, `\adjustimage`, `\clipbox`, `\DeclareGraphicsExtensions`, `\DeclareGraphicsRule`, `\epsfbox`, `\graphicspath`, `\includepdf`, `\includepdfmerge`, `\includepdfset`, `\lapbox`, `\marginbox`, `\maxsizebox`, `\reflectbox`, `\resizebox`, `\rotatebox`, `\scalebox`, `\trimbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="graphicx.tex"
+\documentclass{article}
+\usepackage{graphicx}
+\begin{document}
+\includegraphics[width=3cm]{example-image} \includegraphics[height=1cm]{example-image-1x1} \rotatebox{45}{turned} \scalebox{2}{big} \resizebox{2cm}{!}{fitted} \reflectbox{mirror} \graphicspath{{figures/}}
+\end{document}
+```
