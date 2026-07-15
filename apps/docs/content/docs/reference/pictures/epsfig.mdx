@@ -1,0 +1,28 @@
+---
+title: epsfig
+description: 'EPS figures.'
+---
+
+## Loading
+
+```latex
+\usepackage{epsfig}
+```
+
+Loads [`graphicx`](/docs/reference/pictures/graphicx) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\epsfig`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="epsfig.tex"
+\documentclass{article}
+\usepackage{epsfig}
+\begin{document}
+\epsfig{file=example-image,width=2cm}
+\end{document}
+```
