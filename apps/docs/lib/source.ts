@@ -12,9 +12,6 @@ export const sourceBeta = loader({
 	source: docsBeta.toFumadocsSource(),
 });
 
-/**
- * Pick the docs source loader for a given version slug.
- */
 export function getSourceFor(versionSlug: string | null) {
 	switch (versionSlug) {
 		case "beta":

@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export function createMetadata(override: Metadata): Metadata {
 	return {
 		...override,
-		metadataBase: baseUrl,
+		metadataBase: url,
 		openGraph: {
 			title: override.title ?? undefined,
 			description: override.description ?? undefined,
-			url: "https://better-auth.com",
+			url: "https://prosthaphaeresis.com",
 			images: "/og.png",
 			siteName: "Better Auth",
 			...override.openGraph,
@@ -38,7 +38,7 @@ export function createMetadata(override: Metadata): Metadata {
 	};
 }
 
-export const baseUrl =
+export const url =
 	process.env.NODE_ENV === "development" ||
 	(!process.env.VERCEL_PROJECT_PRODUCTION_URL && !process.env.VERCEL_URL)
 		? new URL("http://localhost:3000")
