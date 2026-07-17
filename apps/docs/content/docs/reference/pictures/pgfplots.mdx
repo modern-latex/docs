@@ -1,0 +1,41 @@
+---
+title: pgfplots
+description: 'Plots drawn from data and from functions, inside a TikZ picture.'
+---
+
+## Loading
+
+```latex
+\usepackage{pgfplots}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addplot`, `\legend`, `\nextgroupplot`, `\pgfplotscreateplotcyclelist`, `\pgfplotsforeachungrouped`, `\pgfplotsset`, `\pgfplotstableread`, `\usepgfplotslibrary`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pgfplots.tex"
+\documentclass{article}
+\usepackage{pgfplots}
+\begin{document}
+\pgfplotsset{compat=1.18}
+\begin{tikzpicture}
+\begin{axis}[xlabel=$x$, ylabel=$y$, title=Plot, grid=major, legend pos=north west]
+\addplot[blue, domain=0:2] {x^2};
+\addplot coordinates {(0,0) (1,1) (2,3)};
+\legend{$x^2$, data}
+\end{axis}
+\end{tikzpicture}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Styles for all plots at once, and group plots, are ignored.
+</Callout>
