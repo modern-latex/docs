@@ -35,10 +35,7 @@
 			]
 		},
 		"packages/core": {
-			"ignoreDependencies": [
-				"kysely!",
-				"nanostores!"
-			]
+			"ignoreDependencies": ["kysely!", "nanostores!"]
 		},
 		"packages/test-utils": {},
 		"packages/expo": {
