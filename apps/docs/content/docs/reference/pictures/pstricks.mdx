@@ -1,0 +1,28 @@
+---
+title: pstricks
+description: 'PSTricks pictures, drawn with TikZ''s own commands.'
+---
+
+## Loading
+
+```latex
+\usepackage{pstricks}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\csname`, `\endpspicture`, `\newpsstyle`, `\newrgbcolor`, `\psarc`, `\psaxes`, `\pscircle`, `\pscurve`, `\psdot`, `\psdots`, `\psellipse`, `\psframe`, `\psgrid`, `\psline`, `\pspicture`, `\pspolygon`, `\psset`, `\rput`, `\uput`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pstricks.tex"
+\documentclass{article}
+\usepackage{pstricks}
+\begin{document}
+\begin{pspicture}(0,0)(2,2)\psline(0,0)(2,2)\pscircle(1,1){0.5}\end{pspicture}
+\end{document}
+```

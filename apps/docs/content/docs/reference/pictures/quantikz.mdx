@@ -1,0 +1,31 @@
+---
+title: quantikz
+description: 'Quantum circuits.'
+---
+
+## Loading
+
+```latex
+\usepackage{quantikz}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ctrl`, `\gate`, `\ket`, `\lstick`, `\meter`, `\qw`, `\targ`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="quantikz.tex"
+\documentclass{article}
+\usepackage{quantikz}
+\begin{document}
+\begin{quantikz}
+\lstick{$\ket{0}$} & \gate{H} & \ctrl{1} & \meter{} \\
+\lstick{$\ket{0}$} & \qw & \targ{} & \qw
+\end{quantikz}
+\end{document}
+```
