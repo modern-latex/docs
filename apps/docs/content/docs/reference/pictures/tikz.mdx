@@ -1,0 +1,40 @@
+---
+title: tikz
+description: 'Pictures drawn with TikZ''s own commands.'
+---
+
+## Loading
+
+```latex
+\usepackage{tikz}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\draw`, `\fill`, `\foreach`, `\node`, `\tikz`, `\usetikzlibrary`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tikz.tex"
+\documentclass{article}
+\usepackage{tikz}
+\begin{document}
+\usetikzlibrary{arrows.meta,positioning,shapes}
+\begin{tikzpicture}[scale=1, every node/.style={draw}]
+\draw[->, thick] (0,0) -- (2,0) node[right] {$x$};
+\draw[red] (0,0) circle (0.5);
+\fill[blue!20] (1,1) rectangle (2,2);
+\node (a) at (0,2) {A};
+\node[right=of a] (b) {B};
+\draw[-{Latex}] (a) -- (b);
+\foreach \x in {0,1,2} \draw (\x,-0.2) -- (\x,0.2);
+\draw (3,0) arc (0:90:1);
+\draw plot[domain=0:1] (\x, {\x*\x});
+\end{tikzpicture}
+\tikz \draw (0,0) -- (1,1);
+\end{document}
+```
