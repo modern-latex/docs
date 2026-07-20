@@ -197,33 +197,6 @@ const VerticalLinesPattern: React.FC<{ className?: string }> = ({
 	);
 };
 
-const products: ProductItem[] = [
-	{
-		title: "Framework",
-		tagline: "Open source",
-		description:
-			"The TypeScript auth library. Plugins, adapters, and 20+ social providers.",
-		href: "/docs/introduction",
-		activatesTab: false,
-		Icon: FrameworkLogoIcon,
-		Pattern: VerticalLinesPattern,
-		patternClassName:
-			"absolute inset-0 w-full h-full text-primary/10 pointer-events-none [mask-image:linear-gradient(to_left,black_0%,transparent_40%)]",
-	},
-	{
-		title: "Infrastructure",
-		tagline: "Hosted platform",
-		description:
-			"Dashboard, audit logs, security detection, SSO, and abuse protection.",
-		href: "/pricing",
-		activatesTab: true,
-		Icon: InfraLogoIcon,
-		Pattern: VerticalLinesPattern,
-		patternClassName:
-			"absolute inset-0 w-full h-full text-primary/10 pointer-events-none [mask-image:linear-gradient(to_left,black_0%,transparent_40%)]",
-	},
-];
-
 const featuredResources: ProductItem[] = [
 	{
 		title: "Blog",
@@ -277,13 +250,6 @@ interface MobileMenuSection {
 }
 
 const mobileMenuSections: MobileMenuSection[] = [
-	{
-		name: "products",
-		children: products.map((p) => ({
-			name: p.title.toLowerCase(),
-			href: p.href,
-		})),
-	},
 	{ name: "resources", children: resourceFiles },
 	{ name: "contact", href: "/contact" },
 ];
@@ -356,7 +322,6 @@ export function Navigation() {
 	const dropdownBorderClass = isNarrowLeft
 		? "border-foreground/6"
 		: "border-foreground/[0.08]";
-	const _router = useRouter();
 	return (
 		<>
 			<div className="fixed top-0 left-0 right-0 z-[99] flex items-start pointer-events-none">
@@ -665,7 +630,7 @@ export function Navigation() {
 									</div>
 									<div className="grid w-full grid-cols-[repeat(auto-fit,minmax(1.75rem,1fr))] items-center justify-items-center gap-y-0.5 border-t border-foreground/[0.06] px-2 py-2">
 										<a
-											href="https://github.com/better-auth/better-auth"
+											href="https://github.com/prostha/docs"
 											target="_blank"
 											rel="noreferrer"
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
@@ -684,7 +649,7 @@ export function Navigation() {
 											</svg>
 										</a>
 										<a
-											href="https://discord.gg/better-auth"
+											href="https://discord.gg/3gFJ5Put6k"
 											target="_blank"
 											rel="noreferrer"
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
@@ -703,7 +668,7 @@ export function Navigation() {
 											</svg>
 										</a>
 										<a
-											href="https://reddit.com/r/better_auth"
+											href="https://reddit.com/r/prostha"
 											target="_blank"
 											rel="noreferrer"
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
@@ -724,7 +689,7 @@ export function Navigation() {
 											</svg>
 										</a>
 										<a
-											href="https://x.com/better_auth"
+											href="https://x.com/prostha"
 											target="_blank"
 											rel="noreferrer"
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
@@ -741,15 +706,6 @@ export function Navigation() {
 													d="m17.687 3.063l-4.996 5.711l-4.32-5.711H2.112l7.477 9.776l-7.086 8.099h3.034l5.469-6.25l4.78 6.25h6.102l-7.794-10.304l6.625-7.571zm-1.064 16.06L5.654 4.782h1.803l10.846 14.34z"
 												/>
 											</svg>
-										</a>
-										<a
-											href="https://www.npmjs.com/package/better-auth"
-											target="_blank"
-											rel="noreferrer"
-											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
-											aria-label="npm"
-										>
-											<icons.npm className="size-3.5" />
 										</a>
 									</div>
 								</motion.div>
