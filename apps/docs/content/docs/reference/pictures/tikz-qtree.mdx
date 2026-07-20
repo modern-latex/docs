@@ -1,0 +1,29 @@
+---
+title: tikz-qtree
+description: 'Trees in TikZ.'
+---
+
+## Loading
+
+```latex
+\usepackage{tikz-qtree}
+```
+
+Loads [`tikz`](/docs/reference/pictures/tikz) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\Tree`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tikz-qtree.tex"
+\documentclass{article}
+\usepackage{tikz-qtree}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}\Tree [.S NP VP ]\end{tikzpicture}
+\end{document}
+```
