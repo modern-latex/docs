@@ -1,7 +1,9 @@
+import { NextResponse } from "next/server";
+
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
+
 import { schema } from "@/lib/contact";
 
 let ratelimit: Ratelimit | null = null;

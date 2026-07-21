@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+
 import { Sidebar } from "@/app/legal/sidebar";
 import Footer from "@/components/landing/footer";
 import { Halftone } from "@/components/landing/halftone";

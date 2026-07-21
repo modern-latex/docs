@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+
 import { use } from "react";
+
 import Footer from "@/components/landing/footer";
 import { Halftone } from "@/components/landing/halftone";
 import { createMetadata } from "@/lib/metadata";
+
 import { Changelog } from "./client";
 
 export const dynamic = "force-static";

@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { Breadcrumbs } from "@/components/landing/breadcrumbs";
 import { Tiles } from "@/components/landing/tiles";
 import { Title } from "@/components/landing/title";

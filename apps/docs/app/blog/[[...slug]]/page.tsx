@@ -1,18 +1,28 @@
-import { Callout } from "@prostha/ui/src/components/callout";
-import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
-import { Step, Steps } from "fumadocs-ui/components/steps";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import defaultMdxComponents from "fumadocs-ui/mdx";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
 import React from "react";
+
+import { Callout } from "@prostha/ui/src/components/callout";
+import { cn } from "@prostha/ui/src/lib/utils";
+import { loader } from "fumadocs-core/source";
+import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
+import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import defaultMdxComponents from "fumadocs-ui/mdx";
+
+import { blogCollection } from "@/.source/server";
 import { Panel } from "@/components/blog/panel";
 import Footer from "@/components/landing/footer";
 import { createMetadata } from "@/lib/metadata";
-import { blogs } from "@/lib/source";
-import { cn } from "@/lib/utils";
+
+const blogs = loader({
+	baseUrl: "/blog",
+	source: toFumadocsSource(blogCollection, []),
+});
 
 export default async function Page({
 	params,

@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
-import { docsVersions, resolveVersionFromSlug } from "@/lib/docs-versions";
-import { getSourceFor } from "@/lib/source";
+
+import { loader } from "fumadocs-core/source";
+
+import { docs, docsBeta } from "@/.source/server";
+import { versions } from "@/lib/versions";
 
 export const revalidate = false;
 
@@ -19,9 +22,20 @@ export async function GET(
 		slug = slug.slice(1);
 	}
 
-	const data = resolveVersionFromSlug(slug);
-	const page =
-		getSourceFor(data.version.slug).getPage(data.relSlug) ?? notFound();
+	const [head, ...rest] = slug;
+	const matchedVersion = head
+		? versions.find((version) => version.slug === head)
+		: undefined;
+
+	const version = matchedVersion || versions[1];
+	const relSlug = matchedVersion ? rest : slug;
+
+	const docSource =
+		version.slug === "beta"
+			? loader({ baseUrl: "/docs/beta", source: docsBeta.toFumadocsSource() })
+			: loader({ baseUrl: "/docs", source: docs.toFumadocsSource() });
+
+	const page = docSource.getPage(relSlug) ?? notFound();
 
 	try {
 		return new NextResponse(await (page.data as any).getText("processed"), {
@@ -38,13 +52,16 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-	return docsVersions.flatMap((version) =>
-		getSourceFor(version.slug)
-			.generateParams()
-			.map((param) => ({
-				slug: version.slug
-					? [version.slug, ...(param.slug ?? [])]
-					: (param.slug ?? []),
-			})),
-	);
+	return versions.flatMap((version) => {
+		const docSource =
+			version.slug === "beta"
+				? loader({ baseUrl: "/docs/beta", source: docsBeta.toFumadocsSource() })
+				: loader({ baseUrl: "/docs", source: docs.toFumadocsSource() });
+
+		return docSource.generateParams().map((param) => ({
+			slug: version.slug
+				? [version.slug, ...(param.slug ?? [])]
+				: (param.slug ?? []),
+		}));
+	});
 }

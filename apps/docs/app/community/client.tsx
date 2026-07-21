@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
+
 import { icons } from "@prostha/ui/src/icons";
 import { motion } from "framer-motion";
-import Link from "next/link";
+
 import Footer from "@/components/landing/footer";
 import { Halftone } from "@/components/landing/halftone";
 
