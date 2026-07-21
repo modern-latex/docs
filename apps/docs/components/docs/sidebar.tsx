@@ -1,15 +1,18 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { useEffect, useId, useRef, useState } from "react";
+
+import { cn } from "@prostha/ui/src/lib/utils";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { ChevronDownIcon } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+
 import { contents } from "@/components/contents";
 import { VersionSwitcher } from "@/components/docs/version-switcher";
 import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
 
 export function Sidebar() {
 	const pathname = usePathname();

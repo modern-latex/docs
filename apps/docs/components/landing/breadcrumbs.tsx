@@ -1,5 +1,7 @@
-import { icons } from "@prostha/ui/src/icons";
 import Link from "next/link";
+
+import { icons } from "@prostha/ui/src/icons";
+
 import { ThemeProvider } from "@/components/theme-provider";
 
 export function Breadcrumbs({ compact = false }: { compact?: boolean }) {
@@ -31,25 +33,18 @@ export function Breadcrumbs({ compact = false }: { compact?: boolean }) {
 					>
 						Legal
 					</Link>
-					<span className="text-foreground/15">/</span>
-					<Link
-						href="/careers"
-						className="hover:text-foreground/80 transition-colors"
-					>
-						Careers
-					</Link>
 				</div>
 			)}
 			<div className="flex items-center gap-3">
 				<Link
-					href="https://x.com/better_auth"
+					href="https://x.com/prostha"
 					aria-label="Twitter/X"
 					className="text-foreground/50 hover:text-foreground/80 transition-colors"
 				>
 					<icons.x className="h-3.5 w-3.5" />
 				</Link>
 				<Link
-					href="https://github.com/better-auth"
+					href="https://github.com/prostha"
 					aria-label="GitHub"
 					className="text-foreground/50 hover:text-foreground/80 transition-colors"
 				>

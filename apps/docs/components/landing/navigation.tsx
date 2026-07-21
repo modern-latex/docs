@@ -1,8 +1,14 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { Accordion } from "@prostha/ui/src/components/accordion";
 import { Badge } from "@prostha/ui/src/components/badge";
-import { icons } from "@prostha/ui/src/icons";
+import { cn } from "@prostha/ui/src/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import {
 	ChevronDownIcon,
@@ -12,71 +18,13 @@ import {
 	Scale,
 	Search,
 } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import type React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
+
 import { contents } from "@/components/contents";
 import { ThemeProvider } from "@/components/theme-provider";
-import { getVersionFromPathname, versionedDocsHref } from "@/lib/docs-versions";
-import { cn } from "@/lib/utils";
+import { versions } from "@/lib/versions";
+
 import { BetterAuthWordmark } from "../icons/logo";
 import Brand from "./brand";
-
-interface NavFileItem {
-	name: string;
-	href: string;
-	path?: string;
-	external?: boolean;
-}
-
-const navFiles: NavFileItem[] = [
-	{ name: "readme", href: "/" },
-	{ name: "docs", href: "/docs" },
-];
-
-interface ProductItem {
-	title: string;
-	tagline: string;
-	description: string;
-	href: string;
-	activatesTab?: boolean;
-	Icon: React.ComponentType<{ className?: string }>;
-	Pattern?: React.FC<{ className?: string }>;
-	patternClassName?: string;
-	BgPattern?: React.FC<{ className?: string }>;
-	bgPatternClassName?: string;
-}
-
-const FrameworkLogoIcon: React.FC<{ className?: string }> = ({ className }) => (
-	<svg
-		viewBox="0 0 30 45"
-		fill="currentColor"
-		className={`${className ?? ""} rotate-12`}
-		aria-hidden="true"
-	>
-		<path
-			fillRule="evenodd"
-			clipRule="evenodd"
-			d="M0 0H15V15H30V30H15V45H0V30V15V0Z"
-		/>
-	</svg>
-);
-
-const InfraLogoIcon: React.FC<{ className?: string }> = ({ className }) => (
-	<svg
-		viewBox="30 0 30 45"
-		fill="currentColor"
-		className={`${className ?? ""} -rotate-12`}
-		aria-hidden="true"
-	>
-		<path
-			fillRule="evenodd"
-			clipRule="evenodd"
-			d="M45 30V15H30V0H45H60V15V30V45H45H30V30H45Z"
-		/>
-	</svg>
-);
 
 const CommunityIcon: React.FC<{ className?: string }> = ({ className }) => (
 	<svg
@@ -162,107 +110,17 @@ const ScribblePattern: React.FC<{ className?: string }> = ({ className }) => (
 	</svg>
 );
 
-const VerticalLinesPattern: React.FC<{ className?: string }> = ({
-	className,
-}) => {
-	const cols = 72;
-	const width = cols * 3;
-	const height = 100;
-	const lines: React.ReactElement[] = [];
-	for (let i = 0; i < cols; i++) {
-		const x = i * 3 + 1;
-		lines.push(
-			<line
-				key={i}
-				x1={x}
-				y1={0}
-				x2={x}
-				y2={height}
-				stroke="currentColor"
-				strokeWidth="0.75"
-			/>,
-		);
-	}
-	return (
-		<svg
-			width="100%"
-			height="100%"
-			viewBox={`0 0 ${width} ${height}`}
-			preserveAspectRatio="none"
-			className={className}
-			aria-hidden="true"
-		>
-			{lines}
-		</svg>
-	);
-};
-
-const featuredResources: ProductItem[] = [
-	{
-		title: "Blog",
-		tagline: "Writing",
-		description: "Engineering, product, and updates",
-		href: "/blog",
-		Icon: PencilLine,
-		Pattern: ScribblePattern,
-		patternClassName:
-			"absolute right-3 top-3 text-foreground/30 group-hover/p:text-foreground/60 transition-colors duration-200 pointer-events-none",
-	},
-	{
-		title: "Changelog",
-		tagline: "Shipped",
-		description: "Latest releases and improvements",
-		href: "/changelog",
-		Icon: History,
-		Pattern: TimelinePattern,
-		patternClassName:
-			"absolute right-3 top-3 text-foreground/30 group-hover/p:text-foreground/60 transition-colors duration-200 pointer-events-none",
-	},
-];
-
-interface LinkResource {
-	title: string;
-	href: string;
-	Icon: React.ComponentType<{ className?: string }>;
-}
-
-const linkResources: LinkResource[] = [
-	{ title: "Community", href: "/community", Icon: CommunityIcon },
-	{ title: "Brand", href: "/brand", Icon: Palette },
-	{ title: "Legal", href: "/legal", Icon: Scale },
-];
-
-const resourceFiles: NavFileItem[] = [
-	...featuredResources.map((r) => ({
-		name: r.title.toLowerCase(),
-		href: r.href,
-	})),
-	...linkResources.map((r) => ({
-		name: r.title.toLowerCase(),
-		href: r.href,
-	})),
-];
-
-interface MobileMenuSection {
-	name: string;
-	href?: string;
-	children?: NavFileItem[];
-}
-
-const mobileMenuSections: MobileMenuSection[] = [
-	{ name: "resources", children: resourceFiles },
-	{ name: "contact", href: "/contact" },
-];
-
 export function Navigation() {
-	const pathname = usePathname() || "/";
-	const currentVersion = getVersionFromPathname(pathname);
-	const prefixHref = (href: string) => versionedDocsHref(href, currentVersion);
+	const path = usePathname() || "/";
+	const slug = versions.find(
+		(v) => v.slug && path.startsWith(`/docs/${v.slug}`),
+	)?.slug;
+
 	const [resourcesOpen, setResourcesOpen] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [mobileView, setMobileView] = useState<"docs" | "nav">("docs");
 	const [mobileDocSection, setMobileDocSection] = useState(-1);
-	const resourcesTimeout = useRef<NodeJS.Timeout>(undefined);
+	const timeout = useRef<NodeJS.Timeout>(undefined);
 
 	useEffect(() => {
 		document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -273,64 +131,46 @@ export function Navigation() {
 
 	useEffect(() => {
 		const mql = window.matchMedia("(min-width: 1024px)");
-		const handler = () => {
+		const handle = () => {
 			if (mql.matches) {
 				setMobileMenuOpen(false);
 			}
 		};
-		mql.addEventListener("change", handler);
-		return () => mql.removeEventListener("change", handler);
+		mql.addEventListener("change", handle);
+		return () => mql.removeEventListener("change", handle);
 	}, []);
 
-	const openResources = () => {
-		clearTimeout(resourcesTimeout.current);
-		setResourcesOpen(true);
-	};
-	const closeResources = () => {
-		resourcesTimeout.current = setTimeout(() => setResourcesOpen(false), 150);
-	};
-	const isActive = useCallback((href: string) => pathname === href, [pathname]);
-	const isActivePrefix = useCallback(
-		(href: string) => pathname === href || pathname.startsWith(`${href}/`),
-		[pathname],
-	);
-	const isDocs = pathname.startsWith("/docs");
-	const isPricingPage = pathname === "/pricing";
-	const isResourcePage = resourceFiles.some((r) => {
-		const matchPath = r.path || r.href;
-		return pathname === matchPath || pathname.startsWith(`${matchPath}/`);
-	});
-	const isKnownPage =
-		isActive("/") ||
-		isDocs ||
-		isPricingPage ||
-		isResourcePage ||
-		isActive("/contact");
-	const isNarrowLeft = isDocs;
-	const leftPaneWidthClass = isNarrowLeft
-		? "w-[22vw] max-w-[300px]"
-		: isPricingPage || isResourcePage
-			? "w-[30%]"
-			: "w-[40%]";
-	const navBottomBorderClass = isNarrowLeft ? "border-foreground/5" : "";
-	const tabDividerClass = isNarrowLeft
-		? "border-foreground/4"
-		: "border-foreground/[0.06]";
-	const activeTabBorderClass = isNarrowLeft
-		? "border-b-foreground/50"
-		: "border-b-foreground/60";
-	const dropdownBorderClass = isNarrowLeft
-		? "border-foreground/6"
-		: "border-foreground/[0.08]";
 	return (
 		<>
 			<div className="fixed top-0 left-0 right-0 z-[99] flex items-start pointer-events-none">
-				{/* Left — Logo */}
 				<motion.div
 					initial={{ x: -20, opacity: 0 }}
 					animate={{ x: 0, opacity: 1 }}
 					transition={{ duration: 0.28, ease: "easeOut" }}
-					className={`${leftPaneWidthClass} hidden ${isKnownPage ? "lg:flex" : "lg:hidden"} h-(--landing-topbar-height) items-stretch shrink-0 pointer-events-auto transition-[width] duration-300 ease-out`}
+					className={cn(
+						"hidden h-(--landing-topbar-height) items-stretch shrink-0 pointer-events-auto transition-[width] duration-300 ease-out",
+						path.startsWith("/docs")
+							? "w-[22vw] max-w-[300px]"
+							: path === "/pricing" ||
+									[
+										"/blog",
+										"/changelog",
+										"/community",
+										"/brand",
+										"/legal",
+									].some((p) => path === p || path.startsWith(`${p}/`))
+								? "w-[30%]"
+								: "w-[40%]",
+						path === "/" ||
+							path.startsWith("/docs") ||
+							path === "/pricing" ||
+							path === "/contact" ||
+							["/blog", "/changelog", "/community", "/brand", "/legal"].some(
+								(p) => path === p || path.startsWith(`${p}/`),
+							)
+							? "lg:flex"
+							: "lg:hidden",
+					)}
 				>
 					<Link
 						href="/"
@@ -342,7 +182,6 @@ export function Navigation() {
 					</Link>
 				</motion.div>
 
-				{/* Mobile — Logo + hamburger */}
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -356,7 +195,7 @@ export function Navigation() {
 						<BetterAuthWordmark className="w-35 h-auto" />
 					</Link>
 					<div className="flex items-center gap-1 pr-2">
-						{isDocs && (
+						{path.startsWith("/docs") && (
 							<button
 								type="button"
 								onClick={() => {
@@ -380,28 +219,28 @@ export function Navigation() {
 						<button
 							type="button"
 							onClick={() => {
-								const opening = !mobileMenuOpen;
-								setMobileMenuOpen(opening);
-								if (opening) {
-									setMobileView(isDocs ? "docs" : "nav");
-									if (isDocs) {
-										const idx = contents.findIndex((s) => {
-											const prefix = s.expandSectionForPathPrefix;
+								const isOpening = !mobileMenuOpen;
+								setMobileMenuOpen(isOpening);
+								if (isOpening) {
+									setMobileView(path.startsWith("/docs") ? "docs" : "nav");
+									if (path.startsWith("/docs")) {
+										const sectionIndex = contents.findIndex((section) => {
+											const matchSegment = section.expandSectionForPathPrefix;
 											if (
-												prefix &&
-												(pathname === prefix ||
-													pathname.startsWith(`${prefix}/`))
+												matchSegment &&
+												(path === matchSegment ||
+													path.startsWith(`${matchSegment}/`))
 											) {
 												return true;
 											}
-											return s.list.some(
-												(l) =>
-													l.href === pathname ||
-													(l.subitems?.length &&
-														pathname.startsWith(`${l.href}/`)),
+											return section.list.some(
+												(listItem) =>
+													listItem.href === path ||
+													(listItem.subitems?.length &&
+														path.startsWith(`${listItem.href}/`)),
 											);
 										});
-										setMobileDocSection(idx === -1 ? 0 : idx);
+										setMobileDocSection(sectionIndex === -1 ? 0 : sectionIndex);
 									}
 								}
 							}}
@@ -436,27 +275,44 @@ export function Navigation() {
 					</div>
 				</motion.div>
 
-				{/* Right — Nav tabs (desktop) */}
 				<motion.div
 					initial={{ y: -10, opacity: 0 }}
 					animate={{ y: 0, opacity: 1 }}
 					transition={{ duration: 0.28, delay: 0.04, ease: "easeOut" }}
-					className={`flex-1 hidden lg:flex h-[calc(var(--landing-topbar-height)+1px)] items-stretch border-b bg-background pointer-events-auto min-w-0 ${navBottomBorderClass}`}
+					className={cn(
+						"flex-1 hidden lg:flex h-[calc(var(--landing-topbar-height)+1px)] items-stretch border-b bg-background pointer-events-auto min-w-0",
+						path.startsWith("/docs") ? "border-foreground/5" : "",
+					)}
 				>
-					{/* Inline logo when left pane is hidden */}
-					{!isKnownPage && (
+					{!(
+						path === "/" ||
+						path.startsWith("/docs") ||
+						path === "/pricing" ||
+						path === "/contact" ||
+						["/blog", "/changelog", "/community", "/brand", "/legal"].some(
+							(p) => path === p || path.startsWith(`${p}/`),
+						)
+					) && (
 						<Link
 							href="/"
-							className={`flex h-full items-center gap-1 shrink-0 px-4 lg:px-7 py-3 border-r ${tabDividerClass} transition-colors duration-150`}
+							className={cn(
+								"flex h-full items-center gap-1 shrink-0 px-4 lg:px-7 py-3 border-r transition-colors duration-150",
+								path.startsWith("/docs")
+									? "border-foreground/4"
+									: "border-foreground/[0.06]",
+							)}
 						>
 							<Brand logo={<BetterAuthWordmark className="w-35 h-auto" />} />
 						</Link>
 					)}
-					{/* File tabs */}
-					{navFiles.map((item, index) => {
+					{[
+						{ name: "readme", href: "/" },
+						{ name: "docs", href: "/docs" },
+					].map((item, index) => {
 						const active =
-							isActive(item.path || item.href) ||
-							(item.href === "/docs" && isDocs);
+							item.href === "/docs"
+								? path.startsWith("/docs")
+								: path === item.href;
 						return (
 							<motion.div
 								key={item.name}
@@ -471,20 +327,28 @@ export function Navigation() {
 							>
 								<Link
 									href={item.href}
-									target={item.external ? "_blank" : undefined}
-									rel={item.external ? "noreferrer" : undefined}
-									className={`group/tab relative flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full border-r ${tabDividerClass} transition-colors duration-150 ${
+									className={cn(
+										"group/tab relative flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full border-r transition-colors duration-150",
+										path.startsWith("/docs")
+											? "border-foreground/4"
+											: "border-foreground/[0.06]",
 										active
-											? `bg-background border-b-2 ${activeTabBorderClass}`
-											: "bg-transparent hover:bg-foreground/[0.03]"
-									}`}
+											? cn(
+													"bg-background border-b-2",
+													path.startsWith("/docs")
+														? "border-b-foreground/50"
+														: "border-b-foreground/60",
+												)
+											: "bg-transparent hover:bg-foreground/[0.03]",
+									)}
 								>
 									<span
-										className={`font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
+										className={cn(
+											"font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap",
 											active
 												? "text-foreground"
-												: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75"
-										}`}
+												: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75",
+										)}
 									>
 										{item.name}
 									</span>
@@ -493,7 +357,6 @@ export function Navigation() {
 						);
 					})}
 
-					{/* Enterprise tab */}
 					<motion.div
 						initial={{ opacity: 0, y: -4 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -506,57 +369,87 @@ export function Navigation() {
 					>
 						<Link
 							href="/contact"
-							className={`group/tab relative flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full border-r ${tabDividerClass} transition-colors duration-150 ${
-								isActive("/contact")
-									? `bg-background border-b-2 ${activeTabBorderClass}`
-									: "bg-transparent hover:bg-foreground/[0.03]"
-							}`}
+							className={cn(
+								"group/tab relative flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full border-r transition-colors duration-150",
+								path.startsWith("/docs")
+									? "border-foreground/4"
+									: "border-foreground/[0.06]",
+								path === "/contact"
+									? cn(
+											"bg-background border-b-2",
+											path.startsWith("/docs")
+												? "border-b-foreground/50"
+												: "border-b-foreground/60",
+										)
+									: "bg-transparent hover:bg-foreground/[0.03]",
+							)}
 						>
 							<span
-								className={`font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
-									isActive("/contact")
+								className={cn(
+									"font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap",
+									path === "/contact"
 										? "text-foreground"
-										: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75"
-								}`}
+										: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75",
+								)}
 							>
 								contact
 							</span>
 						</Link>
 					</motion.div>
 
-					{/* Resources folder tab */}
 					<motion.div
 						initial={{ opacity: 0, y: -4 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.2, delay: 0.17, ease: "easeOut" }}
 						className="relative flex-1"
-						onMouseEnter={openResources}
-						onMouseLeave={closeResources}
+						onMouseEnter={() => {
+							clearTimeout(timeout.current);
+							setResourcesOpen(true);
+						}}
+						onMouseLeave={() => {
+							timeout.current = setTimeout(() => setResourcesOpen(false), 150);
+						}}
 					>
 						<div
-							className={`group/tab flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full cursor-pointer transition-colors duration-150 ${
-								isResourcePage
-									? `bg-background border-b-2 ${activeTabBorderClass}`
+							className={cn(
+								"group/tab flex items-center justify-center gap-1.5 px-2 xl:px-4 py-3 h-full cursor-pointer transition-colors duration-150",
+								["/blog", "/changelog", "/community", "/brand", "/legal"].some(
+									(p) => path === p || path.startsWith(`${p}/`),
+								)
+									? cn(
+											"bg-background border-b-2",
+											path.startsWith("/docs")
+												? "border-b-foreground/50"
+												: "border-b-foreground/60",
+										)
 									: resourcesOpen
 										? "bg-foreground/[0.04]"
-										: "hover:bg-foreground/[0.03]"
-							}`}
+										: "hover:bg-foreground/[0.03]",
+							)}
 						>
 							<span
-								className={`font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap ${
-									isResourcePage
+								className={cn(
+									"font-mono text-xs uppercase tracking-wider transition-colors duration-150 whitespace-nowrap",
+									[
+										"/blog",
+										"/changelog",
+										"/community",
+										"/brand",
+										"/legal",
+									].some((p) => path === p || path.startsWith(`${p}/`))
 										? "text-foreground"
 										: resourcesOpen
 											? "text-foreground/80"
-											: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75"
-								}`}
+											: "text-foreground/65 dark:text-foreground/50 group-hover/tab:text-foreground/75",
+								)}
 							>
 								resources
 							</span>
 							<svg
-								className={`h-2 w-2 text-foreground/55 dark:text-foreground/40 transition-transform duration-200 ${
-									resourcesOpen ? "rotate-180" : ""
-								}`}
+								className={cn(
+									"h-2 w-2 text-foreground/55 dark:text-foreground/40 transition-transform duration-200",
+									resourcesOpen ? "rotate-180" : "",
+								)}
 								viewBox="0 0 10 6"
 								fill="none"
 							>
@@ -575,38 +468,61 @@ export function Navigation() {
 									animate={{ opacity: 1, y: 0 }}
 									exit={{ opacity: 0, y: -4 }}
 									transition={{ duration: 0.12, ease: "easeOut" }}
-									className={`absolute top-full right-0 z-50 w-[480px] max-w-[calc(100vw-2rem)] border ${dropdownBorderClass} bg-background shadow-2xl shadow-black/20 dark:shadow-black/60`}
+									className={cn(
+										"absolute top-full right-0 z-50 w-[480px] max-w-[calc(100vw-2rem)] border bg-background shadow-2xl shadow-black/20 dark:shadow-black/60",
+										path.startsWith("/docs")
+											? "border-foreground/6"
+											: "border-foreground/[0.08]",
+									)}
 								>
 									<div className="grid grid-cols-2 divide-x divide-foreground/[0.06]">
-										{featuredResources.map((r) => (
+										{[
+											{
+												title: "Blog",
+												tagline: "Writing",
+												description: "Engineering, product, and updates",
+												href: "/blog",
+												Icon: PencilLine,
+												Pattern: ScribblePattern,
+												patternClassName:
+													"absolute right-3 top-3 text-foreground/30 group-hover/p:text-foreground/60 transition-colors duration-200 pointer-events-none",
+											},
+											{
+												title: "Changelog",
+												tagline: "Shipped",
+												description: "Latest releases and improvements",
+												href: "/changelog",
+												Icon: History,
+												Pattern: TimelinePattern,
+												patternClassName:
+													"absolute right-3 top-3 text-foreground/30 group-hover/p:text-foreground/60 transition-colors duration-200 pointer-events-none",
+											},
+										].map((resource) => (
 											<Link
-												key={r.title}
-												href={r.href}
+												key={resource.title}
+												href={resource.href}
 												onClick={() => setResourcesOpen(false)}
 												className="group/p relative flex h-full flex-col gap-2.5 p-4 overflow-hidden hover:bg-foreground/[0.03] transition-colors"
 											>
-												{r.BgPattern && (
-													<r.BgPattern className={r.bgPatternClassName ?? ""} />
-												)}
-												{r.Pattern && (
-													<r.Pattern
+												{resource.Pattern && (
+													<resource.Pattern
 														className={
-															r.patternClassName ??
+															resource.patternClassName ??
 															"absolute right-0 top-0 text-foreground/[0.09] group-hover/p:text-foreground/25 transition-colors duration-200 pointer-events-none"
 														}
 													/>
 												)}
 												<div className="relative flex items-center">
 													<span className="flex size-8 items-center justify-center border border-foreground/[0.1] text-foreground/70 group-hover/p:text-foreground group-hover/p:border-foreground/25 transition-colors bg-background">
-														<r.Icon className="size-4" />
+														<resource.Icon className="size-4" />
 													</span>
 												</div>
 												<div className="relative flex flex-col gap-0.5">
 													<span className="text-[13px] font-medium text-foreground/90 group-hover/p:text-foreground transition-colors">
-														{r.title}
+														{resource.title}
 													</span>
 													<span className="text-[11px] leading-relaxed text-foreground/55 dark:text-foreground/45">
-														{r.description}
+														{resource.description}
 													</span>
 												</div>
 											</Link>
@@ -614,16 +530,24 @@ export function Navigation() {
 									</div>
 
 									<div className="grid grid-cols-3 divide-x divide-foreground/[0.06] border-t border-foreground/[0.06]">
-										{linkResources.map((r) => (
+										{[
+											{
+												title: "Community",
+												href: "/community",
+												Icon: CommunityIcon,
+											},
+											{ title: "Brand", href: "/brand", Icon: Palette },
+											{ title: "Legal", href: "/legal", Icon: Scale },
+										].map((resource) => (
 											<Link
-												key={r.title}
-												href={r.href}
+												key={resource.title}
+												href={resource.href}
 												onClick={() => setResourcesOpen(false)}
 												className="group/p relative flex items-center gap-2 px-3 py-3 hover:bg-foreground/[0.03] transition-colors"
 											>
-												<r.Icon className="size-3.5 text-foreground/55 group-hover/p:text-foreground/80 transition-colors" />
+												<resource.Icon className="size-3.5 text-foreground/55 group-hover/p:text-foreground/80 transition-colors" />
 												<span className="text-[12px] font-medium text-foreground/75 group-hover/p:text-foreground transition-colors">
-													{r.title}
+													{resource.title}
 												</span>
 											</Link>
 										))}
@@ -715,7 +639,6 @@ export function Navigation() {
 				</motion.div>
 			</div>
 
-			{/* Mobile menu overlay */}
 			<AnimatePresence>
 				{mobileMenuOpen && (
 					<motion.div
@@ -727,9 +650,8 @@ export function Navigation() {
 					>
 						<div className="flex h-full flex-col pt-(--landing-topbar-height)">
 							<div className="flex-1 min-h-0 overflow-y-auto">
-								{isDocs && mobileView === "docs" ? (
+								{path.startsWith("/docs") && mobileView === "docs" ? (
 									<>
-										{/* Subtle back to nav button */}
 										<button
 											type="button"
 											onClick={() => setMobileView("nav")}
@@ -751,22 +673,23 @@ export function Navigation() {
 											</span>
 										</button>
 
-										{/* Doc sidebar sections */}
 										<div className="flex flex-col">
-											{contents.map((section, index) => (
+											{contents.map((section, sectionIndex) => (
 												<div key={section.title}>
 													<button
 														type="button"
 														className={cn(
 															"border-b border-foreground/6 w-full text-left flex gap-2 items-center px-5 py-3 transition-colors",
 															"font-medium text-sm tracking-wider",
-															mobileDocSection === index
+															mobileDocSection === sectionIndex
 																? "text-foreground bg-foreground/3"
 																: "text-foreground/70 hover:text-foreground hover:bg-foreground/3",
 														)}
 														onClick={() =>
-															setMobileDocSection((prev) =>
-																prev === index ? -1 : index,
+															setMobileDocSection((previousState) =>
+																previousState === sectionIndex
+																	? -1
+																	: sectionIndex,
 															)
 														}
 													>
@@ -775,23 +698,29 @@ export function Navigation() {
 														<ChevronDownIcon
 															className={cn(
 																"h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
-																mobileDocSection === index ? "rotate-180" : "",
+																mobileDocSection === sectionIndex
+																	? "rotate-180"
+																	: "",
 															)}
 														/>
 													</button>
-													{mobileDocSection === index && (
+													{mobileDocSection === sectionIndex && (
 														<div className="relative overflow-hidden">
 															<div className="text-sm pt-0 pb-1">
 																{section.href && (
 																	<Link
-																		href={prefixHref(section.href)}
+																		href={
+																			slug
+																				? `/docs/${slug}${section.href.replace(/^\/docs/, "")}`
+																				: section.href
+																		}
 																		onClick={() => setMobileMenuOpen(false)}
 																		data-active={
-																			pathname === section.href || undefined
+																			path === section.href || undefined
 																		}
 																		className={cn(
 																			"relative flex items-center gap-2.5 px-5 py-1.5 text-[14px] transition-all duration-150",
-																			pathname === section.href
+																			path === section.href
 																				? "text-foreground bg-foreground/6"
 																				: "text-foreground/75 dark:text-foreground/60 hover:text-foreground/90 hover:bg-foreground/3",
 																		)}
@@ -799,25 +728,25 @@ export function Navigation() {
 																		<span className="truncate">Overview</span>
 																	</Link>
 																)}
-																{section.list.map((item, i) => {
-																	if (item.separator || item.group) {
+																{section.list.map((listItem, listItemIndex) => {
+																	if (listItem.separator || listItem.group) {
 																		return (
 																			<div
-																				key={`sep-${item.title}-${i}`}
+																				key={`sep-${listItem.title}-${listItemIndex}`}
 																				className="flex flex-row items-center gap-2 mx-5 my-2"
 																			>
 																				<p className="text-[10px] text-foreground/65 dark:text-foreground/45 uppercase tracking-wider">
-																					{item.title}
+																					{listItem.title}
 																				</p>
 																				<div className="grow h-px bg-border" />
 																			</div>
 																		);
 																	}
-																	if (item.external && item.href) {
+																	if (listItem.external && listItem.href) {
 																		return (
 																			<Link
-																				key={item.href}
-																				href={item.href}
+																				key={listItem.href}
+																				href={listItem.href}
 																				onClick={() => setMobileMenuOpen(false)}
 																				className={cn(
 																					"relative flex w-full items-center gap-2.5 px-5 py-1.5 text-[14px] transition-all duration-150",
@@ -826,13 +755,13 @@ export function Navigation() {
 																			>
 																				<span className="text-foreground/75 transition-colors duration-150 dark:text-foreground/60">
 																					<span className="flex size-5 shrink-0 items-center justify-center [&>svg]:size-[14px]">
-																						<item.icon className="text-foreground/75" />
+																						<listItem.icon className="text-foreground/75" />
 																					</span>
 																				</span>
 																				<span className="min-w-0 grow truncate">
-																					{item.title}
+																					{listItem.title}
 																				</span>
-																				{item.isNew && (
+																				{listItem.isNew && (
 																					<Badge
 																						className="pointer-events-none border-dashed rounded-none px-1.5 py-0 text-[9px] uppercase tracking-wider text-foreground/70 dark:text-foreground/55 border-foreground/25"
 																						variant="outline"
@@ -843,15 +772,19 @@ export function Navigation() {
 																			</Link>
 																		);
 																	}
-																	if (!item.href) return null;
+																	if (!listItem.href) return null;
 																	const active =
-																		pathname === item.href ||
-																		(!!item.subitems?.length &&
-																			pathname.startsWith(`${item.href}/`));
+																		path === listItem.href ||
+																		(!!listItem.subitems?.length &&
+																			path.startsWith(`${listItem.href}/`));
 																	return (
 																		<Link
-																			key={item.href}
-																			href={prefixHref(item.href)}
+																			key={listItem.href}
+																			href={
+																				slug
+																					? `/docs/${slug}${listItem.href.replace(/^\/docs/, "")}`
+																					: listItem.href
+																			}
 																			onClick={() => setMobileMenuOpen(false)}
 																			data-active={active || undefined}
 																			className={cn(
@@ -870,13 +803,13 @@ export function Navigation() {
 																				)}
 																			>
 																				<span className="flex size-5 shrink-0 items-center justify-center [&>svg]:size-[14px]">
-																					<item.icon className="text-foreground/75" />
+																					<listItem.icon className="text-foreground/75" />
 																				</span>
 																			</span>
 																			<span className="min-w-0 grow truncate">
-																				{item.title}
+																				{listItem.title}
 																			</span>
-																			{item.isNew && (
+																			{listItem.isNew && (
 																				<Badge
 																					className={cn(
 																						"pointer-events-none border-dashed rounded-none px-1.5 py-0 text-[9px] uppercase tracking-wider",
@@ -901,8 +834,7 @@ export function Navigation() {
 									</>
 								) : (
 									<>
-										{/* Back to docs button (when on docs page and switched to nav view) */}
-										{isDocs && mobileView === "nav" && (
+										{path.startsWith("/docs") && mobileView === "nav" && (
 											<button
 												type="button"
 												onClick={() => setMobileView("docs")}
@@ -925,85 +857,97 @@ export function Navigation() {
 											</button>
 										)}
 
-										{/* Nav items */}
-										{navFiles.map((item) => (
-											<Link
-												key={item.name}
-												href={item.href}
-												onClick={() => setMobileMenuOpen(false)}
-												className={cn(
-													"flex items-center gap-2.5 px-5 py-3.5 border-b border-foreground/6 transition-colors font-mono text-base uppercase tracking-wider",
-													isActive(item.path || item.href) ||
-														(item.href === "/docs" && isDocs)
-														? "text-foreground bg-foreground/4"
-														: "text-foreground/75 dark:text-foreground/60 hover:bg-foreground/3",
-												)}
-											>
-												{item.name}
-											</Link>
-										))}
+										{[
+											{ name: "readme", href: "/" },
+											{ name: "docs", href: "/docs" },
+										].map((item) => {
+											const active =
+												item.href === "/docs"
+													? path.startsWith("/docs")
+													: path === item.href;
+											return (
+												<Link
+													key={item.name}
+													href={item.href}
+													onClick={() => setMobileMenuOpen(false)}
+													className={cn(
+														"flex items-center gap-2.5 px-5 py-3.5 border-b border-foreground/6 transition-colors font-mono text-base uppercase tracking-wider",
+														active
+															? "text-foreground bg-foreground/4"
+															: "text-foreground/75 dark:text-foreground/60 hover:bg-foreground/3",
+													)}
+												>
+													{item.name}
+												</Link>
+											);
+										})}
 
-										{/* Accordion groups */}
 										<Accordion
 											type="multiple"
 											value={[
-												...mobileMenuSections
-													.filter((s) =>
-														s.children?.some((item) =>
-															isActivePrefix(item.path || item.href),
-														),
-													)
-													.map((s) => s.name),
+												...[{ name: "resources" }, { name: "contact" }]
+													.filter((sectionItem) => {
+														if (sectionItem.name === "resources") {
+															return [
+																"/blog",
+																"/changelog",
+																"/community",
+																"/brand",
+																"/legal",
+															].some(
+																(p) => path === p || path.startsWith(`${p}/`),
+															);
+														}
+														return false;
+													})
+													.map((sectionItem) => sectionItem.name),
 											]}
 											className="w-full"
 										>
-											{mobileMenuSections.map((section) => (
-												<Accordion.Item key={section.name} value={section.name}>
-													{section.children ? (
-														<>
-															<Accordion.Trigger className="px-5 py-3.5 font-mono text-base uppercase tracking-wider text-foreground/75 dark:text-foreground/60 hover:text-foreground hover:no-underline">
-																{section.name}
-															</Accordion.Trigger>
-															<Accordion.Content className="pb-0">
-																{section.children.map((item) => (
-																	<Link
-																		key={item.name}
-																		href={item.href}
-																		target={
-																			item.external ? "_blank" : undefined
-																		}
-																		rel={
-																			item.external ? "noreferrer" : undefined
-																		}
-																		onClick={() => setMobileMenuOpen(false)}
-																		className={cn(
-																			"flex items-center gap-2.5 pl-9 pr-5 py-2.5 transition-colors font-mono text-sm uppercase tracking-wider",
-																			isActivePrefix(item.path || item.href)
-																				? "text-foreground bg-foreground/4"
-																				: "text-foreground/60 dark:text-foreground/45 hover:text-foreground hover:bg-foreground/3",
-																		)}
-																	>
-																		{item.name}
-																	</Link>
-																))}
-															</Accordion.Content>
-														</>
-													) : (
+											<Accordion.Item value="resources">
+												<Accordion.Trigger className="px-5 py-3.5 font-mono text-base uppercase tracking-wider text-foreground/75 dark:text-foreground/60 hover:text-foreground hover:no-underline">
+													resources
+												</Accordion.Trigger>
+												<Accordion.Content className="pb-0">
+													{[
+														{ name: "blog", href: "/blog" },
+														{ name: "changelog", href: "/changelog" },
+														{ name: "community", href: "/community" },
+														{ name: "brand", href: "/brand" },
+														{ name: "legal", href: "/legal" },
+													].map((item) => (
 														<Link
-															href={section.href!}
+															key={item.name}
+															href={item.href}
 															onClick={() => setMobileMenuOpen(false)}
 															className={cn(
-																"flex items-center gap-2.5 px-5 py-3.5 transition-colors font-mono text-base uppercase tracking-wider",
-																isActive(section.href!)
+																"flex items-center gap-2.5 pl-9 pr-5 py-2.5 transition-colors font-mono text-sm uppercase tracking-wider",
+																path === item.href ||
+																	path.startsWith(`${item.href}/`)
 																	? "text-foreground bg-foreground/4"
-																	: "text-foreground/75 dark:text-foreground/60 hover:text-foreground",
+																	: "text-foreground/60 dark:text-foreground/45 hover:text-foreground hover:bg-foreground/3",
 															)}
 														>
-															{section.name}
+															{item.name}
 														</Link>
+													))}
+												</Accordion.Content>
+											</Accordion.Item>
+
+											<Accordion.Item value="contact">
+												<Link
+													href="/contact"
+													onClick={() => setMobileMenuOpen(false)}
+													className={cn(
+														"flex items-center gap-2.5 px-5 py-3.5 transition-colors font-mono text-base uppercase tracking-wider",
+														path === "/contact"
+															? "text-foreground bg-foreground/4"
+															: "text-foreground/75 dark:text-foreground/60 hover:text-foreground",
 													)}
-												</Accordion.Item>
-											))}
+												>
+													contact
+												</Link>
+											</Accordion.Item>
 										</Accordion>
 									</>
 								)}

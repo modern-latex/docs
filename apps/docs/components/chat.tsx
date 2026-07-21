@@ -1,9 +1,5 @@
 "use client";
 
-import { useChat } from "@ai-sdk/react";
-import { Drawer } from "@prostha/ui/src/components/drawer";
-import { DefaultChatTransport } from "ai";
-import { Loader2, MessageCircleIcon, Send, X } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import {
 	createContext,
@@ -13,9 +9,15 @@ import {
 	useRef,
 	useState,
 } from "react";
+
+import { useChat } from "@ai-sdk/react";
+import { Drawer } from "@prostha/ui/src/components/drawer";
+import { cn } from "@prostha/ui/src/lib/utils";
+import { DefaultChatTransport } from "ai";
+import { Loader2, MessageCircleIcon, Send, X } from "lucide-react";
+
 import { Feedback } from "@/components/feedback";
 import { Markdown } from "@/components/markdown";
-import { cn } from "@/lib/utils";
 
 const Context = createContext<{
 	open: boolean;

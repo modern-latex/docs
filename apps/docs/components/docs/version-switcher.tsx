@@ -1,15 +1,13 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+
+import { useEffect, useRef, useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { Check } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import {
-	docsVersions,
-	getVersionFromPathname,
-	stripVersionPrefix,
-	versionedDocsHref,
-} from "@/lib/docs-versions";
+
+import { versions } from "@/lib/versions";
 
 export function VersionSwitcher() {
 	const pathname = usePathname() || "/docs";
@@ -36,7 +34,7 @@ export function VersionSwitcher() {
 		<div ref={reference} className="relative border-y border-foreground/5">
 			<button
 				type="button"
-				onClick={() => setOpen((version) => !version)}
+				onClick={() => setOpen((prev) => !prev)}
 				className="group/version flex w-full items-center gap-2 px-4 py-2.25 text-sm text-foreground/55 hover:text-foreground/80 hover:bg-foreground/3 transition-colors"
 			>
 				<svg
@@ -51,11 +49,36 @@ export function VersionSwitcher() {
 					<path d="M7 8.25a2.75 2.75 0 1 0 0-5.5a2.75 2.75 0 0 0 0 5.5m0 0V12m0 3.75a2.75 2.75 0 1 0 0 5.5a2.75 2.75 0 0 0 0-5.5m0 0V12m10-3.75a2.75 2.75 0 1 0 0-5.5a2.75 2.75 0 0 0 0 5.5m0 0V9a3 3 0 0 1-3 3H7" />
 				</svg>
 				<span className="truncate">
-					{getVersionFromPathname(pathname).label}
+					{
+						(
+							versions.find(
+								(version) =>
+									version.slug &&
+									(pathname === `/docs/${version.slug}` ||
+										pathname.startsWith(`/docs/${version.slug}/`)),
+							) || versions.find((version) => !version.slug)!
+						).label
+					}
 				</span>
-				{getVersionFromPathname(pathname).badge && (
+				{(
+					versions.find(
+						(version) =>
+							version.slug &&
+							(pathname === `/docs/${version.slug}` ||
+								pathname.startsWith(`/docs/${version.slug}/`)),
+					) || versions.find((version) => !version.slug)!
+				).badge && (
 					<span className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 border border-dashed border-foreground/20 text-foreground/45">
-						{getVersionFromPathname(pathname).badge}
+						{
+							(
+								versions.find(
+									(version) =>
+										version.slug &&
+										(pathname === `/docs/${version.slug}` ||
+											pathname.startsWith(`/docs/${version.slug}/`)),
+								) || versions.find((version) => !version.slug)!
+							).badge
+						}
 					</span>
 				)}
 				<svg
@@ -89,33 +112,46 @@ export function VersionSwitcher() {
 						transition={{ duration: 0.12, ease: "easeOut" }}
 						className="absolute left-0 right-0 top-full z-50 border-b border-foreground/8 bg-background shadow-lg shadow-black/10 dark:shadow-black/40 py-1"
 					>
-						{docsVersions.map((version) => {
+						{versions.map((version) => {
+							const activeSlug = (
+								versions.find(
+									(v) =>
+										v.slug &&
+										(pathname === `/docs/${v.slug}` ||
+											pathname.startsWith(`/docs/${v.slug}/`)),
+								) || versions.find((v) => !v.slug)!
+							).slug;
+							const isActive = version.slug === activeSlug;
 							return (
 								<button
 									key={version.version}
 									type="button"
 									onClick={() => {
 										setOpen(false);
-										if (version.slug === getVersionFromPathname(pathname).slug)
-											return;
-										router.push(
-											versionedDocsHref(
-												stripVersionPrefix(
-													pathname,
-													getVersionFromPathname(pathname),
-												),
-												version,
-											),
-										);
+										if (isActive) return;
+
+										const stripped = activeSlug
+											? pathname === `/docs/${activeSlug}` ||
+												pathname === `/docs/${activeSlug}/`
+												? "/docs"
+												: pathname.startsWith(`/docs/${activeSlug}/`)
+													? `/docs${pathname.slice(`/docs/${activeSlug}`.length)}`
+													: pathname
+											: pathname;
+										const target = version.slug
+											? `/docs/${version.slug}${stripped.replace(/^\/docs/, "")}`
+											: stripped;
+
+										router.push(target);
 									}}
 									className={`flex w-full items-center gap-2 px-4 py-2 text-sm transition-colors duration-150 ${
-										version.slug === getVersionFromPathname(pathname).slug
+										isActive
 											? "text-foreground bg-foreground/5"
 											: "text-foreground/55 hover:text-foreground/80 hover:bg-foreground/3"
 									}`}
 								>
 									<span className="size-4 shrink-0 flex items-center justify-center">
-										{version.slug === getVersionFromPathname(pathname).slug && (
+										{isActive && (
 											<Check className="size-3.5 text-foreground/70" />
 										)}
 									</span>

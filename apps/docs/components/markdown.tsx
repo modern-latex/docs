@@ -1,12 +1,13 @@
 "use client";
 
+import type { ComponentProps, ReactElement, ReactNode } from "react";
+import { Children, Suspense, use, useDeferredValue, useMemo } from "react";
+import { Fragment, jsx, jsxs } from "react/jsx-runtime";
+
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { js_beautify } from "js-beautify";
-import type { ComponentProps, ReactElement, ReactNode } from "react";
-import { Children, Suspense, use, useDeferredValue, useMemo } from "react";
-import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";

@@ -1,6 +1,7 @@
 import { Button } from "@prostha/ui/src/components/button";
 import { CodeBlock } from "@prostha/ui/src/components/code-block";
 import { Link } from "lucide-react";
+
 import { Endpoint } from "@/components/endpoint";
 import { Methods } from "@/components/methods";
 

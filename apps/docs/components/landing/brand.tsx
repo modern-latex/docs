@@ -1,12 +1,15 @@
 "use client";
 
-import { Popover } from "@prostha/ui/src/components/popover";
-import { Code, Download, Palette, Type } from "lucide-react";
 import Link from "next/link";
-import { useTheme } from "next-themes";
+
 import type React from "react";
 import { useEffect, useState } from "react";
+
+import { Popover } from "@prostha/ui/src/components/popover";
+import { Code, Download, Palette, Type } from "lucide-react";
+import { useTheme } from "next-themes";
 import { toast } from "sonner";
+
 import { assets } from "@/lib/brand";
 
 interface Props {

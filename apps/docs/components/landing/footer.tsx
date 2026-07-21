@@ -1,7 +1,9 @@
 "use client";
 
-import { icons } from "@prostha/ui/src/icons";
 import Link from "next/link";
+
+import { icons } from "@prostha/ui/src/icons";
+
 import { ThemeProvider } from "@/components/theme-provider";
 
 export default function Footer() {

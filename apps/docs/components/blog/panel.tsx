@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+
 import type { ReactNode } from "react";
+
 import { Halftone } from "@/components/landing/halftone";
 
 interface Post {
