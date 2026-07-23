@@ -10,7 +10,41 @@
       "tailwindDirectives": true
     }
   },
-  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ["next", "next/*"],
+              ":BLANK_LINE:",
+              ["react", "react-dom", "react/*"],
+              ":BLANK_LINE:",
+              ["@prostha/*", "@prostha"],
+              ":BLANK_LINE:",
+              ":NODE:",
+              ":BLANK_LINE:",
+              [
+                ":PACKAGE:",
+                "!next",
+                "!next/*",
+                "!react",
+                "!react-dom",
+                "!react/*",
+                "!@prostha/*",
+                "!@prostha"
+              ],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              [":PATH:", ":STYLE:"]
+            ]
+          }
+        }
+      }
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
