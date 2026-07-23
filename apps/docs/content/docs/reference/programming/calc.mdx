@@ -1,0 +1,31 @@
+---
+title: calc
+description: 'Lengths written as sums, such as \textwidth-2cm, and \widthof.'
+---
+
+## Loading
+
+```latex
+\usepackage{calc}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\half`, `\newlength`, `\settowidth`, `\widthof`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="calc.tex"
+\documentclass{article}
+\usepackage{calc}
+\begin{document}
+\newlength{\half}
+\setlength{\half}{\textwidth/2 - 1cm}
+\setcounter{page}{2*3}
+\rule{\half}{1pt} \widthof{text} \settowidth{\half}{wide text}
+\end{document}
+```

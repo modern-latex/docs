@@ -1,0 +1,28 @@
+---
+title: blindtext
+description: 'Text to fill a page with, the printer''s Lorem ipsum.'
+---
+
+## Loading
+
+```latex
+\usepackage{blindtext}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\blindtext`, `\Blindtext`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="blindtext.tex"
+\documentclass{article}
+\usepackage{blindtext}
+\begin{document}
+\blindtext
+\end{document}
+```
