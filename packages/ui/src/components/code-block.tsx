@@ -1,8 +1,5 @@
 "use client";
 
-import type { HighlightOptions } from "fumadocs-core/highlight";
-import { useShiki } from "fumadocs-core/highlight/client";
-import { Check, Copy } from "lucide-react";
 import type {
 	ComponentProps,
 	CSSProperties,
@@ -11,7 +8,12 @@ import type {
 	ReactNode,
 } from "react";
 import { createContext, Suspense, use, useId, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
+
+import type { HighlightOptions } from "fumadocs-core/highlight";
+import { useShiki } from "fumadocs-core/highlight/client";
+import { Check, Copy } from "lucide-react";
+
+import { cn } from "../lib/utils";
 import { Button } from "./button";
 
 export interface CodeBlockProps extends ComponentProps<"figure"> {

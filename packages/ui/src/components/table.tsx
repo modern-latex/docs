@@ -1,7 +1,8 @@
 "use client";
 
 import type * as React from "react";
-import { cn } from "@/lib/utils";
+
+import { cn } from "../lib/utils";
 
 const Root = ({ className, ...props }: React.ComponentProps<"table">) => (
 	<div data-slot="table-container" className="relative w-full overflow-x-auto">

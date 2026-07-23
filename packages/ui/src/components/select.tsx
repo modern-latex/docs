@@ -1,9 +1,11 @@
 "use client";
 
+import type * as React from "react";
+
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronsUpDown, ChevronUp } from "lucide-react";
-import type * as React from "react";
-import { cn } from "@/lib/utils";
+
+import { cn } from "../lib/utils";
 
 const Root = (props: React.ComponentProps<typeof SelectPrimitive.Root>) => (
 	<SelectPrimitive.Root data-slot="select" {...props} />
