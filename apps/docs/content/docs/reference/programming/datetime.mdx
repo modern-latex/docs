@@ -1,0 +1,28 @@
+---
+title: datetime
+description: 'The date written the ways a document writes it.'
+---
+
+## Loading
+
+```latex
+\usepackage{datetime}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ampmtime`, `\currenttime`, `\formatdate`, `\formattime`, `\isodate`, `\longdate`, `\newdateformat`, `\numericdate`, `\oclock`, `\settimeformat`, `\shortdate`, `\shortmonthname`, `\THEDAY`, `\THEMONTH`, `\THEYEAR`, `\twodigits`, `\weekday`, `\xxivtime`, `\zellermonth`, `\zelleryear`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="datetime.tex"
+\documentclass{article}
+\usepackage{datetime}
+\begin{document}
+Today is \today, in ISO form \isodate, short \shortdate, and the time is \currenttime.
+\end{document}
+```
