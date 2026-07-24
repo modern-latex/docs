@@ -1,0 +1,40 @@
+---
+title: etoolbox
+description: 'The tests and switches a package, or a document built from a program''s values, decides what to set with.'
+---
+
+## Loading
+
+```latex
+\usepackage{etoolbox}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\appto`, `\AtBeginEnvironment`, `\AtEndPreamble`, `\boolfalse`, `\booltrue`, `\foo`, `\ifblank`, `\ifbool`, `\ifdef`, `\ifdimcomp`, `\ifnumcomp`, `\ifnumequal`, `\ifnumgreater`, `\ifnumless`, `\ifnumodd`, `\ifstrequal`, `\iftoggle`, `\ifundef`, `\list`, `\newbool`, `\newtoggle`, `\notblank`, `\notbool`, `\nottoggle`, `\preto`, `\setbool`, `\settoggle`, `\togglefalse`, `\toggletrue`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="etoolbox.tex"
+\documentclass{article}
+\usepackage{etoolbox}
+\begin{document}
+\newtoggle{draft}
+\toggletrue{draft}
+\iftoggle{draft}{Draft.}{Final.}
+\newbool{flag}\booltrue{flag}\ifbool{flag}{Flag set.}{}
+\ifstrequal{a}{a}{Equal.}{Different.}
+\ifnumcomp{3}{>}{2}{Greater.}{}
+\ifblank{}{Blank.}{}
+\ifdef{\foo}{}{No foo.}
+\newcommand{\list}{a}
+\appto\list{b}\preto\list{c}
+\list
+\AtEndPreamble{}
+\AtBeginEnvironment{quote}{}
+\end{document}
+```

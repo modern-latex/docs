@@ -1,0 +1,38 @@
+---
+title: expl3
+description: 'LaTeX3.'
+---
+
+## Loading
+
+```latex
+\usepackage{expl3}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\answer`, `\cs`, `\ExplSyntaxOff`, `\ExplSyntaxOn`, `\greet`, `\my`, `\NewDocumentCommand`, `\tl`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="expl3.tex"
+\documentclass{article}
+\usepackage{expl3}
+\ExplSyntaxOn
+\tl_new:N \l_title_tl
+\tl_set:Nn \l_title_tl {Report}
+\int_new:N \l_count_int
+\int_set:Nn \l_count_int {6 * 7}
+\cs_new:Npn \my_greet:n #1 {Hello,~#1}
+\NewDocumentCommand{\greet}{m}{\my_greet:n{#1}}
+\NewDocumentCommand{\answer}{}{\int_use:N \l_count_int}
+\NewDocumentCommand{\thetitle}{}{\tl_use:N \l_title_tl}
+\ExplSyntaxOff
+\begin{document}
+\greet{world}: the answer is \answer, and the title is \thetitle.
+\end{document}
+```
