@@ -1,0 +1,28 @@
+---
+title: l3keys2e
+description: 'LaTeX3 keys as options.'
+---
+
+## Loading
+
+```latex
+\usepackage{l3keys2e}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\ProcessKeysOptions`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="l3keys2e.tex"
+\documentclass{article}
+\usepackage{l3keys2e}
+\begin{document}
+\ProcessKeysOptions{x} Text.
+\end{document}
+```

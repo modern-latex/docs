@@ -1,0 +1,28 @@
+---
+title: letltxmacro
+description: 'Copying robust macros.'
+---
+
+## Loading
+
+```latex
+\usepackage{letltxmacro}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\LetLtxMacro`, `\oldemph`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="letltxmacro.tex"
+\documentclass{article}
+\usepackage{letltxmacro}
+\begin{document}
+\LetLtxMacro{\oldemph}{\emph}\renewcommand{\emph}[1]{\textbf{#1}}\emph{new} \oldemph{old}
+\end{document}
+```
