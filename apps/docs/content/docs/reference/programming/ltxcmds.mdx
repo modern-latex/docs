@@ -1,0 +1,28 @@
+---
+title: ltxcmds
+description: 'LaTeX kernel commands.'
+---
+
+## Loading
+
+```latex
+\usepackage{ltxcmds}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\ltx`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ltxcmds.tex"
+\documentclass{article}
+\usepackage{ltxcmds}
+\begin{document}
+\ltx@ifpackageloaded{hyperref}{yes}{no} Text.
+\end{document}
+```
