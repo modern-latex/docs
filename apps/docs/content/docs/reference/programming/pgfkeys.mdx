@@ -1,0 +1,28 @@
+---
+title: pgfkeys
+description: 'PGF keys.'
+---
+
+## Loading
+
+```latex
+\usepackage{pgfkeys}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\pgfkeys`, `\pgfkeysvalueof`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pgfkeys.tex"
+\documentclass{article}
+\usepackage{pgfkeys}
+\begin{document}
+\pgfkeys{/my/.cd, size/.initial=10, size=12} Size \pgfkeysvalueof{/my/size}.
+\end{document}
+```

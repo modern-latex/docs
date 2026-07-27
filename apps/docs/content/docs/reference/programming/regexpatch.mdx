@@ -1,0 +1,28 @@
+---
+title: regexpatch
+description: 'Patching by regular expression.'
+---
+
+## Loading
+
+```latex
+\usepackage{regexpatch}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\regexpatchcmd`, `\word`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="regexpatch.tex"
+\documentclass{article}
+\usepackage{regexpatch}
+\begin{document}
+\newcommand{\word}{abc}\regexpatchcmd{\word}{b}{B}{}{}\word
+\end{document}
+```
