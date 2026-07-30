@@ -1,0 +1,28 @@
+---
+title: totcount
+description: 'Counter totals.'
+---
+
+## Loading
+
+```latex
+\usepackage{totcount}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\regtotcounter`, `\total`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="totcount.tex"
+\documentclass{article}
+\usepackage{totcount}
+\begin{document}
+\regtotcounter{section}\section{A}\section{B}There are \total{section} sections.
+\end{document}
+```
