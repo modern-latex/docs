@@ -1,0 +1,31 @@
+---
+title: acro
+description: 'Acronyms declared by keys, spelled out the first time each is used and short after.'
+---
+
+## Loading
+
+```latex
+\usepackage{acro}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ac`, `\Ac`, `\acf`, `\acl`, `\Acl`, `\aclp`, `\acp`, `\acreset`, `\acs`, `\acsetup`, `\acsp`, `\acuse`, `\DeclareAcronym`, `\printacronyms`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="acro.tex"
+\documentclass{article}
+\usepackage{acro}
+\begin{document}
+\DeclareAcronym{nasa}{short=NASA, long=National Aeronautics and Space Administration}
+\DeclareAcronym{esa}{short=ESA, long=European Space Agency}
+First \ac{nasa}, then \ac{nasa}; \acl{esa}, \acs{esa}, \acf{esa}.
+\printacronyms
+\end{document}
+```
