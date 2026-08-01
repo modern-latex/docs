@@ -1,0 +1,78 @@
+---
+title: References and Links
+description: Labels and references, contents, links and bookmarks, footnotes, indexes and acronyms.
+---
+
+## Labels and references
+
+```latex
+\section{Method}\label{sec:method}
+As shown in Figure~\ref{fig:plot} on page~\pageref{fig:plot},
+and by equation~\eqref{eq:energy} in Section~\ref{sec:method}\dots
+```
+
+`\label`, `\ref`, `\pageref` and `\eqref` work as in LaTeX, but in one run. mLaTeX sets the document, notes where every label landed, and fills in the references and page numbers in a second pass held in memory. There is no `.aux` file and no need to compile twice.
+
+A reference whose label never appears is a warning, ``Reference `x' undefined``, and prints `??`. A label defined twice is a warning too.
+
+## References that name what they point to
+
+`cleveref`'s `\cref` and `\Cref` name the kind of thing referred to:
+
+```latex
+\usepackage{cleveref}
+See \cref{sec:method}.          % see section 2
+\Cref{eq:energy} gives \dots    % Equation (3) gives ...
+\cref{sec:a,sec:b}              % sections 1 and 2
+```
+
+hyperref's `\autoref` does the same. `lastpage`'s `\pageref{LastPage}` and `totpages` give the number of pages, for "page 3 of 11".
+
+## Contents and lists
+
+`\tableofcontents`, `\listoffigures` and `\listoftables` list what the document holds, with dot leaders, to the depth `tocdepth` sets. `\addcontentsline` adds an entry of your own, and `tocloft`'s lengths are read.
+
+## Links and bookmarks
+
+With `hyperref` loaded, references, citations, contents entries, `\href`, `\url`, `\hyperref[label]{...}` and `\hyperlink` become links in the PDF:
+
+```latex
+\usepackage[colorlinks, linkcolor=blue, urlcolor=cyan]{hyperref}
+\href{https://github.com/aveloux/mlatex}{mLaTeX on GitHub}
+```
+
+Links are framed as hyperref frames them by default (red inside the document, cyan for addresses, green for citations), coloured with `colorlinks`, and plain with `hidelinks`. Every heading is also a bookmark in the PDF's outline. Without hyperref, references are plain text.
+
+`\hypersetup`'s `pdftitle`, `pdfauthor`, `pdfsubject` and `pdfkeywords` become the PDF's own information. See [Pages and PDF](/docs/writing/pages).
+
+## Footnotes and margin notes
+
+`\footnote`, `\footnotemark` and `\footnotetext`, numbered per page or per chapter as the class sets them. `\marginpar` and `marginnote`'s `\marginnote` put a note in the margin, and `sidenotes` numbers margin notes with the footnotes.
+
+## Indexes
+
+`makeidx` and `imakeidx` build the index within the run, with no makeindex step:
+
+```latex
+\usepackage{makeidx}
+\makeindex
+...
+Fluids\index{fluid} obey\index{Navier--Stokes equations@Navier--Stokes}\dots
+\printindex
+```
+
+Entries are sorted and set as makeindex sets them: `key@shown`, `main!sub` for a subentry, `|textbf` and `|textit` for a page's face, `|see{...}` and `|seealso{...}`, and `|(`…`|)` ranges, in two columns under `\indexname`.
+
+## Acronyms and glossaries
+
+`acronym` and `acro` spell an abbreviation out the first time it is used and write it short after, even when the list that defines it comes at the end of the document:
+
+```latex
+\usepackage{acronym}
+The \ac{pdf} format\dots the \ac{pdf} again.
+\begin{acronym}
+  \acro{pdf}[PDF]{Portable Document Format}
+\end{acronym}
+```
+
+`glossaries`' `\newglossaryentry`, `\newacronym` and `\gls` work the same way. `\printglossary` does not print a list yet.

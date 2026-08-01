@@ -1,0 +1,69 @@
+---
+title: Pages and PDF
+description: Paper, margins and columns, heads and feet, and what goes into the PDF file.
+---
+
+## Paper and margins
+
+The class's options set the paper (`a4paper`, `letterpaper`, `a5paper`, `legalpaper`) and the type size. `geometry` sets the rest:
+
+```latex
+\usepackage[a4paper, margin=2cm]{geometry}
+\geometry{left=3cm, right=2cm}
+```
+
+`geometry` reads `paperwidth`, `paperheight`, `margin`, `hmargin`, `vmargin`, `left`, `right`, `top` and `bottom`, and a later, more specific key wins over an earlier, more general one, as in LaTeX. LaTeX's own lengths mean what they mean there too: `\setlength{\topmargin}{...}`, `\oddsidemargin`, `\textwidth`, `\headsep` and `\footskip`. `fullpage` and `a4wide` are accepted.
+
+## Columns
+
+`twocolumn` as a class option, `\twocolumn[...]` with a full-width part above, `\onecolumn`, and `multicol`'s `multicols` block. Columns are balanced on the last page. `figure*` and `table*` span both columns.
+
+## Heads and feet
+
+```latex
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textit{Annual report}}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{Page \thepage\ of \pageref{LastPage}}
+```
+
+`\pagestyle`, `\thispagestyle`, `fancyhdr`, KOMA-Script's `scrlayer-scrpage` and `titleps` set heads and feet. `\markboth` and `\markright` set what `\leftmark` and `\rightmark` show. `\pagenumbering{roman}` and `\setcounter{page}{n}` change the page numbers.
+
+## Page breaks
+
+`\newpage`, `\clearpage`, `\cleardoublepage` and `\pagebreak` break pages, and `\vfill` and `\vspace{\fill}` share out what a page leaves. A page holding nothing but a numbering change or a contents entry is never shipped as a blank page.
+
+***
+
+## The PDF
+
+mLaTeX writes the PDF itself:
+
+* **Fonts** are embedded, cut down to the glyphs the document uses.
+* **Pictures**: JPEGs are embedded unchanged; PNG and WebP are compressed; PDF pages, EPS and SVG pictures are embedded as vectors.
+* **Links and bookmarks** come with `hyperref`; see [References and Links](/docs/writing/references).
+* **Information.** `\hypersetup`'s `pdftitle`, `pdfauthor`, `pdfsubject` and `pdfkeywords` are the file's title, author, subject and keywords.
+* **The same document gives the same file.** The PDF's identifier is made from its own bytes.
+
+```latex
+\usepackage{hyperref}
+\hypersetup{pdftitle={Energy Estimates}, pdfauthor={Mara Ellison}}
+```
+
+### PDF/A
+
+For archiving, mLaTeX writes PDF/A-2b when asked, with the document's information as XMP metadata and an sRGB output intent:
+
+```latex
+\DocumentMetadata{pdfstandard=A-2b}
+\documentclass{article}
+```
+
+`pdfx`'s `a-2b` option and its kin do the same.
+
+### No file but the PDF
+
+mLaTeX writes only the PDF: no `.aux`, `.log`, `.toc`, `.out` or `.bbl`. The PDF goes beside the document, or into the folder `--output-directory` names, under the document's name or the one `--job-name` gives. A program embedding mLaTeX can receive the PDF as bytes in memory instead; see [Embedding](/docs/embedding).
