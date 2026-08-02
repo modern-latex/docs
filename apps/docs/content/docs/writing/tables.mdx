@@ -1,0 +1,111 @@
+---
+title: Tables
+description: tabular and its extensions, tables over several pages, and tables built from data.
+---
+
+## A table
+
+```latex
+\begin{table}[htbp]
+  \centering
+  \caption{Convergence of the projection scheme}
+  \label{tab:convergence}
+  \begin{tabular}{lrr}
+    \hline
+    Mesh  & Error           & Rate \\
+    \hline
+    $h$   & $2.1\times10^{-3}$ & --   \\
+    $h/2$ & $5.3\times10^{-4}$ & 1.99 \\
+    \hline
+  \end{tabular}
+\end{table}
+```
+
+`tabular` takes LaTeX's column types `l`, `c`, `r` and `p{width}`, `|` for vertical rules, and `\hline`, `\cline{2-3}` and `\multicolumn{2}{c}{...}`. The `table` float places it; see [Pictures and Floats](/docs/writing/pictures) for how floats are positioned.
+
+## Rules worth reading
+
+`booktabs`' rules are drawn with the weights and spacing booktabs gives them, heavy at the top and bottom and light between:
+
+```latex
+\usepackage{booktabs}
+
+\begin{tabular}{lr}
+  \toprule
+  Name & Value \\
+  \midrule
+  Mass & 2.3   \\
+  \cmidrule(lr){1-2}
+  Charge & 1.6 \\
+  \bottomrule
+\end{tabular}
+```
+
+## Column types
+
+`array`'s additions are read by `tabular` itself: `m{width}` and `b{width}` columns, `>{...}` and `<{...}` around a column, `@{...}` and `!{...}`, and column types of your own:
+
+```latex
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{tabular}{C{3cm}C{3cm}} ... \end{tabular}
+```
+
+## Tables to a width
+
+* `tabularx`: `\begin{tabularx}{\textwidth}{lX}`, its `X` columns sharing what the others leave.
+* `tabulary`: columns `L`, `C`, `R` and `J` share the width by how much text they hold.
+* `tabu`: `\begin{tabu} to \linewidth {X[l] X[c] X[r]}`.
+* tabularray's `tblr`, with `colspec=`, is read as the tabular it describes.
+
+## Tables over several pages
+
+`longtable` is set a row at a time, so a page can end between any two rows. The rows before `\endhead` repeat at the top of every page the table continues on, the rows before `\endfoot` close every page it breaks off, and `\endfirsthead` and `\endlastfoot` give the first and last pages their own:
+
+```latex
+\usepackage{longtable}
+
+\begin{longtable}{lr}
+  \caption{Prices} \\
+  \hline Item & Price \\ \hline
+  \endfirsthead
+  \hline Item & Price \\ \hline
+  \endhead
+  \hline
+  \endfoot
+  Tea  & 2 \\
+  Cake & 3 \\
+\end{longtable}
+```
+
+`longtable*`, `supertabular`, `xtabular`, `xltabular`, tabularray's `longtblr` and tabu's `longtabu` break the same way.
+
+## Cells
+
+| Package          | What it does                                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `multirow`       | `\multirow{2}{*}{Text}` stands in the middle of the rows it spans, or level with the first for `[t]` and the last for `[b]` |
+| `makecell`       | `\makecell{Two\\lines}` in one cell, and `\thead` for a bold head                                                           |
+| `diagbox`        | A cell split by a diagonal, a label either side                                                                             |
+| `colortbl`       | `\rowcolor`, `\cellcolor` and `\columncolor`; rules stay black                                                              |
+| `threeparttable` | A table, its caption and its notes kept together                                                                            |
+| `bigstrut`       | A taller strut for a cell a rule runs close to                                                                              |
+
+<Callout type="warn">
+  `dcolumn`'s `D` column sets numbers centred rather than aligned on the decimal point, and `hhline`'s rules are drawn as one rule across the table.
+</Callout>
+
+## Tables from data
+
+`csvsimple` and `datatool` are built in, so a table can be filled from a file of comma-, semicolon- or tab-separated values:
+
+```latex
+\usepackage{csvsimple}
+\csvautobooktabular{results.csv}
+```
+
+`\csvreader` with `head to column names`, `\DTLloaddb`, `\DTLforeach`, `\DTLsort` and `\DTLsumcolumn` are there too, and pgfplotstable's `\pgfplotstabletypeset` sets a table from its file.
+
+## Right to left
+
+A table in Arabic or Hebrew runs right to left: its first column at the right, its rules and padding mirrored, as polyglossia sets it. See [Languages](/docs/writing/languages).
