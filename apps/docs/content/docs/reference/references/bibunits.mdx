@@ -1,0 +1,27 @@
+---
+title: bibunits
+description: 'Bibliographies by unit.'
+---
+
+## Loading
+
+```latex
+\usepackage{bibunits}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="bibunits.tex"
+\documentclass{article}
+\usepackage{bibunits}
+\begin{document}
+\begin{bibunit}
+A unit cites \cite{a}.
+\begin{thebibliography}{1}\bibitem{a} An entry.\end{thebibliography}
+\end{bibunit}
+\end{document}
+```
