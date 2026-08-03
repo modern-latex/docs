@@ -1,0 +1,28 @@
+---
+title: fancyref
+description: 'Fancy references.'
+---
+
+## Loading
+
+```latex
+\usepackage{fancyref}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\Fref`, `\fref`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fancyref.tex"
+\documentclass{article}
+\usepackage{fancyref}
+\begin{document}
+\section{S}\label{sec:s}\fref{sec:s} and \Fref{sec:s}.
+\end{document}
+```
