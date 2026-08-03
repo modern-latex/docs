@@ -1,0 +1,31 @@
+---
+title: cleveref
+description: '\cref and \Cref: references that name what they point to.'
+---
+
+## Loading
+
+```latex
+\usepackage{cleveref}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\cpageref`, `\cref`, `\Cref`, `\Crefname`, `\crefname`, `\crefrange`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="cleveref.tex"
+\documentclass{article}
+\usepackage[capitalise,noabbrev]{cleveref}
+\usepackage{hyperref}
+\begin{document}
+\section{Intro}\label{sec:intro}
+\begin{equation}\label{eq:one} x = 1 \end{equation}
+See \cref{sec:intro}, \Cref{eq:one}, \cref{sec:intro,eq:one}, \crefrange{eq:one}{eq:one} and page \cpageref{eq:one}.
+\end{document}
+```

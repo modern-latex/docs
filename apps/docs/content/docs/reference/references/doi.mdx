@@ -1,0 +1,24 @@
+---
+title: doi
+description: 'DOIs.'
+---
+
+## Loading
+
+```latex
+\usepackage{doi}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="doi.tex"
+\documentclass{article}
+\usepackage{doi}
+\begin{document}
+\doi{10.1000/182}
+\end{document}
+```
