@@ -1,0 +1,72 @@
+---
+title: C++
+description: latex::Session, latex::typeset and latex::compose, from the engine's own header.
+---
+
+The engine is the `core` library, and its interface is `latex.hpp`, in the namespace `latex`. Link `core` from the mLaTeX build, as the `mlatex` program and every test do.
+
+## A session
+
+```cpp
+#include "latex.hpp"
+
+#include <iostream>
+
+int main(int, char* arguments[]) {
+    latex::Session session(latex::locate(arguments[0]));
+
+    session.set("customer", "Acme Corporation");
+    session.define({.name = "balance", .arity = 1, .handler = [](auto values) {
+        return values[0] == "A-1042" ? std::string("12.50") : std::string("0.00");
+    }});
+    session.provide("letterhead/main.mtex", "\\newcommand{\\letterhead}{\\textbf{Acme}}");
+
+    const bool clean = session.typeset(R"(\documentclass{article}
+\usepackage{letterhead}
+\begin{document}
+\letterhead\par
+Billed to \variable{customer}. Balance: \$\balance{A-1042}.
+\end{document})");
+
+    if (!clean) std::cerr << session.error;
+    // session.pdf holds the PDF's bytes; session.pages each page's text.
+}
+```
+
+| Member                                   | What it is                                                                                                 |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `Session(assets)`                        | A session over an assets folder: the fonts, and the hyphenation patterns not built in                      |
+| `set(name, value)`, `unset(name)`        | Values the document reads with `\variable{name}`                                                           |
+| `define(command)`, `forget(name)`        | Commands the program implements; a command's name may be written with or without its backslash             |
+| `provide(name, bytes)`, `withdraw(name)` | Files from memory, under the name the document uses                                                        |
+| `typeset(document)`                      | Makes a PDF; `true` when nothing was reported                                                              |
+| `pdf`                                    | The last PDF made, or empty when none could be                                                             |
+| `error`                                  | What went wrong last time, one error per line                                                              |
+| `pages`                                  | Each page's text, for checking or indexing                                                                 |
+| `host`                                   | Everything the next document will be handed: `variables`, `commands`, `files`, `directories` and `offline` |
+
+A command is a `latex::Command`: its `name` without the backslash, its `arity` (up to nine brace groups) and a `handler` called with the arguments' text, which returns the text the command stands for.
+
+```cpp
+session.host.directories.push_back("styles");   // read packages and inputs from here too
+session.host.offline = true;                     // refuse every network request
+```
+
+## Finding the assets
+
+`latex::locate(binary)` walks up from a path to the first folder holding `assets/fonts`, the way the `mlatex` program finds its own fonts. Pass it your program's path, or name the assets folder yourself.
+
+## Without a session
+
+For one document at a time, two functions do the same work:
+
+```cpp
+// A document on disk into a PDF on disk, as the command line does.
+bool clean = latex::compose(assets, "paper.tex", "paper.pdf", host, &std::cout, std::cerr);
+
+// A document in memory into a PDF in memory, quietly.
+std::string pdf;
+bool clean = latex::typeset(assets, document, pdf, host, std::cerr);
+```
+
+`compose` takes where its report goes (`nullptr` for none) and where errors go; an empty destination makes a draft, which writes no PDF. Both take an optional last argument that receives each page's text.

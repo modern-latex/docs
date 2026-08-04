@@ -1,0 +1,140 @@
+---
+title: C, Python and more
+description: The C library, latex_ffi, and how to call it from C, Python or any language with a C foreign-function interface.
+---
+
+The build leaves a shared library beside the program: `latex_ffi.dll` on Windows, `liblatex_ffi.so` on Linux and `liblatex_ffi.dylib` on macOS. Its header, `ffi.hpp`, is plain C as well as C++, and the library exports exactly one function:
+
+```c
+const Latex* engine(void);
+```
+
+It returns a struct of function pointers, the same operations as the C++ session under the same names. Every string is UTF-8 and zero-terminated, paths included, and every function returns a plain `int` or pointer, so the library can be bound from Python's ctypes, C#'s P/Invoke, Rust's `extern "C"`, Go's cgo or anything else that can call C.
+
+## The operations
+
+| Function                                                               | What it does                                                                                                                                 |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `compose(assets)`                                                      | Makes a session. Pass `NULL` to find the fonts beside the library itself. Returns `NULL` if they cannot be found.                            |
+| `dispose(session)`                                                     | Ends a session. `NULL` is ignored.                                                                                                           |
+| `set(session, name, value)`, `unset(session, name)`                    | Values read with `\variable{name}`                                                                                                           |
+| `define(session, name, arity, handler, data)`, `forget(session, name)` | Commands the program implements, with up to nine arguments                                                                                   |
+| `write(output, text, length)`                                          | Called by a handler to write what its command stands for                                                                                     |
+| `provide(session, name, bytes, length)`, `withdraw(session, name)`     | Files from memory; the bytes are copied                                                                                                      |
+| `typeset(session, document, length, &pdf, &size)`                      | Makes a PDF. Returns `1` when nothing was reported. The PDF belongs to the session and stays valid until it next typesets or is disposed of. |
+| `error(session)`                                                       | What went wrong last time, one error per line; never `NULL`                                                                                  |
+| `offline(session, on)`                                                 | Keeps the session's documents off the network                                                                                                |
+
+Functions that change a session return `1` on success and `0` when an argument was missing.
+
+## From C
+
+```c
+#include "ffi.hpp"
+#include <stdio.h>
+#include <string.h>
+
+static void balance(void* data, const char* const* arguments, size_t count, Output* output) {
+    char text[32];
+    int length = snprintf(text, sizeof text, "%.2f", strcmp(arguments[0], "A-1042") == 0 ? 12.5 : 0.0);
+    engine()->write(output, text, (size_t)length);
+}
+
+int main(void) {
+    const Latex* latex = engine();
+    Session* session = latex->compose(NULL);
+    latex->set(session, "customer", "Acme Corporation");
+    latex->define(session, "balance", 1, balance, NULL);
+
+    const char* document =
+        "\\documentclass{article}\\begin{document}"
+        "Billed to \\variable{customer}. Balance: \\$\\balance{A-1042}."
+        "\\end{document}";
+
+    const unsigned char* pdf;
+    size_t size;
+    if (!latex->typeset(session, document, strlen(document), &pdf, &size)) {
+        fprintf(stderr, "%s", latex->error(session));
+    }
+    if (pdf) {
+        FILE* file = fopen("invoice.pdf", "wb");
+        fwrite(pdf, 1, size, file);
+        fclose(file);
+    }
+    latex->dispose(session);
+    return 0;
+}
+```
+
+From C++, the same declarations are in the namespace `protocols`.
+
+## From Python
+
+Python's built-in `ctypes` is enough. The struct's fields must be declared in the header's order:
+
+```python title="invoice.py"
+import ctypes
+
+library = ctypes.CDLL("latex_ffi")        # latex_ffi.dll, liblatex_ffi.so or .dylib
+
+Handler = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char_p),
+                           ctypes.c_size_t, ctypes.c_void_p)
+Session = ctypes.c_void_p
+Bytes = ctypes.POINTER(ctypes.c_ubyte)
+
+
+class Latex(ctypes.Structure):
+    _fields_ = [
+        ("compose", ctypes.CFUNCTYPE(Session, ctypes.c_char_p)),
+        ("dispose", ctypes.CFUNCTYPE(None, Session)),
+        ("set", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_char_p)),
+        ("unset", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("define", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_size_t,
+                                    Handler, ctypes.c_void_p)),
+        ("forget", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("write", ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_char_p, ctypes.c_size_t)),
+        ("provide", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_void_p,
+                                     ctypes.c_size_t)),
+        ("withdraw", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("typeset", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_size_t,
+                                     ctypes.POINTER(Bytes), ctypes.POINTER(ctypes.c_size_t))),
+        ("error", ctypes.CFUNCTYPE(ctypes.c_char_p, Session)),
+        ("offline", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_int)),
+    ]
+
+
+library.engine.restype = ctypes.POINTER(Latex)
+latex = library.engine().contents
+
+session = latex.compose(None)              # finds the fonts beside the library
+latex.set(session, b"customer", b"Acme Corporation")
+
+balances = {"A-1042": 12.5}
+
+
+@Handler
+def balance(data, arguments, count, output):
+    text = f"{balances.get(arguments[0].decode(), 0):.2f}".encode()
+    latex.write(output, text, len(text))
+
+
+latex.define(session, b"balance", 1, balance, None)
+
+document = rb"""\documentclass{article}
+\begin{document}
+Billed to \variable{customer}. Balance of A-1042: \$\balance{A-1042}.
+\end{document}"""
+
+pdf, size = Bytes(), ctypes.c_size_t()
+if not latex.typeset(session, document, len(document), ctypes.byref(pdf), ctypes.byref(size)):
+    print(latex.error(session).decode())
+with open("invoice.pdf", "wb") as file:
+    file.write(ctypes.string_at(pdf, size.value))
+latex.dispose(session)
+```
+
+Keep a reference to the decorated handler for as long as the session may call it, as the module-level `balance` above does; ctypes frees a callback nothing refers to.
+
+## Finding the fonts
+
+`compose(NULL)` finds the `assets` folder by walking up from where the library itself was loaded. If your program keeps the library somewhere else, pass the assets folder's path to `compose` instead.

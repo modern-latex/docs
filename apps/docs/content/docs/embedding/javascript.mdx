@@ -1,0 +1,50 @@
+---
+title: JavaScript
+description: The engine compiled to WebAssembly, for web pages, workers and Node.
+---
+
+mLaTeX compiles to WebAssembly with Emscripten. The build leaves three files side by side: `latex.js`, a factory that loads the module; `latex.wasm`, the engine; and `latex.data`, the fonts, packed into the module's own file system.
+
+```js
+const engine = await Latex();                     // latex.js's factory
+const session = new engine.Session();
+
+session.set("customer", "Acme Corporation");
+session.define("balance", 1, (account) => ledger[account].toFixed(2));
+session.provide("chart.png", new Uint8Array(await chart.arrayBuffer()));
+
+if (!session.typeset(source)) console.error(session.error());
+const pdf = session.pdf();                         // a Uint8Array of its own
+session.delete();                                  // as every bound object is
+```
+
+Every operation is the C++ session's, under the same name: `set` and `unset`, `define` and `forget`, `provide` and `withdraw`, `typeset`, `pdf` and `error`. Only what JavaScript hands over differs:
+
+* A command is a JavaScript function, called with each argument's text. What it returns is turned into text with `String()`.
+* A file is a `Uint8Array` or a string.
+* The PDF comes back as a `Uint8Array` that owns its bytes, so it outlives the next document.
+
+Call `delete()` on a session when you are done with it, as with every object Emscripten binds.
+
+## Building it
+
+Configure with the `wasm` preset, which builds every library for the `wasm32-emscripten` triplet:
+
+```bash
+vcpkg install harfbuzz libpng libjpeg-turbo libwebp zlib --triplet wasm32-emscripten
+```
+
+```bash
+cmake --preset wasm
+```
+
+The preset needs the `EMSDK` and `VCPKG_ROOT` environment variables set.
+
+## Limits
+
+* A document runs on the thread that asked for it, and the module starts no threads of its own, so it needs no shared memory and runs anywhere WebAssembly does.
+* The module makes no network requests. A picture from a URL is not fetched from inside it: the page fetches it and hands the bytes in with `provide`, under the name the document uses.
+
+<Callout type="info">
+  No prebuilt WebAssembly module has been published yet, and the `--target=wasm` option of the command line is reserved for it.
+</Callout>
