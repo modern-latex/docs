@@ -1,6 +1,38 @@
 import type { ReactNode, SVGProps } from "react";
 
 import type { LucideIcon } from "lucide-react";
+import {
+	ArrowRightLeft,
+	Binary,
+	Boxes,
+	Braces,
+	CircleHelp,
+	Code,
+	FileText,
+	FileType,
+	Gauge,
+	GitCompare,
+	Globe,
+	Image,
+	Languages,
+	Layers,
+	LifeBuoy,
+	Link,
+	Package,
+	PackagePlus,
+	PenTool,
+	Plug,
+	Presentation,
+	Quote,
+	ShieldCheck,
+	Sigma,
+	SquareTerminal,
+	Table,
+	Terminal,
+	Type,
+	Workflow,
+	Wrench,
+} from "lucide-react";
 
 export interface SubItems {
 	title: string;
@@ -98,6 +130,161 @@ export const contents: Contents[] = [
 						></path>
 					</svg>
 				),
+			},
+			{
+				title: "Comparison",
+				href: "/docs/comparison",
+				icon: GitCompare,
+			},
+			{
+				title: "Migrating from LaTeX",
+				href: "/docs/migration",
+				icon: ArrowRightLeft,
+			},
+		],
+	},
+	{
+		title: "Writing",
+		Icon: PenTool,
+		list: [
+			{
+				title: "Documents and Classes",
+				href: "/docs/writing/documents",
+				icon: FileText,
+			},
+			{
+				title: "Text and Fonts",
+				href: "/docs/writing/text",
+				icon: Type,
+			},
+			{
+				title: "Mathematics",
+				href: "/docs/writing/mathematics",
+				icon: Sigma,
+			},
+			{
+				title: "Tables",
+				href: "/docs/writing/tables",
+				icon: Table,
+			},
+			{
+				title: "Pictures and Floats",
+				href: "/docs/writing/pictures",
+				icon: Image,
+			},
+			{
+				title: "References and Links",
+				href: "/docs/writing/references",
+				icon: Link,
+			},
+			{
+				title: "Bibliographies",
+				href: "/docs/writing/bibliographies",
+				icon: Quote,
+			},
+			{
+				title: "Languages",
+				href: "/docs/writing/languages",
+				icon: Languages,
+			},
+			{
+				title: "Diagrams and Plots",
+				href: "/docs/writing/diagrams",
+				icon: Workflow,
+			},
+			{
+				title: "Slides",
+				href: "/docs/writing/slides",
+				icon: Presentation,
+			},
+			{
+				title: "Pages and PDF",
+				href: "/docs/writing/pages",
+				icon: FileType,
+			},
+		],
+	},
+	{
+		title: "Packages",
+		Icon: Package,
+		list: [
+			{
+				title: "Supported Packages",
+				href: "/docs/packages",
+				icon: Boxes,
+			},
+			{
+				title: "Writing Packages",
+				href: "/docs/packages/writing",
+				icon: PackagePlus,
+			},
+			{
+				title: "The mtex Language",
+				href: "/docs/packages/language",
+				icon: Braces,
+			},
+		],
+	},
+	{
+		title: "Command Line",
+		Icon: Terminal,
+		list: [
+			{
+				title: "Options",
+				href: "/docs/command-line",
+				icon: SquareTerminal,
+			},
+		],
+	},
+	{
+		title: "Embedding",
+		Icon: Plug,
+		list: [
+			{
+				title: "Overview",
+				href: "/docs/embedding",
+				icon: Layers,
+			},
+			{
+				title: "C++",
+				href: "/docs/embedding/cpp",
+				icon: Code,
+			},
+			{
+				title: "C, Python and more",
+				href: "/docs/embedding/c",
+				icon: Binary,
+			},
+			{
+				title: "JavaScript",
+				href: "/docs/embedding/javascript",
+				icon: Globe,
+			},
+		],
+	},
+	{
+		title: "Help",
+		Icon: LifeBuoy,
+		list: [
+			{
+				title: "Security",
+				href: "/docs/security",
+				icon: ShieldCheck,
+			},
+			{
+				title: "Performance",
+				href: "/docs/performance",
+				icon: Gauge,
+			},
+			{
+				title: "Troubleshooting",
+				href: "/docs/troubleshooting",
+				icon: Wrench,
+			},
+			{
+				title: "FAQ",
+				href: "/docs/faq",
+				icon: CircleHelp,
 			},
 		],
 	},
