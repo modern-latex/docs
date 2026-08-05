@@ -1,0 +1,30 @@
+---
+title: makeidx
+description: 'An index.'
+---
+
+## Loading
+
+```latex
+\usepackage{makeidx}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\index`, `\makeindex`, `\printindex`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="makeidx.tex"
+\documentclass{article}
+\usepackage{makeidx}
+\makeindex
+\begin{document}
+Term\index{term}, another\index{another@\emph{another}}, see\index{see|see{term}}.
+\printindex
+\end{document}
+```

@@ -1,0 +1,36 @@
+---
+title: imakeidx
+description: 'An index, made within the run.'
+---
+
+## Loading
+
+```latex
+\usepackage{imakeidx}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\index`, `\indexsetup`, `\makeindex`, `\printindex`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="imakeidx.tex"
+\documentclass{article}
+\usepackage{imakeidx}
+\makeindex[columns=2, title=Index]
+\begin{document}
+Aardvark\index{aardvark}, bear\index{bear|textbf}, cat\index{animal!cat}.
+\printindex
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  One index, whatever it is named.
+</Callout>

@@ -1,0 +1,32 @@
+---
+title: hyperref
+description: 'A document''s links.'
+---
+
+## Loading
+
+```latex
+\usepackage{hyperref}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\autoref`, `\belowpdfbookmark`, `\currentpdfbookmark`, `\doi`, `\href`, `\hyperbaseurl`, `\hyperdef`, `\hyperlink`, `\hyperref`, `\hypersetup`, `\hypertarget`, `\nolinkurl`, `\orcid`, `\ORCID`, `\pdfbookmark`, `\pdfstringdefDisableCommands`, `\phantomsection`, `\subpdfbookmark`, `\texorpdfstring`, `\url`, `\urldef`, `\urlstyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="hyperref.tex"
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=cyan, pdftitle={A Title}, pdfauthor={Me}}
+\section{Start}\label{sec:start}
+\href{https://example.org}{a link}, \url{https://example.org}, \nolinkurl{example.org},
+\autoref{sec:start}, \hyperref[sec:start]{back}, \hyperlink{here}{to here}, \hypertarget{here}{here},
+\texorpdfstring{$x$}{x}, \pdfbookmark[1]{Bookmark}{bm}, \phantomsection.
+\end{document}
+```

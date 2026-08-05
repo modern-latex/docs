@@ -1,0 +1,29 @@
+---
+title: hypcap
+description: 'Links to figures.'
+---
+
+## Loading
+
+```latex
+\usepackage{hypcap}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\capstart`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="hypcap.tex"
+\documentclass{article}
+\usepackage{hypcap}
+\usepackage{hyperref}
+\begin{document}
+\begin{figure}[htbp]\capstart\centering\rule{1cm}{1cm}\caption{Linked}\end{figure}
+\end{document}
+```
