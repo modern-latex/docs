@@ -1,0 +1,28 @@
+---
+title: marginnote
+description: 'A note in the margin that never floats.'
+---
+
+## Loading
+
+```latex
+\usepackage{marginnote}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\marginnote`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="marginnote.tex"
+\documentclass{article}
+\usepackage{marginnote}
+\begin{document}
+Text\marginnote{A note in the margin.} continues.
+\end{document}
+```
