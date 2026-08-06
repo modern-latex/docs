@@ -1,5 +1,19 @@
 {
   "title": "guide",
   "root": true,
-  "pages": ["introduction", "installation", "basic-usage"]
+  "pages": [
+    "introduction",
+    "installation",
+    "basic-usage",
+    "comparison",
+    "migration",
+    "writing",
+    "packages",
+    "command-line",
+    "embedding",
+    "security",
+    "performance",
+    "troubleshooting",
+    "faq"
+  ]
 }

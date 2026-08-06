@@ -1,0 +1,51 @@
+---
+title: Performance
+description: How fast mLaTeX is, how to measure it, and why.
+---
+
+## Measured
+
+Release build, one run each, median of thirty:
+
+| Document                                                                                          | Pages | Time        |
+| ------------------------------------------------------------------------------------------------- | ----- | ----------- |
+| A one-line article                                                                                | 1     | 3.2 ms      |
+| A Russian article with babel, its contents and a bibliography, two passes                         | 1     | 4.6 ms      |
+| Two tikz-cd diagrams, an xy-pic and an amscd one, a matrix, an automaton, a circuit and two trees | 1     | 4.7 ms      |
+| An Arabic article with polyglossia, right to left                                                 | 1     | 5.8 ms      |
+| The sample paper, with mathematics, tables, figures, a bibliography and three appendices          | 11    | under 30 ms |
+
+That is the whole job: reading the document, expanding its macros, breaking its paragraphs and pages, shaping its text, embedding its fonts and pictures, and writing the PDF. There is no second run to add and no BibTeX or makeindex step.
+
+## Measuring your own documents
+
+```bash
+mlatex --time paper.tex
+```
+
+```text
+Time
+  Finding the document and its assets        0.1 ms
+  Setting it and writing its PDF             4.7 ms
+  In all                                     4.9 ms
+```
+
+`--time-statistics` prints the engine's own report instead: every stage, what it made and how long it took, in microseconds. It is the place to look when one document is slower than you expect.
+
+## Why it is fast
+
+* **No macro layer for LaTeX itself.** LaTeX's kernel, its packages and much of TeX are written in TeX macros, which a TeX engine expands token by token, again on every run. In mLaTeX the page builder, floats, tables, lists, headings, citations and TikZ are compiled code.
+* **One pass, in memory.** References and page numbers are found in a second pass held in memory rather than by running the whole program again.
+* **Nothing loaded that is not used.** Packages and English hyphenation are compiled into the program; another language's patterns are read when it is chosen; the glossary of commands costs one lookup the first time a name is used; links, bookmarks and the index are made only for documents that ask for them.
+* **Little work per picture.** A JPEG is embedded as it came, never decoded. Fonts are cut down to the glyphs used.
+* **Fonts opened early.** The fonts a document is likely to need are opened on another thread while the engine starts up.
+
+## What it means in practice
+
+A document set in milliseconds can be set again on every save, which is what `--watch` does:
+
+```bash
+mlatex --watch --open paper.tex
+```
+
+and a program embedding the engine can make documents in a request handler without a queue or a second process.
