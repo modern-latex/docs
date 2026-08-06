@@ -636,6 +636,33 @@ export function Navigation() {
 							)}
 						</AnimatePresence>
 					</motion.div>
+
+					<motion.div
+						initial={{ opacity: 0, y: -4 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.2, delay: 0.185, ease: "easeOut" }}
+						className="flex items-stretch shrink-0"
+					>
+						<Link
+							href="/sign-in"
+							className="flex items-center cursor-pointer gap-1.5 px-5 py-3 bg-foreground text-background hover:opacity-90 transition-colors duration-150"
+						>
+							<span className="font-mono text-xs uppercase tracking-wider">
+								sign-in
+							</span>
+							<svg
+								className="h-2.5 w-2.5 opacity-50"
+								viewBox="0 0 10 10"
+								fill="none"
+							>
+								<path
+									d="M1 9L9 1M9 1H3M9 1V7"
+									stroke="currentColor"
+									strokeWidth="1.2"
+								/>
+							</svg>
+						</Link>
+					</motion.div>
 				</motion.div>
 			</div>
 

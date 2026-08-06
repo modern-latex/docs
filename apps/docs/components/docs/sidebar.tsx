@@ -13,8 +13,9 @@ import { ChevronDownIcon } from "lucide-react";
 import { contents } from "@/components/contents";
 import { VersionSwitcher } from "@/components/docs/version-switcher";
 import { ThemeProvider } from "@/components/theme-provider";
+import type { Version } from "@/lib/versions";
 
-export function Sidebar() {
+export function Sidebar({ versions }: { versions: Version[] }) {
 	const pathname = usePathname();
 	const search = useSearchContext();
 	const navigation = useRef<HTMLElement>(null);
@@ -86,7 +87,7 @@ export function Sidebar() {
 			transition={{ duration: 0.28, ease: "easeOut" }}
 			className="fixed left-0 top-(--landing-topbar-height) bottom-0 w-[22vw] max-w-75 hidden lg:flex flex-col z-30 bg-background border-r border-foreground/5"
 		>
-			<VersionSwitcher />
+			<VersionSwitcher versions={versions} />
 
 			<button
 				type="button"
