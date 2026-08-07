@@ -1,0 +1,28 @@
+---
+title: tocbibind
+description: 'Contents lists in the contents.'
+---
+
+## Loading
+
+```latex
+\usepackage{tocbibind}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\tableofcontents`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tocbibind.tex"
+\documentclass{article}
+\usepackage[nottoc]{tocbibind}
+\begin{document}
+\tableofcontents\section{One}\begin{thebibliography}{1}\bibitem{a} A.\end{thebibliography}
+\end{document}
+```

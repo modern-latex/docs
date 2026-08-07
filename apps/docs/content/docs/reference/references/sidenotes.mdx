@@ -1,0 +1,28 @@
+---
+title: sidenotes
+description: 'Notes, citations, figures and tables in the margin — a note numbered with the footnotes, its mark in the text and the note beside it.'
+---
+
+## Loading
+
+```latex
+\usepackage{sidenotes}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endmarginfigure`, `\endmargintable`, `\endwidefigure`, `\marginfigure`, `\margintable`, `\sidecaption`, `\sidecite`, `\sidenote`, `\sidenotemark`, `\sidenotetext`, `\widefigure`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="sidenotes.tex"
+\documentclass{article}
+\usepackage{sidenotes}
+\begin{document}
+Text\sidenote{A side note.} and \sidecite{a}. \begin{marginfigure}\rule{1cm}{1cm}\caption{Margin}\end{marginfigure}
+\end{document}
+```
