@@ -1,0 +1,28 @@
+---
+title: refcount
+description: 'References as numbers.'
+---
+
+## Loading
+
+```latex
+\usepackage{refcount}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\getrefnumber`, `\setcounterref`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="refcount.tex"
+\documentclass{article}
+\usepackage{refcount}
+\begin{document}
+\section{S}\label{s}\getrefnumber{s} \setcounterref{section}{s}
+\end{document}
+```
