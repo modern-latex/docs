@@ -27,7 +27,7 @@ export async function GET(
 		? versions.find((version) => version.slug === head)
 		: undefined;
 
-	const version = matchedVersion || versions[1];
+	const version = matchedVersion || versions.find((version) => !version.slug)!;
 	const relSlug = matchedVersion ? rest : slug;
 
 	const docSource =
