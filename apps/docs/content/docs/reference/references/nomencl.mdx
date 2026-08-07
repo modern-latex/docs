@@ -1,0 +1,36 @@
+---
+title: nomencl
+description: 'A list of symbols.'
+---
+
+## Loading
+
+```latex
+\usepackage{nomencl}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\makenomenclature`, `\nomenclature`, `\printnomenclature`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="nomencl.tex"
+\documentclass{article}
+\usepackage{nomencl}
+\begin{document}
+\makenomenclature
+$c$\nomenclature{$c$}{Speed of light}
+\printnomenclature
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  The list of symbols is not set.
+</Callout>

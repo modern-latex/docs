@@ -1,0 +1,32 @@
+---
+title: natbib
+description: 'Citations by author and year.'
+---
+
+## Loading
+
+```latex
+\usepackage{natbib}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\bibliographystyle`, `\bibpunct`, `\bibsection`, `\citealp`, `\citeauthor`, `\citep`, `\citet`, `\citetext`, `\citeyear`, `\setcitestyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="natbib.tex"
+\documentclass{article}
+\usepackage[round,authoryear]{natbib}
+\begin{document}
+\citet{knuth} wrote it \citep{knuth}; \citeauthor{knuth} in \citeyear{knuth}, \citep[p.~2]{knuth}, \citealp{knuth}.
+\bibliographystyle{plainnat}
+\begin{thebibliography}{1}
+\bibitem[Knuth(1984)]{knuth} D. Knuth. The TeXbook. 1984.
+\end{thebibliography}
+\end{document}
+```
