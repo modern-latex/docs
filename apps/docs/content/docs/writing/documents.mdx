@@ -29,44 +29,153 @@ The motion of a viscous fluid is governed by\dots
 \end{document}
 ```
 
-Everything you know from LaTeX works here: `\section` and its kin, `\tableofcontents`, `\appendix`, `\footnote`, lists, theorems, and your own commands and environments.
+### The preamble
+
+Everything before `\begin{document}`. It sets no text; it chooses things:
+
+* `\documentclass[options]{class}` comes first and picks the class.
+* `\usepackage[options]{package}` loads a package. Several can share one line, as in `\usepackage{amsmath,amssymb}`.
+* `\title`, `\author` and `\date` store the title block for `\maketitle`. `\and` separates authors and `\thanks` adds a footnote to one.
+* Your own commands, colours, theorem kinds and settings go here too.
+
+### The body
+
+Everything between `\begin{document}` and `\end{document}` is set on the page. Anything after `\end{document}` is ignored.
+
+* `\maketitle` sets the title block where it stands.
+* The `abstract` block sets the abstract, under its heading.
+* `\tableofcontents` lists the sections, with their page numbers, from the same single run.
 
 ***
 
 ## Classes
 
-`\documentclass` sets the page: its paper size, type size and columns, read from the class's options (`a4paper`, `letterpaper`, `10pt`, `11pt`, `12pt`, `twocolumn` and the rest).
+### Choosing a class
 
-| Class                               | What it is                                                                                                                            |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `article`, `report`, `book`         | LaTeX's standard classes. A report's and a book's chapters, `\frontmatter`, `\mainmatter` and `\backmatter` work as they do in LaTeX. |
-| `letter`                            | LaTeX's letter class: `\address`, `\signature`, the `letter` block, `\opening`, `\closing`, `\ps`, `\encl` and `\cc`.                 |
-| `beamer`                            | Slides. See [Slides](/docs/writing/slides).                                                                                           |
-| `IEEEtran`                          | IEEE conference and journal papers: two columns, Roman section numbers, author blocks side by side.                                   |
-| `acmart`                            | ACM papers; `sigconf` and `sigplan` in two columns.                                                                                   |
-| `llncs`                             | Springer's Lecture Notes in Computer Science, authors numbered to their institutes.                                                   |
-| `svjour3`                           | Springer journal articles.                                                                                                            |
-| `elsarticle`                        | Elsevier journal articles; `5p` in two columns.                                                                                       |
-| `revtex4-2`, `revtex4-1`, `revtex4` | APS and AIP papers; `reprint` in two columns, `preprint` in one.                                                                      |
-| `amsart`                            | AMS articles, with addresses, subject classification and keywords.                                                                    |
-| `scrartcl`, `scrreprt`, `scrbook`   | KOMA-Script's classes, with their subject, subtitle and publishers fields.                                                            |
+`\documentclass` sets the page: its paper size, type size and columns, read from the class's options.
 
-Any other class is set as `article` at the size and columns its options ask for, with a warning, so a journal template mLaTeX does not know still compiles. What only a publisher's production system reads, such as DOIs, rights blocks and CCS concepts, is read and ignored.
+| Option                                                                         | What it does                                                  |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| `letterpaper`, `a4paper`, `a5paper`, `b5paper`, `legalpaper`, `executivepaper` | The paper size. Letter is the default, as in LaTeX.           |
+| `landscape`                                                                    | Turns the paper on its side.                                  |
+| `10pt`, `11pt`, `12pt`                                                         | The size of the body text, with its line spacing and margins. |
+| `twocolumn`, `onecolumn`                                                       | Sets the body in two columns, or one.                         |
+
+Other options are read and ignored, so a class's own options never stop a document.
+
+### The standard classes
+
+`article`, `report` and `book` are LaTeX's own classes.
+
+* **`article`** for papers and short documents: sections are the top level.
+* **`report`** adds `\chapter`, each starting a new page.
+* **`book`** adds `\frontmatter`, `\mainmatter` and `\backmatter`. The front matter is numbered in roman numerals with unnumbered chapters, the main matter in arabic numerals with numbered chapters, and the back matter keeps its chapters unnumbered.
+
+### Letters
+
+The `letter` class sets letters:
+
+```latex title="letter.tex"
+\documentclass{letter}
+\address{12 Harbour Road \\ Lisbon}
+\signature{Mara Ellison}
+
+\begin{document}
+\begin{letter}{Tobias Renner \\ 4 Mill Lane \\ Porto}
+\opening{Dear Tobias,}
+The proofs arrived this morning.
+\closing{With best wishes,}
+\ps{P.S. The figures are attached.}
+\encl{Two figures}
+\cc{The editors}
+\end{letter}
+\end{document}
+```
+
+### Slides
+
+`beamer` sets slides, with frames, overlays and themes. See [Slides](/docs/writing/slides).
+
+### Publishers' classes
+
+Journal and conference classes are part of the engine, so a template compiles without its `.cls` file:
+
+| Class                               | What it is                                                                             |
+| ----------------------------------- | -------------------------------------------------------------------------------------- |
+| `IEEEtran`                          | IEEE conference and journal papers: two columns, Roman section numbers, author blocks. |
+| `acmart`                            | ACM papers; `sigconf` and `sigplan` in two columns.                                    |
+| `llncs`                             | Springer's Lecture Notes in Computer Science, authors numbered to their institutes.    |
+| `svjour3`                           | Springer journal articles.                                                             |
+| `elsarticle`                        | Elsevier journal articles; `5p` in two columns.                                        |
+| `revtex4-2`, `revtex4-1`, `revtex4` | APS and AIP papers; `reprint` in two columns, `preprint` in one.                       |
+| `amsart`                            | AMS articles, with addresses, subject classification and keywords.                     |
+| `scrartcl`, `scrreprt`, `scrbook`   | KOMA-Script's classes, with their subject, subtitle and publishers fields.             |
+
+What only a publisher's production system reads, such as DOIs, rights blocks and CCS concepts, is read and ignored.
+
+### Classes mLaTeX does not know
+
+Any other class is set as `article` at the size and columns its options ask for, with a warning, so a journal template mLaTeX does not know still compiles.
+
+***
 
 ## Sections and structure
 
-`\part`, `\chapter` (in reports and books), `\section`, `\subsection`, `\subsubsection`, `\paragraph` and `\subparagraph`, numbered to `secnumdepth` and listed in the contents to `tocdepth`. The starred forms are unnumbered. `\appendix` switches to lettered numbering, and the `appendix` package's `appendices` block is read too.
+### Sectioning commands
 
-Headings can be redesigned with `titlesec`:
+| Command          | Level | Notes                                  |
+| ---------------- | ----- | -------------------------------------- |
+| `\part`          | -1    | Its own page in reports and books.     |
+| `\chapter`       | 0     | Reports and books only.                |
+| `\section`       | 1     |                                        |
+| `\subsection`    | 2     |                                        |
+| `\subsubsection` | 3     |                                        |
+| `\paragraph`     | 4     | A run-in heading: the text follows it. |
+| `\subparagraph`  | 5     | A run-in heading, indented.            |
+
+Each takes an optional short title for the contents and running heads, as in `\section[Results]{Results of the second experiment}`.
+
+### Numbering and the contents
+
+* Headings are numbered down to the level in the `secnumdepth` counter, and listed in `\tableofcontents` down to `tocdepth`. Change either with `\setcounter{secnumdepth}{2}`.
+* A starred form, `\section*{Preface}`, is unnumbered and left out of the contents. `\addcontentsline{toc}{section}{Preface}` puts it back in.
+
+### Appendices
+
+`\appendix` switches the sections (or chapters) that follow to lettered numbering: A, B, C. The `appendix` package's `appendices` block is read too.
+
+### Designing headings
+
+`titlesec` redesigns headings. `\titleformat` takes the heading, its format, the label, the space after the label, and code before and after the title:
 
 ```latex
 \usepackage{titlesec}
 \titleformat{\section}{\large\bfseries\color{blue}}{\thesection.}{1em}{}[\titlerule]
 ```
 
+***
+
 ## Lists
 
-`itemize`, `enumerate` and `description`, nested four deep, and LaTeX's general `list` block. `enumitem`'s options are read by the lists themselves:
+### Bulleted, numbered and description lists
+
+`itemize` sets bullets, `enumerate` numbers, and `description` bold labels. They nest four deep, and LaTeX's general `list` block is there for lists of your own.
+
+```latex
+\begin{itemize}
+  \item Bullets
+  \begin{enumerate}
+    \item numbered inside
+  \end{enumerate}
+\end{itemize}
+\begin{description}
+  \item[Mass] in kilograms
+\end{description}
+```
+
+### enumitem
+
+`enumitem`'s options are read by the lists themselves, in square brackets after `\begin`:
 
 ```latex
 \begin{enumerate}[label=(\roman*), nosep]
@@ -75,11 +184,19 @@ Headings can be redesigned with `titlesec`:
 \end{enumerate}
 ```
 
-`\setlist[itemize]{noitemsep}` sets options for every list of a kind, and `paralist`'s compact lists and `tasks`' columns of exercises work too.
+`\setlist[itemize]{noitemsep}` sets options for every list of a kind.
+
+### Compact lists and exercises
+
+`paralist`'s compact lists and `tasks`' columns of exercises work too.
+
+***
 
 ## Theorems and proofs
 
-`amsthm`'s `\newtheorem`, `\theoremstyle` and the `proof` block, set as amsthm sets them:
+### Declaring theorems
+
+`amsthm`'s `\newtheorem{name}{Title}[counter]` declares a kind of theorem, numbered within `counter` if one is given. `\newtheorem{name}[other]{Title}` shares another kind's numbers, and `\newtheorem*` declares an unnumbered one.
 
 ```latex
 \usepackage{amsthm}
@@ -88,29 +205,84 @@ Headings can be redesigned with `titlesec`:
 \begin{theorem}[Fermat]
 No three positive integers satisfy $a^n + b^n = c^n$ for $n > 2$.
 \end{theorem}
+```
+
+`theorem`, `lemma`, `proposition`, `corollary`, `conjecture`, `definition`, `example`, `remark` and `note` are declared already when amsthm is loaded, each numbered on its own. A document that declares one itself, to share a counter or number within sections, replaces it.
+
+### Theorem styles
+
+`\theoremstyle` before a `\newtheorem` chooses how that kind is set:
+
+| Style        | Heading | Body    | Used for                      |
+| ------------ | ------- | ------- | ----------------------------- |
+| `plain`      | Bold    | Italic  | Theorems, lemmas, corollaries |
+| `definition` | Bold    | Upright | Definitions and examples      |
+| `remark`     | Italic  | Upright | Remarks and notes             |
+
+`\newtheoremstyle` defines a style of your own.
+
+### Proofs
+
+The `proof` block sets "Proof." and ends with a square at the right margin, as amsthm sets it. `\qed` sets the square anywhere:
+
+```latex
 \begin{proof}
 The margin is too small.
 \end{proof}
 ```
 
+### Other theorem packages
+
 `thmtools`' `\declaretheorem` and `ntheorem`'s styles are read as well.
+
+***
 
 ## Your own commands
 
-`\newcommand`, `\renewcommand`, `\providecommand`, `\DeclareRobustCommand`, xparse's `\NewDocumentCommand`, and TeX's `\def`, `\edef` and `\let` all work. So do `\newenvironment` and `\NewDocumentEnvironment`, with begin and end code running inside the environment's group as in LaTeX.
+### Commands
+
+`\newcommand{\name}[arguments][default]{definition}` defines a command; `#1`, `#2` and so on stand for its arguments. With a default, the first argument is optional.
 
 ```latex
 \newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[2][2]{\lVert #2 \rVert_{#1}}
+```
+
+`\renewcommand` redefines a command that exists, `\providecommand` defines one only if it does not, and `\DeclareRobustCommand` defines or redefines one, as in LaTeX.
+
+### Environments
+
+`\newenvironment{name}{begin}{end}` defines a block. The begin and end code run inside the block's group, as in LaTeX:
+
+```latex
 \newenvironment{note}{\begin{quote}\small\textbf{Note.}}{\end{quote}}
 ```
 
+### xparse
+
+`\NewDocumentCommand` and `\NewDocumentEnvironment` take xparse's argument specifications, such as `m` for a mandatory argument and `O{default}` for an optional one.
+
+### TeX's own definitions
+
+`\def`, `\edef` and `\let` work as in TeX.
+
+***
+
 ## Splitting a document
 
-`\input{chapter}` and `\include{chapter}` read another file in place, looked for beside the file being read, then as `chapter.mtex` and `chapter.tex`. A file is read only from the document's own folder and the folders given with `-I`:
+### \input and \include
+
+`\input{chapter}` and `\include{chapter}` read another file in place. The file is looked for beside the file being read, then as `chapter.mtex` and `chapter.tex`.
+
+### Where files are found
+
+A file is read only from the document's own folder and the folders given with `-I`:
 
 ```bash
 mlatex -I chapters -I figures thesis.tex
 ```
+
+### Files carried in the document
 
 A file the document carries itself, in a `filecontents` block, is kept for the run, so a later `\input` or `\bibliography` finds it. Nothing is written to disk:
 
@@ -121,11 +293,23 @@ A file the document carries itself, in a `filecontents` block, is kept for the r
 \end{filecontents}
 ```
 
+***
+
 ## Leaving text out
 
-`%` comments out the rest of a line. The `comment` package's `comment` block leaves out everything up to its `\end{comment}`, and `\excludecomment{name}` makes more blocks like it.
+### Comments
+
+`%` comments out the rest of a line.
+
+### The comment package
+
+The `comment` package's `comment` block leaves out everything up to its `\end{comment}`, and `\excludecomment{name}` makes more blocks like it.
+
+***
 
 ## Values from a program
+
+### \variable
 
 When mLaTeX runs inside another program, the program can hand the document named values, read with `\variable`:
 
