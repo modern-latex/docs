@@ -1,0 +1,28 @@
+---
+title: todonotes
+description: 'What is still to be done, marked where it is to be done.'
+---
+
+## Loading
+
+```latex
+\usepackage{todonotes}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\listoftodos`, `\missingfigure`, `\todo`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="todonotes.tex"
+\documentclass{article}
+\usepackage{todonotes}
+\begin{document}
+Text.\todo{Check this.} \todo[inline]{An inline note.} \missingfigure{A figure to come.} \listoftodos
+\end{document}
+```
