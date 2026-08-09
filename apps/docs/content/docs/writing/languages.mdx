@@ -5,6 +5,8 @@ description: babel and polyglossia, hyphenation in 78 languages, right-to-left s
 
 ## Choosing a language
 
+### babel
+
 With babel, the last language named is the one the document is in; the ones before it are languages it quotes:
 
 ```latex
@@ -15,7 +17,19 @@ With babel, the last language named is the one the document is in; the ones befo
 \end{document}
 ```
 
-`\selectlanguage`, `\foreignlanguage`, `otherlanguage`, `otherlanguage*` and `hyphenrules` switch languages, and `main=` names the main one explicitly.
+`main=` names the main language explicitly, as in `\usepackage[main=english,russian]{babel}`.
+
+### Switching languages with babel
+
+| Command or block                   | What it does                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------- |
+| `\selectlanguage{language}`        | Switches everything that follows.                                                     |
+| `\foreignlanguage{language}{text}` | Sets a phrase in another language.                                                    |
+| `otherlanguage`                    | A block in another language, captions and dates included.                             |
+| `otherlanguage*`                   | A block hyphenated and directed as another language, keeping the main one's captions. |
+| `hyphenrules`                      | The same as `otherlanguage*`.                                                         |
+
+### polyglossia
 
 polyglossia names languages by command and gives each one a command and an environment of its own:
 
@@ -27,16 +41,34 @@ polyglossia names languages by command and gives each one a command and an envir
 \begin{french} ... \end{french}
 ```
 
+`\setmainlanguage` chooses the document's language and `\setotherlanguage` (or `\setotherlanguages`, for several) the ones it quotes. Each language then has a `\textlanguage{...}` command and a `language` block.
+
+***
+
 ## What a language changes
 
-* **Hyphenation.** Words break by that language's own TeX patterns, no closer to their ends than the language allows. Patterns for 78 languages ship with mLaTeX and are read the first time a language is chosen; English is built in.
-* **Captions and dates.** `\abstractname`, `\figurename`, `\refname`, `\contentsname`, `\today` and the rest are in the language, for 26 languages: English, German, French, Spanish, Italian, Portuguese, Brazilian Portuguese, Dutch, Russian, Ukrainian, Bulgarian, Polish, Czech, Croatian, Hungarian, Romanian, Greek, Turkish, Swedish, Danish, Norwegian, Finnish, Catalan, Arabic, Hebrew and Persian.
-* **Direction.** Arabic, Hebrew and Persian paragraphs read right to left.
-* **Typography.** French sets a thin unbreakable space before `;`, `!`, `?` and `»` and after `«`, and a word space before `:`. Arabic, Persian and Urdu use their own digits.
+### Hyphenation
+
+Words break by that language's own TeX patterns, no closer to their ends than the language allows. Patterns for 78 languages ship with mLaTeX and are read the first time a language is chosen; English is built in.
+
+### Captions and dates
+
+`\abstractname`, `\figurename`, `\refname`, `\contentsname`, `\today` and the rest are in the language, for 26 languages:
+
+English, German, French, Spanish, Italian, Portuguese, Brazilian Portuguese, Dutch, Russian, Ukrainian, Bulgarian, Polish, Czech, Croatian, Hungarian, Romanian, Greek, Turkish, Swedish, Danish, Norwegian, Finnish, Catalan, Arabic, Hebrew and Persian.
+
+### Direction
+
+Arabic, Hebrew and Persian paragraphs read right to left. See [Right-to-left text](#right-to-left-text).
+
+### Typography
+
+* French sets a thin unbreakable space before `;`, `!`, `?` and `»` and after `«`, and a word space before `:`.
+* Arabic, Persian and Urdu use their own digits.
+
+***
 
 ## Right-to-left text
-
-Arabic, Hebrew and Persian paragraphs start at the right, with indents, list margins and labels on the right and heading numbers at their title's right. Each line is ordered by Unicode's bidirectional algorithm, so a number or a Latin phrase inside Arabic keeps its own order, and Arabic inside an English paragraph reads correctly.
 
 ```latex
 \usepackage{polyglossia}
@@ -47,17 +79,45 @@ Arabic, Hebrew and Persian paragraphs start at the right, with indents, list mar
 \end{Arabic}
 ```
 
-Boxes, minipages and tables follow the direction of their text, and a table in Arabic or Hebrew runs right to left. Justified Arabic is stretched with kashida, lengthening one join in a word, rather than only widening spaces. `bidi`'s `\setRTL` and `\setLTR` set the direction directly.
+### Paragraphs
+
+Arabic, Hebrew and Persian paragraphs start at the right, with indents, list margins and labels on the right and heading numbers at their title's right.
+
+### Mixed directions
+
+Each line is ordered by Unicode's bidirectional algorithm, so a number or a Latin phrase inside Arabic keeps its own order, and Arabic inside an English paragraph reads correctly.
+
+### Boxes and tables
+
+Boxes, minipages and tables follow the direction of their text, and a table in Arabic or Hebrew runs right to left.
+
+### Justification
+
+Justified Arabic is stretched with kashida, lengthening one join in a word, rather than only widening spaces.
+
+### Setting the direction directly
+
+`bidi`'s `\setRTL` and `\setLTR` set the direction of what follows.
+
+### Arabic fonts and digits
 
 Arabic, Persian and Urdu are drawn with Noto Naskh Arabic, which mLaTeX carries, so an Arabic document looks the same on every system. polyglossia's `numerals=maghrib` keeps the digits as typed.
 
+***
+
 ## Greek, Cyrillic and other scripts
 
-New Computer Modern, which mLaTeX carries, draws Greek, Cyrillic, Hebrew, Armenian, Georgian and Devanagari in the same design as the Latin text, in every cut: bold, italic, sans and typewriter. Accented Latin and Cyrillic words hyphenate letter by letter.
+### Fonts
+
+New Computer Modern, which mLaTeX carries, draws Greek, Cyrillic, Hebrew, Armenian, Georgian and Devanagari in the same design as the Latin text, in every cut: bold, italic, sans and typewriter.
+
+### Hyphenation
+
+Accented Latin and Cyrillic words hyphenate letter by letter.
+
+***
 
 ## Chinese, Japanese and Korean
-
-These are drawn with your system's fonts, since mLaTeX carries none for them. A line may break between any two characters, with the kinsoku rules respected: never before a closing mark, a small kana or a long vowel, and never after an opening bracket. A run of Latin text among them is kept whole.
 
 ```latex
 \usepackage{CJK}
@@ -65,5 +125,15 @@ These are drawn with your system's fonts, since mLaTeX carries none for them. A 
 中文文本可以在任意两个字之间换行。
 \end{CJK}
 ```
+
+### Fonts
+
+These are drawn with your system's fonts, since mLaTeX carries none for them.
+
+### Line breaks
+
+A line may break between any two characters, with the kinsoku rules respected: never before a closing mark, a small kana or a long vowel, and never after an opening bracket. A run of Latin text among them is kept whole.
+
+### The CJK package
 
 `CJK` and `CJKutf8`'s block is read; its encoding and font family are accepted, and the characters come from the system.
