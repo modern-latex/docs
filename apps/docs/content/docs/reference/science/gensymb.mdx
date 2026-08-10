@@ -1,0 +1,28 @@
+---
+title: gensymb
+description: 'The units'' signs, the same in text and in formulas — a text face''s own sign in the text, the maths face''s in a formula.'
+---
+
+## Loading
+
+```latex
+\usepackage{gensymb}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\celsius`, `\degree`, `\micro`, `\ohm`, `\perthousand`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="gensymb.tex"
+\documentclass{article}
+\usepackage{gensymb}
+\begin{document}
+20\,\degree C, 5\,\celsius, 10\,\ohm, 3\,\micro m, 5\,\perthousand; $90\degree$.
+\end{document}
+```
