@@ -32,40 +32,112 @@ The `beamer` class sets each frame as a page of its own, 128 by 96 millimetres, 
 
 ## Frames
 
-A frame's title is its argument or the `\frametitle` it opens with, set at its head; what it holds is centred in the rest, or placed at the top with `[t]`. `\frame{\titlepage}` sets the title page, with its title, subtitle, author, institute and date.
+### The frame block
 
-* `block`, `alertblock` and `exampleblock` under a coloured bar.
-* `columns`, with `\begin{column}{0.5\textwidth}` or `\column`.
-* `\tableofcontents` as an outline, and `\AtBeginSection`'s frames.
-* Theorems and proofs, set as in an article.
+`\begin{frame}{Title} ... \end{frame}` is one frame. Its title is its argument or the `\frametitle` it opens with, set at its head. What it holds is centred in the rest of the frame, or placed at the top with `\begin{frame}[t]`.
+
+### The title page
+
+`\frame{\titlepage}` sets the title page, with the title, subtitle, author, institute and date the preamble gives.
+
+### Blocks
+
+`block`, `alertblock` and `exampleblock` set their text under a coloured bar holding their title:
+
+```latex
+\begin{alertblock}{Warning}
+  The scheme is only conditionally stable.
+\end{alertblock}
+```
+
+### Columns
+
+`columns` sets its `column` blocks side by side, each a width of its own. `\column{0.5\textwidth}` starts the next one without a block:
+
+```latex
+\begin{columns}
+  \begin{column}{0.5\textwidth} Left \end{column}
+  \begin{column}{0.5\textwidth} Right \end{column}
+\end{columns}
+```
+
+### Outlines
+
+`\tableofcontents` in a frame sets the talk's outline, and `\AtBeginSection`'s frames are set at the start of each section.
+
+### Theorems and proofs
+
+Theorems and proofs are set as in an article.
+
+***
 
 ## Overlays
 
 A frame becomes as many slides as its overlays ask for, each a page of the PDF.
 
-| Command                                  | Effect                                                                                                |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `\pause`                                 | Hides the rest of the frame until the next step; `\pause[3]` names the step                           |
-| `\only<2>{...}`                          | Present on slide 2 only, taking no room on the others                                                 |
-| `\uncover<2->{...}`, `\visible<2->{...}` | Keeps its room on every slide, seen from slide 2                                                      |
-| `\invisible<2>{...}`                     | The other way round                                                                                   |
-| `\onslide<2->{...}`                      | Like `\uncover`, or sets everything after it when given no argument                                   |
-| `\alt<2>{a}{b}`, `\temporal`             | One thing on some slides, another on the rest                                                         |
-| `\item<2->`                              | An item from slide 2                                                                                  |
-| `\begin{itemize}[<+->]`                  | One item per step                                                                                     |
-| `\alert<2>{...}`                         | Highlighted on slide 2; `\textbf<2>`, `\textit`, `\emph`, `\color` and `\textcolor` take overlays too |
+### Overlay specifications
 
-Overlay specifications are read as beamer reads them: `2`, `2-`, `-3`, `1-3,5`, `+-`, `.-` and `+(1)-`. What a slide does not show keeps its place, so the slides of a frame line up. `onlyenv`, `uncoverenv`, `visibleenv` and `invisibleenv`, and blocks given an overlay, work too.
+The steps in angle brackets are read as beamer reads them:
+
+| Specification | Slides                                    |
+| ------------- | ----------------------------------------- |
+| `<2>`         | Slide 2                                   |
+| `<2->`        | Slide 2 and every one after it            |
+| `<-3>`        | Slides 1 to 3                             |
+| `<1-3,5>`     | Slides 1 to 3, and 5                      |
+| `<+->`        | From the next step on, one step at a time |
+| `<.->`        | From the current step on                  |
+| `<+(1)->`     | From one step after the next              |
+
+### \pause
+
+`\pause` hides the rest of the frame until the next step; `\pause[3]` names the step.
+
+### Showing and hiding
+
+| Command                                  | Effect                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| `\only<2>{...}`                          | Present on slide 2 only, taking no room on the others               |
+| `\uncover<2->{...}`, `\visible<2->{...}` | Keeps its room on every slide, seen from slide 2                    |
+| `\invisible<2>{...}`                     | The other way round                                                 |
+| `\onslide<2->{...}`                      | Like `\uncover`, or sets everything after it when given no argument |
+| `\alt<2>{a}{b}`, `\temporal`             | One thing on some slides, another on the rest                       |
+
+What a slide does not show keeps its place, so the slides of a frame line up. `onlyenv`, `uncoverenv`, `visibleenv` and `invisibleenv` work as blocks.
+
+### Lists step by step
+
+`\item<2->` shows an item from slide 2, and `\begin{itemize}[<+->]` shows one item per step.
+
+### Highlighting
+
+`\alert<2>{...}` highlights its text on slide 2. `\textbf<2>`, `\textit`, `\emph`, `\color` and `\textcolor` take overlays too, and so do blocks.
+
+***
 
 ## Themes
 
-`\usetheme` draws an outer theme's head and foot, frame titles on a band or in the structure's colour, an inner theme's bullets, and a colour theme's colours:
+### \usetheme
 
-* **Themes:** Madrid, AnnArbor, Boadilla, CambridgeUS, Warsaw, Copenhagen, Luebeck, Malmoe, Berlin, Darmstadt, Ilmenau, Frankfurt, Dresden, Singapore, Szeged, Antibes, JuanLesPins, Montpellier, Rochester, Pittsburgh, the sidebar themes and metropolis.
-* **Colour themes:** whale, dolphin, seahorse, beaver, crane, wolverine, spruce, dove, seagull, fly and more.
-* `\useoutertheme`, `\useinnertheme` and `\usecolortheme` work alone too.
+`\usetheme{Madrid}` draws a theme's head and foot, frame titles on a band or in the structure's colour, its bullets and its colours:
 
-A short title, author or date, `\title[Short]{...}`, is what the foot carries. A theme mLaTeX does not know is drawn as the default, with a warning.
+Madrid, AnnArbor, Boadilla, CambridgeUS, Warsaw, Copenhagen, Luebeck, Malmoe, Berlin, Darmstadt, Ilmenau, Frankfurt, Dresden, Singapore, Szeged, Antibes, JuanLesPins, Montpellier, Rochester, Pittsburgh, the sidebar themes and metropolis.
+
+### Colour themes
+
+`\usecolortheme{whale}` changes only the colours: whale, dolphin, seahorse, beaver, crane, wolverine, spruce, dove, seagull, fly and more.
+
+### Outer and inner themes
+
+`\useoutertheme` and `\useinnertheme` choose the head and foot, or the bullets and blocks, alone.
+
+### What the foot carries
+
+A short title, author or date, as in `\title[Short]{...}`, is what the foot carries.
+
+### Themes mLaTeX does not know
+
+A theme mLaTeX does not know is drawn as the default, with a warning.
 
 <Callout type="info">
   A sidebar theme's sidebar is not drawn yet; its frames are set without it.

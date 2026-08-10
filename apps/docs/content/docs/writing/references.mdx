@@ -11,13 +11,33 @@ As shown in Figure~\ref{fig:plot} on page~\pageref{fig:plot},
 and by equation~\eqref{eq:energy} in Section~\ref{sec:method}\dots
 ```
 
-`\label`, `\ref`, `\pageref` and `\eqref` work as in LaTeX, but in one run. mLaTeX sets the document, notes where every label landed, and fills in the references and page numbers in a second pass held in memory. There is no `.aux` file and no need to compile twice.
+### \label
+
+`\label{name}` names the section, figure, table, equation or list item it follows. Names are any text; prefixes such as `sec:` and `fig:` are only a habit.
+
+### \ref and \pageref
+
+`\ref{name}` prints the number of what was labelled, and `\pageref{name}` the page it landed on. Put `~` before a reference, as in `Figure~\ref{fig:plot}`, so the line never breaks between the word and the number.
+
+### \eqref
+
+`\eqref{name}` prints an equation's number in parentheses, as amsmath does.
+
+### One run
+
+mLaTeX sets the document, notes where every label landed, and fills in the references and page numbers in a second pass held in memory. There is no `.aux` file and no need to compile twice.
+
+### Mistakes
 
 A reference whose label never appears is a warning, ``Reference `x' undefined``, and prints `??`. A label defined twice is a warning too.
 
+***
+
 ## References that name what they point to
 
-`cleveref`'s `\cref` and `\Cref` name the kind of thing referred to:
+### cleveref
+
+`cleveref`'s `\cref` and `\Cref` name the kind of thing referred to, and `\Cref` gives the name a capital, for the start of a sentence:
 
 ```latex
 \usepackage{cleveref}
@@ -26,30 +46,85 @@ See \cref{sec:method}.          % see section 2
 \cref{sec:a,sec:b}              % sections 1 and 2
 ```
 
-hyperref's `\autoref` does the same. `lastpage`'s `\pageref{LastPage}` and `totpages` give the number of pages, for "page 3 of 11".
+### \autoref
+
+hyperref's `\autoref` does the same, as in `\autoref{fig:plot}` for "Figure 1".
+
+### The number of pages
+
+`lastpage`'s `\pageref{LastPage}` and `totpages` give the number of pages, for "page 3 of 11".
+
+***
 
 ## Contents and lists
 
-`\tableofcontents`, `\listoffigures` and `\listoftables` list what the document holds, with dot leaders, to the depth `tocdepth` sets. `\addcontentsline` adds an entry of your own, and `tocloft`'s lengths are read.
+### \tableofcontents
+
+`\tableofcontents` lists the document's headings with their page numbers and dot leaders, down to the depth the `tocdepth` counter sets.
+
+### Lists of figures and tables
+
+`\listoffigures` and `\listoftables` list the captions of figures and tables, using a caption's short form when it has one.
+
+### Entries of your own
+
+`\addcontentsline{toc}{section}{Preface}` adds an entry, as for an unnumbered heading. `tocloft`'s lengths are read.
+
+***
 
 ## Links and bookmarks
 
-With `hyperref` loaded, references, citations, contents entries, `\href`, `\url`, `\hyperref[label]{...}` and `\hyperlink` become links in the PDF:
+### hyperref
+
+With `hyperref` loaded, references, citations and contents entries become links in the PDF:
 
 ```latex
 \usepackage[colorlinks, linkcolor=blue, urlcolor=cyan]{hyperref}
 \href{https://github.com/aveloux/mlatex}{mLaTeX on GitHub}
 ```
 
-Links are framed as hyperref frames them by default (red inside the document, cyan for addresses, green for citations), coloured with `colorlinks`, and plain with `hidelinks`. Every heading is also a bookmark in the PDF's outline. Without hyperref, references are plain text.
+Without hyperref, references are plain text.
+
+### Links of your own
+
+* `\href{address}{text}` links text to an address.
+* `\url{address}` prints an address in the typewriter face and links it.
+* `\hyperref[label]{text}` links text to a label.
+* `\hypertarget{name}{text}` and `\hyperlink{name}{text}` link within the document by a name of your own.
+
+### How links look
+
+| Option       | Look                                                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| (none)       | Framed as hyperref frames them: red inside the document, cyan for addresses, green for citations.                     |
+| `colorlinks` | The text is coloured instead; `linkcolor`, `urlcolor` and `citecolor` choose the colours, or `allcolors` one for all. |
+| `hidelinks`  | Neither framed nor coloured.                                                                                          |
+
+### Bookmarks
+
+Every heading is also a bookmark in the PDF's outline, so a reader can jump between sections from the side panel.
+
+### The PDF's information
 
 `\hypersetup`'s `pdftitle`, `pdfauthor`, `pdfsubject` and `pdfkeywords` become the PDF's own information. See [Pages and PDF](/docs/writing/pages).
 
+***
+
 ## Footnotes and margin notes
 
-`\footnote`, `\footnotemark` and `\footnotetext`, numbered per page or per chapter as the class sets them. `\marginpar` and `marginnote`'s `\marginnote` put a note in the margin, and `sidenotes` numbers margin notes with the footnotes.
+### Footnotes
+
+`\footnote{text}` sets a numbered note at the foot of the page. `\footnotemark` sets only the number and `\footnotetext{text}` only the note, for a footnote in a place that cannot hold one, such as a table. Footnotes are numbered per page or per chapter as the class sets them.
+
+### Margin notes
+
+`\marginpar{text}` and `marginnote`'s `\marginnote{text}` put a note in the margin. `sidenotes` numbers margin notes with the footnotes.
+
+***
 
 ## Indexes
+
+### Making an index
 
 `makeidx` and `imakeidx` build the index within the run, with no makeindex step:
 
@@ -61,9 +136,26 @@ Fluids\index{fluid} obey\index{Navier--Stokes equations@Navier--Stokes}\dots
 \printindex
 ```
 
-Entries are sorted and set as makeindex sets them: `key@shown`, `main!sub` for a subentry, `|textbf` and `|textit` for a page's face, `|see{...}` and `|seealso{...}`, and `|(`…`|)` ranges, in two columns under `\indexname`.
+`\makeindex` in the preamble starts the index, `\index{entry}` marks a page, and `\printindex` sets the index, in two columns under `\indexname`.
+
+### Entries
+
+Entries are sorted and set as makeindex sets them:
+
+| Entry                                | Meaning                                         |
+| ------------------------------------ | ----------------------------------------------- |
+| `\index{key@shown}`                  | Sorted by `key`, printed as `shown`.            |
+| `\index{main!sub}`                   | A subentry under `main`.                        |
+| `\index{word\|textbf}`               | The page number in bold; `\|textit` for italic. |
+| `\index{word\|see{other}}`           | "see other" in place of a page number.          |
+| `\index{word\|seealso{other}}`       | "see also other" after the page numbers.        |
+| `\index{word\|(}`, `\index{word\|)}` | A range of pages, from the first to the second. |
+
+***
 
 ## Acronyms and glossaries
+
+### acronym and acro
 
 `acronym` and `acro` spell an abbreviation out the first time it is used and write it short after, even when the list that defines it comes at the end of the document:
 
@@ -75,4 +167,10 @@ The \ac{pdf} format\dots the \ac{pdf} again.
 \end{acronym}
 ```
 
-`glossaries`' `\newglossaryentry`, `\newacronym` and `\gls` work the same way. `\printglossary` does not print a list yet.
+### glossaries
+
+`glossaries`' `\newglossaryentry`, `\newacronym` and `\gls` work the same way.
+
+<Callout type="warn">
+  `\printglossary` does not print a list yet.
+</Callout>
