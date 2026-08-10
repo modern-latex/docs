@@ -1,0 +1,28 @@
+---
+title: elements
+description: 'The chemical elements by atomic number: symbols and names.'
+---
+
+## Loading
+
+```latex
+\usepackage{elements}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\atomicnumber`, `\elementname`, `\Elementname`, `\elementsymbol`, `\setatomsep`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="elements.tex"
+\documentclass{article}
+\usepackage{elements}
+\begin{document}
+\elementsymbol{6} is \elementname{6}; \elementsymbol{79} is \elementname{79}; carbon is number \atomicnumber{C}.
+\end{document}
+```
