@@ -7,6 +7,8 @@ In mLaTeX a package is a folder holding one file, `main.mtex`, written in the sa
 
 ## A first package
 
+### The package file
+
 ```latex title="letterhead/main.mtex"
 % letterhead: a company's name and address, set at the top of a letter.
 %
@@ -27,6 +29,10 @@ In mLaTeX a package is a folder holding one file, `main.mtex`, written in the sa
   \@ifvariable{letterhead.compact}{\vskip 1em}{\vskip 3em}}
 ```
 
+The comment at the top says what the package is for and shows how a document uses it, as every package that comes with mLaTeX does.
+
+### Using it
+
 Save it as `letterhead/main.mtex` beside your document and load it as usual:
 
 ```latex title="invoice.tex"
@@ -42,7 +48,11 @@ Invoice number 42.
 
 Nothing is rebuilt and nothing is installed: the folder is found because it sits beside the document.
 
+***
+
 ## Where a package is found
+
+### The order
 
 `\usepackage{name}` looks for `name/main.mtex` in this order:
 
@@ -54,11 +64,19 @@ Nothing is rebuilt and nothing is installed: the folder is found because it sits
    mlatex -I ~/styles paper.tex
    ```
 
-If none of these has it, a package that is another one under a different name loads that one, and an unknown package is marked as loaded with a warning, its commands looked up in the glossary when used.
+### Other names and unknown packages
+
+If none of these has it, a package that is another one under a different name loads that one. An unknown package is marked as loaded with a warning, its commands looked up in the glossary when used.
+
+### Loaded once
 
 A package is read once however often it is asked for, and it is marked as loaded before it is read, so two packages that ask for each other do not loop.
 
+***
+
 ## Options
+
+### Options as variables
 
 Every option a document gives becomes a variable named after the package:
 
@@ -66,32 +84,69 @@ Every option a document gives becomes a variable named after the package:
 \usepackage[compact, margin=2cm]{letterhead}
 ```
 
-sets `letterhead.compact` to `true` and `letterhead.margin` to `2cm`. Read them with `\@variable{letterhead.margin}` and test them with `\@ifvariable{letterhead.compact}{yes}{no}`. The list as written is kept too, as `letterhead.options`, for a package that reads its options in order.
+sets `letterhead.compact` to `true` and `letterhead.margin` to `2cm`. Read them with `\@variable{letterhead.margin}` and test them with `\@ifvariable{letterhead.compact}{yes}{no}`.
+
+### The options in order
+
+The list as written is kept too, as `letterhead.options`, for a package that reads its options in order.
+
+### Key lists of your own
 
 A command that takes a key list of its own, the way `\geometry{...}` and `\sisetup{...}` do, sets variables the same way with `\@setkeys{family}{key=value,...}`.
 
+***
+
 ## Names
 
-* Give your package's internal names an `\@` prefix and the package's name: `\@letterhead@rule`. The `\@` names cannot be redefined by a document by accident.
-* A package named after a LaTeX package should define the commands that package defines, meaning what they mean there, and not commands that belong to another package.
+### Internal names
+
+Give your package's internal names an `\@` prefix and the package's name: `\@letterhead@rule`. The `\@` names cannot be redefined by a document by accident.
+
+### Packages named after LaTeX's
+
+A package named after a LaTeX package should define the commands that package defines, meaning what they mean there, and not commands that belong to another package.
+
+***
 
 ## What a package should not do
 
-* **Define environments.** Every environment a document uses, such as `itemize`, `figure`, `tabular` or `tcolorbox`, is part of the engine. A package gives commands. A document's own `\newenvironment` still works as it does in LaTeX.
-* **Rebuild the page.** Headings, floats, footnotes, columns, lists, tables and heads and feet are primitives. To change how one looks, set the lengths, counters and names it reads, such as `\parskip`, `\secnumdepth`, `\figurename` or fancyhdr's `\fancyhead`, rather than building it again from boxes.
-* **Play with category codes.** A package's file is read whole before it runs, so a `\catcode` change in it reaches the document, not the rest of the package.
+### Define environments
+
+Every environment a document uses, such as `itemize`, `figure`, `tabular` or `tcolorbox`, is part of the engine. A package gives commands. A document's own `\newenvironment` still works as it does in LaTeX.
+
+### Rebuild the page
+
+Headings, floats, footnotes, columns, lists, tables and heads and feet are primitives. To change how one looks, set the lengths, counters and names it reads, such as `\parskip`, `\secnumdepth`, `\figurename` or fancyhdr's `\fancyhead`, rather than building it again from boxes.
+
+### Play with category codes
+
+A package's file is read whole before it runs, so a `\catcode` change in it reaches the document, not the rest of the package.
+
+***
 
 ## Another package first
 
-`\@requirepackage{name}` loads another package first, as `\RequirePackage` does. `\@providepackage{a,b}` marks packages as loaded without reading anything, for names whose whole job the engine already does.
+### @requirepackage
+
+`\@requirepackage{name}` loads another package first, as `\RequirePackage` does.
+
+### @providepackage
+
+`\@providepackage{a,b}` marks packages as loaded without reading anything, for names whose whole job the engine already does.
+
+***
 
 ## Testing a package
+
+### A test document
 
 Write a small document that uses everything the package is for, and compile it:
 
 ```bash
 mlatex --file-line-error test.tex
 ```
+
+### Packages that come with mLaTeX
 
 A package that comes with mLaTeX has such a document of its own in the engine's `tests/packages` folder, and the tests fail if it reports any error or unknown command. A package you would like to see included can be proposed on [GitHub](https://github.com/aveloux/mlatex).
 
