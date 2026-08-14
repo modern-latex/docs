@@ -1,0 +1,28 @@
+---
+title: SIunits
+description: 'Values and units, the units as commands of their own — the package siunitx replaced, still found in older documents.'
+---
+
+## Loading
+
+```latex
+\usepackage{SIunits}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ampere`, `\candela`, `\celsius`, `\centi`, `\coulomb`, `\cubed`, `\degree`, `\farad`, `\giga`, `\gram`, `\henry`, `\hertz`, `\joule`, `\kelvin`, `\kilo`, `\kilogram`, `\litre`, `\mega`, `\meter`, `\metre`, `\micro`, `\milli`, `\mole`, `\nano`, `\newton`, `\ohm`, `\pascal`, `\per`, `\pico`, `\reciprocal`, `\second`, `\squared`, `\tesla`, `\unit`, `\unitfrac`, `\usk`, `\volt`, `\watt`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="SIunits.tex"
+\documentclass{article}
+\usepackage{SIunits}
+\begin{document}
+\unit{5}{\metre}
+\end{document}
+```
