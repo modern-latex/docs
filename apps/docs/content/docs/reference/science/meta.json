@@ -1,0 +1,22 @@
+{
+  "title": "Science and Units",
+  "pages": [
+    "index",
+    "chemfig",
+    "chemformula",
+    "chemmacros",
+    "elements",
+    "eurosym",
+    "gensymb",
+    "hepnames",
+    "hepparticles",
+    "hepunits",
+    "mhchem",
+    "sistyle",
+    "siunits",
+    "siunitx",
+    "slashed",
+    "units",
+    "unitsdef"
+  ]
+}
