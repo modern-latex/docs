@@ -5,6 +5,8 @@ description: Write a first document, turn it into a PDF, and read what mLaTeX te
 
 ## A first document
 
+### Write it
+
 Save this as `hello.tex`:
 
 ```latex title="hello.tex"
@@ -17,7 +19,7 @@ Hello, \LaTeX! Here is a formula: $e^{i\pi} + 1 = 0$.
 \end{document}
 ```
 
-Then run:
+### Set it
 
 ```bash
 mlatex hello.tex
@@ -29,11 +31,15 @@ hello.tex
 Output written on hello.pdf (1 page, 20668 bytes).
 ```
 
+### What you get
+
 `hello.pdf` is written beside the document. That is the whole process: no second run, no BibTeX step, no auxiliary files to clean up.
 
 ***
 
 ## Naming the document
+
+### Extensions
 
 A document named without its extension is looked for as `NAME.mtex`, then `NAME.tex`, then `NAME.bib`:
 
@@ -41,17 +47,35 @@ A document named without its extension is looked for as `NAME.mtex`, then `NAME.
 mlatex hello
 ```
 
-`.mtex` is mLaTeX's own extension. The language in it is the same LaTeX; use it for documents and packages written with the engine's additions in mind, and `.tex` for anything you also compile with TeX. A `.bib` file given as the document is set as a list of every entry it holds, which is a quick way to look a bibliography over. See [Bibliographies](/docs/writing/bibliographies).
+### .mtex and .tex
+
+`.mtex` is mLaTeX's own extension. The language in it is the same LaTeX; use it for documents and packages written with the engine's additions in mind, and `.tex` for anything you also compile with TeX.
+
+### A bibliography
+
+A `.bib` file given as the document is set as a list of every entry it holds, which is a quick way to look a bibliography over. See [Bibliographies](/docs/writing/bibliographies).
+
+***
 
 ## Where the PDF goes
+
+### A folder and a name
 
 ```bash
 mlatex --output-directory=out --job-name=final hello.tex
 ```
 
-writes `out/final.pdf`, creating `out` if needed. `--draft-mode` reads and sets the whole document, reporting every error, without writing a PDF at all.
+writes `out/final.pdf`, creating `out` if needed.
+
+### No PDF at all
+
+`--draft-mode` reads and sets the whole document, reporting every error, without writing a PDF at all.
+
+***
 
 ## Reading errors
+
+### Errors and where they are
 
 A document with mistakes is still set as far as it can be, and the errors are listed with their line and column:
 
@@ -73,15 +97,25 @@ broken.tex
 Output written on broken.pdf (1 page, 4648 bytes).
 ```
 
-The messages use LaTeX's own words, so an error you know from LaTeX reads the same here. With `--file-line-error`, each one starts with its file name, the form editors and IDEs jump to:
+The messages use LaTeX's own words, so an error you know from LaTeX reads the same here. [Troubleshooting](/docs/troubleshooting) explains each one.
+
+### With the file name
+
+With `--file-line-error`, each message starts with its file name, the form editors and IDEs jump to:
 
 ```text
 broken.tex:3:8: error (macro): Undefined control sequence \nosuchcommand
 ```
 
+### A PDF is still written
+
 A PDF is written even when there are errors, so you can see what went wrong where. Add `--halt-on-error` to leave no PDF behind instead.
 
+***
+
 ## Exit status
+
+### The statuses
 
 | Status | Meaning                                                      |
 | ------ | ------------------------------------------------------------ |
@@ -89,7 +123,11 @@ A PDF is written even when there are errors, so you can see what went wrong wher
 | `1`    | The document has an error, or could not be found or read     |
 | `2`    | The command line itself was wrong, such as an unknown option |
 
+### Warnings
+
 Warnings, such as an unknown package or a citation with no entry, are printed but do not change the status.
+
+***
 
 ## While you write
 
@@ -97,9 +135,19 @@ Warnings, such as an unknown package or a citation with no entry, are printed bu
 mlatex --watch --open hello.tex
 ```
 
-`--watch` sets the document again every time it is saved, until you stop it, and `--open` shows the PDF in your system's viewer once it is written. Most viewers reload a PDF that changes on disk, so the two together give you a live preview.
+### --watch
+
+`--watch` sets the document again every time it is saved, until you stop it.
+
+### --open
+
+`--open` shows the PDF in your system's viewer once it is written. Most viewers reload a PDF that changes on disk, so the two together give you a live preview.
+
+***
 
 ## How long it took
+
+### --time
 
 ```bash
 mlatex --time hello.tex
@@ -112,8 +160,18 @@ Time
   In all                                     4.9 ms
 ```
 
+### --time-statistics
+
 `--time-statistics` goes further and prints every stage of the engine with its timing. See [Performance](/docs/performance).
+
+***
 
 ## Quiet runs
 
-`-q` (or `--interaction=batch-mode`) prints nothing but errors, which suits scripts and build systems. TeX's own spellings, such as `-interaction=batchmode` and `-jobname`, are accepted too, so a script written for pdfLaTeX runs unchanged. Every option is on the [Command Line](/docs/command-line) page.
+### -q
+
+`-q` (or `--interaction=batch-mode`) prints nothing but errors, which suits scripts and build systems.
+
+### Scripts written for pdfLaTeX
+
+TeX's own spellings, such as `-interaction=batchmode` and `-jobname`, are accepted too, so a script written for pdfLaTeX runs unchanged. Every option is on the [Command Line](/docs/command-line) page.

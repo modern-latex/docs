@@ -41,6 +41,14 @@ mLaTeX goes one step further: there are no packages to download and no TeX under
 
 ## When to use something else
 
-* **You need a package mLaTeX does not cover, set exactly.** Use a TeX distribution. Check [Supported Packages](/docs/packages) first.
-* **You need output identical to pdfLaTeX's, down to the line breaks.** Use pdfLaTeX. mLaTeX follows TeX's algorithms, but its fonts, metrics and many details are its own.
-* **Your document runs external programs** through `\write18`, for example to generate figures. mLaTeX will never run them.
+### You need a package mLaTeX does not cover, set exactly
+
+Use a TeX distribution. Check [Supported Packages](/docs/packages) first.
+
+### You need output identical to pdfLaTeX's, down to the line breaks
+
+Use pdfLaTeX. mLaTeX follows TeX's algorithms, but its fonts, metrics and many details are its own.
+
+### Your document runs external programs
+
+A document that runs programs through `\write18`, for example to generate figures, needs a TeX distribution. mLaTeX will never run them.

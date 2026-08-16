@@ -3,29 +3,83 @@ title: C, Python and more
 description: The C library, latex_ffi, and how to call it from C, Python or any language with a C foreign-function interface.
 ---
 
-The build leaves a shared library beside the program: `latex_ffi.dll` on Windows, `liblatex_ffi.so` on Linux and `liblatex_ffi.dylib` on macOS. Its header, `ffi.hpp`, is plain C as well as C++, and the library exports exactly one function:
+## The library
+
+### The files
+
+The build leaves a shared library beside the program:
+
+| System  | Library              |
+| ------- | -------------------- |
+| Windows | `latex_ffi.dll`      |
+| Linux   | `liblatex_ffi.so`    |
+| macOS   | `liblatex_ffi.dylib` |
+
+Its header is `ffi.hpp`, plain C as well as C++.
+
+### engine()
+
+The library exports exactly one function:
 
 ```c
 const Latex* engine(void);
 ```
 
-It returns a struct of function pointers, the same operations as the C++ session under the same names. Every string is UTF-8 and zero-terminated, paths included, and every function returns a plain `int` or pointer, so the library can be bound from Python's ctypes, C#'s P/Invoke, Rust's `extern "C"`, Go's cgo or anything else that can call C.
+It returns a struct of function pointers, the same operations as the C++ session under the same names.
+
+### Strings and types
+
+Every string is UTF-8 and zero-terminated, paths included, and every function returns a plain `int` or pointer, so the library can be bound from Python's ctypes, C#'s P/Invoke, Rust's `extern "C"`, Go's cgo or anything else that can call C.
+
+***
 
 ## The operations
 
-| Function                                                               | What it does                                                                                                                                 |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `compose(assets)`                                                      | Makes a session. Pass `NULL` to find the fonts beside the library itself. Returns `NULL` if they cannot be found.                            |
-| `dispose(session)`                                                     | Ends a session. `NULL` is ignored.                                                                                                           |
-| `set(session, name, value)`, `unset(session, name)`                    | Values read with `\variable{name}`                                                                                                           |
-| `define(session, name, arity, handler, data)`, `forget(session, name)` | Commands the program implements, with up to nine arguments                                                                                   |
-| `write(output, text, length)`                                          | Called by a handler to write what its command stands for                                                                                     |
-| `provide(session, name, bytes, length)`, `withdraw(session, name)`     | Files from memory; the bytes are copied                                                                                                      |
-| `typeset(session, document, length, &pdf, &size)`                      | Makes a PDF. Returns `1` when nothing was reported. The PDF belongs to the session and stays valid until it next typesets or is disposed of. |
-| `error(session)`                                                       | What went wrong last time, one error per line; never `NULL`                                                                                  |
-| `offline(session, on)`                                                 | Keeps the session's documents off the network                                                                                                |
+### compose and dispose
+
+`compose(assets)` makes a session. Pass `NULL` to find the fonts beside the library itself; it returns `NULL` if they cannot be found. `dispose(session)` ends a session, and ignores `NULL`.
+
+### set and unset
+
+`set(session, name, value)` gives a value read with `\variable{name}`, replacing one set before. `unset(session, name)` takes it back.
+
+### define and forget
+
+`define(session, name, arity, handler, data)` gives a command the program implements, with up to nine arguments. `forget(session, name)` takes it back.
+
+A handler is called with what was given as `data`, the arguments' text and their count, and where to write what the command stands for:
+
+```c
+typedef void (*Handler)(void* data, const char* const* arguments, size_t count, Output* output);
+```
+
+The arguments are valid for the length of the call.
+
+### write
+
+`write(output, text, length)` is called by a handler to write what its command stands for. Each call adds to what came before, and writing nothing makes the command stand for nothing.
+
+### provide and withdraw
+
+`provide(session, name, bytes, length)` hands in a file from memory; the bytes are copied. `withdraw(session, name)` takes it back.
+
+### typeset
+
+`typeset(session, document, length, &pdf, &size)` makes a PDF and returns `1` when nothing was reported. The PDF belongs to the session and stays valid until it next typesets or is disposed of.
+
+### error
+
+`error(session)` is what went wrong last time, one error per line. It is never `NULL`.
+
+### offline
+
+`offline(session, on)` keeps the session's documents off the network when `on` is `1`.
+
+### Return values
 
 Functions that change a session return `1` on success and `0` when an argument was missing.
+
+***
 
 ## From C
 
@@ -66,9 +120,15 @@ int main(void) {
 }
 ```
 
+### From C++
+
 From C++, the same declarations are in the namespace `protocols`.
 
+***
+
 ## From Python
+
+### Declaring the struct
 
 Python's built-in `ctypes` is enough. The struct's fields must be declared in the header's order:
 
@@ -133,8 +193,18 @@ with open("invoice.pdf", "wb") as file:
 latex.dispose(session)
 ```
 
+### Keeping callbacks alive
+
 Keep a reference to the decorated handler for as long as the session may call it, as the module-level `balance` above does; ctypes frees a callback nothing refers to.
+
+***
 
 ## Finding the fonts
 
-`compose(NULL)` finds the `assets` folder by walking up from where the library itself was loaded. If your program keeps the library somewhere else, pass the assets folder's path to `compose` instead.
+### compose(NULL)
+
+`compose(NULL)` finds the `assets` folder by walking up from where the library itself was loaded.
+
+### A folder of your own
+
+If your program keeps the library somewhere else, pass the assets folder's path to `compose` instead.
