@@ -1,0 +1,35 @@
+---
+title: ctable
+description: 'A table and its caption in one command, with booktabs'' rules.'
+---
+
+## Loading
+
+```latex
+\usepackage{ctable}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ctable`, `\FL`, `\LL`, `\ML`, `\NN`, `\setupctable`, `\tmark`, `\tnote`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ctable.tex"
+\documentclass{article}
+\usepackage{ctable}
+\begin{document}
+\ctable[caption = Results, label = tab:r, pos = htbp]{lr}{\tnote{a note}}{
+\FL Item & Value \ML Tea & 2\tmark \LL}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Set where it stands; its float keys are ignored.
+</Callout>
