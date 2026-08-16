@@ -1,0 +1,31 @@
+---
+title: diagbox
+description: 'A cell split by a diagonal, its two labels set either side of a slash.'
+---
+
+## Loading
+
+```latex
+\usepackage{diagbox}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\diagbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="diagbox.tex"
+\documentclass{article}
+\usepackage{diagbox}
+\begin{document}
+\begin{tabular}{|c|c|}\hline
+\diagbox{Row}{Col} & A \\\hline
+1 & x \\\hline
+\end{tabular}
+\end{document}
+```
