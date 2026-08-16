@@ -1,0 +1,38 @@
+---
+title: longtable
+description: 'A table that may run over pages.'
+---
+
+## Loading
+
+```latex
+\usepackage{longtable}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endfirsthead`, `\endfoot`, `\endhead`, `\endlastfoot`, `\LTcapwidth`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="longtable.tex"
+\documentclass{article}
+\usepackage{longtable}
+\begin{document}
+\begin{longtable}{lr}
+\caption{A long table}\\
+\hline Item & Value \\ \hline
+\endfirsthead
+\hline Item & Value \\ \hline
+\endhead
+\hline \endfoot
+\endlastfoot
+a & 1 \\
+b & 2 \\
+\end{longtable}
+\end{document}
+```

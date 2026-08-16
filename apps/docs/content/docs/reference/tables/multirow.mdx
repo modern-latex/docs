@@ -1,0 +1,32 @@
+---
+title: multirow
+description: 'A cell''s text over several rows.'
+---
+
+## Loading
+
+```latex
+\usepackage{multirow}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\multirow`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="multirow.tex"
+\documentclass{article}
+\usepackage{multirow}
+\begin{document}
+\begin{tabular}{|c|c|}\hline
+\multirow{2}{*}{Two rows} & a \\
+ & b \\\hline
+\multirow[t]{2}{2cm}{Top} & c \\ & d \\\hline
+\end{tabular}
+\end{document}
+```
