@@ -1,0 +1,31 @@
+---
+title: array
+description: 'More column types and \newcolumntype, read by tabular itself.'
+---
+
+## Loading
+
+```latex
+\usepackage{array}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\arraybackslash`, `\newcolumntype`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="array.tex"
+\documentclass{article}
+\usepackage{array}
+\begin{document}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{tabular}{>{\bfseries}l|C{2cm}|m{2cm}|b{2cm}<{\,!}}
+bold & centred & middle & bottom \\
+\end{tabular}
+\end{document}
+```
