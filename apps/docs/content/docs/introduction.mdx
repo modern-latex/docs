@@ -21,17 +21,39 @@ The language is the same. The machinery underneath is new: the lexer, the macro 
 
 ## What it reads
 
-* **LaTeX as written.** 509 packages and 14 document classes, each checked by a sample document of its own, plus a glossary of about 630 commands from packages that have no module of their own. An unknown package is a warning, not a failed build.
-* **The parts people use.** Mathematics, tables, floats, cross-references, tables of contents, indexes, hyperref links and bookmarks, TikZ and pgfplots, tikz-cd and xy-pic diagrams, beamer slides with overlays and themes, BibTeX bibliographies in the standard, natbib and biblatex styles, right-to-left and CJK text, and PNG, JPEG, WebP, PDF, EPS and SVG pictures.
-* **TeX itself.** Category codes, `\def` and `\edef`, `\csname`, `\expandafter`, the `\if` family, registers and e-TeX's expressions work as TeX's do, so a preamble's own macros run unchanged.
+### LaTeX as written
+
+509 packages and 14 document classes, each checked by a sample document of its own, plus a glossary of about 630 commands from packages that have no module of their own. An unknown package is a warning, not a failed build.
+
+### The parts people use
+
+Mathematics, tables, floats, cross-references, tables of contents, indexes, hyperref links and bookmarks, TikZ and pgfplots, tikz-cd and xy-pic diagrams, beamer slides with overlays and themes, BibTeX bibliographies in the standard, natbib and biblatex styles, right-to-left and CJK text, and PNG, JPEG, WebP, PDF, EPS and SVG pictures.
+
+### TeX itself
+
+Category codes, `\def` and `\edef`, `\csname`, `\expandafter`, the `\if` family, registers and e-TeX's expressions work as TeX's do, so a preamble's own macros run unchanged.
 
 ## What it does differently
 
-* **One run.** Cross-references, page numbers and the table of contents are resolved in a second pass in memory, so there is no `.aux` file and no need to run the program twice.
-* **No separate tools.** Bibliographies are read straight from `.bib` files and indexes are sorted by the engine, so there is no BibTeX, Biber or makeindex step.
-* **Packages are compiled in.** Packages are written in the engine's own language and compiled into the program. `.sty` and `.cls` files are never read from disk.
-* **Safe by design.** A document cannot run programs (`\write18` does not exist), cannot write files, and can only read from its own folder and the folders you allow. See [Security](/docs/security).
-* **Fast.** A one-page article is set in a few milliseconds, and an eleven-page paper with a bibliography, two passes included, in under 30 ms. See [Performance](/docs/performance).
+### One run
+
+Cross-references, page numbers and the table of contents are resolved in a second pass in memory, so there is no `.aux` file and no need to run the program twice.
+
+### No separate tools
+
+Bibliographies are read straight from `.bib` files and indexes are sorted by the engine, so there is no BibTeX, Biber or makeindex step.
+
+### Packages are compiled in
+
+Packages are written in the engine's own language and compiled into the program. `.sty` and `.cls` files are never read from disk.
+
+### Safe by design
+
+A document cannot run programs (`\write18` does not exist), cannot write files, and can only read from its own folder and the folders you allow. See [Security](/docs/security).
+
+### Fast
+
+A one-page article is set in a few milliseconds, and an eleven-page paper with a bibliography, two passes included, in under 30 ms. See [Performance](/docs/performance).
 
 ## Where to go next
 
