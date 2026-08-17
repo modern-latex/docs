@@ -7,11 +7,6 @@ The `mlatex` command is a thin layer over a library, and the same library is ava
 
 ## Why embed
 
-* **Values.** Hand a document named values, such as a customer's name or an invoice number, and read them with `\variable{name}`.
-* **Commands your program answers.** Define a command such as `\balance{account}`. When the document reaches it, mLaTeX calls your function with the arguments the document wrote, and sets what it returns.
-* **Files from memory.** Hand in a package, a chapter or a picture you just drew, under the name the document uses for it. Nothing touches the disk.
-* **The PDF as bytes.** Get the finished PDF back in memory, to send, store or stream.
-
 A document asks for what it needs:
 
 ```latex
@@ -20,21 +15,62 @@ Billed to \variable{customer}. Balance on account A-1042: \$\balance{A-1042}.
 \includegraphics[width=\textwidth]{chart.png}
 ```
 
+### Values
+
+Hand a document named values, such as a customer's name or an invoice number, and read them with `\variable{name}`.
+
+### Commands your program answers
+
+Define a command such as `\balance{account}`. When the document reaches it, mLaTeX calls your function with the arguments the document wrote, and sets what it returns.
+
+### Files from memory
+
+Hand in a package, a chapter or a picture you just drew, under the name the document uses for it. Nothing touches the disk.
+
+### The PDF as bytes
+
+Get the finished PDF back in memory, to send, store or stream.
+
+***
+
 ## Sessions
 
 Every binding works with a **session**: where the fonts are, plus the values, commands and files every document it makes is handed. A session keeps what it is given from one document to the next until it is replaced or taken back, so a program that makes a thousand invoices sets up its letterhead once.
 
-| Operation              | What it does                                                                                                        |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `set` / `unset`        | Give or take back a value read with `\variable{name}`                                                               |
-| `define` / `forget`    | Give or take back a command the program implements                                                                  |
-| `provide` / `withdraw` | Hand in or take back a file: a package (`letterhead/main.mtex`), an input (`terms.mtex`) or a picture (`chart.png`) |
-| `typeset`              | Make a PDF from a document held in memory                                                                           |
-| `pdf`                  | The last PDF made                                                                                                   |
-| `error`                | What went wrong, one error per line                                                                                 |
-| `offline`              | Keep documents off the network                                                                                      |
+### set and unset
 
-A file handed in is found before one on disk and before a built-in package of the same name.
+`set(name, value)` gives a value the document reads with `\variable{name}`, replacing one set before under the same name. `unset(name)` takes it back.
+
+### define and forget
+
+`define` gives a command the program implements: its name, how many arguments it reads, from none to nine, and the function to call. The document's arguments are expanded to text before the function sees them, and what the function returns is read in the command's place. Defining a name again replaces it, even one the engine itself defines. `forget(name)` takes it back.
+
+### provide and withdraw
+
+`provide(name, bytes)` hands in a file under the name a document uses for it:
+
+| Name                   | Found by                      |
+| ---------------------- | ----------------------------- |
+| `letterhead/main.mtex` | `\usepackage{letterhead}`     |
+| `terms.mtex`           | `\input{terms}`               |
+| `chart.png`            | `\includegraphics{chart.png}` |
+| `refs.bib`             | `\bibliography{refs}`         |
+
+A file handed in is found before one on disk and before a built-in package of the same name. `withdraw(name)` takes it back.
+
+### typeset
+
+`typeset(document)` makes a PDF from a document held in memory, and says whether it was set with nothing reported.
+
+### pdf and error
+
+`pdf` is the last PDF made. `error` is what went wrong, one error per line, and empty when nothing did.
+
+### offline
+
+`offline` keeps the session's documents off the network: `\httpget`, `\httppost` and pictures from `https://` addresses become errors. See [Security](/docs/security).
+
+***
 
 ## Bindings
 
@@ -52,9 +88,23 @@ A file handed in is found before one on disk and before a built-in package of th
   </Card>
 </Cards>
 
+***
+
 ## Threads
 
-A session is used by one thread at a time, and a command is called back on the thread that asked for the document, while it is being made. Separate sessions share nothing but read-only tables and can run side by side.
+### One thread per session
+
+A session is used by one thread at a time.
+
+### Commands are called back
+
+A command is called back on the thread that asked for the document, while it is being made.
+
+### Sessions side by side
+
+Separate sessions share nothing but read-only tables and can run side by side, one per thread.
+
+***
 
 ## License
 

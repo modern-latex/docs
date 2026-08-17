@@ -3,11 +3,29 @@ title: FAQ
 description: Short answers to common questions about mLaTeX.
 ---
 
+## About mLaTeX
+
 <Accordions>
   <Accordion title="Is mLaTeX a TeX distribution?">
     No. It is one program that reads LaTeX and writes PDF. It does not include TeX, LaTeX's macro packages or CTAN, and it does not need them.
   </Accordion>
 
+  <Accordion title="Which systems does it run on?">
+    Windows, Linux and macOS, on x64 and ARM64. It needs a C++26 compiler with `#embed` to build; see [Installation](/docs/installation).
+  </Accordion>
+
+  <Accordion title="What do --target=jit and --target=wasm do?">
+    Nothing yet. They are reserved for a just-in-time target and for producing a WebAssembly build from the command line, and are accepted so scripts can name them.
+  </Accordion>
+
+  <Accordion title="What is the license?">
+    The GNU Affero General Public License, version 3. You can use mLaTeX for anything, and the documents you make with it are yours. If you distribute it, or offer a modified version to users over a network, you must share the source of what you distribute under the same license.
+  </Accordion>
+</Accordions>
+
+## Your documents
+
+<Accordions>
   <Accordion title="Will my existing documents compile?">
     Most will, unchanged. Documents built from common packages, mathematics, figures, references and a bibliography compile as they are. Documents that rely on private `.sty` files, shell escape or TeX's internals may need small changes; see [Migrating from LaTeX](/docs/migration).
   </Accordion>
@@ -23,7 +41,11 @@ description: Short answers to common questions about mLaTeX.
   <Accordion title="Why .mtex?">
     `.mtex` is mLaTeX's own extension, for documents and packages written with the engine in mind. The language inside is the same LaTeX, and `.tex` files work just as well.
   </Accordion>
+</Accordions>
 
+## Packages and fonts
+
+<Accordions>
   <Accordion title="Can I use a package mLaTeX does not list?">
     Yes. An unknown package is a warning, and its commands are looked up in a glossary of about 630 commands from CTAN packages. If a command is in neither, it is an error where it is used. You can also write the package yourself as a `name/main.mtex` folder beside your document; see [Writing Packages](/docs/packages/writing).
   </Accordion>
@@ -31,25 +53,17 @@ description: Short answers to common questions about mLaTeX.
   <Accordion title="Can I use system fonts?">
     The body and mathematics are set in the fonts mLaTeX carries, and `\setmainfont` picks the nearest of them. System fonts are used only for scripts mLaTeX carries nothing for, such as Chinese, Japanese and Korean, and for some symbols and emoji.
   </Accordion>
+</Accordions>
 
+## Safety and programs
+
+<Accordions>
   <Accordion title="Is it safe to compile documents I did not write?">
     Much safer than with a TeX distribution: a document cannot run programs, write files or read outside its folders. Turn off network requests with `--offline`, and enforce a time and memory limit; see [Security](/docs/security).
   </Accordion>
 
   <Accordion title="Can I use it from my own program?">
     Yes, from C++, from C, from any language that can call C (such as Python), and from JavaScript through WebAssembly. See [Embedding](/docs/embedding).
-  </Accordion>
-
-  <Accordion title="What do --target=jit and --target=wasm do?">
-    Nothing yet. They are reserved for a just-in-time target and for producing a WebAssembly build from the command line, and are accepted so scripts can name them.
-  </Accordion>
-
-  <Accordion title="Which systems does it run on?">
-    Windows, Linux and macOS, on x64 and ARM64. It needs a C++26 compiler with `#embed` to build; see [Installation](/docs/installation).
-  </Accordion>
-
-  <Accordion title="What is the license?">
-    The GNU Affero General Public License, version 3. You can use mLaTeX for anything, and the documents you make with it are yours. If you distribute it, or offer a modified version to users over a network, you must share the source of what you distribute under the same license.
   </Accordion>
 
   <Accordion title="Where do I report a bug?">
