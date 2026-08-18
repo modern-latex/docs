@@ -1,0 +1,36 @@
+---
+title: threeparttable
+description: 'A table, its caption and its notes kept together.'
+---
+
+## Loading
+
+```latex
+\usepackage{threeparttable}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endmeasuredfigure`, `\endthreeparttable`, `\measuredfigure`, `\threeparttable`, `\tnote`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="threeparttable.tex"
+\documentclass{article}
+\usepackage{threeparttable}
+\begin{document}
+\begin{table}[htbp]
+\begin{threeparttable}
+\caption{Notes kept with the table}
+\begin{tabular}{lr} a & 1\tnote{a} \\ \end{tabular}
+\begin{tablenotes}
+\item[a] A note.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{document}
+```

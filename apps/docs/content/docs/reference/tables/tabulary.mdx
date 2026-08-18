@@ -1,0 +1,26 @@
+---
+title: tabulary
+description: 'A table as wide as it is told, its columns sharing the width by their text.'
+---
+
+## Loading
+
+```latex
+\usepackage{tabulary}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tabulary.tex"
+\documentclass{article}
+\usepackage{tabulary}
+\begin{document}
+\begin{tabulary}{\textwidth}{LCR}
+left & centre & right \\
+\end{tabulary}
+\end{document}
+```

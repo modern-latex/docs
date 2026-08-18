@@ -1,0 +1,29 @@
+---
+title: threeparttablex
+description: 'threeparttable''s notes for a long table.'
+---
+
+## Loading
+
+```latex
+\usepackage{threeparttablex}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endThreePartTable`, `\insertTableNotes`, `\ThreePartTable`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="threeparttablex.tex"
+\documentclass{article}
+\usepackage{threeparttablex}
+\usepackage{longtable}
+\begin{document}
+\begin{ThreePartTable}\begin{TableNotes}\item a note\end{TableNotes}\begin{longtable}{c}a\\\insertTableNotes\end{longtable}\end{ThreePartTable}
+\end{document}
+```
