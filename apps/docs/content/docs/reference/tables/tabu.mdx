@@ -1,0 +1,32 @@
+---
+title: tabu
+description: 'Tables to a width with X[l], X[c] and X[r] columns.'
+---
+
+## Loading
+
+```latex
+\usepackage{tabu}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endlongtabu`, `\endtabu`, `\everyrow`, `\longtabu`, `\rowfont`, `\tabu`, `\tabucline`, `\tabulinesep`, `\tabulinestyle`, `\tabuphantomline`, `\taburowcolors`, `\taburulecolor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tabu.tex"
+\documentclass{article}
+\usepackage{tabu}
+\begin{document}
+\begin{tabu} to \linewidth {X[l] X[c] X[r]}
+\rowfont{\bfseries} Left & Centre & Right \\
+a & b & c \\
+\end{tabu}
+\begin{longtabu}{X X}a & b\\\end{longtabu}
+\end{document}
+```
