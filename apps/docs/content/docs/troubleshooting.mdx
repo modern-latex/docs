@@ -91,6 +91,14 @@ mLaTeX follows TeX's algorithms but uses its own fonts, metrics and implementati
 
 ## Looking deeper
 
-* `--draft-mode` checks a whole document without writing a PDF.
-* `--time-statistics` shows how long each stage of the engine took.
-* `-d` (or `--debug=lexer,parser`) and `--trace` log the engine's steps, and `--log-file=FILE` writes them to a file.
+### Checking without a PDF
+
+`--draft-mode` checks a whole document without writing a PDF.
+
+### Where the time goes
+
+`--time-statistics` shows how long each stage of the engine took.
+
+### The engine's steps
+
+`-d` (or `--debug=lexer,parser`) and `--trace` log the engine's steps, and `--log-file=FILE` writes them to a file. See [Diagnostics](/docs/command-line#diagnostics).

@@ -7,11 +7,25 @@ mLaTeX treats every document as untrusted input. Unlike a TeX distribution, it h
 
 ## What a document cannot do
 
-* **Run programs.** `\write18`, `--shell-escape` and every other way of running a program do not exist. A write to stream 18 is logged and nothing more.
-* **Write files.** `\openout` and `\write` to a file do nothing, and `filecontents` keeps its file in memory for that one run. The only file mLaTeX writes is the PDF, where the command line or the host program says.
-* **Load TeX code from disk.** `.sty` and `.cls` files are never read. Packages are compiled in, handed in by a program, or written as `name/main.mtex` folders in the engine's own language.
-* **Read outside its folders.** Inputs, packages, pictures and bibliographies are read only from the document's own folder and the folders given with `-I`. Absolute paths and paths that climb out with `..` are refused. A document handed in from memory can read only the folders and files its program provided.
-* **Leave state behind.** References, contents and bibliographies are resolved in memory, so no `.aux` file is left for a later run to trust.
+### Run programs
+
+`\write18`, `--shell-escape` and every other way of running a program do not exist. A write to stream 18 is logged and nothing more.
+
+### Write files
+
+`\openout` and `\write` to a file do nothing, and `filecontents` keeps its file in memory for that one run. The only file mLaTeX writes is the PDF, where the command line or the host program says.
+
+### Load TeX code from disk
+
+`.sty` and `.cls` files are never read. Packages are compiled in, handed in by a program, or written as `name/main.mtex` folders in the engine's own language.
+
+### Read outside its folders
+
+Inputs, packages, pictures and bibliographies are read only from the document's own folder and the folders given with `-I`. Absolute paths and paths that climb out with `..` are refused. A document handed in from memory can read only the folders and files its program provided.
+
+### Leave state behind
+
+References, contents and bibliographies are resolved in memory, so no `.aux` file is left for a later run to trust.
 
 ## What you need to handle
 
