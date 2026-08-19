@@ -1,0 +1,28 @@
+---
+title: anyfontsize
+description: 'Any size.'
+---
+
+## Loading
+
+```latex
+\usepackage{anyfontsize}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\fontsize`, `\selectfont`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="anyfontsize.tex"
+\documentclass{article}
+\usepackage{anyfontsize}
+\begin{document}
+{\fontsize{50}{60}\selectfont Big} and {\fontsize{5}{6}\selectfont tiny}.
+\end{document}
+```

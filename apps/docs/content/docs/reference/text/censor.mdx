@@ -1,0 +1,28 @@
+---
+title: censor
+description: 'Blacked out text.'
+---
+
+## Loading
+
+```latex
+\usepackage{censor}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\blackout`, `\censor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="censor.tex"
+\documentclass{article}
+\usepackage{censor}
+\begin{document}
+The password is \censor{secret} and \blackout{this too}.
+\end{document}
+```
