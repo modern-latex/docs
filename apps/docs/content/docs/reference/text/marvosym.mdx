@@ -1,0 +1,28 @@
+---
+title: marvosym
+description: 'Martin Vogel''s symbols.'
+---
+
+## Loading
+
+```latex
+\usepackage{marvosym}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\Email`, `\Frowny`, `\Letter`, `\Mobilefone`, `\Pointinghand`, `\Smiley`, `\Telefon`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="marvosym.tex"
+\documentclass{article}
+\usepackage{marvosym}
+\begin{document}
+\Letter{} \Mobilefone{} \Telefon{} \EUR{} \Email{} \Pointinghand{} \Smiley{} \Frowny{}
+\end{document}
+```
