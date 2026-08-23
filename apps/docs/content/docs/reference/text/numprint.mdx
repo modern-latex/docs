@@ -1,0 +1,28 @@
+---
+title: numprint
+description: 'Numbers with separators.'
+---
+
+## Loading
+
+```latex
+\usepackage{numprint}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\np`, `\numprint`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="numprint.tex"
+\documentclass{article}
+\usepackage{numprint}
+\begin{document}
+\numprint{1234567.891} and \np{1000}.
+\end{document}
+```
