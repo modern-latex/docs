@@ -1,0 +1,28 @@
+---
+title: shapepar
+description: 'Shaped paragraphs.'
+---
+
+## Loading
+
+```latex
+\usepackage{shapepar}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\heartpar`, `\shapepar`, `\squareshape`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="shapepar.tex"
+\documentclass{article}
+\usepackage{shapepar}
+\begin{document}
+\heartpar{A paragraph set in the shape of a heart, which is long enough to show the shape.} \shapepar{\squareshape}{A square paragraph.}
+\end{document}
+```
