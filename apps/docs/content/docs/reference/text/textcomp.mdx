@@ -1,0 +1,28 @@
+---
+title: textcomp
+description: 'Text symbols.'
+---
+
+## Loading
+
+```latex
+\usepackage{textcomp}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\textbullet`, `\textcelsius`, `\textcopyright`, `\textdagger`, `\textdegree`, `\texteuro`, `\textmu`, `\textohm`, `\textonehalf`, `\textperthousand`, `\textregistered`, `\texttrademark`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="textcomp.tex"
+\documentclass{article}
+\usepackage{textcomp}
+\begin{document}
+\textdegree, \textcelsius, \texteuro, \textmu, \textohm, \textcopyright, \textregistered, \texttrademark, \textonehalf, \textbullet, \textperthousand, \textdagger.
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: tipa
+description: 'The International Phonetic Alphabet.'
+---
+
+## Loading
+
+```latex
+\usepackage{tipa}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\textae`, `\textbari`, `\textbaru`, `\textbeta`, `\textchi`, `\textctc`, `\textepsilon`, `\textesh`, `\texteth`, `\textfishhookr`, `\textgamma`, `\textglotstop`, `\textipa`, `\textipaeng`, `\textlengthmark`, `\textltailn`, `\textopeno`, `\textprimstress`, `\textrhookschwa`, `\textschwa`, `\textsci`, `\textscripta`, `\textscy`, `\textsecstress`, `\texttheta`, `\textturna`, `\textturnr`, `\textturnv`, `\textupsilon`, `\textyogh`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tipa.tex"
+\documentclass{article}
+\usepackage{tipa}
+\begin{document}
+\textipa{[f@"nEtIks]} and \textschwa{} \textesh.
+\end{document}
+```
