@@ -1,0 +1,31 @@
+---
+title: xcolor
+description: 'Colours.'
+---
+
+## Loading
+
+```latex
+\usepackage{xcolor}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\colorbox`, `\colorlet`, `\definecolor`, `\fcolorbox`, `\pagecolor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xcolor.tex"
+\documentclass{article}
+\usepackage[dvipsnames,table]{xcolor}
+\begin{document}
+\definecolor{brand}{RGB}{30,100,200}
+\colorlet{light}{brand!20}
+\textcolor{brand}{Brand}, \textcolor{red!50!blue}{mixed}, \colorbox{light}{boxed}, \fcolorbox{red}{yellow}{framed}, {\color{teal} teal}.
+\pagecolor{white}
+\end{document}
+```
