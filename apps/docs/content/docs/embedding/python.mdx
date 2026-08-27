@@ -1,0 +1,103 @@
+---
+title: Python
+description: Making documents from Python through the C library, with nothing but ctypes.
+---
+
+Python reaches mLaTeX through its C library, `latex_ffi`, with the `ctypes` module that comes with Python. The operations are the C library's, under the same names; see [C/C++](/docs/embedding/c-cpp#the-operations).
+
+## Installing
+
+The `aveloux` package's `mlatex` extra carries the library and its fonts. It is not published yet; see [Installation](/docs/installation#python).
+
+<Tabs items={["uv", "pip", "Poetry"]}>
+  <Tab value="uv">
+    ```bash
+    uv add "aveloux[mlatex]"
+    ```
+  </Tab>
+
+  <Tab value="pip">
+    ```bash
+    pip install "aveloux[mlatex]"
+    ```
+  </Tab>
+
+  <Tab value="Poetry">
+    ```bash
+    poetry add "aveloux[mlatex]"
+    ```
+  </Tab>
+</Tabs>
+
+## Declaring the library
+
+Python's built-in `ctypes` is enough. The struct of operations must be declared with its fields in the header's order, and a document is then made as in C:
+
+```python title="invoice.py"
+import ctypes
+
+library = ctypes.CDLL("latex_ffi")        # latex_ffi.dll, liblatex_ffi.so or .dylib
+
+Handler = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char_p),
+                           ctypes.c_size_t, ctypes.c_void_p)
+Session = ctypes.c_void_p
+Bytes = ctypes.POINTER(ctypes.c_ubyte)
+
+class Latex(ctypes.Structure):
+    _fields_ = [
+        ("compose", ctypes.CFUNCTYPE(Session, ctypes.c_char_p)),
+        ("dispose", ctypes.CFUNCTYPE(None, Session)),
+        ("set", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_char_p)),
+        ("unset", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("define", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_size_t,
+                                    Handler, ctypes.c_void_p)),
+        ("forget", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("write", ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_char_p, ctypes.c_size_t)),
+        ("provide", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_void_p,
+                                     ctypes.c_size_t)),
+        ("withdraw", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p)),
+        ("typeset", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_char_p, ctypes.c_size_t,
+                                     ctypes.POINTER(Bytes), ctypes.POINTER(ctypes.c_size_t))),
+        ("error", ctypes.CFUNCTYPE(ctypes.c_char_p, Session)),
+        ("offline", ctypes.CFUNCTYPE(ctypes.c_int, Session, ctypes.c_int)),
+    ]
+
+library.engine.restype = ctypes.POINTER(Latex)
+latex = library.engine().contents
+
+session = latex.compose(None)              # finds the fonts beside the library
+latex.set(session, b"customer", b"Acme Corporation")
+
+balances = {"A-1042": 12.5}
+
+@Handler
+def balance(data, arguments, count, output):
+    text = f"{balances.get(arguments[0].decode(), 0):.2f}".encode()
+    latex.write(output, text, len(text))
+
+latex.define(session, b"balance", 1, balance, None)
+
+document = rb"""\documentclass{article}
+\begin{document}
+Billed to \variable{customer}. Balance of A-1042: \$\balance{A-1042}.
+\end{document}"""
+
+pdf, size = Bytes(), ctypes.c_size_t()
+if not latex.typeset(session, document, len(document), ctypes.byref(pdf), ctypes.byref(size)):
+    print(latex.error(session).decode())
+with open("invoice.pdf", "wb") as file:
+    file.write(ctypes.string_at(pdf, size.value))
+latex.dispose(session)
+```
+
+## Commands
+
+A command is a `Handler` function: it is called with the arguments' text, and writes what the command stands for with `write`.
+
+### Keeping callbacks alive
+
+Keep a reference to the decorated handler for as long as the session may call it, as the module-level `balance` above does; ctypes frees a callback nothing refers to.
+
+## Finding the fonts
+
+`compose(None)` finds the `assets` folder by walking up from where the library itself was loaded. If your program keeps the library somewhere else, pass the assets folder's path, as bytes, to `compose` instead.

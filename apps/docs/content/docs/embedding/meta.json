@@ -1,4 +1,4 @@
 {
   "title": "Embedding",
-  "pages": ["index", "cpp", "c", "javascript"]
+  "pages": ["index", "c-cpp", "python", "javascript"]
 }
