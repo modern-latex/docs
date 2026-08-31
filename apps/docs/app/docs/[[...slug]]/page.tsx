@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 import type React from "react";
 import { createElement } from "react";
 
-import { Callout } from "@prostha/ui/src/components/callout";
-import { cn } from "@prostha/ui/src/lib/utils";
+import { Callout } from "@mlatex/ui/src/components/callout";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import { loader } from "fumadocs-core/source";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
@@ -67,10 +67,10 @@ export default async function Page({
 			}}
 			breadcrumb={{ enabled: false }}
 			editOnGithub={{
-				owner: "prostha",
-				repo: "runtime",
+				owner: "aveloux",
+				repo: "docs",
 				sha: version.branch,
-				path: `docs/content/docs/${page.path}`,
+				path: `apps/docs/content/docs/${page.path}`,
 			}}
 		>
 			{version.slug && (
@@ -95,11 +95,11 @@ export default async function Page({
 				</div>
 				<div className="flex flex-wrap items-center gap-2 not-prose lg:shrink-0">
 					<Llms
-						url={`https://raw.githubusercontent.com/prostha/${version.branch}/docs/content/docs/${page.path}`}
+						url={`https://raw.githubusercontent.com/aveloux/docs/${version.branch}/apps/docs/content/docs/${page.path}`}
 					/>
 					<Options
 						url={`${page.url}.mdx`}
-						github={`https://github.com/prostha/blob/${version.branch}/docs/content/docs/${page.path}`}
+						github={`https://github.com/aveloux/docs/blob/${version.branch}/apps/docs/content/docs/${page.path}`}
 						markdown={`/llms.txt${page.url}.md`}
 					/>
 				</div>

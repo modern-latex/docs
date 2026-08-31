@@ -5,7 +5,7 @@ import Link from "next/link";
 import type React from "react";
 import { useEffect, useState } from "react";
 
-import { Popover } from "@prostha/ui/src/components/popover";
+import { Popover } from "@mlatex/ui/src/components/popover";
 import { Code, Download, Palette, Type } from "lucide-react";
 import { useTheme } from "next-themes";
 import { toast } from "sonner";

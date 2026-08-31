@@ -21,7 +21,7 @@ interface Release {
 	published_at: string;
 }
 
-const data = fetch("https://api.github.com/repos/prostha/runtime/releases", {
+const data = fetch("https://api.github.com/repos/aveloux/mlatex/releases", {
 	next: { revalidate: 3600 },
 	headers: {
 		Accept: "application/vnd.github.v3+json",
@@ -164,7 +164,7 @@ export default function ChangelogPage() {
 
 					<div className="flex items-center gap-3 pt-4">
 						<Link
-							href="https://github.com/prosthaphaeresis/runtime/releases"
+							href="https://github.com/aveloux/mlatex/releases"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-1.5 text-[12px] text-foreground/70 dark:text-foreground/50 hover:text-foreground/80 font-mono uppercase tracking-wider transition-colors"

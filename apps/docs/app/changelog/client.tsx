@@ -5,8 +5,8 @@ import Link from "next/link";
 import type React from "react";
 import { useRef, useState } from "react";
 
-import { CodeBlock } from "@prostha/ui/src/components/code-block";
-import { cn } from "@prostha/ui/src/lib/utils";
+import { CodeBlock } from "@mlatex/ui/src/components/code-block";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import { ChevronDown } from "lucide-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -248,7 +248,7 @@ export function Changelog({ releases }: { releases: Release[] }) {
 
 			<div className="px-5 sm:px-6 lg:px-8 py-12">
 				<Link
-					href="https://github.com/prosthaphaeresis/docs/releases"
+					href="https://github.com/aveloux/mlatex/releases"
 					target="_blank"
 					rel="noopener noreferrer"
 					className="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"

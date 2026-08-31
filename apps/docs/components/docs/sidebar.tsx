@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { useEffect, useId, useRef, useState } from "react";
 
-import { cn } from "@prostha/ui/src/lib/utils";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { useSearchContext } from "fumadocs-ui/contexts/search";
 import { ChevronDownIcon } from "lucide-react";

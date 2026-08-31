@@ -11,20 +11,20 @@ export const metadata: Metadata = createMetadata({
 	description: "Latest updates, articles, and insights.",
 	openGraph: {
 		url: "/blog",
-		title: "Blog - Prostha",
+		title: "Blog - mLaTeX",
 		description: "Latest updates, articles, and insights.",
-		images: ["/api/og-release?heading=Prostha%20Blog"],
+		images: ["/api/og-release?heading=mLaTeX%20Blog"],
 	},
 	twitter: {
-		images: ["/api/og-release?heading=Prostha%20Blog"],
-		title: "Blog - Prostha",
+		images: ["/api/og-release?heading=mLaTeX%20Blog"],
+		title: "Blog - mLaTeX",
 		description: "Latest updates, articles, and insights.",
 	},
 	alternates: {
 		types: {
 			"application/rss+xml": [
 				{
-					title: "Prostha Blog",
+					title: "mLaTeX Blog",
 					url: "https://prostha.org/blog/rss.xml",
 				},
 			],

@@ -5,13 +5,13 @@ import Link from "next/link";
 
 import { use, useEffect, useState } from "react";
 
-import { Alert } from "@prostha/ui/src/components/alert";
-import { Badge } from "@prostha/ui/src/components/badge";
-import { Button } from "@prostha/ui/src/components/button";
-import { Callout } from "@prostha/ui/src/components/callout";
-import { Card } from "@prostha/ui/src/components/card";
-import { Input } from "@prostha/ui/src/components/input";
-import { Tabs } from "@prostha/ui/src/components/tabs";
+import { Alert } from "@mlatex/ui/src/components/alert";
+import { Badge } from "@mlatex/ui/src/components/badge";
+import { Button } from "@mlatex/ui/src/components/button";
+import { Callout } from "@mlatex/ui/src/components/callout";
+import { Card } from "@mlatex/ui/src/components/card";
+import { Input } from "@mlatex/ui/src/components/input";
+import { Tabs } from "@mlatex/ui/src/components/tabs";
 
 import Footer from "@/components/landing/footer";
 import { assets } from "@/lib/brand";
@@ -59,7 +59,7 @@ export function Brand() {
 										</span>
 									</h1>
 									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-70">
-										The tokens, components, and motifs that make up the Prostha
+										The tokens, components, and motifs that make up the mLaTeX
 										visual language. Everything here is pulled live from the
 										same variables used across product and docs.
 									</p>
@@ -114,7 +114,7 @@ export function Brand() {
 										</span>
 									</h1>
 									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed">
-										The tokens, components, and motifs that make up Prostha.
+										The tokens, components, and motifs that make up mLaTeX.
 									</p>
 								</div>
 							</div>
@@ -632,7 +632,7 @@ export function Brand() {
 													</Card.Header>
 													<Card.Content>
 														<p className="text-sm text-foreground/70">
-															Prostha is a cutting-edge masterpiece designed for
+															mLaTeX is a cutting-edge masterpiece designed for
 															maximum performance and ease of use.
 														</p>
 													</Card.Content>
@@ -681,20 +681,20 @@ export function Brand() {
 													</Tabs.List>
 													<Tabs.Content value="apt">
 														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
-															<code>sudo apt install prostha</code>
+															<code>sudo apt install mlatex</code>
 														</pre>
 														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
-															<code>sudo pacman -S prostha</code>
+															<code>sudo pacman -S mlatex</code>
 														</pre>
 													</Tabs.Content>
 													<Tabs.Content value="brew">
 														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
-															<code>brew install prostha</code>
+															<code>brew install mlatex</code>
 														</pre>
 													</Tabs.Content>
 													<Tabs.Content value="winget">
 														<pre className="mt-3 font-mono text-xs p-3 bg-foreground/3 border border-foreground/10 overflow-x-auto">
-															<code>winget install prostha</code>
+															<code>winget install mlatex</code>
 														</pre>
 													</Tabs.Content>
 												</Tabs>

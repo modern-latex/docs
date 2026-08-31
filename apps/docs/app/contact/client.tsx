@@ -5,10 +5,10 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@prostha/ui/src/components/button";
-import { Form } from "@prostha/ui/src/components/form";
-import { Input } from "@prostha/ui/src/components/input";
-import { TextArea } from "@prostha/ui/src/components/text-area";
+import { Button } from "@mlatex/ui/src/components/button";
+import { Form } from "@mlatex/ui/src/components/form";
+import { Input } from "@mlatex/ui/src/components/input";
+import { TextArea } from "@mlatex/ui/src/components/text-area";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";

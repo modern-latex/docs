@@ -102,7 +102,7 @@ export async function POST(request: Request) {
 					We've received your message and someone from our team will follow up shortly.
 					  
 					Best,
-					Prostha's Support Team`,
+					mLaTeX's Support Team`,
 				})
 				.catch((error) => ({ error, data: null })),
 		]).then(([primary, secondary]) => ({ primary, secondary }));

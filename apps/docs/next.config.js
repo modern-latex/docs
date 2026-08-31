@@ -2,7 +2,7 @@ import { createMDX } from "fumadocs-mdx/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	transpilePackages: ["@prostha/ui"],
+	transpilePackages: ["@mlatex/ui"],
 	experimental: {
 		optimizePackageImports: [
 			"lucide-react",

@@ -7,7 +7,7 @@ export async function GET(request: Request) {
 	try {
 		const schema = zod
 			.object({
-				heading: zod.string().default("Prostha Update"),
+				heading: zod.string().default("mLaTeX Update"),
 				description: zod.string().optional(),
 				date: zod.string().optional(),
 			})

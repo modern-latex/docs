@@ -2,8 +2,8 @@
 
 import { useTransition } from "react";
 
-import { useCopyButton } from "@prostha/ui/src/components/use-copy-button";
-import { cn } from "@prostha/ui/src/lib/utils";
+import { useCopyButton } from "@mlatex/ui/src/components/use-copy-button";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import {
 	Popover,
 	PopoverContent,
