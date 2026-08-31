@@ -1,0 +1,39 @@
+---
+title: elsarticle
+description: 'Elsevier journal articles.'
+---
+
+## Loading
+
+```latex
+\documentclass{elsarticle}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Commands
+
+`\address`, `\sep`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="elsarticle.tex"
+\documentclass[preprint,12pt]{elsarticle}
+\begin{document}
+\begin{frontmatter}
+\title{An Elsevier Article}
+\author[a]{Marie Curie}
+\address[a]{Sorbonne, Paris}
+\begin{abstract}
+Radioactivity.
+\end{abstract}
+\begin{keyword}
+radium \sep polonium
+\end{keyword}
+\end{frontmatter}
+\section{Introduction}
+Text.
+\end{document}
+```

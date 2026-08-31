@@ -1,0 +1,34 @@
+---
+title: scrartcl
+description: 'KOMA-Script''s article.'
+---
+
+## Loading
+
+```latex
+\documentclass{scrartcl}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Commands
+
+`\addsec`, `\minisec`, `\subtitle`, `\textsubscript`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="scrartcl.tex"
+\documentclass[paper=a4,fontsize=11pt]{scrartcl}
+\begin{document}
+\title{A KOMA Article}
+\subtitle{With a subtitle}
+\author{Hedy Lamarr}
+\maketitle
+\addsec{Unnumbered section}
+\section{Numbered}
+\minisec{A mini heading}
+Text \textsubscript{low}.
+\end{document}
+```
