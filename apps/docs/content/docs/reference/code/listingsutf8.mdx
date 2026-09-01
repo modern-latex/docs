@@ -1,0 +1,24 @@
+---
+title: listingsutf8
+description: 'Listings in UTF-8.'
+---
+
+## Loading
+
+```latex
+\usepackage{listingsutf8}
+```
+
+Loads [`listings`](/docs/reference/code/listings) under this name, so a document asking for either gets the same.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="listingsutf8.tex"
+\documentclass{article}
+\usepackage{listingsutf8}
+\begin{document}
+\begin{lstlisting}x = "café"\end{lstlisting}
+\end{document}
+```

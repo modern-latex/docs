@@ -1,0 +1,36 @@
+---
+title: fancyvrb
+description: 'Verbatim text with more to say about how.'
+---
+
+## Loading
+
+```latex
+\usepackage{fancyvrb}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\DefineVerbatimEnvironment`, `\fvset`, `\RecustomVerbatimEnvironment`, `\Verb`, `\VerbatimInput`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fancyvrb.tex"
+\documentclass{article}
+\usepackage{fancyvrb}
+\begin{filecontents}{nothing.txt}
+line one
+line two
+\end{filecontents}
+\begin{document}
+\begin{Verbatim}[frame=single, numbers=left, fontsize=\small]
+int main() { return 0; }
+\end{Verbatim}
+\VerbatimInput{nothing.txt}
+Inline \Verb|a_b|.
+\end{document}
+```

@@ -1,0 +1,39 @@
+---
+title: minted
+description: 'Source code, which minted colors through Pygments.'
+---
+
+## Loading
+
+```latex
+\usepackage{minted}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\inputminted`, `\mintinline`, `\newminted`, `\setminted`, `\setmintedinline`, `\usemintedstyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="minted.tex"
+\documentclass{article}
+\usepackage{minted}
+\begin{document}
+\begin{minted}[linenos, frame=lines]{python}
+print("hello")
+\end{minted}
+Inline \mintinline{c}{int x = 1;}.
+\setminted{fontsize=\small}
+\newminted{python}{}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Code is not coloured.
+</Callout>
