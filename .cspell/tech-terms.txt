@@ -73,3 +73,7 @@ pjpeg
 styl
 vbscript
 unvalidated
+nemotron
+ZADD
+ZCARD
+ZREMRANGEBYSCORE

@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "prostha/docs"
+      "repo": "aveloux/docs"
     }
   ],
   "commit": false,
