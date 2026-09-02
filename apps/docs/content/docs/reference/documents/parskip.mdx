@@ -1,0 +1,26 @@
+---
+title: parskip
+description: 'Paragraphs set apart by space rather than by indentation, half a line between them.'
+---
+
+## Loading
+
+```latex
+\usepackage{parskip}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="parskip.tex"
+\documentclass{article}
+\usepackage[parfill]{parskip}
+\begin{document}
+A first paragraph.
+
+A second one, set apart by space.
+\end{document}
+```

@@ -1,0 +1,36 @@
+---
+title: lineno
+description: 'Numbered lines for a draft.'
+---
+
+## Loading
+
+```latex
+\usepackage{lineno}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\linenumbers`, `\modulolinenumbers`, `\nolinenumbers`, `\resetlinenumber`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="lineno.tex"
+\documentclass{article}
+\usepackage[modulo]{lineno}
+\begin{document}
+\linenumbers
+Numbered lines for a draft.
+\nolinenumbers
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Lines are not numbered.
+</Callout>

@@ -1,0 +1,34 @@
+---
+title: afterpage
+description: 'Code to run once the page being set is finished.'
+---
+
+## Loading
+
+```latex
+\usepackage{afterpage}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\afterpage`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="afterpage.tex"
+\documentclass{article}
+\usepackage{afterpage}
+\begin{document}
+Text. \afterpage{\clearpage} More text after the page.
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Its code runs where it is written.
+</Callout>

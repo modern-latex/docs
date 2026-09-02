@@ -1,0 +1,32 @@
+---
+title: ragged2e
+description: 'Ragged text that still hyphenates.'
+---
+
+## Loading
+
+```latex
+\usepackage{ragged2e}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\Centering`, `\justifying`, `\RaggedLeft`, `\RaggedRight`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ragged2e.tex"
+\documentclass{article}
+\usepackage{ragged2e}
+\begin{document}
+\RaggedRight Ragged right text that still hyphenates.
+\begin{Center} Centred. \end{Center}
+\begin{FlushLeft} Left. \end{FlushLeft}
+\begin{FlushRight} Right. \end{FlushRight}
+\justifying Justified again.
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: eso-pic
+description: 'Pictures behind pages.'
+---
+
+## Loading
+
+```latex
+\usepackage{eso-pic}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\AddToShipoutPicture`, `\AddToShipoutPictureBG`, `\AtPageCenter`, `\makebox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="eso-pic.tex"
+\documentclass{article}
+\usepackage{eso-pic}
+\begin{document}
+\AddToShipoutPictureBG{\AtPageCenter{\makebox(0,0){Draft}}}\AddToShipoutPicture*{}Text.
+\end{document}
+```

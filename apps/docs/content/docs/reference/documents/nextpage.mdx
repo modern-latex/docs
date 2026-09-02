@@ -1,0 +1,28 @@
+---
+title: nextpage
+description: 'Clearing to a page.'
+---
+
+## Loading
+
+```latex
+\usepackage{nextpage}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\cleartooddpage`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="nextpage.tex"
+\documentclass{article}
+\usepackage{nextpage}
+\begin{document}
+Text.\clearpage More.\cleartooddpage Last.
+\end{document}
+```

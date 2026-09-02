@@ -1,0 +1,28 @@
+---
+title: scrlayer-scrpage
+description: 'KOMA-Script''s heads and feet — inner, centre and outer — in the scrheadings style, drawn as fancyhdr draws its own.'
+---
+
+## Loading
+
+```latex
+\usepackage{scrlayer-scrpage}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addtokomafont`, `\automark`, `\cehead`, `\cfoot`, `\chead`, `\clearpairofpagestyles`, `\clearscrheadfoot`, `\clearscrheadings`, `\cofoot`, `\cohead`, `\headmark`, `\ifoot`, `\ihead`, `\KOMAoptions`, `\lehead`, `\lofoot`, `\lohead`, `\manualmark`, `\ofoot`, `\ohead`, `\pagemark`, `\pagestyle`, `\ps`, `\rehead`, `\rofoot`, `\rohead`, `\setkomafont`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="scrlayer-scrpage.tex"
+\documentclass{article}
+\usepackage{scrlayer-scrpage}
+\begin{document}
+\pagestyle{scrheadings}\ihead{Inner}\ohead{Outer}\cfoot{\pagemark}\automark{section}Text.
+\end{document}
+```

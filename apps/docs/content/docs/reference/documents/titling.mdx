@@ -1,0 +1,32 @@
+---
+title: titling
+description: 'The title block''s parts, each with a before and an after to change.'
+---
+
+## Loading
+
+```latex
+\usepackage{titling}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\postauthor`, `\postdate`, `\posttitle`, `\preauthor`, `\predate`, `\pretitle`, `\theauthor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="titling.tex"
+\documentclass{article}
+\usepackage{titling}
+\begin{document}
+\pretitle{\begin{center}\LARGE}
+\posttitle{\end{center}}
+\title{A Title}\author{Author}\date{}
+\maketitle
+\thetitle{} by \theauthor.
+\end{document}
+```

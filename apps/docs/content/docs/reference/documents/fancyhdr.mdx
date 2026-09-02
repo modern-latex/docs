@@ -1,0 +1,37 @@
+---
+title: fancyhdr
+description: 'Heads and feet of the page''s own choosing.'
+---
+
+## Loading
+
+```latex
+\usepackage{fancyhdr}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\cfoot`, `\chead`, `\fancyfoot`, `\fancyhead`, `\fancyhf`, `\fancypagestyle`, `\footrulewidth`, `\headrulewidth`, `\lfoot`, `\lhead`, `\pagestyle`, `\rfoot`, `\rhead`, `\thepage`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fancyhdr.tex"
+\documentclass{article}
+\usepackage{fancyhdr}
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Left head}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{Centre foot}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\lhead{Old left}\rhead{Old right}\cfoot{\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}}
+Body text.
+\end{document}
+```

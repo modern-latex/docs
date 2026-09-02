@@ -1,0 +1,28 @@
+---
+title: scrextend
+description: 'KOMA''s extras.'
+---
+
+## Loading
+
+```latex
+\usepackage{scrextend}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\textsubscript`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="scrextend.tex"
+\documentclass{article}
+\usepackage{scrextend}
+\begin{document}
+\begin{addmargin}[1cm]{2cm}Indented.\end{addmargin}\textsubscript{x} Text.
+\end{document}
+```

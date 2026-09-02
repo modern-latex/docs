@@ -1,0 +1,28 @@
+---
+title: epigraph
+description: 'A quotation at a chapter''s head, set right, its source under it.'
+---
+
+## Loading
+
+```latex
+\usepackage{epigraph}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\epigraph`, `\epigraphwidth`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="epigraph.tex"
+\documentclass{article}
+\usepackage{epigraph}
+\begin{document}
+\epigraph{The purpose of computing is insight, not numbers.}{Richard Hamming}
+\end{document}
+```

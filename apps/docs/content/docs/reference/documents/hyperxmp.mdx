@@ -1,0 +1,25 @@
+---
+title: hyperxmp
+description: 'XMP metadata.'
+---
+
+## Loading
+
+```latex
+\usepackage{hyperxmp}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="hyperxmp.tex"
+\documentclass{article}
+\usepackage{hyperxmp}
+\usepackage{hyperref}\hypersetup{pdfauthor={Me}, pdfcopyright={CC-BY}}
+\begin{document}
+Metadata in XMP.
+\end{document}
+```

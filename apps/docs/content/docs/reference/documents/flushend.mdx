@@ -1,0 +1,28 @@
+---
+title: flushend
+description: 'Balanced last page.'
+---
+
+## Loading
+
+```latex
+\usepackage{flushend}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\flushend`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="flushend.tex"
+\documentclass[twocolumn]{article}
+\usepackage{flushend}
+\begin{document}
+Columns balanced at the end. \flushend
+\end{document}
+```

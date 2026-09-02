@@ -1,0 +1,24 @@
+---
+title: totpages
+description: 'The document''s number of pages, as the label TotPages on its last.'
+---
+
+## Loading
+
+```latex
+\usepackage{totpages}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="totpages.tex"
+\documentclass{article}
+\usepackage{totpages}
+\begin{document}
+Page \thepage{} of \ref{TotPages}.
+\end{document}
+```

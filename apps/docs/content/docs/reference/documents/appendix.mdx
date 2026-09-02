@@ -1,0 +1,33 @@
+---
+title: appendix
+description: 'The appendices block, which starts them as \appendix does, and the package''s headings over them.'
+---
+
+## Loading
+
+```latex
+\usepackage{appendix}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addappheadtotoc`, `\appendixname`, `\appendixpage`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="appendix.tex"
+\documentclass{article}
+\usepackage[toc,page]{appendix}
+\begin{document}
+\section{Main}
+Text.
+\begin{appendices}
+\section{First appendix}
+Details.
+\end{appendices}
+\end{document}
+```

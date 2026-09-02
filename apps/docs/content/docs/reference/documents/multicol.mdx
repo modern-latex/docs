@@ -1,0 +1,33 @@
+---
+title: multicol
+description: 'Several columns.'
+---
+
+## Loading
+
+```latex
+\usepackage{multicol}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\columnbreak`, `\columnseprule`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="multicol.tex"
+\documentclass{article}
+\usepackage{multicol}
+\begin{document}
+\begin{multicols}{3}[\section{Three columns}]
+Text set in three columns balanced against each other at the end of the block. \columnbreak
+More text after a column break.
+\end{multicols}
+\begin{multicols*}{2}Unbalanced columns.\end{multicols*}
+\setlength{\columnseprule}{0.4pt}
+\end{document}
+```

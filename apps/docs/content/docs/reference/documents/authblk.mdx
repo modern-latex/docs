@@ -1,0 +1,33 @@
+---
+title: authblk
+description: 'Authors and their affiliations, each author numbered to the affiliations they belong to.'
+---
+
+## Loading
+
+```latex
+\usepackage{authblk}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\affil`, `\Affilfont`, `\Authand`, `\Authands`, `\Authfont`, `\Authsep`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="authblk.tex"
+\documentclass{article}
+\usepackage{authblk}
+\begin{document}
+\title{A Paper}
+\author[1]{Ada Lovelace}
+\author[2]{Charles Babbage}
+\affil[1]{London}
+\affil[2]{Cambridge}
+\maketitle
+\end{document}
+```
