@@ -1,0 +1,38 @@
+---
+title: fontspec
+description: '\setmainfont and its kin, choosing the nearest font mLaTeX carries.'
+---
+
+## Loading
+
+```latex
+\usepackage{fontspec}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addfontfeature`, `\addfontfeatures`, `\defaultfontfeatures`, `\fontspec`, `\greek`, `\IfFontExistsTF`, `\newfontface`, `\newfontfamily`, `\newfontlanguage`, `\newfontscript`, `\renewfontfamily`, `\setfontfamily`, `\setmainfont`, `\setmathfont`, `\setmonofont`, `\setromanfont`, `\setsansfont`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fontspec.tex"
+\documentclass{article}
+\usepackage{fontspec}
+\begin{document}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+\newfontfamily\greek{GFS Didot}
+Main text, \textsf{sans}, \texttt{mono}, {\greek Greek}, \addfontfeature{Numbers=OldStyle}1234.
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  A font with nothing near it among the faces mLaTeX carries is not used; the text keeps its face, with a warning.
+</Callout>

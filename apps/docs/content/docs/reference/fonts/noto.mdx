@@ -1,0 +1,25 @@
+---
+title: noto
+description: 'A font family. Text asking for it is set in the nearest of the faces mLaTeX carries.'
+---
+
+## Loading
+
+```latex
+\usepackage{noto}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="noto.tex"
+\documentclass{article}
+\usepackage{noto}
+\begin{document}
+Body text in \textbf{bold}, \textit{italic}, \textsc{small capitals} and \texttt{typewriter},
+with a formula $\int_0^1 x^2\,dx = \frac{1}{3}$ and $\alpha + \beta = \gamma$.
+\end{document}
+```
