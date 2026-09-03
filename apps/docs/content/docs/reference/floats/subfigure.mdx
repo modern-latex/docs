@@ -1,0 +1,28 @@
+---
+title: subfigure
+description: 'Subfigures, the older package.'
+---
+
+## Loading
+
+```latex
+\usepackage{subfigure}
+```
+
+Loads [`subfig`](/docs/reference/floats/subfig) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\subfigure`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="subfigure.tex"
+\documentclass{article}
+\usepackage{subfigure}
+\begin{document}
+\begin{figure}[h]\subfigure[A]{\rule{1cm}{1cm}}\subfigure[B]{\rule{1cm}{1cm}}\caption{Two}\end{figure}
+\end{document}
+```

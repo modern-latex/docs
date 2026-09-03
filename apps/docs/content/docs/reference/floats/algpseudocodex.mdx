@@ -1,0 +1,29 @@
+---
+title: algpseudocodex
+description: 'Pseudocode, extended.'
+---
+
+## Loading
+
+```latex
+\usepackage{algpseudocodex}
+```
+
+Loads [`algpseudocode`](/docs/reference/floats/algpseudocode) under this name, so a document asking for either gets the same.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="algpseudocodex.tex"
+\documentclass{article}
+\usepackage{algpseudocodex}
+\begin{document}
+\begin{algorithmic}
+\State $x \gets 0$
+\While{$x < 3$}
+\State $x \gets x + 1$
+\EndWhile
+\end{algorithmic}
+\end{document}
+```

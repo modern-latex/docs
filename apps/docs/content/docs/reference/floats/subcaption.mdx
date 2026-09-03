@@ -1,0 +1,35 @@
+---
+title: subcaption
+description: 'Figures and tables made of several, each lettered.'
+---
+
+## Loading
+
+```latex
+\usepackage{subcaption}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\subcaption`, `\subcaptionbox`, `\subref`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="subcaption.tex"
+\documentclass{article}
+\usepackage{subcaption}
+\begin{document}
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}\centering\rule{1cm}{1cm}\caption{Left}\label{fig:l}\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.45\textwidth}\centering\rule{1cm}{1cm}\caption{Right}\end{subfigure}
+\caption{Both, \subref{fig:l}.}
+\end{figure}
+\begin{table}[htbp]\begin{subtable}{0.4\textwidth}\centering a\caption{A}\end{subtable}\end{table}
+\end{document}
+```

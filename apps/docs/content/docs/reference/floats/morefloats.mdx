@@ -1,0 +1,24 @@
+---
+title: morefloats
+description: 'More floats waiting.'
+---
+
+## Loading
+
+```latex
+\usepackage{morefloats}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="morefloats.tex"
+\documentclass{article}
+\usepackage{morefloats}
+\begin{document}
+\begin{figure}[htbp]\centering\rule{1cm}{1cm}\caption{One of many}\end{figure}
+\end{document}
+```

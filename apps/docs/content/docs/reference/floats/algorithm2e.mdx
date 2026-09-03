@@ -1,0 +1,39 @@
+---
+title: algorithm2e
+description: 'An algorithm written as its steps.'
+---
+
+## Loading
+
+```latex
+\usepackage{algorithm2e}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\Begin`, `\BlankLine`, `\Case`, `\DontPrintSemicolon`, `\eIf`, `\Else`, `\ElseIf`, `\For`, `\ForAll`, `\ForEach`, `\If`, `\Indm`, `\Indp`, `\KwData`, `\KwDownTo`, `\KwEnsure`, `\KwFrom`, `\KwIn`, `\KwInput`, `\KwOut`, `\KwOutput`, `\KwRequire`, `\KwResult`, `\KwRet`, `\KwTo`, `\leftarrow`, `\lElse`, `\lElseIf`, `\lFor`, `\lForAll`, `\lForEach`, `\lIf`, `\LinesNumbered`, `\lRepeat`, `\lWhile`, `\nl`, `\Other`, `\Repeat`, `\ResetInOut`, `\Return`, `\SetAlgoLined`, `\SetAlgoNlRelativeSize`, `\SetAlgoNoEnd`, `\SetAlgoNoLine`, `\SetAlgoVlined`, `\SetArgSty`, `\SetCommentSty`, `\SetDataSty`, `\SetFuncSty`, `\SetKw`, `\SetKwBlock`, `\SetKwComment`, `\SetKwData`, `\SetKwInOut`, `\SetKwInput`, `\SetKwProg`, `\SetKwSty`, `\SetNlSty`, `\Switch`, `\tcc`, `\tcp`, `\uCase`, `\uElse`, `\uElseIf`, `\uIf`, `\While`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="algorithm2e.tex"
+\documentclass{article}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\begin{document}
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{a list $L$}
+\KwResult{$L$ sorted}
+\For{$i \leftarrow 1$ \KwTo $n$}{
+  \If{$L_i > L_{i+1}$}{swap $L_i$ and $L_{i+1}$\;}
+  \Else{continue\;}
+}
+\While{not sorted}{repeat\;}
+\Return{$L$}\;
+\caption{Bubble sort}
+\end{algorithm}
+\end{document}
+```

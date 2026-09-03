@@ -1,0 +1,24 @@
+---
+title: floatflt
+description: 'Figures text flows round.'
+---
+
+## Loading
+
+```latex
+\usepackage{floatflt}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="floatflt.tex"
+\documentclass{article}
+\usepackage{floatflt}
+\begin{document}
+\begin{floatingfigure}[r]{3cm}\rule{2cm}{2cm}\caption{Floating}\end{floatingfigure}Text beside it.
+\end{document}
+```

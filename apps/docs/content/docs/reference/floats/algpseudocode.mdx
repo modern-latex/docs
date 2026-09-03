@@ -1,0 +1,51 @@
+---
+title: algpseudocode
+description: 'Pseudocode, as the algorithmicx bundle writes it.'
+---
+
+## Loading
+
+```latex
+\usepackage{algpseudocode}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\algnewcommand`, `\algorithmicdo`, `\algorithmicelse`, `\algorithmicend`, `\algorithmicensure`, `\algorithmicfor`, `\algorithmicforall`, `\algorithmicfunction`, `\algorithmicif`, `\algorithmicloop`, `\algorithmicprocedure`, `\algorithmicrepeat`, `\algorithmicrequire`, `\algorithmicreturn`, `\algorithmicthen`, `\algorithmicuntil`, `\algorithmicwhile`, `\algrenewcommand`, `\Call`, `\Comment`, `\Else`, `\ElsIf`, `\EndFor`, `\EndFunction`, `\EndIf`, `\EndLoop`, `\EndProcedure`, `\EndWhile`, `\Ensure`, `\For`, `\ForAll`, `\Function`, `\gets`, `\If`, `\in`, `\Loop`, `\Procedure`, `\Repeat`, `\Require`, `\Return`, `\State`, `\Statex`, `\textproc`, `\Until`, `\While`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="algpseudocode.tex"
+\documentclass{article}
+\usepackage{algpseudocode}
+\begin{document}
+\begin{algorithmic}[1]
+\Require $x > 0$
+\Function{Square}{$x$}
+\State $y \gets x^2$ \Comment{square it}
+\If{$y > 1$}
+\State \Return $y$
+\ElsIf{$y = 1$}
+\State \Return $1$
+\Else
+\State \Return $0$
+\EndIf
+\EndFunction
+\Repeat
+\State step
+\Until{done}
+\Loop
+\State forever
+\EndLoop
+\ForAll{$v \in V$}
+\State visit $v$
+\EndFor
+\Statex
+\State \Call{Square}{2}
+\end{algorithmic}
+\end{document}
+```

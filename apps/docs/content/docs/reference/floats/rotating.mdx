@@ -1,0 +1,30 @@
+---
+title: rotating
+description: 'Rotated floats and boxes.'
+---
+
+## Loading
+
+```latex
+\usepackage{rotating}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\turnbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="rotating.tex"
+\documentclass{article}
+\usepackage{rotating}
+\begin{document}
+\begin{sidewaysfigure}\centering\rule{3cm}{2cm}\caption{Sideways}\end{sidewaysfigure}
+\begin{sidewaystable}\centering\begin{tabular}{cc}a&b\end{tabular}\caption{Turned}\end{sidewaystable}
+\begin{turn}{30}turned\end{turn} \begin{rotate}{20}rotated\end{rotate} \turnbox{10}{box}
+\end{document}
+```
