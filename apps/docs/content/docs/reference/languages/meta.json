@@ -1,0 +1,14 @@
+{
+  "title": "Languages",
+  "pages": [
+    "index",
+    "babel",
+    "bidi",
+    "cjk",
+    "cjkutf8",
+    "ctex",
+    "polyglossia",
+    "translator",
+    "xecjk"
+  ]
+}

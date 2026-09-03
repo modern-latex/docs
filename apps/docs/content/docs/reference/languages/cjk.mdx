@@ -1,0 +1,28 @@
+---
+title: CJK
+description: 'Chinese, Japanese and Korean text.'
+---
+
+## Loading
+
+```latex
+\usepackage{CJK}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\CJK`, `\CJKencoding`, `\CJKfamily`, `\CJKindent`, `\CJKnospace`, `\CJKspace`, `\CJKtilde`, `\csname`, `\endCJK`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="CJK.tex"
+\documentclass{article}
+\usepackage{CJK}
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}中文\end{CJK}
+\end{document}
+```

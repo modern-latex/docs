@@ -1,0 +1,32 @@
+---
+title: babel
+description: 'The languages a document is written in, named as its options — the last the one it is in, those before it the ones it quotes.'
+---
+
+## Loading
+
+```latex
+\usepackage{babel}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addto`, `\babelfont`, `\babelhyphenation`, `\babelprovide`, `\babeltags`, `\defineshorthand`, `\foreignlanguage`, `\iflanguage`, `\languagename`, `\languageshorthands`, `\selectlanguage`, `\shorthandoff`, `\shorthandon`, `\useshorthands`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="babel.tex"
+\documentclass{article}
+\usepackage[french,german,english]{babel}
+\begin{document}
+\selectlanguage{english}
+Text in English, and \foreignlanguage{french}{du texte en fran\c{c}ais}.
+\begin{otherlanguage}{german}
+Ein deutscher Absatz, \today.
+\end{otherlanguage}
+\end{document}
+```
