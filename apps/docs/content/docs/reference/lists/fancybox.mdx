@@ -1,0 +1,34 @@
+---
+title: fancybox
+description: 'Boxes framed with a shadow, a double line or rounded corners, each drawn here as a plain frame.'
+---
+
+## Loading
+
+```latex
+\usepackage{fancybox}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\doublebox`, `\ovalbox`, `\Ovalbox`, `\shadowbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fancybox.tex"
+\documentclass{article}
+\usepackage{fancybox}
+\begin{document}
+\shadowbox{shadowed} \doublebox{doubled} \ovalbox{oval} \Ovalbox{Oval}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Shadows, double lines and rounded corners are drawn as a plain frame.
+</Callout>

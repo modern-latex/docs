@@ -1,0 +1,33 @@
+---
+title: outlines
+description: 'Outlines whose levels are \1 to \4, set as nested lists.'
+---
+
+## Loading
+
+```latex
+\usepackage{outlines}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endoutline`, `\outline`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="outlines.tex"
+\documentclass{article}
+\usepackage{outlines}
+\begin{document}
+\begin{outline}
+\1 First level
+  \2 Second level
+    \3 Third level
+\1 Back to the first
+\end{outline}
+\end{document}
+```

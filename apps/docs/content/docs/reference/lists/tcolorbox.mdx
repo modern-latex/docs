@@ -1,0 +1,40 @@
+---
+title: tcolorbox
+description: 'A colored box with a title, the engine''s own, and a box of a name of the document''s, \newtcolorbox, with the options \tcbset gives every box.'
+---
+
+## Loading
+
+```latex
+\usepackage{tcolorbox}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\newtcbox`, `\newtcolorbox`, `\tcbox`, `\tcbset`, `\tcbuselibrary`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tcolorbox.tex"
+\documentclass{article}
+\usepackage[most]{tcolorbox}
+\begin{document}
+\tcbset{colback=blue!5}
+\begin{tcolorbox}[title=A box, colframe=blue!50]
+Inside a coloured box.
+\end{tcolorbox}
+\newtcolorbox{note}[1][]{colback=yellow!10, title=Note, #1}
+\begin{note}A note.\end{note}
+\tcbox{inline}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Its libraries and inline boxes are ignored.
+</Callout>

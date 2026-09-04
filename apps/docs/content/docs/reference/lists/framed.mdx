@@ -1,0 +1,37 @@
+---
+title: framed
+description: 'Framed, shaded and leftbar blocks, the engine''s own.'
+---
+
+## Loading
+
+```latex
+\usepackage{framed}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\definecolor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="framed.tex"
+\documentclass{article}
+\usepackage{framed}
+\usepackage{xcolor}\definecolor{shadecolor}{gray}{0.9}
+\begin{document}
+\begin{framed}
+A framed paragraph.
+\end{framed}
+\begin{shaded}
+A shaded paragraph.
+\end{shaded}
+\begin{leftbar}
+A bar at the left.
+\end{leftbar}
+\end{document}
+```

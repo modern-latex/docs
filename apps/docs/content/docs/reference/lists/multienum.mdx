@@ -1,0 +1,31 @@
+---
+title: multienum
+description: 'Several items to a line.'
+---
+
+## Loading
+
+```latex
+\usepackage{multienum}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\mitemxx`, `\mitemxxx`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="multienum.tex"
+\documentclass{article}
+\usepackage{multienum}
+\begin{document}
+\begin{multienumerate}
+\mitemxx{one}{two}
+\mitemxxx{three}{four}{five}
+\end{multienumerate}
+\end{document}
+```

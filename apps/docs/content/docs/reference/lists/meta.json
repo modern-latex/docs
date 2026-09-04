@@ -1,0 +1,25 @@
+{
+  "title": "Lists and Boxes",
+  "pages": [
+    "index",
+    "adjustbox",
+    "awesomebox",
+    "bclogo",
+    "boxedminipage",
+    "dirtree",
+    "enumerate",
+    "enumitem",
+    "exsheets",
+    "fancybox",
+    "framed",
+    "mdframed",
+    "mdwlist",
+    "multienum",
+    "outlines",
+    "paralist",
+    "shadow",
+    "tasks",
+    "tcolorbox",
+    "trimclip"
+  ]
+}

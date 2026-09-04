@@ -1,0 +1,28 @@
+---
+title: awesomebox
+description: 'Admonitions.'
+---
+
+## Loading
+
+```latex
+\usepackage{awesomebox}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\cautionbox`, `\importantbox`, `\notebox`, `\tipbox`, `\warningbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="awesomebox.tex"
+\documentclass{article}
+\usepackage{awesomebox}
+\begin{document}
+\notebox{A note.} \tipbox{A tip.} \warningbox{A warning.} \cautionbox{Caution.} \importantbox{Important.}
+\end{document}
+```
