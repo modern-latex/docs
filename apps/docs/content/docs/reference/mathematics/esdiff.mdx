@@ -1,0 +1,28 @@
+---
+title: esdiff
+description: 'Derivatives.'
+---
+
+## Loading
+
+```latex
+\usepackage{esdiff}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\diff`, `\diffp`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="esdiff.tex"
+\documentclass{article}
+\usepackage{esdiff}
+\begin{document}
+$\diff{f}{x} \quad \diffp{f}{x}$
+\end{document}
+```

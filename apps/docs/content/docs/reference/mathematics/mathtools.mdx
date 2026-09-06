@@ -1,0 +1,38 @@
+---
+title: mathtools
+description: 'amsmath''s fixes and additions; loads amsmath.'
+---
+
+## Loading
+
+```latex
+\usepackage{mathtools}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\Aboxed`, `\adjustlimits`, `\allowdisplaybreaks`, `\boxed`, `\ceil`, `\cfrac`, `\Coloneqq`, `\coloneqq`, `\cramped`, `\dblcolon`, `\DeclarePairedDelimiter`, `\DeclarePairedDelimiterX`, `\displaybreak`, `\eqqcolon`, `\genfrac`, `\lceil`, `\lefteqn`, `\lVert`, `\lvert`, `\mathclap`, `\mathllap`, `\mathmakebox`, `\mathrlap`, `\mathtoolsset`, `\MoveEqLeft`, `\mspace`, `\newtagform`, `\nobreakdash`, `\prescript`, `\rceil`, `\rVert`, `\rvert`, `\shortintertext`, `\shoveleft`, `\shoveright`, `\sideset`, `\smashoperator`, `\splitdfrac`, `\splitfrac`, `\underbracket`, `\usetagform`, `\vcentcolon`, `\xhookleftarrow`, `\xhookrightarrow`, `\xLeftarrow`, `\xleftarrow`, `\xleftrightarrow`, `\xLeftrightarrow`, `\xmapsto`, `\xRightarrow`, `\xrightarrow`, `\xrightharpoonup`, `\xrightleftharpoons`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="mathtools.tex"
+\documentclass{article}
+\usepackage{mathtools}
+\begin{document}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\[ a \coloneqq b \quad \abs{x} \quad \norm{v} \quad \xleftrightarrow{a} \quad \mathclap{x} \quad \prescript{a}{b}{X} \quad \underbracket{abc} \quad \smashoperator{\sum_{i=1}^n} \]
+$\ceil{x}$ and $\ceil*{\frac{a}{b}}$.
+\[ \begin{dcases} a & b \\ c & d \end{dcases} \]
+\begin{align}
+x &= y \\
+\intertext{and} z &= w
+\end{align}
+\mathtoolsset{showonlyrefs}
+\end{document}
+```

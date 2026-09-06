@@ -1,0 +1,31 @@
+---
+title: empheq
+description: 'Boxed and marked displays.'
+---
+
+## Loading
+
+```latex
+\usepackage{empheq}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\fbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="empheq.tex"
+\documentclass{article}
+\usepackage{empheq}
+\begin{document}
+\begin{empheq}[box=\fbox]{align}
+a &= b + c \\
+d &= e
+\end{empheq}
+\end{document}
+```

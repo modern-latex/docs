@@ -1,0 +1,37 @@
+---
+title: thmtools
+description: 'Theorems declared by keys, and a list of them.'
+---
+
+## Loading
+
+```latex
+\usepackage{thmtools}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addtotheorempostfoothook`, `\addtotheorempostheadhook`, `\addtotheoremprefoothook`, `\addtotheorempreheadhook`, `\declaretheorem`, `\declaretheoremstyle`, `\ignoretheorems`, `\listoftheorems`, `\listtheoremname`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="thmtools.tex"
+\documentclass{article}
+\usepackage{thmtools}
+\usepackage{amsthm}
+\begin{document}
+\declaretheorem[name=Theorem, numberwithin=section]{theorem}
+\declaretheorem[sibling=theorem]{lemma}
+\declaretheorem[numbered=no, style=remark]{note}
+\declaretheoremstyle[headfont=\bfseries]{mystyle}
+\section{S}
+\begin{theorem}A theorem.\end{theorem}
+\begin{lemma}A lemma.\end{lemma}
+\begin{note}A note.\end{note}
+\listoftheorems
+\end{document}
+```

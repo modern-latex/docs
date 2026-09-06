@@ -1,0 +1,28 @@
+---
+title: upgreek
+description: 'Upright Greek letters in a formula.'
+---
+
+## Loading
+
+```latex
+\usepackage{upgreek}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\upalpha`, `\upbeta`, `\upchi`, `\updelta`, `\Updelta`, `\upepsilon`, `\upeta`, `\upgamma`, `\Upgamma`, `\upiota`, `\upkappa`, `\Uplambda`, `\uplambda`, `\upmu`, `\upnu`, `\Upomega`, `\upomega`, `\Upphi`, `\upphi`, `\uppi`, `\Uppi`, `\uppsi`, `\Uppsi`, `\uprho`, `\upsigma`, `\Upsigma`, `\uptau`, `\Uptheta`, `\uptheta`, `\upupsilon`, `\Upupsilon`, `\Upxi`, `\upxi`, `\upzeta`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="upgreek.tex"
+\documentclass{article}
+\usepackage{upgreek}
+\begin{document}
+$\upalpha \upbeta \upgamma \Updelta \upmu \uppi$
+\end{document}
+```

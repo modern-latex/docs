@@ -1,0 +1,28 @@
+---
+title: nicefrac
+description: 'A fraction written small, its numerator raised and denominator lowered either side of a slash.'
+---
+
+## Loading
+
+```latex
+\usepackage{nicefrac}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\nicefrac`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="nicefrac.tex"
+\documentclass{article}
+\usepackage{nicefrac}
+\begin{document}
+$\nicefrac{1}{2}$ and \nicefrac{3}{4} of it.
+\end{document}
+```

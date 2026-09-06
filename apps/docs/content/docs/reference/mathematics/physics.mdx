@@ -1,0 +1,28 @@
+---
+title: physics
+description: 'The notations a physicist writes every other line, each a fenced group or a fraction over primitives the engine already has.'
+---
+
+## Loading
+
+```latex
+\usepackage{physics}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\abs`, `\Arg`, `\comm`, `\curl`, `\dv`, `\grad`, `\Im`, `\ip`, `\laplacian`, `\norm`, `\order`, `\pd`, `\pdv`, `\phi`, `\Re`, `\tr`, `\vb`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="physics.tex"
+\documentclass{article}
+\usepackage{physics}
+\begin{document}
+$\abs{x} \quad \norm{v} \quad \dv{f}{x} \quad \pdv{f}{x}{y} \quad \qty(\frac{a}{b}) \quad \bra{a}\ket{b} \quad \expval{H} \quad \tr{A} \quad \grad{f} \quad \curl{F} \quad \laplacian{\phi} \quad \order{x^2} \quad \eval{x}_0^1 \quad \vb{x} \quad \comm{A}{B}$
+\end{document}
+```

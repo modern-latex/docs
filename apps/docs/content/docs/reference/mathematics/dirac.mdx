@@ -1,0 +1,28 @@
+---
+title: dirac
+description: 'Dirac''s notation as dirac writes it — a bra and a ket, their product of two arguments, the operator between them, and an expectation.'
+---
+
+## Loading
+
+```latex
+\usepackage{dirac}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\bra`, `\braket`, `\bramket`, `\expval`, `\ket`, `\ketbra`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="dirac.tex"
+\documentclass{article}
+\usepackage{dirac}
+\begin{document}
+$\bra{a} \ket{b} \braket{a}{b} \ketbra{a}{b} \bramket{a}{H}{b} \expval{H}$
+\end{document}
+```

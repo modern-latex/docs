@@ -1,0 +1,31 @@
+---
+title: cases
+description: 'Numbered cases.'
+---
+
+## Loading
+
+```latex
+\usepackage{cases}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\geq`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="cases.tex"
+\documentclass{article}
+\usepackage{cases}
+\begin{document}
+\begin{numcases}{|x| =}
+x & for $x \geq 0$ \\
+-x & for $x < 0$
+\end{numcases}
+\end{document}
+```
