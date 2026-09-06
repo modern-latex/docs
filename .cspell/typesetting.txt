@@ -91,6 +91,7 @@ captiondelim
 captionof
 ccaption
 CDLL
+cdots
 cehead
 centi
 cerr
@@ -185,6 +186,7 @@ duckument
 duckuments
 dvipsnames
 Eeqnarray
+emph
 empheq
 Emscripten
 EMSDK
@@ -286,7 +288,9 @@ Harf
 harfbuzz
 hecto
 Hedy
+hfill
 hhline
+hline
 hlines
 hmargin
 hologo
@@ -359,6 +363,7 @@ kvoptions
 kvsetkeys
 latexmk
 Ldisplaydb
+ldots
 leadsto
 lefteqn
 lehead
@@ -560,6 +565,7 @@ pxfonts
 Pygments
 qcircuit
 Qcircuit's
+qquad
 qrcode
 qtree
 quantikz
@@ -609,6 +615,7 @@ siunits
 siunitx
 sivalue
 siwhole
+slshape
 soulutf
 splitdfrac
 splitfrac
@@ -740,6 +747,7 @@ usepgfplotslibrary
 usetikzlibrary
 varioref
 vect
+vfill
 viridis
 visibleenv
 vlined
