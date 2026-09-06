@@ -190,7 +190,8 @@ mlatex --debug=lexer,parser paper.tex
 | ------ | --------------------------------------------- |
 | `aot`  | A PDF, now. The default.                      |
 | `jit`  | Just in time. Accepted, and does nothing yet. |
-| `wasm` | WebAssembly. Accepted, and does nothing yet.  |
+
+Any other target is a command-line error (exit status `2`). WebAssembly is not a target; it is a separate build of the engine, see [JavaScript](/docs/embedding/javascript).
 
 ***
 

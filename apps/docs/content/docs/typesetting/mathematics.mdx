@@ -103,9 +103,10 @@ LaTeX's own `array` block works too, with a column type for each column.
 
 ### Operators
 
-`\operatorname{name}` sets an operator name upright with an operator's spacing. `\DeclareMathOperator{\tr}{tr}` in the preamble makes it a command:
+`\operatorname{name}` sets an operator name upright with an operator's spacing. `\DeclareMathOperator{\tr}{tr}` in the preamble makes it a command. Unlike most of amsmath, it needs the package loaded:
 
 ```latex
+\usepackage{amsmath}
 \DeclareMathOperator{\tr}{tr}
 $\tr A = \operatorname{rank} B$
 ```

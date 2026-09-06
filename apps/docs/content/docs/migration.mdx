@@ -29,7 +29,7 @@ pdfLaTeX's options are accepted: `-interaction=batchmode`, `-jobname`, `-output-
 
 LaTeX writes what it learns about a document to an `.aux` file and reads it back on the next run, which is why a document is compiled two or three times. mLaTeX resolves references, page numbers, the table of contents, citations and the index in a second pass held in memory, within a single run.
 
-**What to change:** nothing. Drop the extra runs and `latexmk` from your build. If you call `\nofiles` or check for a `.aux` file, that code is simply never needed.
+**What to change:** nothing. Drop the extra runs and `latexmk` from your build. Code that checks for a `.aux` file is never needed. Remove any `\nofiles`: mLaTeX does not define it, and reports it as an undefined control sequence.
 
 ### No BibTeX, Biber or makeindex
 
