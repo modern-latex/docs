@@ -1,0 +1,34 @@
+---
+title: modiagram
+description: 'Molecular orbital diagrams.'
+---
+
+## Loading
+
+```latex
+\usepackage{modiagram}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\AO`, `\atom`, `\connect`, `\endMOdiagram`, `\EnergyAxis`, `\MO`, `\MOdiagram`, `\molecule`, `\setmolabel`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="modiagram.tex"
+\documentclass{article}
+\usepackage{modiagram}
+\begin{document}
+\begin{MOdiagram}\atom{left}{1s}\atom{right}{1s}\molecule{1sMO}\end{MOdiagram}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  The diagram's place is kept as a frame.
+</Callout>

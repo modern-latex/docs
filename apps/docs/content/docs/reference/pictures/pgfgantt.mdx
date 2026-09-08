@@ -1,0 +1,39 @@
+---
+title: pgfgantt
+description: 'A Gantt chart — a task to a row, each with its span of the chart''s units — set as a table of tasks and their spans.'
+---
+
+## Loading
+
+```latex
+\usepackage{pgfgantt}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endganttchart`, `\ganttbar`, `\ganttchart`, `\ganttgroup`, `\ganttlink`, `\ganttmilestone`, `\ganttnewline`, `\ganttset`, `\gantttitle`, `\gantttitlecalendar`, `\gantttitlelist`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pgfgantt.tex"
+\documentclass{article}
+\usepackage{pgfgantt}
+\begin{document}
+\begin{ganttchart}{1}{6}
+\gantttitle{Weeks}{6} \\
+\ganttbar{Design}{1}{2} \\
+\ganttbar{Build}{3}{5} \\
+\ganttmilestone{Ship}{6}
+\end{ganttchart}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Set as a table of tasks.
+</Callout>

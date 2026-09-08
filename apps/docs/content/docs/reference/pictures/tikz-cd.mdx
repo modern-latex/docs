@@ -1,0 +1,31 @@
+---
+title: tikz-cd
+description: 'Commutative diagrams.'
+---
+
+## Loading
+
+```latex
+\usepackage{tikz-cd}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\arrow`, `\tikzcdset`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tikz-cd.tex"
+\documentclass{article}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}
+A \arrow[r, "f"] \arrow[d, "g"'] & B \arrow[d, "h"] \\
+C \arrow[r, "k"'] & D
+\end{tikzcd}
+\end{document}
+```

@@ -1,0 +1,38 @@
+---
+title: tikz-3dplot
+description: 'Three dimensions in TikZ.'
+---
+
+## Loading
+
+```latex
+\usepackage{tikz-3dplot}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\tdplotsetmaincoords`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tikz-3dplot.tex"
+\documentclass{article}
+\usepackage{tikz-3dplot}
+\begin{document}
+\tdplotsetmaincoords{60}{120}
+\begin{tikzpicture}
+\draw[->] (0,0,0) -- (1,0,0) node[right] {$x$};
+\draw[->] (0,0,0) -- (0,1,0) node[above] {$y$};
+\end{tikzpicture}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Coordinates in three dimensions are not drawn; the rest of the picture is.
+</Callout>

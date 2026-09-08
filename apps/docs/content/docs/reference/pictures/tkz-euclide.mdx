@@ -1,0 +1,37 @@
+---
+title: tkz-euclide
+description: 'Euclidean geometry in TikZ — points defined and named, segments, lines and circles between them, points drawn and labelled.'
+---
+
+## Loading
+
+```latex
+\usepackage{tkz-euclide}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\tkzClip`, `\tkzDefPoint`, `\tkzDefPoints`, `\tkzDrawCircle`, `\tkzDrawLine`, `\tkzDrawPoint`, `\tkzDrawPoints`, `\tkzDrawPolygon`, `\tkzDrawSegment`, `\tkzInit`, `\tkzLabelPoint`, `\tkzLabelPoints`, `\tkzMarkAngle`, `\tkzMarkRightAngle`, `\tkzSetUpLine`, `\tkzSetUpPoint`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tkz-euclide.tex"
+\documentclass{article}
+\usepackage{tkz-euclide}
+\begin{document}
+\begin{tikzpicture}
+\tkzDefPoint(0,0){A}
+\tkzDefPoint(3,0){B}
+\tkzDefPoint(1,2){C}
+\tkzDrawSegment(A,B)
+\tkzDrawSegment(B,C)
+\tkzDrawSegment(C,A)
+\tkzDrawPoint(A)
+\tkzLabelPoint(A){$A$}
+\end{tikzpicture}
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: graphics
+description: 'LaTeX''s graphics.'
+---
+
+## Loading
+
+```latex
+\usepackage{graphics}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\rotatebox`, `\scalebox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="graphics.tex"
+\documentclass{article}
+\usepackage{graphics}
+\begin{document}
+\rotatebox{90}{up} \scalebox{0.5}{small}
+\end{document}
+```

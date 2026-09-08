@@ -1,0 +1,28 @@
+---
+title: pgf
+description: 'The layer TikZ is built on.'
+---
+
+## Loading
+
+```latex
+\usepackage{pgf}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\endpgfpicture`, `\pgfdeclarelayer`, `\pgfmathparse`, `\pgfmathsetmacro`, `\pgfmathtruncatemacro`, `\pgfpathcircle`, `\pgfpathclose`, `\pgfpathellipse`, `\pgfpathlineto`, `\pgfpathmoveto`, `\pgfpathrectangle`, `\pgfpathrectanglecorners`, `\pgfpicture`, `\pgfpoint`, `\pgfpointorigin`, `\pgfpointpolar`, `\pgfsetcolor`, `\pgfsetdash`, `\pgfsetfillcolor`, `\pgfsetlayers`, `\pgfsetlinewidth`, `\pgfsetstrokecolor`, `\pgftext`, `\pgfusepath`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pgf.tex"
+\documentclass{article}
+\usepackage{pgf}
+\begin{document}
+\begin{pgfpicture}\pgfpathcircle{\pgfpoint{0cm}{0cm}}{1cm}\pgfusepath{stroke}\end{pgfpicture}
+\end{document}
+```

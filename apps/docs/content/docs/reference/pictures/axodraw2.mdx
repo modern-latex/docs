@@ -1,0 +1,28 @@
+---
+title: axodraw2
+description: 'Feynman diagrams in an axopicture, drawn as TikZ paths.'
+---
+
+## Loading
+
+```latex
+\usepackage{axodraw2}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ArrowLine`, `\axopicture`, `\CArc`, `\DashLine`, `\endaxopicture`, `\GCirc`, `\Gluon`, `\Line`, `\Photon`, `\SetColor`, `\SetScale`, `\SetWidth`, `\Text`, `\Vertex`, `\ZigZag`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="axodraw2.tex"
+\documentclass{article}
+\usepackage{axodraw2}
+\begin{document}
+\begin{axopicture}(100,50)\Line(0,0)(100,50)\Photon(0,50)(100,0){3}{5}\end{axopicture}
+\end{document}
+```

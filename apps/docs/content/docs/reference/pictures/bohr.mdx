@@ -1,0 +1,28 @@
+---
+title: bohr
+description: 'An atom drawn as Bohr drew it, its electrons on shells round the nucleus.'
+---
+
+## Loading
+
+```latex
+\usepackage{bohr}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\bohr`, `\setbohr`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="bohr.tex"
+\documentclass{article}
+\usepackage{bohr}
+\begin{document}
+\bohr{3}{Li} \bohr{6}{C}
+\end{document}
+```

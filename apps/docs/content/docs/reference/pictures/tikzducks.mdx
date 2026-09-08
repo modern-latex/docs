@@ -1,0 +1,29 @@
+---
+title: tikzducks
+description: 'Ducks.'
+---
+
+## Loading
+
+```latex
+\usepackage{tikzducks}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\duck`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tikzducks.tex"
+\documentclass{article}
+\usepackage{tikzducks}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}\duck\end{tikzpicture}
+\end{document}
+```

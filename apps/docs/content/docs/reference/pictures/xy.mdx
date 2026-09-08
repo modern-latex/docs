@@ -1,0 +1,28 @@
+---
+title: xy
+description: 'Xy-pic''s diagrams.'
+---
+
+## Loading
+
+```latex
+\usepackage{xy}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\ar`, `\xymatrix`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xy.tex"
+\documentclass{article}
+\usepackage[all]{xy}
+\begin{document}
+\xymatrix{A \ar[r]^f \ar[d]_g & B \ar[d]^h \\ C \ar[r]_k & D}
+\end{document}
+```
