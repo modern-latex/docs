@@ -1,0 +1,28 @@
+---
+title: xstring
+description: 'String tests.'
+---
+
+## Loading
+
+```latex
+\usepackage{xstring}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\IfStrEq`, `\IfSubStr`, `\StrBefore`, `\StrLeft`, `\StrLen`, `\StrSubstitute`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xstring.tex"
+\documentclass{article}
+\usepackage{xstring}
+\begin{document}
+\IfSubStr{hello}{ell}{yes}{no}, \StrLen{hello}, \StrLeft{hello}{2}, \StrSubstitute{abc}{b}{B}, \IfStrEq{a}{a}{same}{diff}, \StrBefore{a-b}{-}.
+\end{document}
+```

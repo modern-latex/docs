@@ -1,0 +1,35 @@
+---
+title: ifthen
+description: '\ifthenelse and \whiledo, with ifthen''s tests.'
+---
+
+## Loading
+
+```latex
+\usepackage{ifthen}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\AND`, `\boolean`, `\cnttest`, `\equal`, `\ifthenelse`, `\isodd`, `\isundefined`, `\newboolean`, `\newcounter`, `\NOT`, `\provideboolean`, `\setboolean`, `\whiledo`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ifthen.tex"
+\documentclass{article}
+\usepackage{ifthen}
+\begin{document}
+\newboolean{final}
+\setboolean{final}{true}
+\ifthenelse{\boolean{final}}{Final.}{Draft.}
+\ifthenelse{\equal{a}{a}}{Equal.}{}
+\ifthenelse{\isodd{3}}{Odd.}{Even.}
+\ifthenelse{1 < 2 \AND \NOT 2 < 1}{Both.}{}
+\newcounter{n}\setcounter{n}{3}
+\whiledo{\value{n} > 0}{\arabic{n} \addtocounter{n}{-1}}
+\end{document}
+```

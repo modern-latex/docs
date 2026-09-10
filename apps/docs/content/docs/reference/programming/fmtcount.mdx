@@ -1,0 +1,28 @@
+---
+title: fmtcount
+description: 'Numbers and counters written in words and as ordinals.'
+---
+
+## Loading
+
+```latex
+\usepackage{fmtcount}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\FCordinal`, `\fmtcountsetoptions`, `\numberstring`, `\Numberstring`, `\NUMBERstring`, `\NUMBERstringnum`, `\Numberstringnum`, `\numberstringnum`, `\ordinal`, `\ordinalnum`, `\ORDINALstring`, `\ordinalstring`, `\Ordinalstring`, `\ordinalstringnum`, `\ORDINALstringnum`, `\Ordinalstringnum`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fmtcount.tex"
+\documentclass{article}
+\usepackage{fmtcount}
+\begin{document}
+\ordinalnum{3}, \numberstringnum{12}, \Numberstringnum{5}, \ordinalstringnum{2}, \NUMBERstringnum{2026}; section \numberstring{section}.\section{One}
+\end{document}
+```

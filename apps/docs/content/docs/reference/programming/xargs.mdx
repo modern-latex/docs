@@ -1,0 +1,28 @@
+---
+title: xargs
+description: 'Several optional arguments.'
+---
+
+## Loading
+
+```latex
+\usepackage{xargs}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\newcommandx`, `\range`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xargs.tex"
+\documentclass{article}
+\usepackage{xargs}
+\begin{document}
+\newcommandx{\range}[3][1=0, 3=1]{#1 to #2 by #3}\range{10} \range[2]{8}[2]
+\end{document}
+```

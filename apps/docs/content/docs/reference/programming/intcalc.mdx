@@ -1,0 +1,28 @@
+---
+title: intcalc
+description: 'Integer arithmetic.'
+---
+
+## Loading
+
+```latex
+\usepackage{intcalc}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\intcalcAdd`, `\intcalcMul`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="intcalc.tex"
+\documentclass{article}
+\usepackage{intcalc}
+\begin{document}
+\intcalcAdd{2}{3} and \intcalcMul{4}{5}.
+\end{document}
+```

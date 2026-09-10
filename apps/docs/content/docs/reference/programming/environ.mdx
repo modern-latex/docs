@@ -1,0 +1,28 @@
+---
+title: environ
+description: '\NewEnviron, an environment whose body is read whole into \BODY.'
+---
+
+## Loading
+
+```latex
+\usepackage{environ}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\BODY`, `\environbodyname`, `\NewEnviron`, `\RenewEnviron`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="environ.tex"
+\documentclass{article}
+\usepackage{environ}
+\begin{document}
+\NewEnviron{shout}{\textbf{\BODY}}\begin{shout}loud\end{shout}
+\end{document}
+```

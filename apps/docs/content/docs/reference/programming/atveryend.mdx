@@ -1,0 +1,28 @@
+---
+title: atveryend
+description: 'At the very end.'
+---
+
+## Loading
+
+```latex
+\usepackage{atveryend}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\AfterLastShipout`, `\AtVeryEndDocument`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="atveryend.tex"
+\documentclass{article}
+\usepackage{atveryend}
+\begin{document}
+\AtVeryEndDocument{}\AfterLastShipout{} Text.
+\end{document}
+```

@@ -1,0 +1,31 @@
+---
+title: catchfile
+description: 'A file into a macro.'
+---
+
+## Loading
+
+```latex
+\usepackage{catchfile}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\CatchFileDef`, `\content`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="catchfile.tex"
+\documentclass{article}
+\usepackage{catchfile}
+\begin{filecontents}{data.txt}
+Caught text.
+\end{filecontents}
+\begin{document}
+\CatchFileDef{\content}{data.txt}{}The file holds: \content
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: datetime2
+description: 'Today''s date and the time, in the document''s own style; a date written out from its parts, and one kept under a name to be used again.'
+---
+
+## Loading
+
+```latex
+\usepackage{datetime2}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\DTMcurrenttime`, `\DTMdate`, `\DTMdisplaydate`, `\DTMfetchyear`, `\DTMlangsetup`, `\DTMnow`, `\DTMsavedate`, `\DTMsavenow`, `\DTMsetdatestyle`, `\DTMsetstyle`, `\DTMsettimestyle`, `\DTMtoday`, `\DTMusedate`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="datetime2.tex"
+\documentclass{article}
+\usepackage[en-GB]{datetime2}
+\begin{document}
+Today is \DTMtoday; now is \DTMnow; a date \DTMdate{2026-09-29}.
+\end{document}
+```

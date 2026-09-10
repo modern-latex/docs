@@ -1,0 +1,28 @@
+---
+title: etex
+description: 'E-TeX.'
+---
+
+## Loading
+
+```latex
+\usepackage{etex}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\a`, `\dimexpr`, `\newcount`, `\numexpr`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="etex.tex"
+\documentclass{article}
+\usepackage{etex}
+\begin{document}
+\newcount\a \a=\numexpr 2*3\relax \the\a, \the\dimexpr 1pt+2pt\relax.
+\end{document}
+```

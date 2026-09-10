@@ -1,0 +1,28 @@
+---
+title: lipsum
+description: 'Placeholder text, for a layout to be judged before its words exist.'
+---
+
+## Loading
+
+```latex
+\usepackage{lipsum}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\lipsum`, `\lipsumparagraph`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="lipsum.tex"
+\documentclass{article}
+\usepackage{lipsum}
+\begin{document}
+\lipsum[1-2] \lipsum[3][1-2]
+\end{document}
+```

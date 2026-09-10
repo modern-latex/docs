@@ -1,0 +1,28 @@
+---
+title: xifthen
+description: 'ifthen''s tests, and whether a text is empty, holds another, or names a command.'
+---
+
+## Loading
+
+```latex
+\usepackage{xifthen}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\isempty`, `\isequivalentto`, `\isin`, `\isnamedefined`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xifthen.tex"
+\documentclass{article}
+\usepackage{xifthen}
+\begin{document}
+\ifthenelse{\isempty{}}{empty}{full} \ifthenelse{\isin{b}{abc}}{in}{out}
+\end{document}
+```
