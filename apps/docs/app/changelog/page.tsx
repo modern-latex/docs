@@ -18,7 +18,7 @@ interface Release {
 	body: string;
 	html_url: string;
 	prerelease: boolean;
-	published_at: string;
+	created_at: string;
 }
 
 const data = fetch("https://api.github.com/repos/aveloux/mlatex/releases", {
@@ -110,7 +110,8 @@ export default function ChangelogPage() {
 				tag: item.tag_name,
 				title: item.name,
 				content: text,
-				date: new Date(item.published_at).toLocaleDateString("en-US", {
+				// The tagged commit's date, which GitHub gives as created_at; published_at is only when the release page went up.
+				date: new Date(item.created_at).toLocaleDateString("en-US", {
 					year: "numeric",
 					month: "short",
 					day: "numeric",
