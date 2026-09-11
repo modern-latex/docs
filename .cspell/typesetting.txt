@@ -809,3 +809,4 @@ lrrr
 rlrrr
 nabla
 Kolmogorov
+stex
