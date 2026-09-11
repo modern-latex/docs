@@ -1,0 +1,28 @@
+---
+title: etoc
+description: 'Contents, configurable.'
+---
+
+## Loading
+
+```latex
+\usepackage{etoc}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\etocsettocstyle`, `\localtableofcontents`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="etoc.tex"
+\documentclass{article}
+\usepackage{etoc}
+\begin{document}
+\etocsettocstyle{}{}\localtableofcontents\section{One}
+\end{document}
+```

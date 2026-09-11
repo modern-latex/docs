@@ -1,0 +1,28 @@
+---
+title: fixme
+description: 'Notes while writing.'
+---
+
+## Loading
+
+```latex
+\usepackage{fixme}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\fixme`, `\fxnote`, `\fxwarning`, `\listoffixmes`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fixme.tex"
+\documentclass{article}
+\usepackage[draft]{fixme}
+\begin{document}
+The text as it stands. \fixme{Check this.} \fxnote{A note.} \fxwarning{Careful.} \listoffixmes
+\end{document}
+```

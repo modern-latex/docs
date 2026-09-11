@@ -1,0 +1,32 @@
+---
+title: glossaries-extra
+description: 'Glossaries, extended.'
+---
+
+## Loading
+
+```latex
+\usepackage{glossaries-extra}
+```
+
+Loads [`glossaries`](/docs/reference/references/glossaries) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\newabbreviation`, `\printunsrtglossaries`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="glossaries-extra.tex"
+\documentclass{article}
+\usepackage[abbreviations]{glossaries-extra}
+\begin{document}
+\newglossaryentry{api}{name={API}, description={an interface}}
+\newabbreviation{html}{HTML}{hypertext markup language}
+\makeglossaries
+\gls{api}, \gls{html}, \gls{html}.
+\printunsrtglossaries
+\end{document}
+```

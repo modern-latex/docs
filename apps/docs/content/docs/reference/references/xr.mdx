@@ -1,0 +1,28 @@
+---
+title: xr
+description: 'References to other documents.'
+---
+
+## Loading
+
+```latex
+\usepackage{xr}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\externaldocument`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xr.tex"
+\documentclass{article}
+\usepackage{xr}
+\begin{document}
+\externaldocument{other} See \ref{sec:x}.\section{X}\label{sec:x}
+\end{document}
+```

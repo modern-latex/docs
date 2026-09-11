@@ -1,0 +1,38 @@
+---
+title: glossaries
+description: 'Terms defined once and used by name.'
+---
+
+## Loading
+
+```latex
+\usepackage{glossaries}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\acrfull`, `\acrlong`, `\acrshort`, `\gls`, `\Gls`, `\glsentrydesc`, `\glsentryname`, `\glspl`, `\Glspl`, `\glsresetall`, `\longnewglossaryentry`, `\makeglossaries`, `\newacronym`, `\newglossaryentry`, `\printglossaries`, `\printglossary`, `\setacronymstyle`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="glossaries.tex"
+\documentclass{article}
+\usepackage{glossaries}
+\begin{document}
+\newglossaryentry{latex}{name={LaTeX}, description={a document preparation system}}
+\newacronym{gcd}{GCD}{greatest common divisor}
+\makeglossaries
+\gls{latex}, \Gls{latex}, \glspl{latex}, \acrshort{gcd}, \acrlong{gcd}, \acrfull{gcd}, \gls{gcd}.
+\printglossaries
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  The glossary list is not printed.
+</Callout>

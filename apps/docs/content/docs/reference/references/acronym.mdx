@@ -1,0 +1,33 @@
+---
+title: acronym
+description: 'An abbreviation spelled out the first time it is used, and written short every time after.'
+---
+
+## Loading
+
+```latex
+\usepackage{acronym}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ac`, `\acf`, `\acl`, `\acp`, `\acreset`, `\acro`, `\acrodef`, `\acs`, `\newacronym`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="acronym.tex"
+\documentclass{article}
+\usepackage{acronym}
+\begin{document}
+First \ac{nasa}, then \ac{nasa} again, and \acl{esa} in full, \acs{esa} short, \acf{who} in full with its short form.
+\begin{acronym}
+\acro{nasa}[NASA]{National Aeronautics and Space Administration}
+\acro{esa}[ESA]{European Space Agency}
+\acro{who}[WHO]{World Health Organization}
+\end{acronym}
+\end{document}
+```

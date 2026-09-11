@@ -1,0 +1,25 @@
+---
+title: index
+description: 'An index.'
+---
+
+## Loading
+
+```latex
+\usepackage{index}
+```
+
+Loads [`makeidx`](/docs/reference/references/makeidx) under this name, so a document asking for either gets the same.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="index.tex"
+\documentclass{article}
+\usepackage{index}
+\makeindex
+\begin{document}
+Word\index{word}.\printindex
+\end{document}
+```
