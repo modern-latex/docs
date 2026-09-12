@@ -1,0 +1,28 @@
+---
+title: hepunits
+description: 'Particle physics units.'
+---
+
+## Loading
+
+```latex
+\usepackage{hepunits}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\fb`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="hepunits.tex"
+\documentclass{article}
+\usepackage{hepunits}
+\begin{document}
+\MeV, \GeV, \TeV, \fb.
+\end{document}
+```

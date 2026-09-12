@@ -1,0 +1,28 @@
+---
+title: units
+description: 'A value and its unit, apart by a thin space, and a unit as a fraction.'
+---
+
+## Loading
+
+```latex
+\usepackage{units}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\unit`, `\unitfrac`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="units.tex"
+\documentclass{article}
+\usepackage{units}
+\begin{document}
+\unit[10]{m}, \unitfrac[5]{m}{s}, \unit{kg}.
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: mhchem
+description: 'Chemical formulas and equations: \ce{2H2 + O2 -> 2H2O}.'
+---
+
+## Loading
+
+```latex
+\usepackage{mhchem}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ce`, `\cee`, `\pu`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="mhchem.tex"
+\documentclass{article}
+\usepackage[version=4]{mhchem}
+\begin{document}
+\ce{H2O}, \ce{2H2 + O2 -> 2H2O}, \ce{CO2 ^}, \ce{Fe^{3+}}, \ce{A <=> B}, \pu{123 kJ/mol}.
+\end{document}
+```
