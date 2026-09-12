@@ -65,36 +65,34 @@ The command is named `mlatex` so that it never collides with the `latex` a TeX d
 
 ### Python
 
-The Python package is `aveloux` with the `mlatex` extra, published on PyPI. It carries the C library, `latex_ffi`, and the fonts it reads, for programs that make documents; see [Python](/docs/embedding/python).
+The Python package is `mlatex`, published on PyPI. It carries the C library, `latex_ffi`, and the fonts it reads, for programs that make documents; see [Python](/docs/embedding/python).
 
-<Tabs items={["uv", "pip", "Poetry"]}>
+<Tabs items={["uv", "pip", "poetry"]}>
   <Tab value="uv">
     ```bash
-    uv add "aveloux[mlatex]"
+    uv add mlatex
     ```
   </Tab>
 
   <Tab value="pip">
     ```bash
-    pip install "aveloux[mlatex]"
+    pip install mlatex
     ```
   </Tab>
 
-  <Tab value="Poetry">
+  <Tab value="poetry">
     ```bash
-    poetry add "aveloux[mlatex]"
+    poetry add mlatex
     ```
   </Tab>
 </Tabs>
 
-The quotes keep the brackets from being read by the shell.
-
 ### JavaScript
 
-The JavaScript package is `@aveloux/mlatex`, published on npm. It carries the WebAssembly module, `latex.js`, `latex.wasm` and `latex.data`, for web pages, workers and Node; see [JavaScript](/docs/embedding/javascript).
+The JavaScript package is `mlatex`, published on npm. It carries the WebAssembly module, `latex.js`, `latex.wasm` and `latex.data`, for web pages, workers and Node; see [JavaScript](/docs/embedding/javascript).
 
 ```npm
-npm install @aveloux/mlatex
+npm install mlatex
 ```
 
 ***

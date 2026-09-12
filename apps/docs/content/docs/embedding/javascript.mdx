@@ -15,10 +15,10 @@ mLaTeX compiles to WebAssembly with Emscripten. The build leaves three files sid
 
 ### Installing
 
-`@aveloux/mlatex` carries the three files. It is not published yet; see [Installation](/docs/installation#javascript).
+The `mlatex` package carries the three files, and its types. It is not published yet; see [Installation](/docs/installation#javascript).
 
 ```npm
-npm install @aveloux/mlatex
+npm install mlatex
 ```
 
 ***
@@ -26,6 +26,8 @@ npm install @aveloux/mlatex
 ## A session
 
 ```js
+import Latex from "mlatex";
+
 const engine = await Latex();                     // latex.js's factory
 const session = new engine.Session();
 
