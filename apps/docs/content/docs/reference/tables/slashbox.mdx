@@ -1,0 +1,28 @@
+---
+title: slashbox
+description: 'Slashed cells.'
+---
+
+## Loading
+
+```latex
+\usepackage{slashbox}
+```
+
+Loads [`diagbox`](/docs/reference/tables/diagbox) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\backslashbox`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="slashbox.tex"
+\documentclass{article}
+\usepackage{slashbox}
+\begin{document}
+\begin{tabular}{|c|}\hline\backslashbox{a}{b}\\\hline\end{tabular}
+\end{document}
+```

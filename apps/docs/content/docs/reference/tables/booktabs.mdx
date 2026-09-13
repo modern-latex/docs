@@ -1,0 +1,38 @@
+---
+title: booktabs
+description: '\toprule, \midrule, \bottomrule and \cmidrule, with booktabs'' weights and spacing.'
+---
+
+## Loading
+
+```latex
+\usepackage{booktabs}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\addlinespace`, `\bottomrule`, `\cmidrule`, `\midrule`, `\specialrule`, `\toprule`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="booktabs.tex"
+\documentclass{article}
+\usepackage{booktabs}
+\begin{document}
+\begin{tabular}{lr}
+\toprule
+Item & Price \\
+\midrule
+Tea & 2 \\
+\cmidrule(lr){1-2}
+Cake & 3 \\
+\addlinespace
+Total & 5 \\
+\bottomrule
+\end{tabular}
+\end{document}
+```

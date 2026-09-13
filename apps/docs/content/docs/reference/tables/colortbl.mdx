@@ -1,0 +1,38 @@
+---
+title: colortbl
+description: 'Tables in color.'
+---
+
+## Loading
+
+```latex
+\usepackage{colortbl}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\arrayrulecolor`, `\cellcolor`, `\columncolor`, `\doublerulesepcolor`, `\rowcolor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="colortbl.tex"
+\documentclass{article}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\begin{document}
+\begin{tabular}{>{\columncolor{yellow}}lc}
+\rowcolor{gray!20} a & b \\
+c & \cellcolor{red!30} d \\
+\end{tabular}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Rules stay black.
+</Callout>

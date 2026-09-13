@@ -1,0 +1,28 @@
+---
+title: pgfplotstable
+description: 'Tables from data.'
+---
+
+## Loading
+
+```latex
+\usepackage{pgfplotstable}
+```
+
+Loads [`pgfplots`](/docs/reference/pictures/pgfplots) under this name, so a document asking for either gets the same.
+
+## Commands
+
+`\pgfplotstabletypeset`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pgfplotstable.tex"
+\documentclass{article}
+\usepackage{pgfplotstable}
+\begin{document}
+\pgfplotstabletypeset{x y\\1 2\\3 4\\}
+\end{document}
+```

@@ -1,0 +1,26 @@
+---
+title: tabularx
+description: 'A table stretched to a width, its X columns sharing what the others leave.'
+---
+
+## Loading
+
+```latex
+\usepackage{tabularx}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="tabularx.tex"
+\documentclass{article}
+\usepackage{tabularx}
+\begin{document}
+\begin{tabularx}{\textwidth}{lX>{\raggedleft\arraybackslash}X}
+Term & A description long enough to wrap within its column and then some more words. & Right \\
+\end{tabularx}
+\end{document}
+```

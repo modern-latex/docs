@@ -1,0 +1,32 @@
+---
+title: dcolumn
+description: 'Numbers lined up on their decimal point.'
+---
+
+## Loading
+
+```latex
+\usepackage{dcolumn}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="dcolumn.tex"
+\documentclass{article}
+\usepackage{dcolumn}
+\begin{document}
+\begin{tabular}{D{.}{.}{2}}
+1.25 \\ 10.5 \\ 100.75 \\
+\end{tabular}
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Numbers are centred, not aligned on the point.
+</Callout>

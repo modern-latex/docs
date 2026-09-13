@@ -1,0 +1,31 @@
+---
+title: makecell
+description: 'A cell of several lines, set as a table of one column inside it, and \thead, the same in bold for a table''s head.'
+---
+
+## Loading
+
+```latex
+\usepackage{makecell}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\cell`, `\makecell`, `\makegapedcells`, `\setcellgapes`, `\thead`, `\Two`, `\Xhline`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="makecell.tex"
+\documentclass{article}
+\usepackage{makecell}
+\begin{document}
+\begin{tabular}{|c|c|}\hline
+\thead{Head\\Two} & \makecell{a\\b} \\\hline
+\makecell[l]{left\\cell} & \makegapedcells x \\\hline
+\end{tabular}
+\end{document}
+```

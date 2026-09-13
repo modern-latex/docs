@@ -1,0 +1,30 @@
+---
+title: bigstrut
+description: 'A strut taller than a line, for a cell a rule runs close to.'
+---
+
+## Loading
+
+```latex
+\usepackage{bigstrut}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\bigstrut`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="bigstrut.tex"
+\documentclass{article}
+\usepackage{bigstrut}
+\begin{document}
+\begin{tabular}{|c|}\hline
+tall cell\bigstrut \\\hline
+\end{tabular}
+\end{document}
+```
