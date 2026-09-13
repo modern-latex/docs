@@ -1,0 +1,28 @@
+---
+title: metalogo
+description: 'The logos of other engines.'
+---
+
+## Loading
+
+```latex
+\usepackage{metalogo}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\LuaLaTeX`, `\XeLaTeX`, `\XeTeX`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="metalogo.tex"
+\documentclass{article}
+\usepackage{metalogo}
+\begin{document}
+\XeTeX{} and \XeLaTeX{} and \LuaLaTeX.
+\end{document}
+```

@@ -1,0 +1,28 @@
+---
+title: csquotes
+description: 'Quotation marks around a quotation, curled the right way round whichever keys the document was typed with; a quotation inside another set in single marks.'
+---
+
+## Loading
+
+```latex
+\usepackage{csquotes}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\blockcquote`, `\blockquote`, `\enquote`, `\foreignblockquote`, `\foreignquote`, `\foreigntextquote`, `\hyphenquote`, `\MakeAutoQuote`, `\MakeInnerQuote`, `\MakeOuterQuote`, `\SetBlockEnvironment`, `\SetBlockThreshold`, `\setquotestyle`, `\textcquote`, `\textquote`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="csquotes.tex"
+\documentclass{article}
+\usepackage[autostyle]{csquotes}
+\begin{document}
+\enquote{A quotation with \enquote{a nested one} inside}, \textquote{another}, and \blockquote{A block quotation.}
+\end{document}
+```

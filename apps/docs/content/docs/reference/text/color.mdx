@@ -1,0 +1,28 @@
+---
+title: color
+description: 'Colours, the older package.'
+---
+
+## Loading
+
+```latex
+\usepackage{color}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\definecolor`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="color.tex"
+\documentclass{article}
+\usepackage{color}
+\begin{document}
+\definecolor{mine}{rgb}{0.2,0.4,0.6}\textcolor{mine}{coloured} \color{black}text.
+\end{document}
+```

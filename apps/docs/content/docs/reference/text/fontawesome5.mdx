@@ -1,0 +1,34 @@
+---
+title: fontawesome5
+description: 'Font Awesome''s icons, as a CV''s contact line or a list''s bullets use them.'
+---
+
+## Loading
+
+```latex
+\usepackage{fontawesome5}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\faAndroid`, `\faAngleRight`, `\faApple`, `\faArrowLeft`, `\faArrowRight`, `\faAt`, `\faAward`, `\faAws`, `\faBitbucket`, `\faBook`, `\faBriefcase`, `\faCalendar`, `\faCalendarAlt`, `\faCamera`, `\faCaretRight`, `\faCertificate`, `\faChartBar`, `\faChartLine`, `\faCheck`, `\faCheckCircle`, `\faChevronRight`, `\faCircle`, `\faCode`, `\faCog`, `\faCogs`, `\faDesktop`, `\faDiscord`, `\faDocker`, `\faDownload`, `\faEdit`, `\faEnvelope`, `\faEnvelopeO`, `\faEnvelopeOpen`, `\faExternalLink`, `\faExternalLinkAlt`, `\faFacebook`, `\faFacebookSquare`, `\faFile`, `\faFileAlt`, `\faFilePdf`, `\faGit`, `\faGitAlt`, `\faGithub`, `\faGithubAlt`, `\faGithubSquare`, `\faGitlab`, `\faGlobe`, `\faGlobeAmericas`, `\faGlobeEurope`, `\faGoogle`, `\faGraduationCap`, `\faHeart`, `\faHome`, `\faIcon`, `\faInstagram`, `\faJava`, `\faKaggle`, `\faKey`, `\faLanguage`, `\faLaptop`, `\faLaptopCode`, `\faLightbulb`, `\faLink`, `\faLinkedin`, `\faLinkedinIn`, `\faLinkedinSquare`, `\faLinux`, `\faLock`, `\faMapMarker`, `\faMapMarkerAlt`, `\faMapPin`, `\faMastodon`, `\faMedal`, `\faMedium`, `\faMobile`, `\faMobileAlt`, `\faMobilePhone`, `\faMusic`, `\faOrcid`, `\faPen`, `\faPencil`, `\faPencilAlt`, `\faPhone`, `\faPhoneAlt`, `\faPhoneSquare`, `\faPython`, `\faQuoteLeft`, `\faQuoteRight`, `\faReddit`, `\faResearchgate`, `\faSearch`, `\faSkype`, `\faSlack`, `\faSquare`, `\faStackOverflow`, `\faStar`, `\faTelegram`, `\faTerminal`, `\faTimes`, `\faTools`, `\faTrophy`, `\faTwitter`, `\faTwitterSquare`, `\faUniversity`, `\faUser`, `\faUserCircle`, `\faWhatsapp`, `\faWindows`, `\faYoutube`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="fontawesome5.tex"
+\documentclass{article}
+\usepackage{fontawesome5}
+\begin{document}
+\faGithub{} \faEnvelope{} \faPhone{} \faLinkedin{} \faHome{} \faIcon{star} \faCheck{} \faTwitter
+\end{document}
+```
+
+## Limits
+
+<Callout type="warn">
+  Icons are the nearest Unicode symbols; brand logos are dots.
+</Callout>

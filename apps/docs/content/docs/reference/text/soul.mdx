@@ -1,0 +1,29 @@
+---
+title: soul
+description: 'Words highlighted, underlined, struck through or spaced out, a box at a time.'
+---
+
+## Loading
+
+```latex
+\usepackage{soul}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\caps`, `\hl`, `\sethlcolor`, `\setul`, `\so`, `\st`, `\ul`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="soul.tex"
+\documentclass{article}
+\usepackage{soul}
+\usepackage{xcolor}
+\begin{document}
+\hl{highlighted}, \ul{underlined}, \st{struck}, \so{spaced}, \caps{Capitals}.
+\end{document}
+```

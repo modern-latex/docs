@@ -1,0 +1,28 @@
+---
+title: pifont
+description: 'Zapf Dingbats by number — \ding{51} a check mark, \ding{172} a circled one — set as the characters Unicode gives them.'
+---
+
+## Loading
+
+```latex
+\usepackage{pifont}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\ding`, `\dingfill`, `\dingline`, `\Pifill`, `\Piline`, `\Pisymbol`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="pifont.tex"
+\documentclass{article}
+\usepackage{pifont}
+\begin{document}
+\ding{51} \ding{55} \ding{172} \ding{43} \Pisymbol{pzd}{110}
+\end{document}
+```

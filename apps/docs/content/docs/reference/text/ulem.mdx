@@ -1,0 +1,28 @@
+---
+title: ulem
+description: 'Underlined, doubly underlined, wavy and struck-out text.'
+---
+
+## Loading
+
+```latex
+\usepackage{ulem}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\dashuline`, `\dotuline`, `\normalem`, `\sout`, `\ULforem`, `\uline`, `\uuline`, `\uwave`, `\xout`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="ulem.tex"
+\documentclass{article}
+\usepackage[normalem]{ulem}
+\begin{document}
+\uline{under}, \uuline{double}, \uwave{wavy}, \sout{struck}, \xout{crossed}, \dashuline{dashed}, \dotuline{dotted}, \emph{still italic}.
+\end{document}
+```

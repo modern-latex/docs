@@ -1,0 +1,28 @@
+---
+title: lettrine
+description: 'Drop capitals.'
+---
+
+## Loading
+
+```latex
+\usepackage{lettrine}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\lettrine`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="lettrine.tex"
+\documentclass{article}
+\usepackage{lettrine}
+\begin{document}
+\lettrine{O}{nce} upon a time there was a drop cap at the start of a paragraph long enough to wrap.
+\end{document}
+```

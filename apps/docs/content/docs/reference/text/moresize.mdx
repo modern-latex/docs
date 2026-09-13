@@ -1,0 +1,28 @@
+---
+title: moresize
+description: 'More sizes.'
+---
+
+## Loading
+
+```latex
+\usepackage{moresize}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\HUGE`, `\ssmall`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="moresize.tex"
+\documentclass{article}
+\usepackage{moresize}
+\begin{document}
+{\HUGE Huge} and {\ssmall very small}.
+\end{document}
+```

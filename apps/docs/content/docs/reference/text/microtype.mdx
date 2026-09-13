@@ -1,0 +1,29 @@
+---
+title: microtype
+description: 'Micro-typography.'
+---
+
+## Loading
+
+```latex
+\usepackage{microtype}
+```
+
+Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary.
+
+## Commands
+
+`\DeclareCharacterInheritance`, `\DeclareMicrotypeAlias`, `\DeclareMicrotypeBabelHook`, `\DeclareMicrotypeSet`, `\DeclareMicrotypeSetDefault`, `\DisableLigatures`, `\LoadMicrotypeFile`, `\lsstyle`, `\microtypecontext`, `\microtypesetup`, `\SetExpansion`, `\SetExtraKerning`, `\SetProtrusion`, `\SetTracking`, `\textls`, `\UseMicrotypeSet`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="microtype.tex"
+\documentclass{article}
+\usepackage[protrusion=true,expansion=true]{microtype}
+\begin{document}
+\microtypesetup{protrusion=true, expansion=true}
+\textls[200]{Letter-spaced} text and \lsstyle tracked words; \SetTracking{encoding=*}{50}.
+\end{document}
+```

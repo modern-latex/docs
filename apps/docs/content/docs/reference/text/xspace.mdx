@@ -1,0 +1,28 @@
+---
+title: xspace
+description: 'A space after a command unless punctuation follows.'
+---
+
+## Loading
+
+```latex
+\usepackage{xspace}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\eg`, `\xspace`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="xspace.tex"
+\documentclass{article}
+\usepackage{xspace}
+\begin{document}
+\newcommand{\eg}{e.g.\xspace}\eg this, and \eg, that.
+\end{document}
+```

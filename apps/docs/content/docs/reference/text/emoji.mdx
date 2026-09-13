@@ -1,0 +1,28 @@
+---
+title: emoji
+description: 'An emoji by its name, as the character it is, from whichever of the system''s faces draws it.'
+---
+
+## Loading
+
+```latex
+\usepackage{emoji}
+```
+
+A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives.
+
+## Commands
+
+`\emoji`, `\setemojifont`.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="emoji.tex"
+\documentclass{article}
+\usepackage{emoji}
+\begin{document}
+\emoji{smile} \emoji{thumbs-up} \emoji{heart} \emoji{rocket} \emoji{star}
+\end{document}
+```
