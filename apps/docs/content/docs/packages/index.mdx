@@ -5,316 +5,117 @@ description: Every package and class mLaTeX reads, how each one is supported, an
 
 mLaTeX reads **509 packages** and **14 document classes**, plus LaTeX's standard `article`, `report` and `book`. Each one is checked by a small document of its own that uses what the package is loaded for, and the engine's tests fail if any of them reports an error or an unknown command.
 
-A package is supported in one of three ways:
+## How a package is supported
 
-* **A module of its own** (143): the package is written in mLaTeX's language and compiled into the program, its commands defined over the engine's own primitives.
-* **Built in** (333): the engine already does the package's job, so there is nothing to load. `graphicx` (`\includegraphics` is part of the engine), `xcolor`, `inputenc`, `microtype` and the font packages are here. Any of their commands a document uses that the engine does not define comes from the glossary.
-* **Under another name** (33): a package that is another one under a newer or older name loads that one.
+### A module of its own
 
-## Packages that are not listed
+143 packages are written in mLaTeX's language and compiled into the program, their commands defined over the engine's own primitives.
+
+### Built in
+
+333 packages need nothing loaded, because the engine already does their job. `graphicx` (`\includegraphics` is part of the engine), `xcolor`, `inputenc`, `microtype` and the font packages are here. Any of their commands a document uses that the engine does not define comes from the glossary.
+
+### Under another name
+
+33 packages are another one under a newer or older name, and load that one.
+
+### Packages that are not listed
 
 `\usepackage{anything}` never stops a document. A package mLaTeX does not know is marked as loaded and named in a warning, and its commands are looked up in the **glossary**, about 630 commands from CTAN packages with no module of their own, the first time the document uses them. A command neither knows is an error where it is used, as in LaTeX.
 
 <Callout type="info">
-  Being listed means a package loads and its common commands set text, not that every feature of it is drawn. Where a package is only partly supported, the table says so.
+  Being listed means a package loads and its common commands set text, not that every feature of it is drawn. Where a package is only partly supported, its entry in the reference says so.
 </Callout>
 
 ***
 
-## Classes
+## Every package by subject
 
-| Class                       | What it is                                   |
-| --------------------------- | -------------------------------------------- |
-| `article`, `report`, `book` | LaTeX's standard classes                     |
-| `acmart`                    | ACM papers                                   |
-| `amsart`                    | AMS articles                                 |
-| `beamer`                    | Slides                                       |
-| `elsarticle`                | Elsevier journal articles                    |
-| `IEEEtran`                  | IEEE conference and journal papers           |
-| `letter`                    | LaTeX's letter class                         |
-| `llncs`                     | Springer's Lecture Notes in Computer Science |
-| `revtex4`                   | APS and AIP papers, first release            |
-| `revtex4-1`                 | APS and AIP papers                           |
-| `revtex4-2`                 | APS and AIP papers                           |
-| `scrartcl`                  | KOMA-Script's article                        |
-| `scrbook`                   | KOMA-Script's book                           |
-| `scrreprt`                  | KOMA-Script's report                         |
-| `svjour3`                   | Springer journal articles                    |
+### Documents and Pages
 
-Any other class is set as `article` at the size and columns its options ask for, with a warning. See [Documents and Classes](/docs/writing/documents).
+Page layout, heads and feet, titles, columns, documents in pieces, and what goes into the PDF. [Read the reference](/docs/reference/documents).
 
-## Packages with a module of their own
+[`a4wide`](/docs/reference/documents/a4wide), [`abstract`](/docs/reference/documents/abstract), [`accsupp`](/docs/reference/documents/accsupp), [`afterpage`](/docs/reference/documents/afterpage), [`anysize`](/docs/reference/documents/anysize), [`appendix`](/docs/reference/documents/appendix), [`attachfile`](/docs/reference/documents/attachfile), [`authblk`](/docs/reference/documents/authblk), [`background`](/docs/reference/documents/background), [`balance`](/docs/reference/documents/balance), [`bookmark`](/docs/reference/documents/bookmark), [`changepage`](/docs/reference/documents/changepage), [`cmap`](/docs/reference/documents/cmap), [`cuted`](/docs/reference/documents/cuted), [`docmute`](/docs/reference/documents/docmute), [`draftwatermark`](/docs/reference/documents/draftwatermark), [`embedfile`](/docs/reference/documents/embedfile), [`emptypage`](/docs/reference/documents/emptypage), [`epigraph`](/docs/reference/documents/epigraph), [`eso-pic`](/docs/reference/documents/eso-pic), [`fancyhdr`](/docs/reference/documents/fancyhdr), [`filecontents`](/docs/reference/documents/filecontents), [`flushend`](/docs/reference/documents/flushend), [`fncychap`](/docs/reference/documents/fncychap), [`fullpage`](/docs/reference/documents/fullpage), [`geometry`](/docs/reference/documents/geometry), [`hyperxmp`](/docs/reference/documents/hyperxmp), [`import`](/docs/reference/documents/import), [`lastpage`](/docs/reference/documents/lastpage), [`layout`](/docs/reference/documents/layout), [`lineno`](/docs/reference/documents/lineno), [`lscape`](/docs/reference/documents/lscape), [`media9`](/docs/reference/documents/media9), [`multicol`](/docs/reference/documents/multicol), [`needspace`](/docs/reference/documents/needspace), [`nextpage`](/docs/reference/documents/nextpage), [`pagecolor`](/docs/reference/documents/pagecolor), [`paracol`](/docs/reference/documents/paracol), [`parskip`](/docs/reference/documents/parskip), [`pdfcomment`](/docs/reference/documents/pdfcomment), [`pdflscape`](/docs/reference/documents/pdflscape), [`pdfsync`](/docs/reference/documents/pdfsync), [`pdfx`](/docs/reference/documents/pdfx), [`placeins`](/docs/reference/documents/placeins), [`quotchap`](/docs/reference/documents/quotchap), [`ragged2e`](/docs/reference/documents/ragged2e), [`savetrees`](/docs/reference/documents/savetrees), [`scrextend`](/docs/reference/documents/scrextend), [`scrlayer-scrpage`](/docs/reference/documents/scrlayer-scrpage), [`sectsty`](/docs/reference/documents/sectsty), [`setspace`](/docs/reference/documents/setspace), [`showframe`](/docs/reference/documents/showframe), [`standalone`](/docs/reference/documents/standalone), [`subfiles`](/docs/reference/documents/subfiles), [`textpos`](/docs/reference/documents/textpos), [`titleps`](/docs/reference/documents/titleps), [`titlesec`](/docs/reference/documents/titlesec), [`titling`](/docs/reference/documents/titling), [`tocloft`](/docs/reference/documents/tocloft), [`totpages`](/docs/reference/documents/totpages), [`typearea`](/docs/reference/documents/typearea), [`vmargin`](/docs/reference/documents/vmargin), [`wallpaper`](/docs/reference/documents/wallpaper), [`watermark`](/docs/reference/documents/watermark).
 
-### Page layout
+### Text and Colour
 
-| Package            | What it does                                                                                                             | Limits                                                |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
-| `a4wide`           | A wider text block than the article class's on A4                                                                        |                                                       |
-| `abstract`         | More say over the abstract, whose block is the engine's own                                                              |                                                       |
-| `afterpage`        | Code to run once the page being set is finished                                                                          | Its code runs where it is written                     |
-| `appendix`         | The appendices block, which starts them as `\appendix` does, and the package's headings over them                        |                                                       |
-| `authblk`          | Authors and their affiliations, each author numbered to the affiliations they belong to                                  |                                                       |
-| `changepage`       | `adjustwidth`, and whether the page being set is odd                                                                     | Every page counts as a right-hand page                |
-| `epigraph`         | A quotation at a chapter's head, set right, its source under it                                                          |                                                       |
-| `fancyhdr`         | Heads and feet of the page's own choosing                                                                                |                                                       |
-| `fullpage`         | An inch of margin all round, and the text the rest of the sheet                                                          |                                                       |
-| `geometry`         | The sheet and its margins, set by name                                                                                   |                                                       |
-| `lastpage`         | The document's last page, for "page 3 of `\pageref{LastPage}`"                                                           |                                                       |
-| `lineno`           | Numbered lines for a draft                                                                                               | Lines are not numbered                                |
-| `needspace`        | A page break unless so much room is left                                                                                 | Ignored; pages break where room runs out              |
-| `paracol`          | Text in parallel columns, `\switchcolumn` moving to the next — set as balanced columns, each switch a break between them | Set as balanced columns                               |
-| `parskip`          | Paragraphs set apart by space rather than by indentation, half a line between them                                       |                                                       |
-| `placeins`         | `\FloatBarrier`, which keeps floats from passing it                                                                      |                                                       |
-| `ragged2e`         | Ragged text that still hyphenates                                                                                        |                                                       |
-| `scrlayer-scrpage` | KOMA-Script's heads and feet — inner, centre and outer — in the scrheadings style, drawn as fancyhdr draws its own       |                                                       |
-| `setspace`         | The distance between lines                                                                                               |                                                       |
-| `textpos`          | A block of text at a place on the page                                                                                   | The block is set where it stands, not at its position |
-| `titleps`          | Page styles of a document's own, their heads and feet set left, centre and right — drawn as fancyhdr draws its own       |                                                       |
-| `titlesec`         | Headings of a document's own design                                                                                      | Frames and other code after the title are ignored     |
-| `titling`          | The title block's parts, each with a before and an after to change                                                       |                                                       |
-| `tocloft`          | How the lists of contents, figures and tables look                                                                       | Its fonts and leaders are ignored                     |
-| `totpages`         | The document's number of pages, as the label TotPages on its last                                                        |                                                       |
+Text, symbols, spacing, colour and emphasis. [Read the reference](/docs/reference/text).
+
+[`academicons`](/docs/reference/text/academicons), [`anyfontsize`](/docs/reference/text/anyfontsize), [`bbding`](/docs/reference/text/bbding), [`bxcoloremoji`](/docs/reference/text/bxcoloremoji), [`censor`](/docs/reference/text/censor), [`color`](/docs/reference/text/color), [`contour`](/docs/reference/text/contour), [`csquotes`](/docs/reference/text/csquotes), [`cutwin`](/docs/reference/text/cutwin), [`dirtytalk`](/docs/reference/text/dirtytalk), [`ellipsis`](/docs/reference/text/ellipsis), [`emoji`](/docs/reference/text/emoji), [`fontawesome`](/docs/reference/text/fontawesome), [`fontawesome5`](/docs/reference/text/fontawesome5), [`hologo`](/docs/reference/text/hologo), [`hycolor`](/docs/reference/text/hycolor), [`hyphenat`](/docs/reference/text/hyphenat), [`indentfirst`](/docs/reference/text/indentfirst), [`keystroke`](/docs/reference/text/keystroke), [`lettrine`](/docs/reference/text/lettrine), [`marvosym`](/docs/reference/text/marvosym), [`menukeys`](/docs/reference/text/menukeys), [`metalogo`](/docs/reference/text/metalogo), [`microtype`](/docs/reference/text/microtype), [`moresize`](/docs/reference/text/moresize), [`nowidow`](/docs/reference/text/nowidow), [`nth`](/docs/reference/text/nth), [`numprint`](/docs/reference/text/numprint), [`pdfcol`](/docs/reference/text/pdfcol), [`pifont`](/docs/reference/text/pifont), [`realscripts`](/docs/reference/text/realscripts), [`relsize`](/docs/reference/text/relsize), [`scalerel`](/docs/reference/text/scalerel), [`shapepar`](/docs/reference/text/shapepar), [`soul`](/docs/reference/text/soul), [`soulutf8`](/docs/reference/text/soulutf8), [`stackengine`](/docs/reference/text/stackengine), [`tabbing`](/docs/reference/text/tabbing), [`tabto`](/docs/reference/text/tabto), [`textcase`](/docs/reference/text/textcase), [`textcomp`](/docs/reference/text/textcomp), [`textgreek`](/docs/reference/text/textgreek), [`tipa`](/docs/reference/text/tipa), [`transparent`](/docs/reference/text/transparent), [`ulem`](/docs/reference/text/ulem), [`underscore`](/docs/reference/text/underscore), [`wasysym`](/docs/reference/text/wasysym), [`xcolor`](/docs/reference/text/xcolor), [`xspace`](/docs/reference/text/xspace).
+
+### Fonts
+
+Font families and encodings, and how mLaTeX sets each one. [Read the reference](/docs/reference/fonts).
+
+[`ae`](/docs/reference/fonts/ae), [`aecompl`](/docs/reference/fonts/aecompl), [`arev`](/docs/reference/fonts/arev), [`aurical`](/docs/reference/fonts/aurical), [`avant`](/docs/reference/fonts/avant), [`bbold`](/docs/reference/fonts/bbold), [`beramono`](/docs/reference/fonts/beramono), [`bookman`](/docs/reference/fonts/bookman), [`calligra`](/docs/reference/fonts/calligra), [`calrsfs`](/docs/reference/fonts/calrsfs), [`charter`](/docs/reference/fonts/charter), [`cm-super`](/docs/reference/fonts/cm-super), [`cmbright`](/docs/reference/fonts/cmbright), [`courier`](/docs/reference/fonts/courier), [`dejavu`](/docs/reference/fonts/dejavu), [`euler`](/docs/reference/fonts/euler), [`eulervm`](/docs/reference/fonts/eulervm), [`fdsymbol`](/docs/reference/fonts/fdsymbol), [`FiraMono`](/docs/reference/fonts/firamono), [`FiraSans`](/docs/reference/fonts/firasans), [`fix-cm`](/docs/reference/fonts/fix-cm), [`fontaxes`](/docs/reference/fonts/fontaxes), [`fontenc`](/docs/reference/fonts/fontenc), [`fontspec`](/docs/reference/fonts/fontspec), [`fourier`](/docs/reference/fonts/fourier), [`gfsartemisia`](/docs/reference/fonts/gfsartemisia), [`gfsdidot`](/docs/reference/fonts/gfsdidot), [`helvet`](/docs/reference/fonts/helvet), [`inconsolata`](/docs/reference/fonts/inconsolata), [`inputenc`](/docs/reference/fonts/inputenc), [`kpfonts`](/docs/reference/fonts/kpfonts), [`lato`](/docs/reference/fonts/lato), [`libertine`](/docs/reference/fonts/libertine), [`libertinus`](/docs/reference/fonts/libertinus), [`libertinust1math`](/docs/reference/fonts/libertinust1math), [`lmodern`](/docs/reference/fonts/lmodern), [`mathabx`](/docs/reference/fonts/mathabx), [`mathpazo`](/docs/reference/fonts/mathpazo), [`mathptmx`](/docs/reference/fonts/mathptmx), [`mathspec`](/docs/reference/fonts/mathspec), [`merriweather`](/docs/reference/fonts/merriweather), [`mlmodern`](/docs/reference/fonts/mlmodern), [`MnSymbol`](/docs/reference/fonts/mnsymbol), [`newpxmath`](/docs/reference/fonts/newpxmath), [`newpxtext`](/docs/reference/fonts/newpxtext), [`newtxmath`](/docs/reference/fonts/newtxmath), [`newtxtext`](/docs/reference/fonts/newtxtext), [`noto`](/docs/reference/fonts/noto), [`opensans`](/docs/reference/fonts/opensans), [`palatino`](/docs/reference/fonts/palatino), [`pxfonts`](/docs/reference/fonts/pxfonts), [`roboto`](/docs/reference/fonts/roboto), [`sourcecodepro`](/docs/reference/fonts/sourcecodepro), [`sourcesanspro`](/docs/reference/fonts/sourcesanspro), [`sourceserifpro`](/docs/reference/fonts/sourceserifpro), [`stix`](/docs/reference/fonts/stix), [`stix2`](/docs/reference/fonts/stix2), [`tgbonum`](/docs/reference/fonts/tgbonum), [`tgcursor`](/docs/reference/fonts/tgcursor), [`tgheros`](/docs/reference/fonts/tgheros), [`tgpagella`](/docs/reference/fonts/tgpagella), [`tgschola`](/docs/reference/fonts/tgschola), [`tgtermes`](/docs/reference/fonts/tgtermes), [`times`](/docs/reference/fonts/times), [`txfonts`](/docs/reference/fonts/txfonts), [`XCharter`](/docs/reference/fonts/xcharter), [`xltxtra`](/docs/reference/fonts/xltxtra), [`xunicode`](/docs/reference/fonts/xunicode).
 
 ### Mathematics
 
-| Package        | What it does                                                                                                                         | Limits |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------ |
-| `amsmath`      | Displays, alignments, matrices and the rest; most of it is part of the engine already                                                |        |
-| `amssymb`      | Its symbols, which are already in the mathematics font                                                                               |        |
-| `amsthm`       | Theorem-like statements and proofs                                                                                                   |        |
-| `bbm`          | Blackboard bold, as the maths face draws it                                                                                          |        |
-| `braket`       | Dirac's bras and kets, and set-builder braces that grow with what they hold                                                          |        |
-| `cancel`       | A term struck through in a formula                                                                                                   |        |
-| `commath`      | The notations of calculus and analysis written short                                                                                 |        |
-| `dirac`        | Dirac's notation as dirac writes it — a bra and a ket, their product of two arguments, the operator between them, and an expectation |        |
-| `dsfont`       | Double-struck letters, as the maths face draws them                                                                                  |        |
-| `esint`        | The integrals over surfaces and volumes, which the maths face has                                                                    |        |
-| `mathtools`    | amsmath's fixes and additions; loads amsmath                                                                                         |        |
-| `nicefrac`     | A fraction written small, its numerator raised and denominator lowered either side of a slash                                        |        |
-| `ntheorem`     | Theorems, the other package                                                                                                          |        |
-| `physics`      | The notations a physicist writes every other line, each a fenced group or a fraction over primitives the engine already has          |        |
-| `stmaryrd`     | St Mary's Road symbols; the double brackets among them                                                                               |        |
-| `thmtools`     | Theorems declared by keys, and a list of them                                                                                        |        |
-| `unicode-math` | Formulas in an OpenType maths face, which is how the engine sets every formula already                                               |        |
-| `upgreek`      | Upright Greek letters in a formula                                                                                                   |        |
-| `xfrac`        | `\sfrac`, a fraction set small either side of a slash                                                                                |        |
+Formulas, symbols, alphabets and theorems. [Read the reference](/docs/reference/mathematics).
 
-### Science and units
+[`accents`](/docs/reference/mathematics/accents), [`amsbsy`](/docs/reference/mathematics/amsbsy), [`amsfonts`](/docs/reference/mathematics/amsfonts), [`amsmath`](/docs/reference/mathematics/amsmath), [`amsopn`](/docs/reference/mathematics/amsopn), [`amssymb`](/docs/reference/mathematics/amssymb), [`amstext`](/docs/reference/mathematics/amstext), [`amsthm`](/docs/reference/mathematics/amsthm), [`amsxtra`](/docs/reference/mathematics/amsxtra), [`bbm`](/docs/reference/mathematics/bbm), [`bm`](/docs/reference/mathematics/bm), [`braket`](/docs/reference/mathematics/braket), [`cancel`](/docs/reference/mathematics/cancel), [`cases`](/docs/reference/mathematics/cases), [`centernot`](/docs/reference/mathematics/centernot), [`commath`](/docs/reference/mathematics/commath), [`delimset`](/docs/reference/mathematics/delimset), [`derivative`](/docs/reference/mathematics/derivative), [`diffcoef`](/docs/reference/mathematics/diffcoef), [`dirac`](/docs/reference/mathematics/dirac), [`dsfont`](/docs/reference/mathematics/dsfont), [`empheq`](/docs/reference/mathematics/empheq), [`esdiff`](/docs/reference/mathematics/esdiff), [`esint`](/docs/reference/mathematics/esint), [`esvect`](/docs/reference/mathematics/esvect), [`extarrows`](/docs/reference/mathematics/extarrows), [`faktor`](/docs/reference/mathematics/faktor), [`fixmath`](/docs/reference/mathematics/fixmath), [`IEEEtrantools`](/docs/reference/mathematics/ieeetrantools), [`interval`](/docs/reference/mathematics/interval), [`isomath`](/docs/reference/mathematics/isomath), [`latexsym`](/docs/reference/mathematics/latexsym), [`mathcomp`](/docs/reference/mathematics/mathcomp), [`mathdots`](/docs/reference/mathematics/mathdots), [`mathrsfs`](/docs/reference/mathematics/mathrsfs), [`mathtools`](/docs/reference/mathematics/mathtools), [`mleftright`](/docs/reference/mathematics/mleftright), [`nccmath`](/docs/reference/mathematics/nccmath), [`nicefrac`](/docs/reference/mathematics/nicefrac), [`nicematrix`](/docs/reference/mathematics/nicematrix), [`ntheorem`](/docs/reference/mathematics/ntheorem), [`physics`](/docs/reference/mathematics/physics), [`physics2`](/docs/reference/mathematics/physics2), [`stmaryrd`](/docs/reference/mathematics/stmaryrd), [`tensor`](/docs/reference/mathematics/tensor), [`thmtools`](/docs/reference/mathematics/thmtools), [`unicode-math`](/docs/reference/mathematics/unicode-math), [`upgreek`](/docs/reference/mathematics/upgreek), [`xfrac`](/docs/reference/mathematics/xfrac), [`yhmath`](/docs/reference/mathematics/yhmath).
 
-| Package    | What it does                                                                                                              | Limits |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `elements` | The chemical elements by atomic number: symbols and names                                                                 |        |
-| `eurosym`  | The euro sign, and an amount written with it                                                                              |        |
-| `gensymb`  | The units' signs, the same in text and in formulas — a text face's own sign in the text, the maths face's in a formula    |        |
-| `mhchem`   | Chemical formulas and equations: `\ce{2H2 + O2 -> 2H2O}`                                                                  |        |
-| `SIunits`  | Values and units, the units as commands of their own — the package siunitx replaced, still found in older documents       |        |
-| `siunitx`  | Numbers and quantities set the way siunitx sets them, with its defaults, so a document written for it reads the same here |        |
-| `units`    | A value and its unit, apart by a thin space, and a unit as a fraction                                                     |        |
+### Science and Units
+
+Units, numbers, chemistry and physics notation. [Read the reference](/docs/reference/science).
+
+[`chemfig`](/docs/reference/science/chemfig), [`chemformula`](/docs/reference/science/chemformula), [`chemmacros`](/docs/reference/science/chemmacros), [`elements`](/docs/reference/science/elements), [`eurosym`](/docs/reference/science/eurosym), [`gensymb`](/docs/reference/science/gensymb), [`hepnames`](/docs/reference/science/hepnames), [`hepparticles`](/docs/reference/science/hepparticles), [`hepunits`](/docs/reference/science/hepunits), [`mhchem`](/docs/reference/science/mhchem), [`sistyle`](/docs/reference/science/sistyle), [`SIunits`](/docs/reference/science/siunits), [`siunitx`](/docs/reference/science/siunitx), [`slashed`](/docs/reference/science/slashed), [`units`](/docs/reference/science/units), [`unitsdef`](/docs/reference/science/unitsdef).
 
 ### Tables
 
-| Package           | What it does                                                                                                       | Limits                                          |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
-| `array`           | More column types and `\newcolumntype`, read by `tabular` itself                                                   |                                                 |
-| `bigstrut`        | A strut taller than a line, for a cell a rule runs close to                                                        |                                                 |
-| `booktabs`        | `\toprule`, `\midrule`, `\bottomrule` and `\cmidrule`, with booktabs' weights and spacing                          |                                                 |
-| `colortbl`        | Tables in color                                                                                                    | Rules stay black                                |
-| `ctable`          | A table and its caption in one command, with booktabs' rules                                                       | Set where it stands; its float keys are ignored |
-| `dcolumn`         | Numbers lined up on their decimal point                                                                            | Numbers are centred, not aligned on the point   |
-| `diagbox`         | A cell split by a diagonal, its two labels set either side of a slash                                              |                                                 |
-| `hhline`          | Rules between rows, drawn column by column                                                                         | Each rule is drawn across the whole table       |
-| `longtable`       | A table that may run over pages                                                                                    |                                                 |
-| `makecell`        | A cell of several lines, set as a table of one column inside it, and `\thead`, the same in bold for a table's head |                                                 |
-| `multirow`        | A cell's text over several rows                                                                                    |                                                 |
-| `tabu`            | Tables to a width with `X[l]`, `X[c]` and `X[r]` columns                                                           |                                                 |
-| `tabularx`        | A table stretched to a width, its X columns sharing what the others leave                                          |                                                 |
-| `tabulary`        | A table as wide as it is told, its columns sharing the width by their text                                         |                                                 |
-| `threeparttable`  | A table, its caption and its notes kept together                                                                   |                                                 |
-| `threeparttablex` | threeparttable's notes for a long table                                                                            |                                                 |
+Table structure, rules, cells, long tables and tables from data. [Read the reference](/docs/reference/tables).
 
-### Floats, captions and pseudocode
+[`array`](/docs/reference/tables/array), [`arydshln`](/docs/reference/tables/arydshln), [`bigdelim`](/docs/reference/tables/bigdelim), [`bigstrut`](/docs/reference/tables/bigstrut), [`boldline`](/docs/reference/tables/boldline), [`booktabs`](/docs/reference/tables/booktabs), [`colortbl`](/docs/reference/tables/colortbl), [`csvsimple`](/docs/reference/tables/csvsimple), [`ctable`](/docs/reference/tables/ctable), [`datatool`](/docs/reference/tables/datatool), [`dcolumn`](/docs/reference/tables/dcolumn), [`diagbox`](/docs/reference/tables/diagbox), [`footnote`](/docs/reference/tables/footnote), [`hhline`](/docs/reference/tables/hhline), [`longtable`](/docs/reference/tables/longtable), [`ltablex`](/docs/reference/tables/ltablex), [`makecell`](/docs/reference/tables/makecell), [`multirow`](/docs/reference/tables/multirow), [`pgfplotstable`](/docs/reference/tables/pgfplotstable), [`slashbox`](/docs/reference/tables/slashbox), [`supertabular`](/docs/reference/tables/supertabular), [`tablefootnote`](/docs/reference/tables/tablefootnote), [`tabstackengine`](/docs/reference/tables/tabstackengine), [`tabu`](/docs/reference/tables/tabu), [`tabularray`](/docs/reference/tables/tabularray), [`tabularx`](/docs/reference/tables/tabularx), [`tabulary`](/docs/reference/tables/tabulary), [`threeparttable`](/docs/reference/tables/threeparttable), [`threeparttablex`](/docs/reference/tables/threeparttablex), [`xltabular`](/docs/reference/tables/xltabular), [`xtab`](/docs/reference/tables/xtab).
 
-| Package         | What it does                                                                            | Limits                                |
-| --------------- | --------------------------------------------------------------------------------------- | ------------------------------------- |
-| `algorithm`     | The float pseudocode is set in, in the ruled style                                      | The list of algorithms is not printed |
-| `algorithm2e`   | An algorithm written as its steps                                                       |                                       |
-| `algorithmic`   | The older pseudocode package, its commands in capitals                                  |                                       |
-| `algpseudocode` | Pseudocode, as the algorithmicx bundle writes it                                        |                                       |
-| `caption`       | How captions are set                                                                    |                                       |
-| `float`         | `[H]`, a float set where it is written, and floats of new kinds                         |                                       |
-| `newfloat`      | Floats of new kinds, by keys                                                            |                                       |
-| `subcaption`    | Figures and tables made of several, each lettered                                       |                                       |
-| `subfig`        | `\subfloat[caption]{content}`, a lettered part of a figure, set as subcaption's own box |                                       |
+### Floats and Captions
 
-### Lists and boxes
+Figures and tables that float, their captions, and pseudocode. [Read the reference](/docs/reference/floats).
 
-| Package     | What it does                                                                                                                                     | Limits                                                               |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| `enumitem`  | Control over lists' labels and spacing                                                                                                           |                                                                      |
-| `fancybox`  | Boxes framed with a shadow, a double line or rounded corners, each drawn here as a plain frame                                                   | Shadows, double lines and rounded corners are drawn as a plain frame |
-| `framed`    | Framed, shaded and leftbar blocks, the engine's own                                                                                              |                                                                      |
-| `mdframed`  | A framed block that may run over pages, the engine's own, in the colors its options name                                                         | New frame kinds are ignored                                          |
-| `outlines`  | Outlines whose levels are `\1` to `\4`, set as nested lists                                                                                      |                                                                      |
-| `tasks`     | Exercises numbered a), b), c), set in so many columns                                                                                            |                                                                      |
-| `tcolorbox` | A colored box with a title, the engine's own, and a box of a name of the document's, `\newtcolorbox`, with the options `\tcbset` gives every box | Its libraries and inline boxes are ignored                           |
+[`algc`](/docs/reference/floats/algc), [`algorithm`](/docs/reference/floats/algorithm), [`algorithm2e`](/docs/reference/floats/algorithm2e), [`algorithmic`](/docs/reference/floats/algorithmic), [`algorithmicx`](/docs/reference/floats/algorithmicx), [`algpascal`](/docs/reference/floats/algpascal), [`algpseudocode`](/docs/reference/floats/algpseudocode), [`algpseudocodex`](/docs/reference/floats/algpseudocodex), [`bicaption`](/docs/reference/floats/bicaption), [`capt-of`](/docs/reference/floats/capt-of), [`caption`](/docs/reference/floats/caption), [`caption3`](/docs/reference/floats/caption3), [`ccaption`](/docs/reference/floats/ccaption), [`dblfloatfix`](/docs/reference/floats/dblfloatfix), [`float`](/docs/reference/floats/float), [`floatflt`](/docs/reference/floats/floatflt), [`floatrow`](/docs/reference/floats/floatrow), [`hvfloat`](/docs/reference/floats/hvfloat), [`morefloats`](/docs/reference/floats/morefloats), [`newfloat`](/docs/reference/floats/newfloat), [`rotating`](/docs/reference/floats/rotating), [`rotfloat`](/docs/reference/floats/rotfloat), [`sidecap`](/docs/reference/floats/sidecap), [`stfloats`](/docs/reference/floats/stfloats), [`subcaption`](/docs/reference/floats/subcaption), [`subfig`](/docs/reference/floats/subfig), [`subfigure`](/docs/reference/floats/subfigure), [`wrapfig`](/docs/reference/floats/wrapfig), [`wrapfig2`](/docs/reference/floats/wrapfig2).
 
-### Pictures and diagrams
+### Lists and Boxes
 
-| Package        | What it does                                                                                                               | Limits                                                     |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| `axodraw2`     | Feynman diagrams in an `axopicture`, drawn as TikZ paths                                                                   |                                                            |
-| `bohr`         | An atom drawn as Bohr drew it, its electrons on shells round the nucleus                                                   |                                                            |
-| `feynmp`       | Feynman diagrams written for MetaPost to draw                                                                              | Diagrams are not drawn; their place is kept                |
-| `forest`       | Trees written as brackets, `[S [NP] [VP]]`                                                                                 | Its own placement options are ignored                      |
-| `modiagram`    | Molecular orbital diagrams                                                                                                 | The diagram's place is kept as a frame                     |
-| `pgf`          | The layer TikZ is built on                                                                                                 |                                                            |
-| `pgfgantt`     | A Gantt chart — a task to a row, each with its span of the chart's units — set as a table of tasks and their spans         | Set as a table of tasks                                    |
-| `pgfplots`     | Plots drawn from data and from functions, inside a TikZ picture                                                            | Styles for all plots at once, and group plots, are ignored |
-| `pst-node`     | Nodes in the text and the lines between them                                                                               | Connections between nodes are not drawn                    |
-| `pstricks`     | PSTricks pictures, drawn with TikZ's own commands                                                                          |                                                            |
-| `quantikz`     | Quantum circuits                                                                                                           |                                                            |
-| `smartdiagram` | A diagram drawn from a list — a flow, a cycle, a set of bubbles — set as the list's items joined by arrows                 | Items are joined by arrows                                 |
-| `tikz`         | Pictures drawn with TikZ's own commands                                                                                    |                                                            |
-| `tikz-cd`      | Commutative diagrams                                                                                                       |                                                            |
-| `tikz-feynman` | Feynman diagrams written as `\feynmandiagram`                                                                              |                                                            |
-| `tkz-euclide`  | Euclidean geometry in TikZ — points defined and named, segments, lines and circles between them, points drawn and labelled |                                                            |
+Lists, exercises, framed and coloured boxes. [Read the reference](/docs/reference/lists).
 
-### References, indexes and notes
+[`adjustbox`](/docs/reference/lists/adjustbox), [`awesomebox`](/docs/reference/lists/awesomebox), [`bclogo`](/docs/reference/lists/bclogo), [`boxedminipage`](/docs/reference/lists/boxedminipage), [`dirtree`](/docs/reference/lists/dirtree), [`enumerate`](/docs/reference/lists/enumerate), [`enumitem`](/docs/reference/lists/enumitem), [`exsheets`](/docs/reference/lists/exsheets), [`fancybox`](/docs/reference/lists/fancybox), [`framed`](/docs/reference/lists/framed), [`mdframed`](/docs/reference/lists/mdframed), [`mdwlist`](/docs/reference/lists/mdwlist), [`multienum`](/docs/reference/lists/multienum), [`outlines`](/docs/reference/lists/outlines), [`paralist`](/docs/reference/lists/paralist), [`shadow`](/docs/reference/lists/shadow), [`tasks`](/docs/reference/lists/tasks), [`tcolorbox`](/docs/reference/lists/tcolorbox), [`trimclip`](/docs/reference/lists/trimclip).
 
-| Package      | What it does                                                                                                                         | Limits                                     |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
-| `acro`       | Acronyms declared by keys, spelled out the first time each is used and short after                                                   |                                            |
-| `acronym`    | An abbreviation spelled out the first time it is used, and written short every time after                                            |                                            |
-| `biblatex`   | Bibliographies from `.bib` files in biblatex's styles                                                                                |                                            |
-| `cleveref`   | `\cref` and `\Cref`: references that name what they point to                                                                         |                                            |
-| `glossaries` | Terms defined once and used by name                                                                                                  | The glossary list is not printed           |
-| `hyperref`   | A document's links                                                                                                                   |                                            |
-| `imakeidx`   | An index, made within the run                                                                                                        | One index, whatever it is named            |
-| `makeidx`    | An index                                                                                                                             |                                            |
-| `marginnote` | A note in the margin that never floats                                                                                               |                                            |
-| `natbib`     | Citations by author and year                                                                                                         |                                            |
-| `nomencl`    | A list of symbols                                                                                                                    | The list of symbols is not set             |
-| `orcidlink`  | An author's ORCID, which the page, carrying no links, leaves out                                                                     | The ORCID mark is left out                 |
-| `sidenotes`  | Notes, citations, figures and tables in the margin — a note numbered with the footnotes, its mark in the text and the note beside it |                                            |
-| `todonotes`  | What is still to be done, marked where it is to be done                                                                              |                                            |
-| `url`        | An address set in the typewriter face                                                                                                | A `%` or `#` in an address must be escaped |
+### Pictures and Diagrams
 
-### Text, fonts and symbols
+Pictures, TikZ, plots, diagrams, circuits and trees. [Read the reference](/docs/reference/pictures).
 
-| Package        | What it does                                                                                                                                              | Limits                                                      |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `csquotes`     | Quotation marks around a quotation, curled the right way round whichever keys the document was typed with; a quotation inside another set in single marks |                                                             |
-| `emoji`        | An emoji by its name, as the character it is, from whichever of the system's faces draws it                                                               |                                                             |
-| `fontawesome5` | Font Awesome's icons, as a CV's contact line or a list's bullets use them                                                                                 | Icons are the nearest Unicode symbols; brand logos are dots |
-| `fontspec`     | `\setmainfont` and its kin, choosing the nearest font mLaTeX carries                                                                                      |                                                             |
-| `pifont`       | Zapf Dingbats by number — `\ding{51}` a check mark, `\ding{172}` a circled one — set as the characters Unicode gives them                                 |                                                             |
-| `soul`         | Words highlighted, underlined, struck through or spaced out, a box at a time                                                                              |                                                             |
-| `tipa`         | The International Phonetic Alphabet                                                                                                                       |                                                             |
-| `ulem`         | Underlined, doubly underlined, wavy and struck-out text                                                                                                   |                                                             |
-| `xspace`       | A space after a command unless punctuation follows                                                                                                        |                                                             |
+[`amscd`](/docs/reference/pictures/amscd), [`animate`](/docs/reference/pictures/animate), [`axodraw2`](/docs/reference/pictures/axodraw2), [`bohr`](/docs/reference/pictures/bohr), [`circuitikz`](/docs/reference/pictures/circuitikz), [`epsfig`](/docs/reference/pictures/epsfig), [`epstopdf`](/docs/reference/pictures/epstopdf), [`feynman`](/docs/reference/pictures/feynman), [`feynmp`](/docs/reference/pictures/feynmp), [`forest`](/docs/reference/pictures/forest), [`graphbox`](/docs/reference/pictures/graphbox), [`graphics`](/docs/reference/pictures/graphics), [`graphicx`](/docs/reference/pictures/graphicx), [`grffile`](/docs/reference/pictures/grffile), [`modiagram`](/docs/reference/pictures/modiagram), [`overpic`](/docs/reference/pictures/overpic), [`pdfpages`](/docs/reference/pictures/pdfpages), [`pgf`](/docs/reference/pictures/pgf), [`pgfgantt`](/docs/reference/pictures/pgfgantt), [`pgfornament`](/docs/reference/pictures/pgfornament), [`pgfplots`](/docs/reference/pictures/pgfplots), [`picins`](/docs/reference/pictures/picins), [`pict2e`](/docs/reference/pictures/pict2e), [`pst-node`](/docs/reference/pictures/pst-node), [`pstricks`](/docs/reference/pictures/pstricks), [`qcircuit`](/docs/reference/pictures/qcircuit), [`qrcode`](/docs/reference/pictures/qrcode), [`qtree`](/docs/reference/pictures/qtree), [`quantikz`](/docs/reference/pictures/quantikz), [`smartdiagram`](/docs/reference/pictures/smartdiagram), [`svg`](/docs/reference/pictures/svg), [`tikz`](/docs/reference/pictures/tikz), [`tikz-3dplot`](/docs/reference/pictures/tikz-3dplot), [`tikz-cd`](/docs/reference/pictures/tikz-cd), [`tikz-feynman`](/docs/reference/pictures/tikz-feynman), [`tikz-qtree`](/docs/reference/pictures/tikz-qtree), [`tikzducks`](/docs/reference/pictures/tikzducks), [`tikzpagenodes`](/docs/reference/pictures/tikzpagenodes), [`tikzscale`](/docs/reference/pictures/tikzscale), [`tikzsymbols`](/docs/reference/pictures/tikzsymbols), [`tkz-euclide`](/docs/reference/pictures/tkz-euclide), [`xy`](/docs/reference/pictures/xy), [`xypic`](/docs/reference/pictures/xypic).
 
-### Code and verbatim
+### References and Notes
 
-| Package    | What it does                                                                              | Limits               |
-| ---------- | ----------------------------------------------------------------------------------------- | -------------------- |
-| `comment`  | Text left out                                                                             |                      |
-| `fancyvrb` | Verbatim text with more to say about how                                                  |                      |
-| `listings` | Source code as it was typed                                                               |                      |
-| `minted`   | Source code, which minted colors through Pygments                                         | Code is not coloured |
-| `verbatim` | The kernel's verbatim block made to read long files and a comment block that sets nothing |                      |
+Cross-references, citations, bibliographies, indexes, contents, footnotes and links. [Read the reference](/docs/reference/references).
+
+[`acro`](/docs/reference/references/acro), [`acronym`](/docs/reference/references/acronym), [`apacite`](/docs/reference/references/apacite), [`backref`](/docs/reference/references/backref), [`bibentry`](/docs/reference/references/bibentry), [`biblatex`](/docs/reference/references/biblatex), [`bibtopic`](/docs/reference/references/bibtopic), [`bibunits`](/docs/reference/references/bibunits), [`bigfoot`](/docs/reference/references/bigfoot), [`breakurl`](/docs/reference/references/breakurl), [`changes`](/docs/reference/references/changes), [`chapterbib`](/docs/reference/references/chapterbib), [`cite`](/docs/reference/references/cite), [`cleveref`](/docs/reference/references/cleveref), [`doi`](/docs/reference/references/doi), [`endnotes`](/docs/reference/references/endnotes), [`enotez`](/docs/reference/references/enotez), [`etoc`](/docs/reference/references/etoc), [`fancyref`](/docs/reference/references/fancyref), [`fixme`](/docs/reference/references/fixme), [`footmisc`](/docs/reference/references/footmisc), [`footnotehyper`](/docs/reference/references/footnotehyper), [`glossaries`](/docs/reference/references/glossaries), [`glossaries-extra`](/docs/reference/references/glossaries-extra), [`harvard`](/docs/reference/references/harvard), [`hypcap`](/docs/reference/references/hypcap), [`hyperref`](/docs/reference/references/hyperref), [`imakeidx`](/docs/reference/references/imakeidx), [`index`](/docs/reference/references/index), [`makeidx`](/docs/reference/references/makeidx), [`manyfoot`](/docs/reference/references/manyfoot), [`marginfix`](/docs/reference/references/marginfix), [`marginnote`](/docs/reference/references/marginnote), [`minitoc`](/docs/reference/references/minitoc), [`multibib`](/docs/reference/references/multibib), [`multitoc`](/docs/reference/references/multitoc), [`nameref`](/docs/reference/references/nameref), [`natbib`](/docs/reference/references/natbib), [`nomencl`](/docs/reference/references/nomencl), [`orcidlink`](/docs/reference/references/orcidlink), [`overcite`](/docs/reference/references/overcite), [`prettyref`](/docs/reference/references/prettyref), [`refcount`](/docs/reference/references/refcount), [`shorttoc`](/docs/reference/references/shorttoc), [`showkeys`](/docs/reference/references/showkeys), [`showlabels`](/docs/reference/references/showlabels), [`sidenotes`](/docs/reference/references/sidenotes), [`splitidx`](/docs/reference/references/splitidx), [`titletoc`](/docs/reference/references/titletoc), [`tocbibind`](/docs/reference/references/tocbibind), [`todonotes`](/docs/reference/references/todonotes), [`url`](/docs/reference/references/url), [`varioref`](/docs/reference/references/varioref), [`xr`](/docs/reference/references/xr), [`xr-hyper`](/docs/reference/references/xr-hyper), [`xurl`](/docs/reference/references/xurl), [`zref`](/docs/reference/references/zref).
+
+### Code and Verbatim
+
+Source code and text set exactly as typed. [Read the reference](/docs/reference/code).
+
+[`alltt`](/docs/reference/code/alltt), [`comment`](/docs/reference/code/comment), [`fancyvrb`](/docs/reference/code/fancyvrb), [`fvextra`](/docs/reference/code/fvextra), [`listings`](/docs/reference/code/listings), [`listingsutf8`](/docs/reference/code/listingsutf8), [`lstautogobble`](/docs/reference/code/lstautogobble), [`minted`](/docs/reference/code/minted), [`moreverb`](/docs/reference/code/moreverb), [`spverbatim`](/docs/reference/code/spverbatim), [`upquote`](/docs/reference/code/upquote), [`verbatim`](/docs/reference/code/verbatim).
 
 ### Languages
 
-| Package       | What it does                                                                                                                 | Limits |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `babel`       | The languages a document is written in, named as its options — the last the one it is in, those before it the ones it quotes |        |
-| `bidi`        | Paragraphs right to left or left to right, with `\setRTL` and `\setLTR`                                                      |        |
-| `CJK`         | Chinese, Japanese and Korean text                                                                                            |        |
-| `polyglossia` | Languages named by command, each with a command and an environment of its own                                                |        |
+Languages, scripts and their direction. [Read the reference](/docs/reference/languages).
 
-### Logic, dates and placeholder text
+[`babel`](/docs/reference/languages/babel), [`bidi`](/docs/reference/languages/bidi), [`CJK`](/docs/reference/languages/cjk), [`CJKutf8`](/docs/reference/languages/cjkutf8), [`ctex`](/docs/reference/languages/ctex), [`polyglossia`](/docs/reference/languages/polyglossia), [`translator`](/docs/reference/languages/translator), [`xeCJK`](/docs/reference/languages/xecjk).
 
-| Package     | What it does                                                                                                                          | Limits |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `blindtext` | Text to fill a page with, the printer's Lorem ipsum                                                                                   |        |
-| `calc`      | Lengths written as sums, such as `\textwidth-2cm`, and `\widthof`                                                                     |        |
-| `datetime`  | The date written the ways a document writes it                                                                                        |        |
-| `datetime2` | Today's date and the time, in the document's own style; a date written out from its parts, and one kept under a name to be used again |        |
-| `environ`   | `\NewEnviron`, an environment whose body is read whole into `\BODY`                                                                   |        |
-| `etoolbox`  | The tests and switches a package, or a document built from a program's values, decides what to set with                               |        |
-| `fmtcount`  | Numbers and counters written in words and as ordinals                                                                                 |        |
-| `ifthen`    | `\ifthenelse` and `\whiledo`, with ifthen's tests                                                                                     |        |
-| `lipsum`    | Placeholder text, for a layout to be judged before its words exist                                                                    |        |
-| `xfp`       | Arithmetic in the document                                                                                                            |        |
-| `xifthen`   | ifthen's tests, and whether a text is empty, holds another, or names a command                                                        |        |
+### Programming
 
-## Built into the engine
+Logic, arithmetic, keys, hooks, dates and placeholder text, for packages and documents built from data. [Read the reference](/docs/reference/programming).
 
-|   | Packages                                                                                                                                                                                                                                                                                                                                                                                                         |
-| - | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A | `academicons`, `accents`, `accsupp`, `adjustbox`, `advdate`, `ae`, `aecompl`, `alltt`, `amscd`, `amsfonts`, `amsxtra`, `animate`, `anyfontsize`, `anysize`, `apacite`, `arev`, `arydshln`, `atbegshi`, `attachfile`, `atveryend`, `aurical`, `auxhook`, `avant`, `awesomebox`                                                                                                                                    |
-| B | `background`, `backref`, `balance`, `bbding`, `bbold`, `bclogo`, `beramono`, `bibentry`, `bibtopic`, `bibunits`, `bicaption`, `bigdelim`, `bigfoot`, `bigintcalc`, `bitset`, `bm`, `boldline`, `bookman`, `bookmark`, `boxedminipage`, `bxcoloremoji`                                                                                                                                                            |
-| C | `calligra`, `calrsfs`, `capt-of`, `caption3`, `cases`, `catchfile`, `ccaption`, `censor`, `centernot`, `changes`, `chapterbib`, `charter`, `chemfig`, `chemformula`, `chemmacros`, `chngcntr`, `cite`, `cm-super`, `cmap`, `cmbright`, `color`, `contour`, `courier`, `csvsimple`, `ctex`, `currfile`, `cuted`, `cutwin`                                                                                         |
-| D | `datatool`, `dblfloatfix`, `dejavu`, `delimset`, `derivative`, `diffcoef`, `dirtree`, `dirtytalk`, `docmute`, `doi`, `draftwatermark`, `duckuments`                                                                                                                                                                                                                                                              |
-| E | `ellipsis`, `embedfile`, `empheq`, `emptypage`, `endnotes`, `enotez`, `enumerate`, `epstopdf`, `esdiff`, `eso-pic`, `esvect`, `etex`, `etoc`, `euler`, `eulervm`, `everypage`, `everyshi`, `expl3`, `exsheets`, `extarrows`                                                                                                                                                                                      |
-| F | `faktor`, `fancyref`, `fdsymbol`, `feynman`, `filecontents`, `FiraMono`, `FiraSans`, `fix-cm`, `fixltx2e`, `fixmath`, `fixme`, `floatflt`, `floatrow`, `flushend`, `fncychap`, `fontaxes`, `fontenc`, `footmisc`, `footnote`, `footnotehyper`, `fourier`, `fp`                                                                                                                                                   |
-| G | `gettitlestring`, `gfsartemisia`, `gfsdidot`, `graphbox`, `graphics`, `graphicx`, `grffile`                                                                                                                                                                                                                                                                                                                      |
-| H | `harvard`, `helvet`, `hepnames`, `hepparticles`, `hepunits`, `hologo`, `hvfloat`, `hycolor`, `hypcap`, `hyperxmp`, `hyphenat`                                                                                                                                                                                                                                                                                    |
-| I | `ifluatex`, `ifpdf`, `iftex`, `ifxetex`, `import`, `inconsolata`, `indentfirst`, `infwarerr`, `inputenc`, `intcalc`, `interval`, `isodate`, `isomath`                                                                                                                                                                                                                                                            |
-| K | `kantlipsum`, `keystroke`, `keyval`, `kpfonts`, `kvoptions`, `kvsetkeys`                                                                                                                                                                                                                                                                                                                                         |
-| L | `l3keys2e`, `latexsym`, `lato`, `layout`, `letltxmacro`, `lettrine`, `libertine`, `libertinus`, `libertinust1math`, `lmodern`, `lscape`, `lstautogobble`, `ltxcmds`, `luacode`                                                                                                                                                                                                                                   |
-| M | `manyfoot`, `marginfix`, `marvosym`, `mathabx`, `mathcomp`, `mathdots`, `mathpazo`, `mathptmx`, `mathrsfs`, `mathspec`, `mdwlist`, `media9`, `menukeys`, `merriweather`, `metalogo`, `microtype`, `minitoc`, `mleftright`, `mlmodern`, `MnSymbol`, `morefloats`, `moresize`, `moreverb`, `multibib`, `multicol`, `multienum`, `multitoc`                                                                         |
-| N | `nameref`, `nccmath`, `newpxmath`, `newpxtext`, `newtxmath`, `newtxtext`, `nextpage`, `nicematrix`, `noto`, `nowidow`, `nth`, `numprint`                                                                                                                                                                                                                                                                         |
-| O | `opensans`, `overcite`, `overpic`                                                                                                                                                                                                                                                                                                                                                                                |
-| P | `pagecolor`, `palatino`, `paralist`, `pdfcol`, `pdfcomment`, `pdflscape`, `pdfsync`, `pdftexcmds`, `pdfx`, `perpage`, `pgfkeys`, `pgfornament`, `picins`, `pict2e`, `prettyref`, `pxfonts`                                                                                                                                                                                                                       |
-| Q | `qcircuit`, `qrcode`, `qtree`, `quotchap`                                                                                                                                                                                                                                                                                                                                                                        |
-| R | `realscripts`, `refcount`, `regexpatch`, `relsize`, `rerunfilecheck`, `roboto`, `rotating`, `rotfloat`                                                                                                                                                                                                                                                                                                           |
-| S | `savetrees`, `scalerel`, `scrextend`, `scrtime`, `sectsty`, `shadow`, `shapepar`, `shellesc`, `shorttoc`, `showframe`, `showkeys`, `showlabels`, `sidecap`, `silence`, `slashed`, `sourcecodepro`, `sourcesanspro`, `sourceserifpro`, `spverbatim`, `stackengine`, `standalone`, `stfloats`, `stix`, `stix2`, `subfiles`, `supertabular`, `svg`                                                                  |
-| T | `tabbing`, `tablefootnote`, `tabstackengine`, `tabto`, `tabularray`, `tensor`, `tex4ht`, `textcase`, `textcomp`, `textgreek`, `tgbonum`, `tgcursor`, `tgheros`, `tgpagella`, `tgschola`, `tgtermes`, `tikz-3dplot`, `tikzducks`, `tikzpagenodes`, `tikzscale`, `tikzsymbols`, `times`, `titletoc`, `tocbibind`, `totcount`, `translator`, `transparent`, `trig`, `trimclip`, `trimspaces`, `txfonts`, `typearea` |
-| U | `underscore`, `uniquecounter`, `unitsdef`, `upquote`                                                                                                                                                                                                                                                                                                                                                             |
-| V | `varioref`, `vmargin`                                                                                                                                                                                                                                                                                                                                                                                            |
-| W | `wallpaper`, `wasysym`, `watermark`, `wrapfig`                                                                                                                                                                                                                                                                                                                                                                   |
-| X | `xargs`, `XCharter`, `xcolor`, `xeCJK`, `xkeyval`, `xltxtra`, `xparse`, `xpatch`, `xr`, `xr-hyper`, `xstring`, `xtab`, `xunicode`, `xy`                                                                                                                                                                                                                                                                          |
-| Y | `yhmath`                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Z | `zref`                                                                                                                                                                                                                                                                                                                                                                                                           |
+[`advdate`](/docs/reference/programming/advdate), [`atbegshi`](/docs/reference/programming/atbegshi), [`atveryend`](/docs/reference/programming/atveryend), [`auxhook`](/docs/reference/programming/auxhook), [`bigintcalc`](/docs/reference/programming/bigintcalc), [`bitset`](/docs/reference/programming/bitset), [`blindtext`](/docs/reference/programming/blindtext), [`calc`](/docs/reference/programming/calc), [`catchfile`](/docs/reference/programming/catchfile), [`chngcntr`](/docs/reference/programming/chngcntr), [`currfile`](/docs/reference/programming/currfile), [`datetime`](/docs/reference/programming/datetime), [`datetime2`](/docs/reference/programming/datetime2), [`duckuments`](/docs/reference/programming/duckuments), [`environ`](/docs/reference/programming/environ), [`etex`](/docs/reference/programming/etex), [`etoolbox`](/docs/reference/programming/etoolbox), [`everypage`](/docs/reference/programming/everypage), [`everyshi`](/docs/reference/programming/everyshi), [`expl3`](/docs/reference/programming/expl3), [`fixltx2e`](/docs/reference/programming/fixltx2e), [`fmtcount`](/docs/reference/programming/fmtcount), [`fp`](/docs/reference/programming/fp), [`gettitlestring`](/docs/reference/programming/gettitlestring), [`ifluatex`](/docs/reference/programming/ifluatex), [`ifoddpage`](/docs/reference/programming/ifoddpage), [`ifpdf`](/docs/reference/programming/ifpdf), [`iftex`](/docs/reference/programming/iftex), [`ifthen`](/docs/reference/programming/ifthen), [`ifxetex`](/docs/reference/programming/ifxetex), [`infwarerr`](/docs/reference/programming/infwarerr), [`intcalc`](/docs/reference/programming/intcalc), [`isodate`](/docs/reference/programming/isodate), [`kantlipsum`](/docs/reference/programming/kantlipsum), [`keyval`](/docs/reference/programming/keyval), [`kvoptions`](/docs/reference/programming/kvoptions), [`kvsetkeys`](/docs/reference/programming/kvsetkeys), [`l3keys2e`](/docs/reference/programming/l3keys2e), [`letltxmacro`](/docs/reference/programming/letltxmacro), [`lipsum`](/docs/reference/programming/lipsum), [`ltxcmds`](/docs/reference/programming/ltxcmds), [`luacode`](/docs/reference/programming/luacode), [`mwe`](/docs/reference/programming/mwe), [`pdftexcmds`](/docs/reference/programming/pdftexcmds), [`perpage`](/docs/reference/programming/perpage), [`pgfkeys`](/docs/reference/programming/pgfkeys), [`regexpatch`](/docs/reference/programming/regexpatch), [`rerunfilecheck`](/docs/reference/programming/rerunfilecheck), [`scrtime`](/docs/reference/programming/scrtime), [`shellesc`](/docs/reference/programming/shellesc), [`silence`](/docs/reference/programming/silence), [`tex4ht`](/docs/reference/programming/tex4ht), [`totcount`](/docs/reference/programming/totcount), [`trig`](/docs/reference/programming/trig), [`trimspaces`](/docs/reference/programming/trimspaces), [`uniquecounter`](/docs/reference/programming/uniquecounter), [`xargs`](/docs/reference/programming/xargs), [`xfp`](/docs/reference/programming/xfp), [`xifthen`](/docs/reference/programming/xifthen), [`xkeyval`](/docs/reference/programming/xkeyval), [`xparse`](/docs/reference/programming/xparse), [`xpatch`](/docs/reference/programming/xpatch), [`xstring`](/docs/reference/programming/xstring).
 
-## Under another name
+### Classes
 
-| Package            | Loads           |
-| ------------------ | --------------- |
-| `algc`             | `algpseudocode` |
-| `algorithmicx`     | `algpseudocode` |
-| `algpascal`        | `algpseudocode` |
-| `algpseudocodex`   | `algpseudocode` |
-| `amsbsy`           | `amsmath`       |
-| `amsopn`           | `amsmath`       |
-| `amstext`          | `amsmath`       |
-| `breakurl`         | `url`           |
-| `circuitikz`       | `tikz`          |
-| `CJKutf8`          | `CJK`           |
-| `epsfig`           | `graphicx`      |
-| `fontawesome`      | `fontawesome5`  |
-| `fvextra`          | `fancyvrb`      |
-| `glossaries-extra` | `glossaries`    |
-| `IEEEtrantools`    | `amsmath`       |
-| `ifoddpage`        | `changepage`    |
-| `index`            | `makeidx`       |
-| `listingsutf8`     | `listings`      |
-| `ltablex`          | `tabularx`      |
-| `mwe`              | `blindtext`     |
-| `pdfpages`         | `graphicx`      |
-| `pgfplotstable`    | `pgfplots`      |
-| `physics2`         | `physics`       |
-| `sistyle`          | `siunitx`       |
-| `slashbox`         | `diagbox`       |
-| `soulutf8`         | `soul`          |
-| `splitidx`         | `imakeidx`      |
-| `subfigure`        | `subfig`        |
-| `tikz-qtree`       | `tikz`          |
-| `wrapfig2`         | `wrapfig`       |
-| `xltabular`        | `tabularx`      |
-| `xurl`             | `url`           |
-| `xypic`            | `xy`            |
+Every document class mLaTeX reads, and how it sets the page. [Read the reference](/docs/reference/classes).
+
+[`acmart`](/docs/reference/classes/acmart), [`amsart`](/docs/reference/classes/amsart), [`beamer`](/docs/reference/classes/beamer), [`elsarticle`](/docs/reference/classes/elsarticle), [`IEEEtran`](/docs/reference/classes/ieeetran), [`letter`](/docs/reference/classes/letter), [`llncs`](/docs/reference/classes/llncs), [`revtex4`](/docs/reference/classes/revtex4), [`revtex4-1`](/docs/reference/classes/revtex4-1), [`revtex4-2`](/docs/reference/classes/revtex4-2), [`scrartcl`](/docs/reference/classes/scrartcl), [`scrbook`](/docs/reference/classes/scrbook), [`scrreprt`](/docs/reference/classes/scrreprt), [`svjour3`](/docs/reference/classes/svjour3).
+
+***
 
 ## Adding a package
 
