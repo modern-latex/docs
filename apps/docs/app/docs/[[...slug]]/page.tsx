@@ -49,7 +49,7 @@ export default async function Page({
 	const latest = versions.find((v) => v.slug === null)!;
 	const version = matched ? matched : latest;
 	const relative = matched ? rest : slugs;
-	const source = version.slug === "secondary" ? secondary : primary;
+	const source = version.slug ? secondary : primary;
 	const page = source.getPage(relative);
 
 	if (!page) return notFound();
@@ -73,7 +73,7 @@ export default async function Page({
 				path: `docs/content/docs/${page.path}`,
 			}}
 		>
-			{version.slug === "secondary" && (
+			{version.slug && (
 				<div className="mb-2 flex items-center gap-3 py-2.5 text-sm text-blue-600 dark:text-blue-400 text-pretty">
 					<MilestoneIcon size={18} className="shrink-0" fill="currentColor" />
 					<p>
@@ -187,7 +187,7 @@ export default async function Page({
 
 export async function generateStaticParams() {
 	return versions.flatMap((version) => {
-		const source = version.slug === "secondary" ? secondary : primary;
+		const source = version.slug ? secondary : primary;
 		const parameters = source.generateParams();
 		return parameters.map((parameter) => {
 			const dynamic = parameter.slug ?? [];
@@ -212,7 +212,7 @@ export async function generateMetadata({
 	const latest = versions.find((v) => v.slug === null)!;
 	const version = matched ? matched : latest;
 	const relative = matched ? rest : slugs;
-	const source = version.slug === "secondary" ? secondary : primary;
+	const source = version.slug ? secondary : primary;
 	const page = source.getPage(relative);
 
 	if (!page) return notFound();
