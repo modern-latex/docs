@@ -128,6 +128,30 @@ From C++, the same declarations are in the namespace `protocols`.
 
 ## From Python
 
+### Installing
+
+The `aveloux` package's `mlatex` extra carries the library and its fonts. It is not published yet; see [Installation](/docs/installation#python).
+
+<Tabs items={["uv", "pip", "Poetry"]}>
+  <Tab value="uv">
+    ```bash
+    uv add "aveloux[mlatex]"
+    ```
+  </Tab>
+
+  <Tab value="pip">
+    ```bash
+    pip install "aveloux[mlatex]"
+    ```
+  </Tab>
+
+  <Tab value="Poetry">
+    ```bash
+    poetry add "aveloux[mlatex]"
+    ```
+  </Tab>
+</Tabs>
+
 ### Declaring the struct
 
 Python's built-in `ctypes` is enough. The struct's fields must be declared in the header's order:
