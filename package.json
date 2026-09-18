@@ -1,11 +1,11 @@
 {
-  "name": "prostha",
+  "name": "mlatex",
   "private": true,
   "type": "commonjs",
   "packageManager": "pnpm@11.1.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polyvec/prostha.git"
+    "url": "git+https://github.com/aveloux/mlatex.git"
   },
   "scripts": {
     "prepare": "lefthook install --reset-hooks-path",
