@@ -37,7 +37,7 @@ export function Breadcrumbs({ compact = false }: { compact?: boolean }) {
 			)}
 			<div className="flex items-center gap-3">
 				<Link
-					href="https://github.com/aveloux/mlatex"
+					href="https://github.com/modernized-latex/mlatex"
 					aria-label="GitHub"
 					className="text-foreground/50 hover:text-foreground/80 transition-colors"
 				>

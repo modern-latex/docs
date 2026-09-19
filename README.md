@@ -1,27 +1,19 @@
 <h1 align="center">mLaTeX Docs</h1>
 
 <p align="center">
-  <b>The documentation site for <a href="https://github.com/aveloux/mlatex">mLaTeX</a>, a LaTeX typesetting engine rewritten from the ground up in modern C++.</b>
+  <b>The documentation site for <a href="https://github.com/modernized-latex/mlatex">mLaTeX</a>, a LaTeX typesetting engine rewritten from the ground up in modern C++.</b>
 </p>
 
 <p align="center">
-  <a href="https://github.com/aveloux/mlatex">Engine</a> ·
-  <a href="https://github.com/aveloux/mlatex/releases">Releases</a> ·
-  <a href="https://www.npmjs.com/package/@aveloux/mlatex">npm</a> ·
-  <a href="https://github.com/aveloux/mlatex/issues">Issues</a>
+  <a href="https://github.com/modernized-latex/mlatex">Engine</a> ·
+  <a href="https://github.com/modernized-latex/mlatex/releases">Releases</a> ·
+  <a href="https://www.npmjs.com/package/@modernized-latex/mlatex">npm</a> ·
+  <a href="https://github.com/modernized-latex/mlatex/issues">Issues</a>
 </p>
 
 ---
 
-This repository holds the guides, the command reference, the package reference, the changelog and the blog for mLaTeX. The engine itself lives in [aveloux/mlatex](https://github.com/aveloux/mlatex).
-
-## What is here
-
-| Path | What it is |
-| --- | --- |
-| `apps/docs` | The site: Next.js and Fumadocs, with the pages under `content/docs`. |
-| `packages/ui` | The components the site is built from. |
-| `apps/workspace` | A private submodule: the browser editor. A clone without access gets an empty folder there, and the site builds without it. |
+This repository holds the guides, the command reference, the package reference, the changelog and the blog for mLaTeX. The engine itself lives in [modernized-latex/mlatex](https://github.com/modernized-latex/mlatex).
 
 ## Running it
 
@@ -57,7 +49,7 @@ The site follows the engine on its own, so a release needs no change here.
 
 ## Contributing
 
-Corrections and new pages are welcome as pull requests. A problem with the engine itself, such as a document that sets wrongly, belongs in the [engine's issues](https://github.com/aveloux/mlatex/issues). Everyone taking part agrees to the [code of conduct](CODE_OF_CONDUCT.md), and security issues are reported privately, as [SECURITY.md](SECURITY.md) explains.
+Corrections and new pages are welcome as pull requests. A problem with the engine itself, such as a document that sets wrongly, belongs in the [engine's issues](https://github.com/modernized-latex/mlatex/issues). Everyone taking part agrees to the [code of conduct](CODE_OF_CONDUCT.md), and security issues are reported privately, as [SECURITY.md](SECURITY.md) explains.
 
 ## Acknowledgements
 

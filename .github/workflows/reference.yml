@@ -1,6 +1,6 @@
 name: Reference
 
-# Keeps the Package Reference in step with aveloux/mlatex. When the engine's
+# Keeps the Package Reference in step with modernized-latex/mlatex. When the engine's
 # release workflow sends the new tag (the mlatex-tag event), each day, or when
 # run by hand, it finds the engine's newest version tag. When the reference
 # was not written from that tag yet, it checks the tag out, writes the
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Tag of aveloux/mlatex to write the reference from; the newest when empty
+        description: Tag of modernized-latex/mlatex to write the reference from; the newest when empty
         required: false
   repository_dispatch:
     types: [mlatex-tag]
@@ -41,14 +41,14 @@ jobs:
         run: |
           tag="$asked"
           if [ -z "$tag" ]; then
-            tag=$(git ls-remote --tags --refs https://github.com/aveloux/mlatex.git \
+            tag=$(git ls-remote --tags --refs https://github.com/modernized-latex/mlatex.git \
               | sed 's#.*refs/tags/##' \
               | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' \
               | sort -V | tail -n 1)
           fi
           last=$(cat apps/docs/scripts/reference.tag 2>/dev/null || true)
           if [ -z "$tag" ]; then
-            echo "::notice::aveloux/mlatex has no version tag yet"
+            echo "::notice::modernized-latex/mlatex has no version tag yet"
           elif [ "$tag" = "$last" ] && [ -z "$asked" ]; then
             echo "::notice::The reference was already written from $tag"
           else
@@ -59,7 +59,7 @@ jobs:
         if: steps.tag.outputs.name
         uses: actions/checkout@v4
         with:
-          repository: aveloux/mlatex
+          repository: modernized-latex/mlatex
           ref: ${{ steps.tag.outputs.name }}
           path: mlatex
 
@@ -100,7 +100,7 @@ jobs:
           commit-message: Write the package reference from mLaTeX ${{ steps.tag.outputs.name }}
           title: Write the package reference from mLaTeX ${{ steps.tag.outputs.name }}
           body: |
-            The Package Reference and the Supported Packages page, written again by `apps/docs/scripts/reference.ts` from [aveloux/mlatex at ${{ steps.tag.outputs.name }}](https://github.com/aveloux/mlatex/tree/${{ steps.tag.outputs.name }}).
+            The Package Reference and the Supported Packages page, written again by `apps/docs/scripts/reference.ts` from [modernized-latex/mlatex at ${{ steps.tag.outputs.name }}](https://github.com/modernized-latex/mlatex/tree/${{ steps.tag.outputs.name }}).
 
             Before merging:
 

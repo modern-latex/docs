@@ -123,7 +123,7 @@ export async function POST(request: Request) {
 						const url = new URL("https://api.github.com/search/code");
 						url.searchParams.set(
 							"q",
-							`${query} repo:aveloux/mlatex${path ? ` path:${path}` : ""}`,
+							`${query} repo:modernized-latex/mlatex${path ? ` path:${path}` : ""}`,
 						);
 						url.searchParams.set("per_page", "8");
 
@@ -157,7 +157,7 @@ export async function POST(request: Request) {
 					inputSchema: zod.object({ path: zod.string() }),
 					execute: async ({ path }) => {
 						const response = await fetch(
-							`https://api.github.com/repos/aveloux/docs/contents/${encodeURIComponent(path)}?ref=main`,
+							`https://api.github.com/repos/modernized-latex/docs/contents/${encodeURIComponent(path)}?ref=main`,
 							{
 								headers: {
 									Accept: "application/vnd.github.raw+json",

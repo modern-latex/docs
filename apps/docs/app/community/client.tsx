@@ -202,7 +202,7 @@ export function Community() {
 										{
 											name: "GitHub",
 											icon: icons.github,
-											href: "https://github.com/aveloux/mlatex",
+											href: "https://github.com/modernized-latex/mlatex",
 											action: "View on GitHub",
 											count: "Open Source",
 											label: "repository",
