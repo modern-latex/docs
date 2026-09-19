@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { icons } from "@prostha/ui/src/icons";
+import { icons } from "@mlatex/ui/src/icons";
 
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -36,21 +36,14 @@ export default function Footer() {
 
 				<div className="flex items-center justify-between w-full sm:w-auto sm:gap-4 shrink-0">
 					<span className="text-[10px] text-foreground/50 font-mono">
-						© {new Date().getFullYear()} Prostha Inc.
+						© {new Date().getFullYear()} aveloux
 					</span>
 					<div className="flex items-center gap-3 sm:gap-4">
 						<span className="text-foreground/10 select-none hidden sm:inline">
 							·
 						</span>
 						<Link
-							href="https://x.com/prostha"
-							aria-label="Twitter/X"
-							className="text-foreground/50 hover:text-foreground/80 transition-colors"
-						>
-							<icons.x className="h-3.5 w-3.5" />
-						</Link>
-						<Link
-							href="https://github.com/prostha"
+							href="https://github.com/aveloux/mlatex"
 							aria-label="GitHub"
 							className="text-foreground/50 hover:text-foreground/80 transition-colors"
 						>

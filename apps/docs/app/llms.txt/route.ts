@@ -36,7 +36,7 @@ export async function GET() {
 		>,
 	);
 
-	let content = `# Prosthaphaeresis\n\n> LLM-optimized documentation and resources\n\n## Table of Contents\n\n`;
+	let content = `# mLaTeX\n\n> LLM-optimized documentation and resources\n\n## Table of Contents\n\n`;
 
 	Object.keys(groups)
 		.sort()

@@ -11,8 +11,8 @@ import {
 } from "react";
 
 import { useChat } from "@ai-sdk/react";
-import { Drawer } from "@prostha/ui/src/components/drawer";
-import { cn } from "@prostha/ui/src/lib/utils";
+import { Drawer } from "@mlatex/ui/src/components/drawer";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import { DefaultChatTransport } from "ai";
 import { Loader2, MessageCircleIcon, Send, X } from "lucide-react";
 

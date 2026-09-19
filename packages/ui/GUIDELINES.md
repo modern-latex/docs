@@ -1,6 +1,6 @@
 # Tailwind CSS Style & Architecture Guidelines
 
-This document establishes the definitive structural and mathematical standards for utility class organization within the `@prostha/ui` ecosystem. Adherence to these rules ensures predictable rendering, performance efficiency, and clean scannability.
+This document establishes the definitive structural and mathematical standards for utility class organization within the `@mlatex/ui` ecosystem. Adherence to these rules ensures predictable rendering, performance efficiency, and clean scannability.
 
 ---
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@prostha/ui/src/lib/utils";
+import { cn } from "@mlatex/ui/src/lib/utils";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 

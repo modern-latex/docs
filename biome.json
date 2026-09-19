@@ -21,7 +21,7 @@
               ":BLANK_LINE:",
               ["react", "react-dom", "react/*"],
               ":BLANK_LINE:",
-              ["@prostha/*", "@prostha"],
+              ["@mlatex/*", "@mlatex"],
               ":BLANK_LINE:",
               ":NODE:",
               ":BLANK_LINE:",
@@ -32,8 +32,8 @@
                 "!react",
                 "!react-dom",
                 "!react/*",
-                "!@prostha/*",
-                "!@prostha"
+                "!@mlatex/*",
+                "!@mlatex"
               ],
               ":BLANK_LINE:",
               ":ALIAS:",

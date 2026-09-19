@@ -21,7 +21,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@prostha/ui/*": ["../../packages/ui/*"]
+      "@mlatex/ui/*": ["../../packages/ui/*"]
     }
   },
   "include": [

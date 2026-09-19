@@ -9,7 +9,7 @@ export function createMetadata(override: Metadata): Metadata {
 			description: override.description ?? undefined,
 			url: "https://prostha.org",
 			images: "/og.png",
-			siteName: "Prostha",
+			siteName: "mLaTeX",
 			...override.openGraph,
 		},
 		twitter: {

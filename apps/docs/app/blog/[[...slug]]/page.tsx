@@ -5,8 +5,8 @@ import { notFound } from "next/navigation";
 
 import React from "react";
 
-import { Callout } from "@prostha/ui/src/components/callout";
-import { cn } from "@prostha/ui/src/lib/utils";
+import { Callout } from "@mlatex/ui/src/components/callout";
+import { cn } from "@mlatex/ui/src/lib/utils";
 import { loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
@@ -217,8 +217,8 @@ export async function generateMetadata({
 	const parsed = await params;
 	if (!parsed.slug) {
 		return createMetadata({
-			title: "Blog - Prostha",
-			description: "Latest updates, articles, and insights about Prostha",
+			title: "Blog - mLaTeX",
+			description: "Latest updates, articles, and insights about mLaTeX",
 		});
 	}
 	const page = blogs.getPage(parsed.slug);

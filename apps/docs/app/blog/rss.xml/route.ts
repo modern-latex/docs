@@ -14,15 +14,15 @@ export const revalidate = false;
 
 export function GET() {
 	const feed = new Feed({
-		title: "Prostha Blog",
-		description: "Latest updates, articles, and insights about Prostha",
-		generator: "prostha",
+		title: "mLaTeX Blog",
+		description: "Latest updates, articles, and insights about mLaTeX",
+		generator: "mlatex",
 		id: `${url}blog`,
 		link: `${url}blog`,
 		language: "en",
 		image: `${url}release-og/blogs.png`,
 		favicon: `${url}favicon/favicon-32x32.png`,
-		copyright: `Copyright © ${new Date().getFullYear()} Prostha Inc.`,
+		copyright: `Copyright © ${new Date().getFullYear()} aveloux`,
 	});
 
 	for (const page of blogs.getPages().sort((first, second) => {

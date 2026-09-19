@@ -1,5 +1,5 @@
-import { Button } from "@prostha/ui/src/components/button";
-import { CodeBlock } from "@prostha/ui/src/components/code-block";
+import { Button } from "@mlatex/ui/src/components/button";
+import { CodeBlock } from "@mlatex/ui/src/components/code-block";
 import { Link } from "lucide-react";
 
 import { Endpoint } from "@/components/endpoint";

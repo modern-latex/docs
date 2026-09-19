@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { Button } from "@prostha/ui/src/components/button";
+import { Button } from "@mlatex/ui/src/components/button";
 import { useTheme } from "next-themes";
 
 export function ThemeProvider() {

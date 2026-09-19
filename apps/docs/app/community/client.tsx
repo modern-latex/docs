@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { icons } from "@prostha/ui/src/icons";
+import { icons } from "@mlatex/ui/src/icons";
 import { motion } from "framer-motion";
 
 import Footer from "@/components/landing/footer";
@@ -200,36 +200,12 @@ export function Community() {
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
 									{[
 										{
-											name: "Discord",
-											icon: icons.discord,
-											href: "https://discord.gg/3gFJ5Put6k",
-											action: "Join Discord",
-											count: "0",
-											label: "members",
-										},
-										{
 											name: "GitHub",
 											icon: icons.github,
-											href: "https://github.com/prosthaphaeresis",
+											href: "https://github.com/aveloux/mlatex",
 											action: "View on GitHub",
 											count: "Open Source",
 											label: "repository",
-										},
-										{
-											name: "Reddit",
-											icon: icons.reddit,
-											href: "https://reddit.com/r/prosthaphaeresis",
-											action: "Join Subreddit",
-											count: "0",
-											label: "members",
-										},
-										{
-											name: "X (Twitter)",
-											icon: icons.x,
-											href: "https://x.com/prosthaphaeresis",
-											action: "Follow on X",
-											count: "@prosthaphaeresis",
-											label: "handle",
 										},
 									].map((site, place) => (
 										<motion.div

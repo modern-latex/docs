@@ -68,7 +68,7 @@ if (import.meta.main) {
 		});
 
 		await sync(client, {
-			typesenseCollectionName: "prostha-docs",
+			typesenseCollectionName: "mlatex-docs",
 			documents: records,
 		});
 
