@@ -46,7 +46,7 @@ export const versions: Version[] = [
 ];
 
 /**
- * The versions with each one's newest tag on modernized-latex/mlatex: a tag such as
+ * The versions with each one's newest tag on modern-latex/mlatex: a tag such as
  * `v0.2.0` is a release and one such as `v0.2.0-beta` a pre-release. The
  * latest shows the newest release, the beta the newest pre-release, and any
  * other the newest release of its own line. Checked at most once an hour;
@@ -54,7 +54,7 @@ export const versions: Version[] = [
  */
 export async function releases(): Promise<Version[]> {
 	const response = await fetch(
-		"https://api.github.com/repos/modernized-latex/mlatex/tags?per_page=100",
+		"https://api.github.com/repos/modern-latex/mlatex/tags?per_page=100",
 		{ next: { revalidate: 3600 } },
 	).catch(() => undefined);
 	if (!response?.ok) return versions;

@@ -15,10 +15,10 @@ mLaTeX compiles to WebAssembly with Emscripten. The build leaves three files sid
 
 ### Installing
 
-The `@modernized-latex/mlatex` package carries the three files, and its types. It is not published yet; see [Installation](/docs/installation#javascript).
+The `mlatex` package carries the three files, and its types. It is not published yet; see [Installation](/docs/installation#javascript).
 
 ```npm
-npm install @modernized-latex/mlatex
+npm install mlatex
 ```
 
 ***
@@ -26,7 +26,7 @@ npm install @modernized-latex/mlatex
 ## A session
 
 ```js
-import Latex from "@modernized-latex/mlatex";
+import Latex from "mlatex";
 
 const engine = await Latex();                     // latex.js's factory
 const session = new engine.Session();
