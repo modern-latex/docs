@@ -46,33 +46,51 @@ export const versions: Version[] = [
 ];
 
 /**
- * The versions with each one's newest release on GitHub: the newest release
- * for the latest, the newest pre-release for the beta, and the newest release
- * of its own line for any other. Checked at most once an hour; when GitHub
- * cannot be reached, the releases written above are kept.
+ * The versions with each one's newest tag on aveloux/mlatex: a tag such as
+ * `v0.2.0` is a release and one such as `v0.2.0-beta` a pre-release. The
+ * latest shows the newest release, the beta the newest pre-release, and any
+ * other the newest release of its own line. Checked at most once an hour;
+ * when GitHub cannot be reached, the releases written above are kept.
  */
 export async function releases(): Promise<Version[]> {
 	const response = await fetch(
-		"https://api.github.com/repos/aveloux/mlatex/releases",
+		"https://api.github.com/repos/aveloux/mlatex/tags?per_page=100",
 		{ next: { revalidate: 3600 } },
 	).catch(() => undefined);
 	if (!response?.ok) return versions;
-	const list: { tag_name: string; prerelease: boolean; draft: boolean }[] =
-		await response.json();
+	const list: { name: string }[] = await response.json();
+	// Newest first: by each number in turn, and a release before the
+	// pre-releases of the same numbers.
+	const tags = list
+		.map((tag) => tag.name.replace(/^v/, ""))
+		.filter((name) => /^\d+\.\d+\.\d+(-.+)?$/.test(name))
+		.sort((left, right) => {
+			const [a, before] = left.split(/-(.*)/);
+			const [b, after] = right.split(/-(.*)/);
+			const numbers = a.split(".").map(Number);
+			const others = b.split(".").map(Number);
+			for (let place = 0; place < 3; place++) {
+				if (numbers[place] !== others[place]) {
+					return others[place] - numbers[place];
+				}
+			}
+			return before === after
+				? 0
+				: before === undefined
+					? -1
+					: after === undefined
+						? 1
+						: before < after
+							? 1
+							: -1;
+		});
 	return versions.map((version) => {
-		const match = list.find(
-			(release) =>
-				!release.draft &&
-				(version.slug === "beta"
-					? release.prerelease
-					: !release.prerelease &&
-						(version.slug === null ||
-							release.tag_name
-								.replace(/^v/, "")
-								.startsWith(`${version.version}.`))),
+		const match = tags.find((tag) =>
+			version.slug === "beta"
+				? tag.includes("-")
+				: !tag.includes("-") &&
+					(version.slug === null || tag.startsWith(`${version.version}.`)),
 		);
-		return match
-			? { ...version, release: match.tag_name.replace(/^v/, "") }
-			: version;
+		return match ? { ...version, release: match } : version;
 	});
 }
