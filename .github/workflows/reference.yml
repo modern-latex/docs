@@ -1,0 +1,110 @@
+name: Reference
+
+# Keeps the Package Reference in step with aveloux/mlatex. Each day, or when
+# run by hand, it finds the engine's newest version tag. When the reference
+# was not written from that tag yet, it checks the tag out, writes the
+# reference and the Supported Packages page again with scripts/reference.ts,
+# and opens a pull request to read, edit by hand and merge.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Tag of aveloux/mlatex to write the reference from; the newest when empty
+        required: false
+  repository_dispatch:
+    types: [mlatex-tag]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: reference
+  cancel-in-progress: false
+
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Find the tag
+        id: tag
+        env:
+          asked: ${{ inputs.tag || github.event.client_payload.tag }}
+        run: |
+          tag="$asked"
+          if [ -z "$tag" ]; then
+            tag=$(git ls-remote --tags --refs https://github.com/aveloux/mlatex.git \
+              | sed 's#.*refs/tags/##' \
+              | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V | tail -n 1)
+          fi
+          last=$(cat apps/docs/scripts/reference.tag 2>/dev/null || true)
+          if [ -z "$tag" ]; then
+            echo "::notice::aveloux/mlatex has no version tag yet"
+          elif [ "$tag" = "$last" ] && [ -z "$asked" ]; then
+            echo "::notice::The reference was already written from $tag"
+          else
+            echo "name=$tag" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check out the engine at the tag
+        if: steps.tag.outputs.name
+        uses: actions/checkout@v4
+        with:
+          repository: aveloux/mlatex
+          ref: ${{ steps.tag.outputs.name }}
+          path: mlatex
+
+      - name: Set up pnpm
+        if: steps.tag.outputs.name
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        if: steps.tag.outputs.name
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install
+        if: steps.tag.outputs.name
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Write the reference
+        if: steps.tag.outputs.name
+        working-directory: apps/docs
+        env:
+          tag: ${{ steps.tag.outputs.name }}
+        run: |
+          node scripts/reference.ts ../../mlatex
+          find content/docs/reference -name '*.mdx' -print0 \
+            | xargs -0 node_modules/.bin/remark content/docs/packages/index.mdx --output --quiet
+          echo "$tag" > scripts/reference.tag
+          rm -rf ../../mlatex
+
+      - name: Open a pull request
+        if: steps.tag.outputs.name
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: reference/${{ steps.tag.outputs.name }}
+          delete-branch: true
+          commit-message: Write the package reference from mLaTeX ${{ steps.tag.outputs.name }}
+          title: Write the package reference from mLaTeX ${{ steps.tag.outputs.name }}
+          body: |
+            The Package Reference and the Supported Packages page, written again by `apps/docs/scripts/reference.ts` from [aveloux/mlatex at ${{ steps.tag.outputs.name }}](https://github.com/aveloux/mlatex/tree/${{ steps.tag.outputs.name }}).
+
+            Before merging:
+
+            - Packages new to the engine go under **Other Packages** until `apps/docs/scripts/reference.json` gives them a subject; the run's log names them.
+            - Summaries and limits the engine's sources do not give are in the same file.
+            - Edit anything by hand on this branch; the next tag writes the pages again from the sources and `reference.json`, so lasting changes belong there.
+          add-paths: |
+            apps/docs/content/docs/reference
+            apps/docs/content/docs/packages/index.mdx
+            apps/docs/scripts/reference.tag
