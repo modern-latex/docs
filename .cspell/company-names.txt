@@ -28,4 +28,3 @@ razorpay
 payu
 PayU
 Mikro
-prostha
