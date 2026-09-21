@@ -74,6 +74,15 @@ A session over an assets folder: the fonts, and the hyphenation patterns not bui
 
 `typeset(document)` makes a PDF and returns `true` when nothing was reported.
 
+#### snippet
+
+`snippet(text)` makes a PDF of a piece of LaTeX with no preamble, on a page cropped to it, and returns as `typeset` does. See [snippet](/docs/embedding#snippet).
+
+```cpp
+session.snippet(R"(\[ e^{i\pi} + 1 = 0 \])");
+// session.pdf is one formula, on a page its size.
+```
+
 #### pdf, error and pages
 
 | Member  | What it is                                      |
@@ -191,6 +200,10 @@ The arguments are valid for the length of the call.
 #### offline
 
 `offline(session, on)` keeps the session's documents off the network when `on` is `1`.
+
+#### snippet
+
+`snippet(session, text, length, &pdf, &size)` makes a PDF of a piece of LaTeX with no preamble, on a page cropped to it. It returns and hands back the PDF as `typeset` does. It is the struct's last field, after `offline`.
 
 #### Return values
 

@@ -62,6 +62,10 @@ A file handed in is found before one on disk and before a built-in package of th
 
 `typeset(document)` makes a PDF from a document held in memory, and says whether it was set with nothing reported.
 
+### snippet
+
+`snippet(text)` makes a PDF of a piece of LaTeX alone, such as a formula, a table or a picture, on a page cropped to it. The piece needs no preamble: it is set as a `standalone` document with amsmath and amssymb loaded, and is handed the session's values, commands and files like any document. `pdf` and `error` are then the piece's.
+
 ### pdf and error
 
 `pdf` is the last PDF made. `error` is what went wrong, one error per line, and empty when nothing did.
