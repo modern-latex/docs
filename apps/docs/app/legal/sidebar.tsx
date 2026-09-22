@@ -19,10 +19,6 @@ export function Sidebar() {
 					name: "Terms of Service",
 					href: "/legal/terms",
 				},
-				{
-					name: "Data Processing Addendum",
-					href: "/legal/dpa",
-				},
 			].map((page) => {
 				return (
 					<Link
