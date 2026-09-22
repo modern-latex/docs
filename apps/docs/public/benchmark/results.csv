@@ -1,0 +1,36 @@
+Document,Engine,Median (ms),Fastest (ms),90th percentile (ms),Spread (ms),First pass (ms),CPU (ms),Memory (MB),Pages,PDF (KB),Steps,Relative to mLaTeX
+Startup,mLaTeX,24.41,22.84,26.84,1.52,24.41,15.62,24.0,1,7,mlatex,1.00
+Startup,pdfLaTeX,513.12,502.92,526.12,8.99,513.12,515.62,131.7,1,15,pdflatex 1,21.02
+Startup,XeLaTeX,1056.03,1019.62,1105.43,35.42,1056.03,1046.88,343.8,1,4,xelatex 1,43.26
+Startup,LuaLaTeX,822.37,805.25,855.36,31.57,822.37,820.31,156.2,1,5,lualatex 1,33.69
+Startup,Typst,32.87,29.99,34.87,11.55,32.87,31.25,5.2,1,8,typst,1.35
+Structure,mLaTeX,45.67,43.63,46.95,6.79,45.67,46.88,50.3,12,348,mlatex,1.00
+Structure,pdfLaTeX,2023.72,1995.71,2067.05,84.64,678.87,2000.00,132.1,11,141,pdflatex 1 + pdflatex 2 + pdflatex 3,44.31
+Structure,XeLaTeX,3751.92,3719.85,3836.15,81.76,1259.16,3703.12,346.3,11,63,xelatex 1 + xelatex 2 + xelatex 3,82.15
+Structure,LuaLaTeX,3782.04,3740.69,3834.26,111.85,1263.01,3765.62,176.9,11,66,lualatex 1 + lualatex 2 + lualatex 3,82.81
+Structure,Typst,107.79,106.39,111.02,13.40,107.79,101.56,26.0,10,126,typst,2.36
+Expressions,mLaTeX,36.10,34.72,37.74,4.61,36.10,31.25,26.8,7,230,mlatex,1.00
+Expressions,pdfLaTeX,1172.97,1148.22,1184.98,15.70,588.79,1148.44,131.9,7,147,pdflatex 1 + pdflatex 2,32.49
+Expressions,XeLaTeX,2343.15,2303.84,2398.95,65.61,1182.31,2296.88,345.8,7,56,xelatex 1 + xelatex 2,64.90
+Expressions,LuaLaTeX,2082.41,2066.73,2124.28,29.70,1046.67,2062.50,170.4,7,129,lualatex 1 + lualatex 2,57.68
+Expressions,Typst,82.60,79.60,85.99,2.66,82.60,78.12,14.8,7,111,typst,2.29
+Tabular,mLaTeX,33.53,32.45,34.64,0.83,33.53,31.25,24.8,6,110,mlatex,1.00
+Tabular,pdfLaTeX,1132.86,1113.22,1166.38,19.80,570.53,1117.19,131.8,6,41,pdflatex 1 + pdflatex 2,33.79
+Tabular,XeLaTeX,2242.61,2181.92,2267.33,33.93,1124.02,2203.12,344.4,6,22,xelatex 1 + xelatex 2,66.88
+Tabular,LuaLaTeX,1945.40,1909.04,1980.34,34.57,980.84,1929.69,165.3,6,23,lualatex 1 + lualatex 2,58.02
+Tabular,Typst,118.63,116.68,122.57,2.84,118.63,109.38,27.8,6,176,typst,3.54
+Graphics,mLaTeX,34.50,33.00,36.00,1.28,34.50,31.25,25.3,4,202,mlatex,1.00
+Graphics,pdfLaTeX,1437.69,1413.42,1474.67,26.14,1437.69,1414.06,131.9,4,67,pdflatex 1,41.68
+Graphics,XeLaTeX,1920.81,1889.03,1947.68,27.81,1920.81,1898.44,344.9,4,32,xelatex 1,55.68
+Graphics,LuaLaTeX,1799.98,1767.56,1830.81,26.63,1799.98,1765.62,177.2,4,55,lualatex 1,52.18
+Graphics,Typst,50.61,48.19,54.31,2.01,50.61,46.88,12.1,5,45,typst,1.47
+Citations,mLaTeX,43.01,40.00,44.76,1.93,43.01,15.62,25.5,7,203,mlatex,1.00
+Citations,pdfLaTeX,2010.21,1987.16,2036.41,33.03,548.60,1960.94,131.8,7,67,pdflatex 1 + bibtex + pdflatex 2 + pdflatex 3,46.73
+Citations,XeLaTeX,3702.18,3644.21,3833.94,73.86,1111.47,3640.62,344.9,7,35,xelatex 1 + bibtex + xelatex 2 + xelatex 3,86.07
+Citations,LuaLaTeX,3263.96,3215.27,3383.66,85.00,950.51,3218.75,164.1,7,37,lualatex 1 + bibtex + lualatex 2 + lualatex 3,75.88
+Citations,Typst,202.60,196.84,206.38,4.28,202.60,187.50,19.5,6,115,typst,4.71
+Monograph,mLaTeX,107.52,105.23,110.97,3.83,107.52,93.75,122.5,109,2304,mlatex,1.00
+Monograph,pdfLaTeX,2031.62,2006.85,2063.84,27.63,681.22,1984.38,131.9,110,349,pdflatex 1 + pdflatex 2 + pdflatex 3,18.90
+Monograph,XeLaTeX,5289.76,5213.52,5383.07,68.04,1767.58,5226.56,348.4,110,279,xelatex 1 + xelatex 2 + xelatex 3,49.20
+Monograph,LuaLaTeX,5540.39,5493.92,5656.19,154.96,1845.81,5476.56,184.5,110,335,lualatex 1 + lualatex 2 + lualatex 3,51.53
+Monograph,Typst,185.10,178.85,192.03,5.10,185.10,546.88,145.0,107,658,typst,1.72
