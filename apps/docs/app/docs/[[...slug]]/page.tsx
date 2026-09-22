@@ -7,7 +7,6 @@ import { createElement } from "react";
 
 import { Callout } from "@mlatex/ui/src/components/callout";
 import { cn } from "@mlatex/ui/src/lib/utils";
-import { loader } from "fumadocs-core/source";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
@@ -20,7 +19,6 @@ import {
 } from "fumadocs-ui/page";
 import { MilestoneIcon } from "lucide-react";
 
-import { docs, docsBeta } from "@/.source/server";
 import { Llms, Options } from "@/app/docs//[[...slug]]/page.client";
 import { Api } from "@/components/api";
 import {
@@ -32,17 +30,8 @@ import {
 	Timings,
 } from "@/components/benchmark";
 import { createMetadata } from "@/lib/metadata";
+import { file, page as find, paths } from "@/lib/sources";
 import { versions } from "@/lib/versions";
-
-const primary = loader({
-	baseUrl: "/docs",
-	source: docs.toFumadocsSource(),
-});
-
-const secondary = loader({
-	baseUrl: "/docs/beta",
-	source: docsBeta.toFumadocsSource(),
-});
 
 export default async function Page({
 	params,
@@ -57,8 +46,7 @@ export default async function Page({
 	const latest = versions.find((v) => v.slug === null)!;
 	const version = matched ? matched : latest;
 	const relative = matched ? rest : slugs;
-	const source = version.slug ? secondary : primary;
-	const page = source.getPage(relative);
+	const page = find(version, relative);
 
 	if (!page) return notFound();
 
@@ -78,7 +66,7 @@ export default async function Page({
 				owner: "modern-latex",
 				repo: "docs",
 				sha: version.branch,
-				path: `apps/docs/content/docs/${page.path}`,
+				path: `apps/docs/content/docs/${file(version, page.path)}`,
 			}}
 		>
 			{version.slug && (
@@ -103,11 +91,11 @@ export default async function Page({
 				</div>
 				<div className="flex flex-wrap items-center gap-2 not-prose lg:shrink-0">
 					<Llms
-						url={`https://raw.githubusercontent.com/modern-latex/docs/${version.branch}/apps/docs/content/docs/${page.path}`}
+						url={`https://raw.githubusercontent.com/modern-latex/docs/${version.branch}/apps/docs/content/docs/${file(version, page.path)}`}
 					/>
 					<Options
 						url={`${page.url}.mdx`}
-						github={`https://github.com/modern-latex/docs/blob/${version.branch}/apps/docs/content/docs/${page.path}`}
+						github={`https://github.com/modern-latex/docs/blob/${version.branch}/apps/docs/content/docs/${file(version, page.path)}`}
 						markdown={`/llms.txt${page.url}.md`}
 					/>
 				</div>
@@ -200,17 +188,11 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-	return versions.flatMap((version) => {
-		const source = version.slug ? secondary : primary;
-		const parameters = source.generateParams();
-		return parameters.map((parameter) => {
-			const dynamic = parameter.slug ?? [];
-			const slugs = version.slug ? [version.slug, ...dynamic] : dynamic;
-			return {
-				slug: slugs,
-			};
-		});
-	});
+	return versions.flatMap((version) =>
+		paths(version).map((path) => ({
+			slug: version.slug ? [version.slug, ...path] : path,
+		})),
+	);
 }
 
 export async function generateMetadata({
@@ -226,8 +208,7 @@ export async function generateMetadata({
 	const latest = versions.find((v) => v.slug === null)!;
 	const version = matched ? matched : latest;
 	const relative = matched ? rest : slugs;
-	const source = version.slug ? secondary : primary;
-	const page = source.getPage(relative);
+	const page = find(version, relative);
 
 	if (!page) return notFound();
 
