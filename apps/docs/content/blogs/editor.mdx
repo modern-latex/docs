@@ -1,0 +1,41 @@
+---
+title: "What's next: writing LaTeX in the browser"
+description: An editor where the PDF sets as you type, on your own device, with accounts, sharing and errors marked on the lines that caused them.
+date: 2026-10-17
+author:
+  name: "Andres Hernandez"
+  avatar: ""
+tags: ["roadmap", "editor"]
+---
+
+mLaTeX already runs in a web page. The engine compiles to WebAssembly, and the `mlatex` package on npm carries it for anyone to embed. The next step is to build the place most people will meet it first: an editor in the browser, in the spirit of Overleaf, rebuilt around an engine that sets a document in milliseconds instead of seconds.
+
+This post is about what that editor will do, and what is still to come.
+
+## Set as you type, on your own machine
+
+Most online LaTeX editors send your document to a server, run a TeX distribution there, and send a PDF back. That round trip is why a compile takes seconds, and why your unfinished thesis lives on someone else's computer while it sets.
+
+The mLaTeX editor sets the document in your browser instead. The engine runs in a worker beside the page, so the PDF follows your typing without a compile queue, without a server and without sending your text anywhere. It works the same offline.
+
+## Errors where they happened
+
+A TeX log is a wall of text. The editor reads it for you: every error and warning from the last compile is marked on the line that caused it, with the command underlined and the message on hover. A list of problems sits beside the PDF, and clicking one jumps to its line, in whichever file of the project it is.
+
+The marks follow the text as you edit, and clear the moment the document sets cleanly.
+
+## Projects, not files
+
+A document is rarely one file. Projects hold the main file with its chapters, figures, bibliographies and class files beside it, and you choose which file is the main one. Templates start you on an article, a set of slides or a blank page.
+
+## Accounts and sharing
+
+Today, projects are kept in your browser. Accounts come next: log in with your email, Google or Microsoft, and your projects follow you from one machine to another. Then sharing: invite someone to read or edit a document, or send a link.
+
+Typesetting stays on your device even then. Only saving and sharing reach our servers, as the [privacy policy](/legal/privacy) explains.
+
+## What we're not doing
+
+The editor won't replace your local setup. The same engine, the same packages and the same documents work from the command line, so a project can move between the browser and your terminal without changing a line.
+
+If there's something you'd want from an editor like this, tell us on [Discord](https://discord.gg/UUbPg5YtJF).
