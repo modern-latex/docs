@@ -7,8 +7,15 @@ import { motion } from "framer-motion";
 
 import Footer from "@/components/landing/footer";
 import { Halftone } from "@/components/landing/halftone";
+import type { Statistics } from "@/lib/community";
 
-export function Community() {
+/** A count as people read it at a glance: 1,234 as 1.2K. */
+const compact = new Intl.NumberFormat("en", {
+	notation: "compact",
+	maximumFractionDigits: 1,
+});
+
+export function Community({ statistics }: { statistics: Statistics }) {
 	return (
 		<div className="relative min-h-dvh pt-14 lg:pt-0">
 			<div className="relative text-foreground">
@@ -37,7 +44,8 @@ export function Community() {
 										<span className="text-foreground/50">build together.</span>
 									</h1>
 									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-65">
-										Connect with developers building with Better Auth.
+										Connect with the people writing, packaging and building
+										mLaTeX.
 									</p>
 								</div>
 
@@ -47,7 +55,7 @@ export function Community() {
 											Downloads
 										</p>
 										<p className="text-sm font-light text-foreground/80 tabular-nums">
-											0
+											{compact.format(statistics.downloads)}
 											<span className="text-[9px] text-foreground/50 font-mono">
 												/week
 											</span>
@@ -58,7 +66,7 @@ export function Community() {
 											Stars
 										</p>
 										<p className="text-sm font-light text-foreground/80 tabular-nums">
-											0
+											{compact.format(statistics.stars)}
 										</p>
 									</div>
 									<div className="flex-1 px-3 py-2.5 text-center">
@@ -66,16 +74,19 @@ export function Community() {
 											Discord
 										</p>
 										<p className="text-sm font-light text-foreground/80 tabular-nums">
-											0
+											{compact.format(statistics.members)}
 										</p>
 									</div>
 								</div>
 
 								<div className="border-t border-foreground/10 pt-4 space-y-0">
 									{[
-										{ label: "Framework", value: "Open source" },
-										{ label: "Contributors", value: "0+" },
-										{ label: "License", value: "MIT" },
+										{ label: "Source", value: "Open source" },
+										{
+											label: "Contributors",
+											value: compact.format(statistics.contributors),
+										},
+										{ label: "License", value: statistics.license },
 									].map((item, rank) => (
 										<motion.div
 											key={item.label}
@@ -118,7 +129,8 @@ export function Community() {
 										<span className="text-foreground/50">build together.</span>
 									</h1>
 									<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed">
-										Connect with developers building with Better Auth.
+										Connect with the people writing, packaging and building
+										mLaTeX.
 									</p>
 								</div>
 							</div>
@@ -142,18 +154,26 @@ export function Community() {
 										{
 											icon: icons.download,
 											label: "Downloads",
-											note: "/ week",
+											note: "npm and PyPI, last week",
+											value: statistics.downloads,
 										},
-										{ icon: icons.star, label: "GitHub Stars", note: "stars" },
+										{
+											icon: icons.star,
+											label: "GitHub Stars",
+											note: "stars",
+											value: statistics.stars,
+										},
 										{
 											icon: icons.users,
 											label: "Contributors",
 											note: "people",
+											value: statistics.contributors,
 										},
 										{
 											icon: icons.discord,
 											label: "Discord Members",
 											note: "members",
+											value: statistics.members,
 										},
 									].map((metric, step) => (
 										<motion.div
@@ -176,7 +196,7 @@ export function Community() {
 												</div>
 												<div>
 													<span className="text-4xl font-light text-foreground tabular-nums">
-														0
+														{compact.format(metric.value)}
 													</span>
 													<p className="text-[10px] text-foreground/40 font-mono mt-1">
 														{metric.note}
@@ -200,12 +220,44 @@ export function Community() {
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-0">
 									{[
 										{
+											name: "Discord",
+											icon: icons.discord,
+											href: "https://discord.gg/UUbPg5YtJF",
+											action: "Join Discord",
+											count: compact.format(statistics.members),
+											label: "members",
+										},
+										{
 											name: "GitHub",
 											icon: icons.github,
 											href: "https://github.com/modern-latex/mlatex",
 											action: "View on GitHub",
-											count: "Open Source",
+											count: `${compact.format(statistics.stars)} ${statistics.stars === 1 ? "star" : "stars"}`,
 											label: "repository",
+										},
+										{
+											name: "Reddit",
+											icon: icons.reddit,
+											href: "https://www.reddit.com/r/mlatex",
+											action: "Join subreddit",
+											count: "r/mlatex",
+											label: "community",
+										},
+										{
+											name: "X (Twitter)",
+											icon: icons.x,
+											href: "https://x.com/mlatex",
+											action: "Follow on X",
+											count: "@mlatex",
+											label: "handle",
+										},
+										{
+											name: "npm",
+											icon: icons.npm,
+											href: "https://www.npmjs.com/package/mlatex",
+											action: "View on npm",
+											count: "mlatex",
+											label: "package",
 										},
 									].map((site, place) => (
 										<motion.div
