@@ -110,6 +110,9 @@ const ScribblePattern: React.FC<{ className?: string }> = ({ className }) => (
 	</svg>
 );
 
+/** The app, where the log in button leads. */
+const app = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3001";
+
 export function Navigation() {
 	const path = usePathname() || "/";
 	const slug = versions.find(
@@ -585,11 +588,11 @@ export function Navigation() {
 						className="flex items-stretch shrink-0"
 					>
 						<Link
-							href="/sign-in"
+							href={`${app}/log-in`}
 							className="flex items-center cursor-pointer gap-1.5 px-5 py-3 bg-foreground text-background hover:opacity-90 transition-colors duration-150"
 						>
 							<span className="font-mono text-xs uppercase tracking-wider">
-								sign-in
+								log-in
 							</span>
 							<svg
 								className="h-2.5 w-2.5 opacity-50"
