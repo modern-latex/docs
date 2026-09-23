@@ -23,6 +23,14 @@ import { MilestoneIcon } from "lucide-react";
 import { docs, docsBeta } from "@/.source/server";
 import { Llms, Options } from "@/app/docs//[[...slug]]/page.client";
 import { Api } from "@/components/api";
+import {
+	Comparison,
+	Downloads,
+	Machine,
+	Sources,
+	Speedups,
+	Timings,
+} from "@/components/benchmark";
 import { createMetadata } from "@/lib/metadata";
 import { versions } from "@/lib/versions";
 
@@ -115,6 +123,12 @@ export default async function Page({
 						Accordion,
 						Accordions,
 						APIMethod: Api,
+						Comparison,
+						Downloads,
+						Machine,
+						Sources,
+						Speedups,
+						Timings,
 						Callout: ({
 							children: content,
 							type: kind,

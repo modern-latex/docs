@@ -1,27 +1,172 @@
 ---
 title: Performance
-description: How fast mLaTeX is, how to measure it, and why.
+description: How fast mLaTeX is against pdfLaTeX, XeLaTeX, LuaLaTeX and Typst, how it was measured, and how to time your own documents.
 ---
 
-## Measured
+<Speedups />
 
-### Timings
+## Results
 
-Release build, one run each, median of thirty:
+### Time to a finished PDF
 
-| Document                                                                                          | Pages | Time        |
-| ------------------------------------------------------------------------------------------------- | ----- | ----------- |
-| A one-line article                                                                                | 1     | 3.2 ms      |
-| A Russian article with babel, its contents and a bibliography, two passes                         | 1     | 4.6 ms      |
-| Two tikz-cd diagrams, an xy-pic and an amscd one, a matrix, an automaton, a circuit and two trees | 1     | 4.7 ms      |
-| An Arabic article with polyglossia, right to left                                                 | 1     | 5.8 ms      |
-| The sample paper, with mathematics, tables, figures, a bibliography and three appendices          | 11    | under 30 ms |
+Each bar is the median of every measured build. Hover a document for each engine's number, switch between the full build, the first pass, CPU time and memory, and click an engine to hide it: hide the three LaTeX engines to compare mLaTeX with Typst at their own scale.
 
-### What is counted
+<Timings />
 
-That is the whole job: reading the document, expanding its macros, breaking its paragraphs and pages, shaping its text, embedding its fonts and pictures, and writing the PDF. There is no second run to add and no BibTeX or makeindex step.
+### Every number
 
-## Measuring your own documents
+Every number behind the chart, as files for a spreadsheet or your own analysis: a summary of each document and engine, every measured build, and the raw record.
+
+<Downloads />
+
+***
+
+## The output
+
+### Page against page
+
+The PDFs each engine made. Move across a page and the wipe follows, from one engine to the other; drag on a touch screen, or use the arrow keys. Show all five side by side, or overlay two in difference mode, where everything that matches turns black.
+
+<Comparison />
+
+### Why the pages are not identical
+
+mLaTeX sets the same text in the same fonts and sizes as pdfLaTeX, XeLaTeX and LuaLaTeX, but it spaces headings and breaks lines and pages with its own code rather than TeX's. A block of text can sit a little higher or lower, a line can end at a different word, and a long document can come out a page shorter or longer. The difference view shows exactly where.
+
+Typst sets the same words from its own source, with its own layout rules, so its pages differ more: its headings, lists, theorems and captions follow Typst's conventions, made to look like LaTeX's where the source can say so.
+
+***
+
+## The test documents
+
+### What each one tests
+
+Every document exists twice, with the same text. The `.tex` file is plain LaTeX that mLaTeX, pdfLaTeX, XeLaTeX and LuaLaTeX read unchanged, with the default Computer Modern fonts and no engine-specific packages. The `.typ` file is the same document written in Typst, set in New Computer Modern, the modern edition of the same Computer Modern design, which Typst ships with. The text is generated from a fixed seed, so every run sets exactly the same words.
+
+| Document    | What it exercises                                                                                      | In Typst                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Startup     | One sentence on one page: what starting the engine costs.                                              | The same sentence.                                                           |
+| Structure   | Eight sections with a contents, footnotes, lists, cross references and hyperref.                       | Headings, `outline`, `footnote`, lists and `ref`, including page references. |
+| Expressions | Twenty-four amsmath displays: `align`, `gather`, `cases`, matrices, theorems and proofs.               | Typst's math, `mat` and `cases`, and a small theorem and proof function.     |
+| Tabular     | booktabs, tabularx, multirow, six floating tables and a 120-row longtable that breaks across pages.    | `table` with rules, a spanning cell and a header repeated on every page.     |
+| Graphics    | Twelve TikZ drawings, flowcharts and plotted curves, and three pgfplots axes.                          | The same drawings with Typst's own shapes and curves, no packages.           |
+| Citations   | natbib citing a 40-entry BibTeX file, `references.bib`.                                                | `cite` and `bibliography`, reading the same `references.bib`.                |
+| Monograph   | A twelve-chapter report of about 110 pages with a contents, footnotes, equations and cross references. | Chapters on new pages, `outline`, footnotes, equations and `ref`.            |
+
+### The sources
+
+<Sources />
+
+***
+
+## How it was measured
+
+### The machine
+
+<Machine />
+
+### The sandbox
+
+Every build is isolated, so neither the machine's own settings nor one engine's leftovers can affect another:
+
+* **A fresh folder.** Each build starts in an empty folder holding only its document and `references.bib`, deleted afterwards.
+* **A scrubbed environment.** Only the system folder and TeX Live are on `PATH`, and the build gets a private home with its own `TEXMFHOME`, `TEXMFVAR` and `TEXMFCONFIG`, so no personal TeX configuration or cache applies.
+* **A job object.** Each build is a Windows job, started suspended and assigned before it runs a single instruction. The job pins it to one hardware thread on each of the eight physical cores, caps its memory at 4 GB, and counts CPU time and peak memory across every process it starts, xdvipdfmx and BibTeX included.
+* **No reach outside.** TeX runs without shell escape and may only write inside its own folder (`openout_any=p`); mLaTeX runs `--offline`; Typst uses only the fonts it ships with and loads no packages, so it has nothing to download.
+* **High priority.** Every engine process starts at high priority.
+
+### The builds
+
+<Tabs items={["mLaTeX", "pdfLaTeX", "XeLaTeX", "LuaLaTeX", "Typst"]}>
+  <Tab value="mLaTeX">
+    ```bash
+    mlatex -q --offline structure.tex
+    ```
+
+    One run makes the finished PDF: references, the contents and citations are resolved in memory.
+  </Tab>
+
+  <Tab value="pdfLaTeX">
+    ```bash
+    pdflatex -interaction=batchmode -halt-on-error -no-shell-escape structure.tex
+    bibtex -terse citations                    # only when the document cites
+    pdflatex -interaction=batchmode -halt-on-error -no-shell-escape structure.tex
+    ```
+
+    The first pass runs, then BibTeX if the `.aux` file names a bibliography, then more passes while the log asks for a rerun, as latexmk would.
+  </Tab>
+
+  <Tab value="XeLaTeX">
+    ```bash
+    xelatex -interaction=batchmode -halt-on-error -no-shell-escape structure.tex
+    ```
+
+    The same passes as pdfLaTeX. XeLaTeX hands each page to xdvipdfmx, which the job counts as part of the build.
+  </Tab>
+
+  <Tab value="LuaLaTeX">
+    ```bash
+    lualatex -interaction=batchmode -halt-on-error -no-shell-escape structure.tex
+    ```
+
+    The same passes as pdfLaTeX. LuaLaTeX finds its fonts through luaotfload, whose font cache the warm-up builds before anything is measured.
+  </Tab>
+
+  <Tab value="Typst">
+    ```bash
+    typst compile --ignore-system-fonts structure.typ structure.pdf
+    ```
+
+    One run makes the finished PDF: Typst repeats its layout inside the run until references settle.
+  </Tab>
+</Tabs>
+
+### Repetitions
+
+* **Warm-up.** Two builds of every document by every engine come first and are not counted, so font caches exist and every file is in the system's cache for all five.
+* **Rounds.** Then twenty rounds, each building every document once with each engine, in an order shuffled afresh for every document. A busy moment on the machine lands on all five engines alike instead of on one.
+* **Timing.** Wall-clock time runs from creating the first process to the last one exiting, so process start-up counts for every engine.
+
+### What it does not cover
+
+* **The same input for Typst.** Typst cannot read LaTeX, so it sets translations of the documents. They hold the same words, structure, equations, tables and drawings, but they are not the same file, and a Typst document written another way could be faster or slower.
+* **Typst's packages.** The drawings use Typst's built-in shapes. A document using a package such as CeTZ, as most Typst drawings do, also pays to load it.
+* **The machine itself.** The builds share the computer with whatever else it was doing; the idle load before and after is listed above.
+* **Other systems.** The run is on Windows; starting processes and finding files cost differently on Linux and macOS.
+* **Other fonts.** Every document uses Computer Modern. Documents that load system fonts were not measured.
+
+***
+
+## Running the benchmark
+
+### Requirements
+
+Python 3 with `psutil` and `Pillow`, TeX Live, Typst, and an mLaTeX build, on Windows: the sandbox uses Windows job objects.
+
+### The scripts
+
+| Script                                    | What it does                                                                     |
+| ----------------------------------------- | -------------------------------------------------------------------------------- |
+| [`corpus.py`](/benchmark/corpus.py)       | Writes the seven documents in LaTeX and in Typst, and `references.bib`.          |
+| [`harness.py`](/benchmark/harness.py)     | Runs every build in the sandbox and writes `results.json`.                       |
+| [`export.py`](/benchmark/export.py)       | Turns `results.json` into this page's data and renders each PDF's pages.         |
+| [`results.json`](/benchmark/results.json) | This run's raw record: every build's steps, wall time, CPU time and peak memory. |
+
+### Commands
+
+```bash
+python -I corpus.py corpus
+```
+
+```bash
+python -I harness.py corpus results 20
+```
+
+`harness.py` finds TeX Live, mLaTeX and Typst on `PATH`, or where `TEXBIN`, `MLATEX` and `TYPST` point when they are set; its last argument is the number of rounds.
+
+***
+
+## Timing your own documents
 
 ### --time
 
@@ -36,9 +181,13 @@ Time
   In all                                     4.9 ms
 ```
 
+The clock starts when the program starts running, so `--time` leaves out starting the process and loading the program, which the wall-clock times above include.
+
 ### --time-statistics
 
 `--time-statistics` prints the engine's own report instead: every stage, what it made and how long it took, in microseconds. It is the place to look when one document is slower than you expect.
+
+***
 
 ## Why it is fast
 
@@ -61,6 +210,8 @@ A JPEG is embedded as it came, never decoded. Fonts are cut down to the glyphs u
 ### Fonts opened early
 
 The fonts a document is likely to need are opened on another thread while the engine starts up.
+
+***
 
 ## What it means in practice
 
