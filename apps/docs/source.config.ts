@@ -10,7 +10,52 @@ import {
 	createGenerator,
 	remarkAutoTypeTable,
 } from "fumadocs-typescript";
+import type { ElementContent, Root } from "hast";
+import { SKIP, visit } from "unist-util-visit";
 import * as z from "zod";
+
+// A page writes x.y.z wherever it gives mLaTeX's version -- in prose, in
+// inline code or in a code block -- and shows there the release of the
+// version it belongs to, which the docs route hands it as <Release />
+// (`release` in lib/versions.ts). A code block is highlighted in between,
+// and the highlighter could split x.y.z across its spans, so `mark` first
+// turns it into one private-use character, which no highlighter splits, and
+// `place` turns each of those into the element once the code is highlighted.
+const marker = "";
+
+function mark() {
+	return (tree: Root) => {
+		visit(tree, "text", (node) => {
+			node.value = node.value.replaceAll("x.y.z", marker);
+		});
+	};
+}
+
+function place() {
+	return (tree: Root) => {
+		visit(tree, "text", (node, index, parent) => {
+			if (!parent || index === undefined || !node.value.includes(marker)) {
+				return;
+			}
+			const pieces = node.value.split(marker);
+			const children = pieces.flatMap((piece, position) => [
+				...(position > 0
+					? [
+							{
+								type: "mdxJsxTextElement",
+								name: "Release",
+								attributes: [],
+								children: [],
+							} as unknown as ElementContent,
+						]
+					: []),
+				...(piece ? [{ type: "text", value: piece } as ElementContent] : []),
+			]);
+			parent.children.splice(index, 1, ...children);
+			return [SKIP, index + children.length];
+		});
+	};
+}
 
 export const docs = defineDocs({
 	dir: "./content/docs",
@@ -78,6 +123,8 @@ export default defineConfig({
 			},
 		},
 		remarkPlugins: [[remarkAutoTypeTable, { generator }]],
+		// Around the defaults, which highlight the code first.
+		rehypePlugins: (defaults) => [mark, ...defaults, place],
 		rehypeCodeOptions: {
 			...rehypeCodeDefaultOptions,
 			icon: {

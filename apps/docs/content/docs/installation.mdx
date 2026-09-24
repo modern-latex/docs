@@ -11,7 +11,7 @@ description: Install mLaTeX from a package, or build it from source.
 
 ### Packages for each system
 
-Prebuilt packages will be attached to each release on [GitHub](https://github.com/modern-latex/mlatex/releases). Each one is named for its system and architecture, such as `mlatex-0.1.0-windows-x64.msi` or `mlatex_0.1.0_arm64.deb`.
+Prebuilt packages will be attached to each release on [GitHub](https://github.com/modern-latex/mlatex/releases). Each one is named for its system and architecture, such as `mlatex-x.y.z-windows-x64.msi` or `mlatex_x.y.z_arm64.deb`.
 
 | System  | Packages                  | Installs to                |
 | ------- | ------------------------- | -------------------------- |
@@ -26,23 +26,23 @@ Prebuilt packages will be attached to each release on [GitHub](https://github.co
 <Tabs items={["Windows", "macOS", "Linux"]}>
   <Tab value="Windows">
     ```powershell
-    msiexec /i mlatex-0.1.0-windows-x64.msi
+    msiexec /i mlatex-x.y.z-windows-x64.msi
     ```
   </Tab>
 
   <Tab value="macOS">
     ```bash
-    sudo installer -pkg mlatex-0.1.0-macos-arm64.pkg -target /
+    sudo installer -pkg mlatex-x.y.z-macos-arm64.pkg -target /
     ```
   </Tab>
 
   <Tab value="Linux">
     ```bash
-    sudo apt install ./mlatex_0.1.0_amd64.deb
+    sudo apt install ./mlatex_x.y.z_amd64.deb
     ```
 
     ```bash
-    sudo dnf install ./mlatex-0.1.0-1.x86_64.rpm
+    sudo dnf install ./mlatex-x.y.z-1.x86_64.rpm
     ```
   </Tab>
 </Tabs>
@@ -157,7 +157,7 @@ npm install mlatex
     ```
 
     ```text
-    mlatex 0.1.0
+    mlatex x.y.z
     Typesets LaTeX into PDF: one program, no TeX installation behind it.
     ```
   </Step>

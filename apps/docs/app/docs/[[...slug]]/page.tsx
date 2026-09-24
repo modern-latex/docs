@@ -31,7 +31,7 @@ import {
 } from "@/components/benchmark";
 import { createMetadata } from "@/lib/metadata";
 import { file, page as find, paths } from "@/lib/sources";
-import { versions } from "@/lib/versions";
+import { release, versions } from "@/lib/versions";
 
 export default async function Page({
 	params,
@@ -53,6 +53,7 @@ export default async function Page({
 	const loaded = await page.data.load();
 	const body = loaded.body;
 	const toc = loaded.toc;
+	const number = await release(version);
 
 	return (
 		<DocsPage
@@ -117,6 +118,8 @@ export default async function Page({
 						Sources,
 						Speedups,
 						Timings,
+						// What a page's x.y.z shows: see source.config.ts.
+						Release: () => number,
 						Callout: ({
 							children: content,
 							type: kind,
