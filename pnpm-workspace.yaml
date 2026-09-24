@@ -90,6 +90,7 @@ overrides:
   yaml: ^2.9.0
 
 minimumReleaseAge: 1440
-minimumReleaseAgeExclude: []
+minimumReleaseAgeExclude:
+  - mlatex
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200
