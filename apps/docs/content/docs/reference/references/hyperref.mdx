@@ -13,7 +13,7 @@ A module of its own, compiled into mLaTeX: the package's commands are defined ov
 
 ## Commands
 
-`\autoref`, `\belowpdfbookmark`, `\currentpdfbookmark`, `\doi`, `\href`, `\hyperbaseurl`, `\hyperdef`, `\hyperlink`, `\hyperref`, `\hypersetup`, `\hypertarget`, `\nolinkurl`, `\ORCID`, `\orcid`, `\pdfbookmark`, `\pdfstringdefDisableCommands`, `\phantomsection`, `\subpdfbookmark`, `\texorpdfstring`, `\url`, `\urldef`, `\urlstyle`.
+`\and`, `\autoref`, `\belowpdfbookmark`, `\currentpdfbookmark`, `\doi`, `\href`, `\hyperbaseurl`, `\hyperdef`, `\hyperlink`, `\hyperref`, `\hypersetup`, `\hypertarget`, `\LaTeX`, `\LaTeXe`, `\nolinkurl`, `\ORCID`, `\orcid`, `\pdfbookmark`, `\pdfstringdefDisableCommands`, `\phantomsection`, `\subpdfbookmark`, `\TeX`, `\texorpdfstring`, `\thanks`, `\url`, `\urldef`, `\urlstyle`.
 
 ## Example
 
@@ -21,7 +21,9 @@ A document that uses it, from the engine's own tests, so it compiles as written:
 
 ```latex title="hyperref.tex"
 \documentclass{article}
-\usepackage{hyperref}
+\usepackage[pdfusetitle]{hyperref}
+\title{Links}
+\author{Me}
 \begin{document}
 \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=cyan, pdftitle={A Title}, pdfauthor={Me}}
 \section{Start}\label{sec:start}
