@@ -7,24 +7,24 @@ Python reaches mLaTeX through its C library, `latex_ffi`, with the `ctypes` modu
 
 ## Installing
 
-The `aveloux` package's `mlatex` extra carries the library and its fonts. It is not published yet; see [Installation](/docs/installation#python).
+The `mlatex` package carries the library and its fonts, and `mlatex.library` is the library's path. It is not published yet; see [Installation](/docs/installation#python).
 
-<Tabs items={["uv", "pip", "Poetry"]}>
+<Tabs items={["uv", "pip", "poetry"]}>
   <Tab value="uv">
     ```bash
-    uv add "aveloux[mlatex]"
+    uv add mlatex
     ```
   </Tab>
 
   <Tab value="pip">
     ```bash
-    pip install "aveloux[mlatex]"
+    pip install mlatex
     ```
   </Tab>
 
-  <Tab value="Poetry">
+  <Tab value="poetry">
     ```bash
-    poetry add "aveloux[mlatex]"
+    poetry add mlatex
     ```
   </Tab>
 </Tabs>
@@ -36,7 +36,9 @@ Python's built-in `ctypes` is enough. The struct of operations must be declared 
 ```python title="invoice.py"
 import ctypes
 
-library = ctypes.CDLL("latex_ffi")        # latex_ffi.dll, liblatex_ffi.so or .dylib
+import mlatex
+
+library = ctypes.CDLL(mlatex.library)      # latex_ffi.dll, liblatex_ffi.so or .dylib
 
 Handler = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.POINTER(ctypes.c_char_p),
                            ctypes.c_size_t, ctypes.c_void_p)
