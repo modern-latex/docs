@@ -59,27 +59,32 @@ export function archived(version: Version): boolean {
 }
 
 /**
- * The versions with each one's newest tag on modern-latex/mlatex: a tag such as
- * `v0.2.0` is a release and one such as `v0.2.0-beta` a pre-release. The
- * latest shows the newest release, the beta the newest pre-release, and any
- * other the newest release of its own line. Checked at most once an hour;
- * when GitHub cannot be reached, the releases written above are kept.
+ * The versions with each one's newest release on modern-latex/mlatex, as
+ * GitHub marks them: the latest shows the newest release, the beta the
+ * newest pre-release newer than that, and any other the newest release of
+ * its own line. Drafts don't count. Checked at most every five minutes; when
+ * GitHub cannot be reached, the releases written above are kept.
  */
 export async function releases(): Promise<Version[]> {
 	const response = await fetch(
-		"https://api.github.com/repos/modern-latex/mlatex/tags?per_page=100",
-		{ next: { revalidate: 3600 } },
+		"https://api.github.com/repos/modern-latex/mlatex/releases?per_page=100",
+		{ next: { revalidate: 300 } },
 	).catch(() => undefined);
 	if (!response?.ok) return order(versions);
-	const list: { name: string }[] = await response.json();
+	const list: { tag_name: string; prerelease: boolean; draft: boolean }[] =
+		await response.json();
 	// Newest first: by each number in turn, and a release before the
 	// pre-releases of the same numbers.
-	const tags = list
-		.map((tag) => tag.name.replace(/^v/, ""))
-		.filter((name) => /^\d+\.\d+\.\d+(-.+)?$/.test(name))
+	const published = list
+		.filter((entry) => !entry.draft)
+		.map((entry) => ({
+			name: entry.tag_name.replace(/^v/, ""),
+			prerelease: entry.prerelease,
+		}))
+		.filter((entry) => /^\d+\.\d+\.\d+(-.+)?$/.test(entry.name))
 		.sort((left, right) => {
-			const [a, before] = left.split(/-(.*)/);
-			const [b, after] = right.split(/-(.*)/);
+			const [a, before] = left.name.split(/-(.*)/);
+			const [b, after] = right.name.split(/-(.*)/);
 			const numbers = a.split(".").map(Number);
 			const others = b.split(".").map(Number);
 			for (let place = 0; place < 3; place++) {
@@ -97,14 +102,20 @@ export async function releases(): Promise<Version[]> {
 							? 1
 							: -1;
 		});
+	const newest = published.findIndex((entry) => !entry.prerelease);
 	const current = versions.map((version) => {
-		const match = tags.find((tag) =>
+		const match =
 			version.slug === "beta"
-				? tag.includes("-")
-				: !tag.includes("-") &&
-					(version.slug === null || tag.startsWith(`${version.version}.`)),
-		);
-		return match ? { ...version, release: match } : version;
+				? published
+						.slice(0, newest < 0 ? undefined : newest)
+						.find((entry) => entry.prerelease)
+				: published.find(
+						(entry) =>
+							!entry.prerelease &&
+							(version.slug === null ||
+								entry.name.startsWith(`${version.version}.`)),
+					);
+		return match ? { ...version, release: match.name } : version;
 	});
 	return order(current);
 }
