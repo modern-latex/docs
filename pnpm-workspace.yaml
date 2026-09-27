@@ -93,6 +93,13 @@ overrides:
   ws@>=8 <8.20.1: '>=8.20.1 <9'
   yaml: ^2.9.0
 
+# mqtt, which Appwrite's realtime uses, ships a bundle that imports
+# @babel/runtime without declaring it.
+packageExtensions:
+  mqtt@5:
+    dependencies:
+      "@babel/runtime": ^7.28.0
+
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - "mlatex"
