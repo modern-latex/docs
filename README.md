@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://github.com/aveloux/mlatex">Engine</a> ·
   <a href="https://github.com/aveloux/mlatex/releases">Releases</a> ·
-  <a href="https://www.npmjs.com/package/mlatex">npm</a> ·
+  <a href="https://www.npmjs.com/package/@aveloux/mlatex">npm</a> ·
   <a href="https://github.com/aveloux/mlatex/issues">Issues</a>
 </p>
 
