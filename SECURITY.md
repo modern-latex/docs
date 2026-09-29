@@ -3,7 +3,7 @@
 This repository is the mLaTeX documentation site. A flaw in the engine
 itself -- the `mlatex` command line, its libraries, the WebAssembly module or
 its packages -- belongs to the engine's own policy, in
-[aveloux/mlatex's SECURITY.md](https://github.com/aveloux/mlatex/blob/main/SECURITY.md).
+[modernized-latex/mlatex's SECURITY.md](https://github.com/modernized-latex/mlatex/blob/main/SECURITY.md).
 
 ## Supported versions
 

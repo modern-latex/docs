@@ -95,6 +95,6 @@ overrides:
 
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
-  - "@aveloux/mlatex"
+  - "@modernized-latex/mlatex"
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200

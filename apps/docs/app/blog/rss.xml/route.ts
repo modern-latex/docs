@@ -22,7 +22,7 @@ export function GET() {
 		language: "en",
 		image: `${url}release-og/blogs.png`,
 		favicon: `${url}favicon/favicon-32x32.png`,
-		copyright: `Copyright © ${new Date().getFullYear()} aveloux`,
+		copyright: `Copyright © ${new Date().getFullYear()} mlatex`,
 	});
 
 	for (const page of blogs.getPages().sort((first, second) => {

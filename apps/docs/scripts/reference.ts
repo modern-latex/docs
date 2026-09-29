@@ -22,7 +22,7 @@ import { join } from "node:path";
 const engine = process.argv[2];
 if (!engine || !existsSync(join(engine, "tests", "packages"))) {
 	console.error(
-		"Usage: node scripts/reference.ts <checkout of aveloux/mlatex>",
+		"Usage: node scripts/reference.ts <checkout of modernized-latex/mlatex>",
 	);
 	process.exit(1);
 }

@@ -75,7 +75,7 @@ export default async function Page({
 			}}
 			breadcrumb={{ enabled: false }}
 			editOnGithub={{
-				owner: "aveloux",
+				owner: "mlatex",
 				repo: "docs",
 				sha: version.branch,
 				path: `apps/docs/content/docs/${page.path}`,
@@ -103,11 +103,11 @@ export default async function Page({
 				</div>
 				<div className="flex flex-wrap items-center gap-2 not-prose lg:shrink-0">
 					<Llms
-						url={`https://raw.githubusercontent.com/aveloux/docs/${version.branch}/apps/docs/content/docs/${page.path}`}
+						url={`https://raw.githubusercontent.com/modernized-latex/docs/${version.branch}/apps/docs/content/docs/${page.path}`}
 					/>
 					<Options
 						url={`${page.url}.mdx`}
-						github={`https://github.com/aveloux/docs/blob/${version.branch}/apps/docs/content/docs/${page.path}`}
+						github={`https://github.com/modernized-latex/docs/blob/${version.branch}/apps/docs/content/docs/${page.path}`}
 						markdown={`/llms.txt${page.url}.md`}
 					/>
 				</div>
