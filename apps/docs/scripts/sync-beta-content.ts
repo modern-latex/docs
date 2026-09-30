@@ -26,8 +26,7 @@ try {
 		`--branch=${process.env.BETA_DOCS_BRANCH ?? "main"}`,
 		"--filter=blob:none",
 		"--sparse",
-		process.env.BETA_DOCS_REPO ??
-			"https://github.com/modernized-latex/docs.git",
+		process.env.BETA_DOCS_REPO ?? "https://github.com/modern-latex/docs.git",
 		".beta-sync-tmp",
 	]);
 	git([

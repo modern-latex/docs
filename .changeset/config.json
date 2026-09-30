@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "modernized-latex/docs"
+      "repo": "modern-latex/docs"
     }
   ],
   "commit": false,

@@ -22,7 +22,7 @@ interface Release {
 }
 
 const data = fetch(
-	"https://api.github.com/repos/modernized-latex/mlatex/releases",
+	"https://api.github.com/repos/modern-latex/mlatex/releases",
 	{
 		next: { revalidate: 3600 },
 		headers: {
@@ -168,7 +168,7 @@ export default function ChangelogPage() {
 
 					<div className="flex items-center gap-3 pt-4">
 						<Link
-							href="https://github.com/modernized-latex/mlatex/releases"
+							href="https://github.com/modern-latex/mlatex/releases"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-1.5 text-[12px] text-foreground/70 dark:text-foreground/50 hover:text-foreground/80 font-mono uppercase tracking-wider transition-colors"

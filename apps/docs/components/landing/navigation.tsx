@@ -554,7 +554,7 @@ export function Navigation() {
 									</div>
 									<div className="grid w-full grid-cols-[repeat(auto-fit,minmax(1.75rem,1fr))] items-center justify-items-center gap-y-0.5 border-t border-foreground/[0.06] px-2 py-2">
 										<a
-											href="https://github.com/modernized-latex/mlatex"
+											href="https://github.com/modern-latex/mlatex"
 											target="_blank"
 											rel="noreferrer"
 											className="flex items-center justify-center p-1 text-foreground/55 dark:text-foreground/40 hover:text-foreground/75 transition-colors"
