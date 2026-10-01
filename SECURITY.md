@@ -42,6 +42,4 @@ under `.github`, and the components in `packages/ui`.
 
 Out of scope: the engine, as above; the services the site uses, such as
 GitHub, OpenRouter, Upstash, Typesense and its host, whose flaws go to their
-own projects; the private `apps/workspace` submodule, reported the same way
-as the site but not shipped from here; and rate limits being reached by
-ordinary heavy use.
+own projects; and rate limits being reached by ordinary heavy use.

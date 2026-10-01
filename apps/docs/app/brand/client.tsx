@@ -580,7 +580,7 @@ export function Brand() {
 													</span>
 													<Input
 														type="email"
-														placeholder="username@prostha.org"
+														placeholder="username@mlatex.com"
 													/>
 												</label>
 												<label className="flex flex-col gap-1.5">
