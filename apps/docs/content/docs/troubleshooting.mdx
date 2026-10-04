@@ -19,7 +19,7 @@ An **error** makes the run's exit status `1`, though a PDF of what could be set 
 3:8: error (macro): Undefined control sequence \nosuchcommand
 ```
 
-The command is not defined anywhere: not by the engine, a loaded package, the glossary or the document. Check its spelling, check that its package is loaded, and see whether the package is [supported](/docs/packages). The rest of the line is set without it.
+The command is not defined anywhere: not by mLaTeX, a loaded package, the glossary or the document. Check its spelling, check that its package is loaded, and see whether the package is [supported](/docs/packages). The rest of the line is set without it.
 
 ### A block ended by the wrong end
 
@@ -97,8 +97,8 @@ mLaTeX follows TeX's algorithms but uses its own fonts, metrics and implementati
 
 ### Where the time goes
 
-`--time-statistics` shows how long each stage of the engine took.
+`--time-statistics` shows how long each stage of mLaTeX took.
 
-### The engine's steps
+### mLaTeX's steps
 
-`-d` (or `--debug=lexer,parser`) and `--trace` log the engine's steps, and `--log-file=FILE` writes them to a file. See [Diagnostics](/docs/command-line#diagnostics).
+`-d` (or `--debug=lexer,parser`) and `--trace` log mLaTeX's steps, and `--log-file=FILE` writes them to a file. See [Diagnostics](/docs/command-line#diagnostics).

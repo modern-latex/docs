@@ -3,17 +3,17 @@ title: Supported Packages
 description: Every package and class mLaTeX reads, how each one is supported, and what happens with the rest.
 ---
 
-mLaTeX reads **509 packages** and **15 document classes**, plus LaTeX's standard `article`, `report` and `book`. Each one is checked by a small document of its own that uses what the package is loaded for, and the engine's tests fail if any of them reports an error or an unknown command.
+mLaTeX reads **509 packages** and **15 document classes**, plus LaTeX's standard `article`, `report` and `book`. Each one is checked by a small document of its own that uses what the package is loaded for, and mLaTeX's tests fail if any of them reports an error or an unknown command.
 
 ## How a package is supported
 
 ### A module of its own
 
-143 packages are written in mLaTeX's language and compiled into the program, their commands defined over the engine's own primitives.
+143 packages are written in mLaTeX's language and compiled into the program, their commands defined over mLaTeX's own primitives.
 
 ### Built in
 
-333 packages need nothing loaded, because the engine already does their job. `graphicx` (`\includegraphics` is part of the engine), `xcolor`, `inputenc`, `microtype` and the font packages are here. Any of their commands a document uses that the engine does not define comes from the glossary.
+333 packages need nothing loaded, because mLaTeX already does their job. `graphicx` (`\includegraphics` is part of mLaTeX), `xcolor`, `inputenc`, `microtype` and the font packages are here. Any of their commands a document uses that mLaTeX does not define comes from the glossary.
 
 ### Under another name
 

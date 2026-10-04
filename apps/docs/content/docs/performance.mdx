@@ -9,13 +9,13 @@ description: How fast mLaTeX is against pdfLaTeX, XeLaTeX, LuaLaTeX and Typst, h
 
 ### Time to a finished PDF
 
-Each bar is the median of every measured build. Hover a document for each engine's number, switch between the full build, the first pass, CPU time and memory, and click an engine to hide it: hide the three LaTeX engines to compare mLaTeX with Typst at their own scale.
+Each bar is the median of every measured build. Hover a document for each program's number, switch between the full build, the first pass, CPU time and memory, and click one to hide it: hide the three LaTeX programs to compare mLaTeX with Typst at their own scale.
 
 <Timings />
 
 ### Every number
 
-Every number behind the chart, as files for a spreadsheet or your own analysis: a summary of each document and engine, every measured build, and the raw record.
+Every number behind the chart, as files for a spreadsheet or your own analysis: a summary of each document and program, every measured build, and the raw record.
 
 <Downloads />
 
@@ -25,7 +25,7 @@ Every number behind the chart, as files for a spreadsheet or your own analysis: 
 
 ### Page against page
 
-The PDFs each engine made. Move across a page and the wipe follows, from one engine to the other; drag on a touch screen, or use the arrow keys. Show all five side by side, or overlay two in difference mode, where everything that matches turns black.
+The PDFs each program made. Move across a page and the wipe follows, from one program to the other; drag on a touch screen, or use the arrow keys. Show all five side by side, or overlay two in difference mode, where everything that matches turns black.
 
 <Comparison />
 
@@ -41,11 +41,11 @@ Typst sets the same words from its own source, with its own layout rules, so its
 
 ### What each one tests
 
-Every document exists twice, with the same text. The `.tex` file is plain LaTeX that mLaTeX, pdfLaTeX, XeLaTeX and LuaLaTeX read unchanged, with the default Computer Modern fonts and no engine-specific packages. The `.typ` file is the same document written in Typst, set in New Computer Modern, the modern edition of the same Computer Modern design, which Typst ships with. The text is generated from a fixed seed, so every run sets exactly the same words.
+Every document exists twice, with the same text. The `.tex` file is plain LaTeX that mLaTeX, pdfLaTeX, XeLaTeX and LuaLaTeX read unchanged, with the default Computer Modern fonts and no packages written for one program. The `.typ` file is the same document written in Typst, set in New Computer Modern, the modern edition of the same Computer Modern design, which Typst ships with. The text is generated from a fixed seed, so every run sets exactly the same words.
 
 | Document    | What it exercises                                                                                      | In Typst                                                                     |
 | ----------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
-| Startup     | One sentence on one page: what starting the engine costs.                                              | The same sentence.                                                           |
+| Startup     | One sentence on one page: what starting mLaTeX costs.                                                  | The same sentence.                                                           |
 | Structure   | Eight sections with a contents, footnotes, lists, cross references and hyperref.                       | Headings, `outline`, `footnote`, lists and `ref`, including page references. |
 | Expressions | Twenty-four amsmath displays: `align`, `gather`, `cases`, matrices, theorems and proofs.               | Typst's math, `mat` and `cases`, and a small theorem and proof function.     |
 | Tabular     | booktabs, tabularx, multirow, six floating tables and a 120-row longtable that breaks across pages.    | `table` with rules, a spanning cell and a header repeated on every page.     |
@@ -67,13 +67,13 @@ Every document exists twice, with the same text. The `.tex` file is plain LaTeX 
 
 ### The sandbox
 
-Every build is isolated, so neither the machine's own settings nor one engine's leftovers can affect another:
+Every build is isolated, so neither the machine's own settings nor one program's leftovers can affect another:
 
 * **A fresh folder.** Each build starts in an empty folder holding only its document and `references.bib`, deleted afterwards.
 * **A scrubbed environment.** Only the system folder and TeX Live are on `PATH`, and the build gets a private home with its own `TEXMFHOME`, `TEXMFVAR` and `TEXMFCONFIG`, so no personal TeX configuration or cache applies.
 * **A job object.** Each build is a Windows job, started suspended and assigned before it runs a single instruction. The job pins it to one hardware thread on each of the eight physical cores, caps its memory at 4 GB, and counts CPU time and peak memory across every process it starts, xdvipdfmx and BibTeX included.
 * **No reach outside.** TeX runs without shell escape and may only write inside its own folder (`openout_any=p`); mLaTeX runs `--offline`; Typst uses only the fonts it ships with and loads no packages, so it has nothing to download.
-* **High priority.** Every engine process starts at high priority.
+* **High priority.** Every program's process starts at high priority.
 
 ### The builds
 
@@ -123,9 +123,9 @@ Every build is isolated, so neither the machine's own settings nor one engine's 
 
 ### Repetitions
 
-* **Warm-up.** Two builds of every document by every engine come first and are not counted, so font caches exist and every file is in the system's cache for all five.
-* **Rounds.** Then twenty rounds, each building every document once with each engine, in an order shuffled afresh for every document. A busy moment on the machine lands on all five engines alike instead of on one.
-* **Timing.** Wall-clock time runs from creating the first process to the last one exiting, so process start-up counts for every engine.
+* **Warm-up.** Two builds of every document by every program come first and are not counted, so font caches exist and every file is in the system's cache for all five.
+* **Rounds.** Then twenty rounds, each building every document once with each program, in an order shuffled afresh for every document. A busy moment on the machine lands on all five programs alike instead of on one.
+* **Timing.** Wall-clock time runs from creating the first process to the last one exiting, so process start-up counts for every program.
 
 ### What it does not cover
 
@@ -185,7 +185,7 @@ The clock starts when the program starts running, so `--time` leaves out startin
 
 ### --time-statistics
 
-`--time-statistics` prints the engine's own report instead: every stage, what it made and how long it took, in microseconds. It is the place to look when one document is slower than you expect.
+`--time-statistics` prints mLaTeX's own report instead: every stage, what it made and how long it took, in microseconds. It is the place to look when one document is slower than you expect.
 
 ***
 
@@ -193,7 +193,7 @@ The clock starts when the program starts running, so `--time` leaves out startin
 
 ### No macro layer for LaTeX itself
 
-LaTeX's kernel, its packages and much of TeX are written in TeX macros, which a TeX engine expands token by token, again on every run. In mLaTeX the page builder, floats, tables, lists, headings, citations and TikZ are compiled code.
+LaTeX's kernel, its packages and much of TeX are written in TeX macros, which a TeX program expands token by token, again on every run. In mLaTeX the page builder, floats, tables, lists, headings, citations and TikZ are compiled code.
 
 ### One pass, in memory
 
@@ -209,7 +209,7 @@ A JPEG is embedded as it came, never decoded. Fonts are cut down to the glyphs u
 
 ### Fonts opened early
 
-The fonts a document is likely to need are opened on another thread while the engine starts up.
+The fonts a document is likely to need are opened on another thread while mLaTeX starts up.
 
 ***
 
@@ -225,4 +225,4 @@ mlatex --watch --open paper.tex
 
 ### Documents on request
 
-A program embedding the engine can make documents in a request handler without a queue or a second process. See [Embedding](/docs/embedding).
+A program embedding mLaTeX can make documents in a request handler without a queue or a second process. See [Embedding](/docs/embedding).

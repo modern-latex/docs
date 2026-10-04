@@ -3,7 +3,7 @@ title: Writing Packages
 description: A package is a folder with one file in it. Write one beside your document, with no rebuild.
 ---
 
-In mLaTeX a package is a folder holding one file, `main.mtex`, written in the same language as a document. There are no `.sty` or `.cls` files. The work LaTeX's packages do with thousands of lines of TeX, such as rebuilding the page, juggling category codes and running several passes, is done by the engine's own primitives in C++. A package is what is left: the commands a document writes, defined in terms of those primitives. Most are a few dozen lines.
+In mLaTeX a package is a folder holding one file, `main.mtex`, written in the same language as a document. There are no `.sty` or `.cls` files. The work LaTeX's packages do with thousands of lines of TeX, such as rebuilding the page, juggling category codes and running several passes, is done by mLaTeX's own primitives in C++. A package is what is left: the commands a document writes, defined in terms of those primitives. Most are a few dozen lines.
 
 ## A first package
 
@@ -112,7 +112,7 @@ A package named after a LaTeX package should define the commands that package de
 
 ### Define environments
 
-Every environment a document uses, such as `itemize`, `figure`, `tabular` or `tcolorbox`, is part of the engine. A package gives commands. A document's own `\newenvironment` still works as it does in LaTeX.
+Every environment a document uses, such as `itemize`, `figure`, `tabular` or `tcolorbox`, is part of mLaTeX. A package gives commands. A document's own `\newenvironment` still works as it does in LaTeX.
 
 ### Rebuild the page
 
@@ -132,7 +132,7 @@ A package's file is read whole before it runs, so a `\catcode` change in it reac
 
 ### @providepackage
 
-`\@providepackage{a,b}` marks packages as loaded without reading anything, for names whose whole job the engine already does.
+`\@providepackage{a,b}` marks packages as loaded without reading anything, for names whose whole job mLaTeX already does.
 
 ***
 
@@ -148,6 +148,6 @@ mlatex --file-line-error test.tex
 
 ### Packages that come with mLaTeX
 
-A package that comes with mLaTeX has such a document of its own in the engine's `tests/packages` folder, and the tests fail if it reports any error or unknown command. A package you would like to see included can be proposed on [GitHub](https://github.com/modern-latex/mlatex).
+A package that comes with mLaTeX has such a document of its own in mLaTeX's `tests/packages` folder, and the tests fail if it reports any error or unknown command. A package you would like to see included can be proposed on [GitHub](https://github.com/modern-latex/mlatex).
 
 The language used inside packages is described in [The mtex Language](/docs/packages/language).

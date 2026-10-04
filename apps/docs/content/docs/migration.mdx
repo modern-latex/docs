@@ -33,7 +33,7 @@ LaTeX writes what it learns about a document to an `.aux` file and reads it back
 
 ### No BibTeX, Biber or makeindex
 
-`\bibliography{refs}` and biblatex's `\addbibresource{refs.bib}` read the `.bib` file directly, and `\index` entries are sorted by the engine.
+`\bibliography{refs}` and biblatex's `\addbibresource{refs.bib}` read the `.bib` file directly, and `\index` entries are sorted by mLaTeX.
 
 **What to change:** remove the `bibtex`, `biber` and `makeindex` steps. A `.bbl` file shipped beside the document, as journals and the arXiv receive papers, is still read when the `.bib` it names is missing.
 
@@ -47,13 +47,13 @@ Packages are part of the program, written in mLaTeX's own language. A `.sty` or 
 
 `\write18`, `--shell-escape` and anything built on them do not exist. A document cannot run programs.
 
-**What to change:** packages that used shell escape for their main job load without it. `minted`'s code is set as a plain listing in the typewriter face, without Pygments' colours, and `svg` pictures are drawn by the engine rather than converted by Inkscape. A document that generated content by running a program needs that content generated beforehand, or supplied by a program that embeds mLaTeX. See [Embedding](/docs/embedding).
+**What to change:** packages that used shell escape for their main job load without it. `minted`'s code is set as a plain listing in the typewriter face, without Pygments' colours, and `svg` pictures are drawn by mLaTeX rather than converted by Inkscape. A document that generated content by running a program needs that content generated beforehand, or supplied by a program that embeds mLaTeX. See [Embedding](/docs/embedding).
 
 ### Files are not written
 
 `\openout`, `\write` to a file and `\immediate\write` do nothing, and `filecontents` keeps its file in memory for the run only. The PDF is the only file mLaTeX writes.
 
-**What to change:** a document that writes a file and reads it back works as long as it uses `filecontents`, which mLaTeX keeps for the rest of the run. Packages that normally pass data between runs through files are handled inside the engine: an `acronym` used before its list is spelled out, and `glossaries`' `\gls` writes a term's long form the first time. `\printglossary` does not print a list yet.
+**What to change:** a document that writes a file and reads it back works as long as it uses `filecontents`, which mLaTeX keeps for the rest of the run. Packages that normally pass data between runs through files are handled inside mLaTeX: an `acronym` used before its list is spelled out, and `glossaries`' `\gls` writes a term's long form the first time. `\printglossary` does not print a list yet.
 
 ### Fonts come from mLaTeX
 
@@ -65,7 +65,7 @@ The body is set in Latin Modern, and mathematics in the fonts mLaTeX ships. `fon
 
 mLaTeX follows TeX's algorithms for breaking paragraphs, placing floats and spacing mathematics, with TeX's parameters. Its fonts, metrics and many details are its own, so lines, pages and figure positions can fall slightly differently from pdfLaTeX's.
 
-**What to change:** nothing for most documents. If a document's layout was tuned by hand for one engine, such as manual `\newpage` or `\vspace` adjustments, check those spots.
+**What to change:** nothing for most documents. If a document's layout was tuned by hand for one program, such as manual `\newpage` or `\vspace` adjustments, check those spots.
 
 ## A checklist
 
