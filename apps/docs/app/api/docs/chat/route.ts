@@ -11,6 +11,7 @@ import { loader } from "fumadocs-core/source";
 import * as zod from "zod";
 
 import { docs } from "@/.source/server";
+import { release, versions } from "@/lib/versions";
 
 const source = loader({
 	baseUrl: "/docs",
@@ -106,7 +107,13 @@ export async function POST(request: Request) {
 						const page = source.getPage(slug.split("/"));
 						if (!page) return { error: "Page not found." };
 						try {
-							const content = await (page.data as any).getText("processed");
+							const text: string = await (page.data as any).getText(
+								"processed",
+							);
+							const content = text.replaceAll(
+								"x.y.z",
+								await release(versions.find((version) => !version.slug)!),
+							);
 							return { content };
 						} catch {
 							return { error: "Failed to load page." };
