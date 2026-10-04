@@ -135,8 +135,7 @@ export function Panel({ count, post }: PanelProps) {
 									News, releases, and insights
 								</h1>
 								<p className="text-sm text-foreground/70 dark:text-foreground/50 leading-relaxed max-w-60 pt-1">
-									Follow along as we build the most comprehensive authentication
-									framework for the web.
+									Follow along as we build mLaTeX, and see what's coming next.
 								</p>
 							</div>
 
