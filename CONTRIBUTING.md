@@ -6,7 +6,7 @@ issue first so we can talk it through before you start.
 
 A document that sets wrongly, a command that's missing or a crash is a bug in
 mLaTeX itself, not in these pages. Report it in
-[the engine's issues](https://github.com/modern-latex/mlatex/issues) instead.
+[mLaTeX's issues](https://github.com/modern-latex/mlatex/issues) instead.
 
 ## Getting set up
 
@@ -37,11 +37,11 @@ sets the order they appear in the sidebar.
   such.
 - Every example should set in mLaTeX as written. Try it before you send it.
 - Don't edit the Package Reference or the Supported Packages page by hand.
-  They're rebuilt from the engine's sources by `apps/docs/scripts/reference.ts`,
+  They're rebuilt from mLaTeX's sources by `apps/docs/scripts/reference.ts`,
   and a hand edit is lost on the next run. To change what the sources can't say,
   such as which subject a package belongs to, edit
   `apps/docs/scripts/reference.json`.
-- Don't edit `CODE_OF_CONDUCT.md` either. It's copied from the engine.
+- Don't edit `CODE_OF_CONDUCT.md` either. It's copied from mLaTeX.
 
 ## Pull requests
 

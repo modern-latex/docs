@@ -22,7 +22,7 @@
   "warmups": 2,
   "sandbox": {
     "affinity": "0x5555",
-    "priority": "high for each engine process (a job-wide priority needs admin rights)",
+    "priority": "high for each program's process (a job-wide priority needs admin rights)",
     "memoryCap": 4294967296,
     "environment": [
       "FORCE_SOURCE_DATE",
@@ -44,7 +44,7 @@
     "network": "mlatex --offline; TeX with shell escape off; Typst with no packages to fetch",
     "writes": "openout_any=p: TeX writes only inside its run folder"
   },
-  "engines": ["mlatex", "pdflatex", "xelatex", "lualatex", "typst"],
+  "programs": ["mlatex", "pdflatex", "xelatex", "lualatex", "typst"],
   "documents": [
     "startup",
     "structure",
@@ -56,7 +56,7 @@
   ],
   "rows": [
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "startup",
       "runs": 20,
       "ok": true,
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "startup",
       "runs": 20,
       "ok": true,
@@ -142,7 +142,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "startup",
       "runs": 20,
       "ok": true,
@@ -185,7 +185,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "startup",
       "runs": 20,
       "ok": true,
@@ -228,7 +228,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "startup",
       "runs": 20,
       "ok": true,
@@ -271,7 +271,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "structure",
       "runs": 20,
       "ok": true,
@@ -314,7 +314,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "structure",
       "runs": 20,
       "ok": true,
@@ -357,7 +357,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "structure",
       "runs": 20,
       "ok": true,
@@ -400,7 +400,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "structure",
       "runs": 20,
       "ok": true,
@@ -443,7 +443,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "structure",
       "runs": 20,
       "ok": true,
@@ -486,7 +486,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "expressions",
       "runs": 20,
       "ok": true,
@@ -529,7 +529,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "expressions",
       "runs": 20,
       "ok": true,
@@ -572,7 +572,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "expressions",
       "runs": 20,
       "ok": true,
@@ -615,7 +615,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "expressions",
       "runs": 20,
       "ok": true,
@@ -658,7 +658,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "expressions",
       "runs": 20,
       "ok": true,
@@ -701,7 +701,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "tabular",
       "runs": 20,
       "ok": true,
@@ -744,7 +744,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "tabular",
       "runs": 20,
       "ok": true,
@@ -787,7 +787,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "tabular",
       "runs": 20,
       "ok": true,
@@ -830,7 +830,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "tabular",
       "runs": 20,
       "ok": true,
@@ -873,7 +873,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "tabular",
       "runs": 20,
       "ok": true,
@@ -916,7 +916,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "graphics",
       "runs": 20,
       "ok": true,
@@ -959,7 +959,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "graphics",
       "runs": 20,
       "ok": true,
@@ -1002,7 +1002,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "graphics",
       "runs": 20,
       "ok": true,
@@ -1045,7 +1045,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "graphics",
       "runs": 20,
       "ok": true,
@@ -1088,7 +1088,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "graphics",
       "runs": 20,
       "ok": true,
@@ -1131,7 +1131,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "citations",
       "runs": 20,
       "ok": true,
@@ -1174,7 +1174,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "citations",
       "runs": 20,
       "ok": true,
@@ -1217,7 +1217,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "citations",
       "runs": 20,
       "ok": true,
@@ -1260,7 +1260,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "citations",
       "runs": 20,
       "ok": true,
@@ -1303,7 +1303,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "citations",
       "runs": 20,
       "ok": true,
@@ -1346,7 +1346,7 @@
       ]
     },
     {
-      "engine": "mlatex",
+      "program": "mlatex",
       "document": "monograph",
       "runs": 20,
       "ok": true,
@@ -1389,7 +1389,7 @@
       ]
     },
     {
-      "engine": "pdflatex",
+      "program": "pdflatex",
       "document": "monograph",
       "runs": 20,
       "ok": true,
@@ -1432,7 +1432,7 @@
       ]
     },
     {
-      "engine": "xelatex",
+      "program": "xelatex",
       "document": "monograph",
       "runs": 20,
       "ok": true,
@@ -1475,7 +1475,7 @@
       ]
     },
     {
-      "engine": "lualatex",
+      "program": "lualatex",
       "document": "monograph",
       "runs": 20,
       "ok": true,
@@ -1518,7 +1518,7 @@
       ]
     },
     {
-      "engine": "typst",
+      "program": "typst",
       "document": "monograph",
       "runs": 20,
       "ok": true,

@@ -7,7 +7,7 @@ export function createMetadata(override: Metadata): Metadata {
 		openGraph: {
 			title: override.title ?? undefined,
 			description: override.description ?? undefined,
-			url: "https://mlatex.com",
+			url: "https://mlatex.org",
 			images: "/og.png",
 			siteName: "mLaTeX",
 			...override.openGraph,

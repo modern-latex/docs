@@ -4,7 +4,7 @@ export interface Statistics {
 	stars: number;
 	contributors: number;
 	members: number;
-	/** The engine's license, such as "AGPL-3.0". */
+	/** mLaTeX's license, such as "AGPL-3.0". */
 	license: string;
 }
 

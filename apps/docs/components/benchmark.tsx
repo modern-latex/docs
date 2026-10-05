@@ -19,15 +19,15 @@ import { ChevronLeft, ChevronRight, Download, Minus, Plus } from "lucide-react";
 
 import data from "@/lib/benchmark.json";
 
-type Engine = "mlatex" | "pdflatex" | "xelatex" | "lualatex" | "typst";
+type Program = "mlatex" | "pdflatex" | "xelatex" | "lualatex" | "typst";
 type Row = (typeof data.rows)[number];
 type Metric = "wall" | "first" | "cpu" | "peak";
 
-const engines = data.engines as Engine[];
+const programs = data.programs as Program[];
 const documents = data.documents;
-const others = engines.filter((engine) => engine !== "mlatex");
+const others = programs.filter((program) => program !== "mlatex");
 
-const names: Record<Engine, string> = {
+const names: Record<Program, string> = {
 	mlatex: "mLaTeX",
 	pdflatex: "pdfLaTeX",
 	xelatex: "XeLaTeX",
@@ -37,7 +37,7 @@ const names: Record<Engine, string> = {
 
 // pdfLaTeX and XeLaTeX are shades of the site's own zinc, mLaTeX the ink;
 // LuaLaTeX takes Lua's blue, and Typst, with a language of its own, its teal.
-const swatches: Record<Engine, string> = {
+const swatches: Record<Program, string> = {
 	mlatex: "bg-zinc-900 dark:bg-zinc-50",
 	pdflatex: "bg-zinc-400 dark:bg-zinc-500",
 	xelatex: "bg-zinc-300 dark:bg-zinc-700",
@@ -47,11 +47,11 @@ const swatches: Record<Engine, string> = {
 
 // The same colours as variables, for the chart's bars.
 const paints = [
-	"[--engine-mlatex:oklch(0.21_0.006_285.885)] dark:[--engine-mlatex:oklch(0.985_0_0)]",
-	"[--engine-pdflatex:oklch(0.705_0.015_286.067)] dark:[--engine-pdflatex:oklch(0.552_0.016_285.938)]",
-	"[--engine-xelatex:oklch(0.871_0.006_286.286)] dark:[--engine-xelatex:oklch(0.37_0.013_285.805)]",
-	"[--engine-lualatex:oklch(0.546_0.245_262.881)] dark:[--engine-lualatex:oklch(0.623_0.214_259.815)]",
-	"[--engine-typst:oklch(0.6_0.118_184.704)] dark:[--engine-typst:oklch(0.511_0.096_186.391)]",
+	"[--program-mlatex:oklch(0.21_0.006_285.885)] dark:[--program-mlatex:oklch(0.985_0_0)]",
+	"[--program-pdflatex:oklch(0.705_0.015_286.067)] dark:[--program-pdflatex:oklch(0.552_0.016_285.938)]",
+	"[--program-xelatex:oklch(0.871_0.006_286.286)] dark:[--program-xelatex:oklch(0.37_0.013_285.805)]",
+	"[--program-lualatex:oklch(0.546_0.245_262.881)] dark:[--program-lualatex:oklch(0.623_0.214_259.815)]",
+	"[--program-typst:oklch(0.6_0.118_184.704)] dark:[--program-typst:oklch(0.511_0.096_186.391)]",
 ];
 
 export const titles: Record<string, string> = {
@@ -64,8 +64,10 @@ export const titles: Record<string, string> = {
 	monograph: "Monograph",
 };
 
-function row(engine: Engine, document: string): Row {
-	return data.rows.find((r) => r.engine === engine && r.document === document)!;
+function row(program: Program, document: string): Row {
+	return data.rows.find(
+		(r) => r.program === program && r.document === document,
+	)!;
 }
 
 function time(seconds: number) {
@@ -143,31 +145,31 @@ function Switch<T extends string>({
 	);
 }
 
-function Swatch({ engine }: { engine: Engine }) {
+function Swatch({ program }: { program: Program }) {
 	return (
 		<span
 			aria-hidden
-			className={cn("inline-block size-2.5 shrink-0", swatches[engine])}
+			className={cn("inline-block size-2.5 shrink-0", swatches[program])}
 		/>
 	);
 }
 
-/** The headline figures: speed against each engine, the book, memory, and how much was measured. */
+/** The headline figures: speed against each program, the book, memory, and how much was measured. */
 export function Speedups() {
 	const speedups = data.speedups as Record<
 		string,
 		{ geomean: number; min: number; max: number }
 	>;
-	const book = (engine: Engine) => row(engine, "monograph").wall.median;
-	const peak = (engine: Engine) =>
+	const book = (program: Program) => row(program, "monograph").wall.median;
+	const peak = (program: Program) =>
 		Math.max(
-			...data.rows.filter((r) => r.engine === engine).map((r) => r.peak),
+			...data.rows.filter((r) => r.program === program).map((r) => r.peak),
 		);
 	const tiles = [
-		...others.map((engine) => {
-			const { geomean, min, max } = speedups[engine];
+		...others.map((program) => {
+			const { geomean, min, max } = speedups[program];
 			return {
-				label: `Against ${names[engine]}`,
+				label: `Against ${names[program]}`,
 				value:
 					geomean >= 1
 						? `${times(geomean)} faster`
@@ -178,12 +180,12 @@ export function Speedups() {
 		{
 			label: "The 110-page monograph",
 			value: time(book("mlatex")),
-			note: `${list(others.map((engine) => `${names[engine]} ${time(book(engine))}`))}.`,
+			note: `${list(others.map((program) => `${names[program]} ${time(book(program))}`))}.`,
 		},
 		{
 			label: "Peak memory",
 			value: megabytes(peak("mlatex")),
-			note: `mLaTeX's worst build. ${list(others.map((engine) => `${names[engine]} ${megabytes(peak(engine))}`))}.`,
+			note: `mLaTeX's worst build. ${list(others.map((program) => `${names[program]} ${megabytes(peak(program))}`))}.`,
 		},
 	];
 	return (
@@ -230,12 +232,12 @@ const metrics: { value: Metric; label: string; note: string }[] = [
 	},
 ];
 
-/** Each document's time or memory per engine; engines can be hidden to compare the rest. */
+/** Each document's time or memory per program; programs can be hidden to compare the rest. */
 export function Timings() {
 	const [metric, setMetric] = useState<Metric>("wall");
-	const [hidden, setHidden] = useState<Engine[]>([]);
+	const [hidden, setHidden] = useState<Program[]>([]);
 	const [focus, setFocus] = useState<number | null>(null);
-	const shown = engines.filter((engine) => !hidden.includes(engine));
+	const shown = programs.filter((program) => !hidden.includes(program));
 
 	// Milliseconds for times and megabytes for memory, so bars and the legend read in those units.
 	const measure = (r: Row) =>
@@ -245,15 +247,15 @@ export function Timings() {
 	const points = documents.map((document) => ({
 		document: titles[document],
 		...Object.fromEntries(
-			shown.map((engine) => [engine, measure(row(engine, document))]),
+			shown.map((program) => [program, measure(row(program, document))]),
 		),
 	}));
-	const toggle = (engine: Engine) =>
+	const toggle = (program: Program) =>
 		setHidden((current) =>
-			current.includes(engine)
-				? current.filter((other) => other !== engine)
+			current.includes(program)
+				? current.filter((other) => other !== program)
 				: shown.length > 1
-					? [...current, engine]
+					? [...current, program]
 					: current,
 		);
 
@@ -272,44 +274,44 @@ export function Timings() {
 					key={`${metric}-${shown.join("-")}`}
 					rows={points}
 					index="document"
-					series={shown.map((engine) => ({
-						key: engine,
-						label: names[engine],
-						color: `var(--engine-${engine})`,
+					series={shown.map((program) => ({
+						key: program,
+						label: names[program],
+						color: `var(--program-${program})`,
 					}))}
 					onHover={setFocus}
-					label={`${metrics.find((m) => m.value === metric)?.label} for each document and engine`}
+					label={`${metrics.find((m) => m.value === metric)?.label} for each document and program`}
 				/>
 			</div>
 			<div className="flex flex-col gap-2 border-t px-4 py-3">
 				<div
 					role="group"
-					aria-label="Engines"
+					aria-label="Programs"
 					className="flex flex-wrap items-center gap-1"
 				>
 					<span className="w-28 shrink-0 truncate text-sm font-medium">
 						{focus === null ? "Every document" : points[focus].document}
 					</span>
-					{engines.map((engine) => (
+					{programs.map((program) => (
 						<button
-							key={engine}
+							key={program}
 							type="button"
-							aria-pressed={!hidden.includes(engine)}
-							onClick={() => toggle(engine)}
+							aria-pressed={!hidden.includes(program)}
+							onClick={() => toggle(program)}
 							className="inline-flex items-center gap-2 rounded-sm px-2 py-1 text-sm text-fd-muted-foreground transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground aria-pressed:text-fd-foreground"
 						>
 							<span
 								className={cn(
 									"inline-flex",
-									hidden.includes(engine) && "opacity-30",
+									hidden.includes(program) && "opacity-30",
 								)}
 							>
-								<Swatch engine={engine} />
+								<Swatch program={program} />
 							</span>
-							{names[engine]}
-							{focus !== null && !hidden.includes(engine) && (
+							{names[program]}
+							{focus !== null && !hidden.includes(program) && (
 								<span className="text-fd-muted-foreground tabular-nums">
-									{format(measure(row(engine, documents[focus])))}
+									{format(measure(row(program, documents[focus])))}
 								</span>
 							)}
 						</button>
@@ -317,19 +319,19 @@ export function Timings() {
 				</div>
 				<p className="text-xs leading-relaxed text-fd-muted-foreground">
 					{metrics.find((m) => m.value === metric)!.note} Hover a document to
-					read its numbers here; click an engine to hide or show it.
+					read its numbers here; click an program to hide or show it.
 				</p>
 			</div>
 		</Card>
 	);
 }
 
-/** Every number behind the chart as files: per document and engine, per build, and the raw record. */
+/** Every number behind the chart as files: per document and program, per build, and the raw record. */
 export function Downloads() {
 	const files = [
 		{
 			name: "results.csv",
-			detail: `${data.rows.length} rows: each document and engine's median, fastest and 90th-percentile build, first pass, CPU time, memory, pages, PDF size and steps.`,
+			detail: `${data.rows.length} rows: each document and program's median, fastest and 90th-percentile build, first pass, CPU time, memory, pages, PDF size and steps.`,
 		},
 		{
 			name: "builds.csv",
@@ -338,7 +340,7 @@ export function Downloads() {
 		{
 			name: "results.json",
 			detail:
-				"The raw record, with the machine, the engines' versions and the sandbox's settings.",
+				"The raw record, with the machine, the programs' versions and the sandbox's settings.",
 		},
 	];
 	return (
@@ -371,7 +373,7 @@ export function Downloads() {
 type Mode = "slider" | "side" | "difference";
 
 /**
- * The PDFs each engine made from one file, page against page. The wipe eases
+ * The PDFs each program made from one file, page against page. The wipe eases
  * after the pointer as GSAP's demos move, and springs back to the middle when
  * the pointer leaves. The viewer keeps its size: − and + zoom the pages
  * inside it, which scroll once they are larger than it, about the middle of
@@ -380,14 +382,14 @@ type Mode = "slider" | "side" | "difference";
 export function Comparison() {
 	const [document, setDocument] = useState("structure");
 	const [mode, setMode] = useState<Mode>("slider");
-	const [first, setFirst] = useState<Engine>("mlatex");
-	const [second, setSecond] = useState<Engine>("pdflatex");
+	const [first, setFirst] = useState<Program>("mlatex");
+	const [second, setSecond] = useState<Program>("pdflatex");
 	const [page, setPage] = useState(0);
 	const [scale, setScale] = useState(1);
 	// The sizes the pages can be looked at, as a share of the size that fits.
 	const scales = [0.5, 0.75, 1, 1.25, 1.5, 2];
 	const step = scales.indexOf(scale);
-	// A page's height over its width: US Letter, as every engine set it.
+	// A page's height over its width: US Letter, as every program set it.
 	const ratio = 792 / 612;
 
 	// The viewer's inside, measured, so that the pages fit it at 100%.
@@ -409,7 +411,7 @@ export function Comparison() {
 	// Side by side, three pages across and two down when there is room, each
 	// with its name over it; otherwise two across, fitted to the width.
 	const columns = box.width >= 520 ? 3 : 2;
-	const rows = Math.ceil(engines.length / columns);
+	const rows = Math.ceil(programs.length / columns);
 	const gap = 16;
 	const caption = 28;
 	const across = (box.width - gap * (columns - 1)) / columns;
@@ -469,35 +471,35 @@ export function Comparison() {
 
 	const images = data.images as Record<string, string[]>;
 	const count = Math.max(
-		...engines.map((e) => images[`${document}-${e}`].length),
+		...programs.map((e) => images[`${document}-${e}`].length),
 	);
 	const shown = Math.min(page, count - 1);
-	const source = (engine: Engine) => images[`${document}-${engine}`][shown];
+	const source = (program: Program) => images[`${document}-${program}`][shown];
 
 	const picker = (
-		value: Engine,
-		change: (e: Engine) => void,
+		value: Program,
+		change: (e: Program) => void,
 		label: string,
 	) => (
-		<Select value={value} onValueChange={(v) => change(v as Engine)}>
+		<Select value={value} onValueChange={(v) => change(v as Program)}>
 			<Select.Trigger className="h-8 w-32 rounded-sm" aria-label={label}>
 				<Select.Value />
 			</Select.Trigger>
 			<Select.Content>
-				{engines.map((engine) => (
-					<Select.Item key={engine} value={engine}>
-						{names[engine]}
+				{programs.map((program) => (
+					<Select.Item key={program} value={program}>
+						{names[program]}
 					</Select.Item>
 				))}
 			</Select.Content>
 		</Select>
 	);
 
-	const sheet = (engine: Engine) =>
-		source(engine) ? (
+	const sheet = (program: Program) =>
+		source(program) ? (
 			<img
-				src={source(engine)}
-				alt={`Page ${shown + 1} of ${titles[document]}, set by ${names[engine]}`}
+				src={source(program)}
+				alt={`Page ${shown + 1} of ${titles[document]}, set by ${names[program]}`}
 				className="block h-full w-full bg-white object-contain"
 				draggable={false}
 			/>
@@ -546,9 +548,9 @@ export function Comparison() {
 				</Select>
 				{mode !== "side" && (
 					<div className="flex flex-wrap items-center gap-2">
-						{picker(first, setFirst, "Left engine")}
+						{picker(first, setFirst, "Left program")}
 						<span>{mode === "slider" ? "against" : "minus"}</span>
-						{picker(second, setSecond, "Right engine")}
+						{picker(second, setSecond, "Right program")}
 					</div>
 				)}
 			</div>
@@ -571,17 +573,17 @@ export function Comparison() {
 									gridTemplateColumns: `repeat(${columns}, ${width}px)`,
 								}}
 							>
-								{engines.map((engine) => (
+								{programs.map((program) => (
 									<figure
-										key={engine}
+										key={program}
 										className="m-0 flex min-w-0 flex-col gap-2"
 									>
 										<figcaption className="inline-flex items-center gap-2 text-sm font-medium">
-											<Swatch engine={engine} />
-											{names[engine]}
+											<Swatch program={program} />
+											{names[program]}
 										</figcaption>
 										<div className="aspect-[612/792] overflow-hidden border shadow-sm">
-											{sheet(engine)}
+											{sheet(program)}
 										</div>
 									</figure>
 								))}
@@ -703,13 +705,13 @@ export function Comparison() {
 						<Download className="size-3.5" />
 						PDF
 					</span>
-					{engines.map((engine) => (
+					{programs.map((program) => (
 						<a
-							key={engine}
-							href={`/benchmark/pdfs/${document}-${engine}.pdf`}
+							key={program}
+							href={`/benchmark/pdfs/${document}-${program}.pdf`}
 							className="underline-offset-4 hover:text-fd-foreground hover:underline"
 						>
-							{names[engine]}
+							{names[program]}
 						</a>
 					))}
 				</div>
