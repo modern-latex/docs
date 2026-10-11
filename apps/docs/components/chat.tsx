@@ -170,7 +170,27 @@ export function Panel() {
 								stroke="none"
 								className="size-5"
 							/>
-							<p>Start a new chat below.</p>
+							<p>Start a new chat below, or ask one of these.</p>
+							<div className="mt-3 flex flex-wrap justify-center gap-1.5">
+								{[
+									"How do I install mLaTeX?",
+									"Which packages does it support?",
+									"How do I use it from JavaScript?",
+									"How is it different from pdfLaTeX?",
+									"Why does my document set differently?",
+								].map((question) => (
+									<button
+										key={question}
+										type="button"
+										onClick={() =>
+											void context.chat.sendMessage({ text: question })
+										}
+										className="rounded-full border border-foreground/10 bg-foreground/[0.03] px-3 py-1.5 text-xs text-foreground/75 transition-colors hover:border-foreground/25 hover:bg-foreground/[0.06] hover:text-foreground"
+									>
+										{question}
+									</button>
+								))}
+							</div>
 						</div>
 					) : (
 						<>
