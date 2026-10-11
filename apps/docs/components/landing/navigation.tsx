@@ -578,16 +578,6 @@ export function Navigation() {
 												href: "https://x.com/mlatex",
 												icon: icons.x,
 											},
-											{
-												name: "npm",
-												href: "https://www.npmjs.com/package/mlatex",
-												icon: icons.npm,
-											},
-											{
-												name: "PyPI",
-												href: "https://pypi.org/project/mlatex",
-												icon: icons.python,
-											},
 										].map((site) => (
 											<a
 												key={site.name}
