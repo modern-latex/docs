@@ -1,6 +1,8 @@
 "use client";
 
-import type * as React from "react";
+import * as React from "react";
+
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 import { cn } from "../lib/utils";
 
@@ -18,4 +20,32 @@ const Root = ({ className, type, ...props }: React.ComponentProps<"input">) => (
 	/>
 );
 
-export const Input = Object.assign(Root, {});
+/** A password field with a button that shows or hides what was typed. */
+const Password = ({
+	className,
+	...props
+}: Omit<React.ComponentProps<"input">, "type">) => {
+	const [visible, setVisible] = React.useState(false);
+	const Icon = visible ? EyeOffIcon : EyeIcon;
+
+	return (
+		<div className="relative">
+			<Root
+				type={visible ? "text" : "password"}
+				className={cn("pr-10", className)}
+				{...props}
+			/>
+			<button
+				type="button"
+				aria-label={visible ? "Hide password" : "Show password"}
+				aria-pressed={visible}
+				className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
+				onClick={() => setVisible((shown) => !shown)}
+			>
+				<Icon className="size-4" />
+			</button>
+		</div>
+	);
+};
+
+export const Input = Object.assign(Root, { Password });
