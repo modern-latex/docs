@@ -251,14 +251,6 @@ export function Community({ statistics }: { statistics: Statistics }) {
 											count: "@mlatex",
 											label: "handle",
 										},
-										{
-											name: "npm",
-											icon: icons.npm,
-											href: "https://www.npmjs.com/package/mlatex",
-											action: "View on npm",
-											count: "mlatex",
-											label: "package",
-										},
 									].map((site, place) => (
 										<motion.div
 											key={site.name}
