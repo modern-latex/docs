@@ -32,6 +32,17 @@ export const docsBeta = defineDocs({
 	},
 });
 
+// Every earlier version's pages, each in a folder named for its number.
+export const docsArchive = defineDocs({
+	dir: "./content/docs-archive",
+	docs: {
+		postprocess: {
+			includeProcessedMarkdown: true,
+		},
+		async: true,
+	},
+});
+
 export const blogCollection = defineCollections({
 	type: "doc",
 	dir: "./content/blogs",

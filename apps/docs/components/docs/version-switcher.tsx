@@ -45,7 +45,7 @@ export function VersionSwitcher({ versions }: { versions: Version[] }) {
 					: path;
 				return {
 					title: version.label,
-					description: version.release,
+					description: version.release || `${version.version} · in development`,
 					url,
 					urls: new Set([url]),
 					props: {

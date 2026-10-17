@@ -20,10 +20,20 @@ export function Sidebar({ versions }: { versions: Version[] }) {
 	const search = useSearchContext();
 	const navigation = useRef<HTMLElement>(null);
 	const id = useId();
+	// The version being read, if not the latest: its prefix, such as /docs/beta,
+	// and the page's path as the latest would have it.
+	const slug = versions.find(
+		(version) =>
+			version.slug &&
+			(pathname === `/docs/${version.slug}` ||
+				pathname.startsWith(`/docs/${version.slug}/`)),
+	)?.slug;
+	const base = slug ? `/docs/${slug}` : "/docs";
+	const local = slug ? `/docs${pathname.slice(base.length)}` : pathname;
 
 	const [opened, setOpened] = useState(() => {
 		const match = contents.findIndex((section) => {
-			const path = pathname.replace(/^\/docs\/beta/, "/docs");
+			const path = local;
 			if (
 				section.expandSectionForPathPrefix &&
 				(path === section.expandSectionForPathPrefix ||
@@ -45,7 +55,7 @@ export function Sidebar({ versions }: { versions: Version[] }) {
 
 	useEffect(() => {
 		const match = contents.findIndex((section) => {
-			const path = pathname.replace(/^\/docs\/beta/, "/docs");
+			const path = local;
 			if (
 				section.expandSectionForPathPrefix &&
 				(path === section.expandSectionForPathPrefix ||
@@ -165,19 +175,11 @@ export function Sidebar({ versions }: { versions: Version[] }) {
 												<div className="text-sm pt-0 pb-1">
 													{section.href && (
 														<Link
-															href={
-																pathname.startsWith("/docs/beta")
-																	? `/docs/beta${section.href.replace(/^\/docs/, "")}`
-																	: section.href
-															}
-															data-active={
-																pathname.replace(/^\/docs\/beta/, "/docs") ===
-																	section.href || undefined
-															}
+															href={`${base}${section.href.replace(/^\/docs/, "")}`}
+															data-active={local === section.href || undefined}
 															className={cn(
 																"relative flex w-full items-center gap-2.5 px-4 py-1 text-[14px] transition-all duration-150",
-																pathname.replace(/^\/docs\/beta/, "/docs") ===
-																	section.href
+																local === section.href
 																	? "text-foreground bg-foreground/6"
 																	: "text-foreground/65 hover:text-foreground/90 hover:bg-foreground/3",
 															)}
@@ -225,28 +227,19 @@ export function Sidebar({ versions }: { versions: Version[] }) {
 														if (!item.href) return null;
 
 														const active =
-															pathname.replace(/^\/docs\/beta/, "/docs") ===
-																item.href ||
+															local === item.href ||
 															!!(
 																item.subitems &&
 																(item.subitems.some(
-																	(sub) =>
-																		sub.href ===
-																		pathname.replace(/^\/docs\/beta/, "/docs"),
+																	(sub) => sub.href === local,
 																) ||
-																	pathname
-																		.replace(/^\/docs\/beta/, "/docs")
-																		.startsWith(`${item.href}/`))
+																	local.startsWith(`${item.href}/`))
 															);
 
 														return (
 															<div key={item.href}>
 																<Link
-																	href={
-																		pathname.startsWith("/docs/beta")
-																			? `/docs/beta${item.href.replace(/^\/docs/, "")}`
-																			: item.href
-																	}
+																	href={`${base}${item.href.replace(/^\/docs/, "")}`}
 																	data-active={active || undefined}
 																	className={cn(
 																		"relative flex w-full items-center gap-2.5 px-4 py-1 text-[14px] transition-all duration-150",
@@ -313,21 +306,11 @@ export function Sidebar({ versions }: { versions: Version[] }) {
 																							);
 																						}
 																						if (!sub.href) return null;
-																						const current =
-																							pathname.replace(
-																								/^\/docs\/beta/,
-																								"/docs",
-																							) === sub.href;
+																						const current = local === sub.href;
 																						return (
 																							<Link
 																								key={sub.href}
-																								href={
-																									pathname.startsWith(
-																										"/docs/beta",
-																									)
-																										? `/docs/beta${sub.href.replace(/^\/docs/, "")}`
-																										: sub.href
-																								}
+																								href={`${base}${sub.href.replace(/^\/docs/, "")}`}
 																								data-active={
 																									current || undefined
 																								}
