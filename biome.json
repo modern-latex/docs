@@ -183,7 +183,9 @@
       "!**/.output",
       "!**/.tmp",
       "!**/tmp-docs-fetch",
-      "!**/.claude/worktrees/**"
+      "!**/.claude/worktrees/**",
+      "!**/.agents/skills/**",
+      "!**/.claude/skills/**"
     ]
   }
 }
