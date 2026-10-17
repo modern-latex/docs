@@ -71,7 +71,7 @@ export function Options(props: {
 		props.markdown,
 		typeof window !== "undefined"
 			? window.location.origin
-			: "https://prostha.org",
+			: "https://mlatex.com",
 	);
 	const query = `Read ${base}, I want to ask questions about it.`;
 
@@ -96,7 +96,7 @@ export function Options(props: {
 			props.url,
 			typeof window !== "undefined"
 				? window.location.origin
-				: "https://prostha.org",
+				: "https://mlatex.com",
 		);
 		return navigator.clipboard.writeText(url.toString());
 	});

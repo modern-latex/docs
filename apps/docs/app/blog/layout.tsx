@@ -25,7 +25,7 @@ export const metadata: Metadata = createMetadata({
 			"application/rss+xml": [
 				{
 					title: "mLaTeX Blog",
-					url: "https://prostha.org/blog/rss.xml",
+					url: "https://mlatex.com/blog/rss.xml",
 				},
 			],
 		},

@@ -71,7 +71,7 @@ export async function POST(request: Request) {
 		const emails = await Promise.all([
 			resend.emails
 				.send({
-					from: "Support Team <support@prostha.org>",
+					from: "Support Team <support@mlatex.com>",
 					to: process.env.SUPPORT_EMAIL,
 					subject: `Contact Inquiry from ${name}`,
 					html: `
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
 				.catch((error) => ({ error, data: null })),
 			resend.emails
 				.send({
-					from: "Support Team <support@prostha.org>",
+					from: "Support Team <support@mlatex.com>",
 					to: email,
 					cc: process.env.SUPPORT_EMAIL,
 					subject: "Re: Contact Inquiry",
