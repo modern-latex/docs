@@ -109,6 +109,18 @@ export async function releases(): Promise<Version[]> {
 	return order(current);
 }
 
+/**
+ * The release a version's pages give wherever they write x.y.z: the newest
+ * tag the version menu shows for it, or the first release of its line while
+ * it has none, such as "0.2.0" for a beta still in development.
+ */
+export async function release(version: Version): Promise<string> {
+	const current = (await releases()).find(
+		(other) => other.slug === version.slug,
+	);
+	return current?.release || `${version.version}.0`;
+}
+
 /** The beta first, then the latest, then the earlier versions, newest first. */
 function order(list: Version[]): Version[] {
 	const rank = (version: Version) =>

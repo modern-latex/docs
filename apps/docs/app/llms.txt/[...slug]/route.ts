@@ -2,9 +2,10 @@ import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
 import { page as find, paths } from "@/lib/sources";
-import { versions } from "@/lib/versions";
+import { release, versions } from "@/lib/versions";
 
-export const revalidate = false;
+// Hourly, as the releases a page's x.y.z gives are read.
+export const revalidate = 3600;
 
 export async function GET(
 	_: any,
@@ -31,7 +32,8 @@ export async function GET(
 	const page = find(version, relSlug) ?? notFound();
 
 	try {
-		return new NextResponse(await (page.data as any).getText("processed"), {
+		const text: string = await (page.data as any).getText("processed");
+		return new NextResponse(text.replaceAll("x.y.z", await release(version)), {
 			status: 200,
 			headers: { "Content-Type": "text/markdown" },
 		});
