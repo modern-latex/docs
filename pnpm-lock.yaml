@@ -370,6 +370,12 @@ importers:
 
   apps/workspace:
     dependencies:
+      '@ai-sdk/react':
+        specifier: ^4.0.145
+        version: 4.0.145(react@19.3.1)(zod@4.6.7)
+      '@codemirror/commands':
+        specifier: ^6.11.1
+        version: 6.11.1
       '@codemirror/language':
         specifier: ^6.13.1
         version: 6.13.1
@@ -379,6 +385,9 @@ importers:
       '@codemirror/lint':
         specifier: ^6.9.7
         version: 6.9.7
+      '@codemirror/search':
+        specifier: ^6.7.2
+        version: 6.7.2
       '@codemirror/state':
         specifier: ^6.7.6
         version: 6.7.6
@@ -394,12 +403,24 @@ importers:
       '@mlatex/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@openrouter/ai-sdk-provider':
+        specifier: ^3.1.0
+        version: 3.1.0(ai@7.0.141(zod@4.6.7))(zod@4.6.7)
+      ai:
+        specifier: ^7.0.141
+        version: 7.0.141(zod@4.6.7)
       codemirror:
         specifier: ^6.0.2
         version: 6.0.2
       lucide-react:
         specifier: ^1.57.0
         version: 1.57.0(@types/react@19.3.0)(react@19.3.1)
+      mlatex:
+        specifier: https://github.com/modern-latex/mlatex/releases/download/v0.1.2/mlatex-0.1.2.tgz
+        version: https://github.com/modern-latex/mlatex/releases/download/v0.1.2/mlatex-0.1.2.tgz
+      motion:
+        specifier: ^12.43.0
+        version: 12.43.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       next:
         specifier: 16.4.1
         version: 16.4.1(@babel/core@7.29.7)(@types/node@25.9.9)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -418,6 +439,12 @@ importers:
       react-hook-form:
         specifier: ^7.90.0
         version: 7.90.0(@types/react@19.3.0)(react@19.3.1)
+      react-markdown:
+        specifier: ^10.1.0
+        version: 10.1.0(@types/react@19.3.0)(react@19.3.1)
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
       zod:
         specifier: ^4.6.7
         version: 4.6.7
@@ -5840,6 +5867,10 @@ packages:
   minipass@7.1.3:
     resolution: {integrity: sha512-tEBHqDnIoM/1rXME1zgka9g6Q2lcoCkxHLuc7ODJ5BxbP5d4c2Z5cGgtXAku59200Cx7diuHTOYfSBD8n6mm8A==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mlatex@https://github.com/modern-latex/mlatex/releases/download/v0.1.2/mlatex-0.1.2.tgz:
+    resolution: {integrity: sha512-6RxNXJ+dhFLbmVWEsjSjW1yFVWr4UunCNK7Mlgaw9GGNJ8EQJzlHzhd2P8IJqbbwWwMsItwI1Q19xbbLJtNiJg==, tarball: https://github.com/modern-latex/mlatex/releases/download/v0.1.2/mlatex-0.1.2.tgz}
+    version: 0.1.2
 
   motion-dom@12.43.0:
     resolution: {integrity: sha512-azKON4d9S65PEoFUiQTMTgPheEmzf2QngdRc50AKfJp9Q9mmcBVw22c8eMq9k8kxOFHdL7+WZY7N/5F/lwiDag==}
@@ -12829,6 +12860,8 @@ snapshots:
   minimist@1.2.8: {}
 
   minipass@7.1.3: {}
+
+  mlatex@https://github.com/modern-latex/mlatex/releases/download/v0.1.2/mlatex-0.1.2.tgz: {}
 
   motion-dom@12.43.0:
     dependencies:
