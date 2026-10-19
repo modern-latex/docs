@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 import { useCopyButton } from "@mlatex/ui/src/components/use-copy-button";
 import { cn } from "@mlatex/ui/src/lib/utils";
@@ -15,9 +15,71 @@ import {
 	Copy,
 	ExternalLink,
 	MessageCircle,
+	Minus,
+	Plus,
 } from "lucide-react";
 
 const cache = new Map<string, string>();
+
+/** The sizes a page can be read at, as a share of its own. */
+const levels = [0.8, 0.9, 1, 1.1, 1.25, 1.5];
+
+/**
+ * Zooms a page's words in and out a step at a time, the percentage between
+ * setting them back; the size is kept for every page and the next visit.
+ */
+export function Zoom() {
+	const [level, setLevel] = useState(1);
+
+	useEffect(() => {
+		try {
+			const kept = Number(localStorage.getItem("mlatex:zoom"));
+			if (levels.includes(kept)) setLevel(kept);
+		} catch {}
+	}, []);
+
+	useEffect(() => {
+		document.documentElement.style.setProperty("--zoom", String(level));
+		try {
+			localStorage.setItem("mlatex:zoom", String(level));
+		} catch {}
+	}, [level]);
+
+	const at = levels.indexOf(level);
+	const step =
+		"inline-flex items-center px-1.5 py-1 transition-colors hover:bg-foreground/5 hover:text-foreground disabled:pointer-events-none disabled:opacity-40 cursor-pointer [&_svg]:size-3";
+
+	return (
+		<div className="inline-flex items-center border border-foreground/10 text-[11px] text-foreground/60 select-none">
+			<button
+				type="button"
+				aria-label="Zoom out"
+				disabled={at <= 0}
+				onClick={() => setLevel(levels[at - 1])}
+				className={step}
+			>
+				<Minus />
+			</button>
+			<button
+				type="button"
+				title="Back to 100%"
+				onClick={() => setLevel(1)}
+				className={cn(step, "min-w-11 justify-center tabular-nums")}
+			>
+				{Math.round(level * 100)}%
+			</button>
+			<button
+				type="button"
+				aria-label="Zoom in"
+				disabled={at >= levels.length - 1}
+				onClick={() => setLevel(levels[at + 1])}
+				className={step}
+			>
+				<Plus />
+			</button>
+		</div>
+	);
+}
 
 export function Llms({ url }: { url: string }) {
 	const [loading, transition] = useTransition();
