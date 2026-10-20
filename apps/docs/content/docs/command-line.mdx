@@ -25,7 +25,7 @@ A `.bib` file given as the document is set as a list of every entry it holds, ci
 
 ### No document
 
-With no document named, the engine's own sample paper is set.
+With no document named, mLaTeX's own sample paper is set.
 
 ***
 
@@ -138,7 +138,7 @@ paper.tex:7:17: error (primitive): \includegraphics could not read 'nopicture.pn
 
 ### --time-statistics
 
-`--time-statistics` prints every stage of the engine, what it made and how long each stage took. See [Performance](/docs/performance).
+`--time-statistics` prints every stage of mLaTeX, what it made and how long each stage took. See [Performance](/docs/performance).
 
 ### -h, --help
 
@@ -152,11 +152,11 @@ paper.tex:7:17: error (primitive): \includegraphics could not read 'nopicture.pn
 
 ## Diagnostics
 
-These are for investigating the engine itself rather than a document.
+These are for investigating mLaTeX itself rather than a document.
 
 ### -d, --debug
 
-`--debug` logs the engine's steps. `--debug=PARTS` logs only the parts named, among `lexer`, `mouth`, `parser`, `layout`, `memory` and `semantics`:
+`--debug` logs mLaTeX's steps. `--debug=PARTS` logs only the parts named, among `lexer`, `mouth`, `parser`, `layout`, `memory` and `semantics`:
 
 ```bash
 mlatex --debug=lexer,parser paper.tex
@@ -191,7 +191,7 @@ mlatex --debug=lexer,parser paper.tex
 | `aot`  | A PDF, now. The default.                      |
 | `jit`  | Just in time. Accepted, and does nothing yet. |
 
-Any other target is a command-line error (exit status `2`). WebAssembly is not a target; it is a separate build of the engine, see [JavaScript](/docs/embedding/javascript).
+Any other target is a command-line error (exit status `2`). WebAssembly is not a target; it is a separate build of mLaTeX, see [JavaScript](/docs/embedding/javascript).
 
 ***
 

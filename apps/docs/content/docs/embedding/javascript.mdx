@@ -1,17 +1,17 @@
 ---
 title: JavaScript
-description: The engine compiled to WebAssembly, for web pages, workers and Node.
+description: mLaTeX compiled to WebAssembly, for web pages, workers and Node.
 ---
 
 ## The module
 
 mLaTeX compiles to WebAssembly with Emscripten. The build leaves three files side by side:
 
-| File         | What it is                                           |
-| ------------ | ---------------------------------------------------- |
-| `latex.js`   | A factory that loads the module.                     |
-| `latex.wasm` | The engine.                                          |
-| `latex.data` | The fonts, packed into the module's own file system. |
+| File          | What it is                                           |
+| ------------- | ---------------------------------------------------- |
+| `mlatex.js`   | A factory that loads the module.                     |
+| `mlatex.wasm` | mLaTeX.                                              |
+| `mlatex.data` | The fonts, packed into the module's own file system. |
 
 ### Installing
 
@@ -26,10 +26,10 @@ npm install mlatex
 ## A session
 
 ```js
-import Latex from "mlatex";
+import mLatex from "mlatex";
 
-const engine = await Latex();                     // latex.js's factory
-const session = new engine.Session();
+const mlatex = await mLatex();                     // mlatex.js's factory
+const session = new mlatex.Session();
 
 session.set("customer", "Acme Corporation");
 session.define("balance", 1, (account) => ledger[account].toFixed(2));
@@ -70,7 +70,7 @@ In Node, `Latex.version` is the installed package's version, such as `x.y.z`, re
 
 ### The libraries
 
-The libraries the engine uses are built for the `wasm32-emscripten` triplet:
+The libraries mLaTeX uses are built for the `wasm32-emscripten` triplet:
 
 ```bash
 vcpkg install harfbuzz libpng libjpeg-turbo libwebp zlib --triplet wasm32-emscripten
