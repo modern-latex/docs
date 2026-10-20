@@ -2,7 +2,7 @@ import type { ReactNode, SVGProps } from "react";
 
 import type { LucideIcon } from "lucide-react";
 
-export interface SubItems {
+export interface Subitems {
 	title: string;
 	href?: string;
 	icon?: ((props?: SVGProps<any>) => ReactNode) | LucideIcon;
@@ -16,7 +16,7 @@ export interface Item {
 	group?: boolean;
 	separator?: boolean;
 	isNew?: boolean;
-	subitems?: SubItems[];
+	subitems?: Subitems[];
 	external?: boolean;
 }
 

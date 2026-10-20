@@ -1,7 +1,7 @@
 "use client";
 
 import type { PointerEvent, ReactNode } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { Button } from "@mlatex/ui/src/components/button";
 import { Chart } from "@mlatex/ui/src/components/chart";
@@ -15,7 +15,7 @@ import {
 } from "fumadocs-ui/components/codeblock";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import gsap from "gsap";
-import { ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Minus, Plus } from "lucide-react";
 
 import data from "@/lib/benchmark.json";
 
@@ -373,7 +373,9 @@ type Mode = "slider" | "side" | "difference";
 /**
  * The PDFs each engine made from one file, page against page. The wipe eases
  * after the pointer as GSAP's demos move, and springs back to the middle when
- * the pointer leaves.
+ * the pointer leaves. The viewer keeps its size: − and + zoom the pages
+ * inside it, which scroll once they are larger than it, about the middle of
+ * what was in view, and the percentage between them sets them back.
  */
 export function Comparison() {
 	const [document, setDocument] = useState("structure");
@@ -381,6 +383,67 @@ export function Comparison() {
 	const [first, setFirst] = useState<Engine>("mlatex");
 	const [second, setSecond] = useState<Engine>("pdflatex");
 	const [page, setPage] = useState(0);
+	const [scale, setScale] = useState(1);
+	// The sizes the pages can be looked at, as a share of the size that fits.
+	const scales = [0.5, 0.75, 1, 1.25, 1.5, 2];
+	const step = scales.indexOf(scale);
+	// A page's height over its width: US Letter, as every engine set it.
+	const ratio = 792 / 612;
+
+	// The viewer's inside, measured, so that the pages fit it at 100%.
+	const viewer = useRef<HTMLDivElement>(null);
+	const [box, setBox] = useState({ width: 0, height: 0 });
+	useEffect(() => {
+		const node = viewer.current;
+		if (!node) return;
+		const observer = new ResizeObserver(([entry]) =>
+			setBox({
+				width: entry.contentRect.width,
+				height: entry.contentRect.height,
+			}),
+		);
+		observer.observe(node);
+		return () => observer.disconnect();
+	}, []);
+
+	// Side by side, three pages across and two down when there is room, each
+	// with its name over it; otherwise two across, fitted to the width.
+	const columns = box.width >= 520 ? 3 : 2;
+	const rows = Math.ceil(engines.length / columns);
+	const gap = 16;
+	const caption = 28;
+	const across = (box.width - gap * (columns - 1)) / columns;
+	const fit =
+		mode === "side"
+			? columns === 3
+				? Math.min(
+						across,
+						((box.height - gap * (rows - 1)) / rows - caption) / ratio,
+					)
+				: across
+			: Math.min(box.width, box.height / ratio);
+	const width = Math.max(0, Math.floor(fit * scale));
+
+	// A zoom keeps the middle of what was in view in the middle.
+	const anchor = useRef<{ x: number; y: number }>(undefined);
+	const zoom = (next: number) => {
+		const node = viewer.current;
+		if (node) {
+			anchor.current = {
+				x: (node.scrollLeft + node.clientWidth / 2) / node.scrollWidth,
+				y: (node.scrollTop + node.clientHeight / 2) / node.scrollHeight,
+			};
+		}
+		setScale(next);
+	};
+	useLayoutEffect(() => {
+		const node = viewer.current;
+		const point = anchor.current;
+		if (!node || !point) return;
+		node.scrollLeft = point.x * node.scrollWidth - node.clientWidth / 2;
+		node.scrollTop = point.y * node.scrollHeight - node.clientHeight / 2;
+		anchor.current = undefined;
+	}, [scale]);
 
 	// The wipe lives outside React: GSAP tweens it and writes it to --cut on the stage.
 	const stage = useRef<HTMLDivElement>(null);
@@ -490,70 +553,94 @@ export function Comparison() {
 				)}
 			</div>
 
-			<div className="bg-fd-secondary p-4">
-				{mode === "side" && (
-					<div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-						{engines.map((engine) => (
-							<figure key={engine} className="m-0 flex min-w-0 flex-col gap-2">
-								<figcaption className="inline-flex items-center gap-2 text-sm font-medium">
-									<Swatch engine={engine} />
-									{names[engine]}
-								</figcaption>
-								<div className="aspect-[612/792] overflow-hidden border shadow-sm">
-									{sheet(engine)}
+			<div
+				ref={viewer}
+				className="aspect-[612/792] max-h-[38.25rem] w-full overflow-auto bg-fd-secondary p-4"
+			>
+				<div
+					className={cn(
+						"flex min-h-full w-max min-w-full",
+						width === 0 && "invisible",
+					)}
+				>
+					<div className="m-auto">
+						{mode === "side" && (
+							<div
+								className="grid gap-4"
+								style={{
+									gridTemplateColumns: `repeat(${columns}, ${width}px)`,
+								}}
+							>
+								{engines.map((engine) => (
+									<figure
+										key={engine}
+										className="m-0 flex min-w-0 flex-col gap-2"
+									>
+										<figcaption className="inline-flex items-center gap-2 text-sm font-medium">
+											<Swatch engine={engine} />
+											{names[engine]}
+										</figcaption>
+										<div className="aspect-[612/792] overflow-hidden border shadow-sm">
+											{sheet(engine)}
+										</div>
+									</figure>
+								))}
+							</div>
+						)}
+
+						{mode === "slider" && (
+							<div
+								ref={stage}
+								role="slider"
+								tabIndex={0}
+								aria-label={`Wipe between ${names[first]} and ${names[second]}`}
+								aria-valuemin={0}
+								aria-valuemax={100}
+								aria-valuenow={50}
+								onPointerMove={follow}
+								onPointerDown={(event) => {
+									event.currentTarget.setPointerCapture(event.pointerId);
+									follow(event);
+								}}
+								onPointerLeave={() => slide(50, "elastic.out(1, 0.55)", 1.2)}
+								onKeyDown={(event) => {
+									const step = { ArrowLeft: -5, ArrowRight: 5 }[event.key];
+									if (step) {
+										event.preventDefault();
+										slide(wipe.current.cut + step);
+									}
+								}}
+								style={{ width }}
+								className="relative aspect-[612/792] cursor-ew-resize touch-none overflow-hidden border shadow-sm outline-none select-none [--cut:50%] focus-visible:ring-2 focus-visible:ring-fd-ring"
+							>
+								<div className="absolute inset-0">{sheet(second)}</div>
+								<div className="absolute inset-0 [clip-path:inset(0_calc(100%_-_var(--cut))_0_0)]">
+									{sheet(first)}
 								</div>
-							</figure>
-						))}
-					</div>
-				)}
+								<div className="pointer-events-none absolute inset-y-0 left-[var(--cut)] w-0.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgb(0_0_0/0.25)]">
+									<span className="absolute top-1/2 left-1/2 grid size-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-zinc-300 bg-white text-zinc-900 shadow-md">
+										<span className="flex">
+											<ChevronLeft className="-mr-1 size-3.5" />
+											<ChevronRight className="-ml-1 size-3.5" />
+										</span>
+									</span>
+								</div>
+							</div>
+						)}
 
-				{mode === "slider" && (
-					<div
-						ref={stage}
-						role="slider"
-						tabIndex={0}
-						aria-label={`Wipe between ${names[first]} and ${names[second]}`}
-						aria-valuemin={0}
-						aria-valuemax={100}
-						aria-valuenow={50}
-						onPointerMove={follow}
-						onPointerDown={(event) => {
-							event.currentTarget.setPointerCapture(event.pointerId);
-							follow(event);
-						}}
-						onPointerLeave={() => slide(50, "elastic.out(1, 0.55)", 1.2)}
-						onKeyDown={(event) => {
-							const step = { ArrowLeft: -5, ArrowRight: 5 }[event.key];
-							if (step) {
-								event.preventDefault();
-								slide(wipe.current.cut + step);
-							}
-						}}
-						className="relative mx-auto aspect-[612/792] w-full max-w-md cursor-ew-resize touch-none overflow-hidden border shadow-sm outline-none select-none [--cut:50%] focus-visible:ring-2 focus-visible:ring-fd-ring"
-					>
-						<div className="absolute inset-0">{sheet(second)}</div>
-						<div className="absolute inset-0 [clip-path:inset(0_calc(100%_-_var(--cut))_0_0)]">
-							{sheet(first)}
-						</div>
-						<div className="pointer-events-none absolute inset-y-0 left-[var(--cut)] w-0.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgb(0_0_0/0.25)]">
-							<span className="absolute top-1/2 left-1/2 grid size-8 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-zinc-300 bg-white text-zinc-900 shadow-md">
-								<span className="flex">
-									<ChevronLeft className="-mr-1 size-3.5" />
-									<ChevronRight className="-ml-1 size-3.5" />
-								</span>
-							</span>
-						</div>
+						{mode === "difference" && (
+							<div
+								style={{ width }}
+								className="relative aspect-[612/792] overflow-hidden border shadow-sm"
+							>
+								<div className="absolute inset-0">{sheet(second)}</div>
+								<div className="absolute inset-0 mix-blend-difference">
+									{sheet(first)}
+								</div>
+							</div>
+						)}
 					</div>
-				)}
-
-				{mode === "difference" && (
-					<div className="relative mx-auto aspect-[612/792] w-full max-w-md overflow-hidden border shadow-sm">
-						<div className="absolute inset-0">{sheet(second)}</div>
-						<div className="absolute inset-0 mix-blend-difference">
-							{sheet(first)}
-						</div>
-					</div>
-				)}
+				</div>
 			</div>
 
 			<div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2">
@@ -580,6 +667,35 @@ export function Comparison() {
 						aria-label="Next page"
 					>
 						<ChevronRight />
+					</Button>
+					<span aria-hidden className="mx-2 h-4 w-px bg-fd-border" />
+					<Button
+						variant="ghost"
+						size="icon"
+						className="size-8"
+						onClick={() => zoom(scales[step - 1])}
+						disabled={step <= 0}
+						aria-label="Zoom out"
+					>
+						<Minus />
+					</Button>
+					<button
+						type="button"
+						title="Back to 100%"
+						onClick={() => zoom(1)}
+						className="min-w-12 rounded-sm px-1 py-1 text-center text-sm tabular-nums transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+					>
+						{Math.round(scale * 100)}%
+					</button>
+					<Button
+						variant="ghost"
+						size="icon"
+						className="size-8"
+						onClick={() => zoom(scales[step + 1])}
+						disabled={step >= scales.length - 1}
+						aria-label="Zoom in"
+					>
+						<Plus />
 					</Button>
 				</div>
 				<div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-fd-muted-foreground">

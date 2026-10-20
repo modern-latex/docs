@@ -19,7 +19,7 @@ import {
 } from "fumadocs-ui/page";
 import { MilestoneIcon } from "lucide-react";
 
-import { Llms, Options, Zoom } from "@/app/docs//[[...slug]]/page.client";
+import { Llms, Options } from "@/app/docs//[[...slug]]/page.client";
 import { Api } from "@/components/api";
 import {
 	Comparison,
@@ -82,7 +82,7 @@ export default async function Page({
 				</div>
 			)}
 			<div className="mb-4 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-				<div className="min-w-0" style={{ zoom: "var(--zoom, 1)" }}>
+				<div className="min-w-0">
 					<DocsTitle className="mb-0">{page.data.title}</DocsTitle>
 					{page.data.description && (
 						<DocsDescription className="mt-2 mb-0">
@@ -91,7 +91,6 @@ export default async function Page({
 					)}
 				</div>
 				<div className="flex flex-wrap items-center gap-2 not-prose lg:shrink-0">
-					<Zoom />
 					<Llms
 						url={`https://raw.githubusercontent.com/modern-latex/docs/${version.branch}/apps/docs/content/docs/${file(version, page.path)}`}
 					/>
@@ -102,7 +101,7 @@ export default async function Page({
 					/>
 				</div>
 			</div>
-			<DocsBody style={{ zoom: "var(--zoom, 1)" }}>
+			<DocsBody>
 				{createElement(body, {
 					components: {
 						...defaultMdxComponents,
