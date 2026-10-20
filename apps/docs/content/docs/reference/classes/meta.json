@@ -15,6 +15,7 @@
     "scrartcl",
     "scrbook",
     "scrreprt",
+    "standalone",
     "svjour3"
   ]
 }

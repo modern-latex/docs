@@ -60,6 +60,10 @@ The PDF comes back as a `Uint8Array` that owns its bytes, so it outlives the nex
 
 Call `delete()` on a session when you are done with it, as with every object Emscripten binds.
 
+### Latex.version
+
+In Node, `Latex.version` is the installed package's version, such as `x.y.z`, read from its own `package.json`. `latex.d.ts` declares it.
+
 ***
 
 ## Building it

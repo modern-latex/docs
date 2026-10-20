@@ -607,6 +607,7 @@
     "scrartcl": "KOMA-Script's article",
     "scrbook": "KOMA-Script's book",
     "scrreprt": "KOMA-Script's report",
+    "standalone": "A piece on its own, on a page cropped to it",
     "svjour3": "Springer journal articles"
   },
   "summaries": {

@@ -100,18 +100,22 @@ const packages = new Set(
 
 // Each package's subject, from reference.json. One it does not list yet goes
 // under Other Packages, to be sorted by hand.
+// A class is keyed apart from a package of the same name, as standalone is
+// both: each has a page of its own, the class's under Classes.
+const key = (row: Row) =>
+	row.kind === "class" ? `class:${row.name}` : row.name;
 const subject = new Map<string, string>();
-for (const [key, entry] of Object.entries(data.subjects)) {
+for (const [group, entry] of Object.entries(data.subjects)) {
 	for (const name of entry.packages ?? []) {
 		if (subject.has(name)) {
-			console.error(`${name} is in ${subject.get(name)} and ${key}`);
+			console.error(`${name} is in ${subject.get(name)} and ${group}`);
 			process.exit(1);
 		}
-		if (packages.has(name)) subject.set(name, key);
+		if (packages.has(name)) subject.set(name, group);
 	}
 }
 for (const row of rows) {
-	if (row.kind === "class") subject.set(row.name, "classes");
+	if (row.kind === "class") subject.set(key(row), "classes");
 	else if (!subject.has(row.name)) {
 		console.warn(`${row.name} has no subject in reference.json yet`);
 		subject.set(row.name, "others");
@@ -293,6 +297,8 @@ for (const row of rows) {
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9_-]/g, "");
 const link = (name: string) =>
 	`/docs/reference/${subject.get(name)}/${slug(name)}`;
+const href = (row: Row) =>
+	`/docs/reference/${subject.get(key(row))}/${slug(row.name)}`;
 const sorted = (list: string[]) =>
 	[...new Set(list)].sort((a, b) =>
 		a.toLowerCase() < b.toLowerCase()
@@ -315,13 +321,13 @@ const order = (a: Row, b: Row) =>
 const docs = join(import.meta.dirname, "..", "content", "docs");
 const reference = join(docs, "reference");
 rmSync(reference, { recursive: true, force: true });
-for (const [key, entry] of Object.entries(subjects)) {
+for (const [name, entry] of Object.entries(subjects)) {
 	const members = rows
-		.filter((row) => subject.get(row.name) === key)
+		.filter((row) => subject.get(key(row)) === name)
 		.sort(order);
-	const folder = join(reference, key);
+	const folder = join(reference, name);
 	mkdirSync(folder, { recursive: true });
-	const noun = key === "classes" ? "classes" : "packages";
+	const noun = name === "classes" ? "classes" : "packages";
 	writeFileSync(
 		join(folder, "index.mdx"),
 		`${[
@@ -336,7 +342,7 @@ for (const [key, entry] of Object.entries(subjects)) {
 			"| --- | --- |",
 			...members.map(
 				(row) =>
-					`| [\`${row.name}\`](${link(row.name)}) | ${describe(row).replace(/\.$/, "")} |`,
+					`| [\`${row.name}\`](${href(row)}) | ${describe(row).replace(/\.$/, "")} |`,
 			),
 		].join("\n")}\n`,
 	);
@@ -458,16 +464,16 @@ const overview = [
 	"## Every package by subject",
 	"",
 ];
-for (const [key, entry] of Object.entries(subjects)) {
+for (const [name, entry] of Object.entries(subjects)) {
 	const members = rows
-		.filter((row) => subject.get(row.name) === key)
+		.filter((row) => subject.get(key(row)) === name)
 		.sort(order);
 	overview.push(
 		`### ${entry.title}`,
 		"",
-		`${entry.description} [Read the reference](/docs/reference/${key}).`,
+		`${entry.description} [Read the reference](/docs/reference/${name}).`,
 		"",
-		`${members.map((row) => `[\`${row.name}\`](${link(row.name)})`).join(", ")}.`,
+		`${members.map((row) => `[\`${row.name}\`](${href(row)})`).join(", ")}.`,
 		"",
 	);
 }

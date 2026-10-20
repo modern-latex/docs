@@ -33,7 +33,7 @@ export const versions: Version[] = [
 	{
 		label: "Latest Version",
 		version: "0.1",
-		release: "0.1.0",
+		release: "0.1.2",
 		branch: "main",
 		slug: null,
 		badge: null,
