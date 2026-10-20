@@ -1,0 +1,24 @@
+---
+title: standalone
+description: 'A piece on its own, on a page cropped to it.'
+---
+
+## Loading
+
+```latex
+\documentclass{standalone}
+```
+
+A class of the engine's own: its paper, type size and columns are read from its options.
+
+## Example
+
+A document that uses it, from the engine's own tests, so it compiles as written:
+
+```latex title="standalone.tex"
+\documentclass[border=2pt]{standalone}
+\usepackage{amsmath}
+\begin{document}
+$\displaystyle \sum_{k=1}^{n} k = \frac{n(n+1)}{2}$
+\end{document}
+```
