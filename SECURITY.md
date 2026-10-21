@@ -1,8 +1,8 @@
 # Security Policy
 
-This repository is the mLaTeX documentation site. A flaw in the engine
+This repository is the mLaTeX documentation site. A flaw in mLaTeX
 itself -- the `mlatex` command line, its libraries, the WebAssembly module or
-its packages -- belongs to the engine's own policy, in
+its packages -- belongs to mLaTeX's own policy, in
 [modern-latex/mlatex's SECURITY.md](https://github.com/modern-latex/mlatex/blob/main/SECURITY.md).
 
 ## Supported versions
@@ -40,6 +40,6 @@ In scope: the site's own code in this repository -- its pages, its API
 routes (the docs chat, the image routes and the search sync), the workflows
 under `.github`, and the components in `packages/ui`.
 
-Out of scope: the engine, as above; the services the site uses, such as
+Out of scope: mLaTeX, as above; the services the site uses, such as
 GitHub, OpenRouter, Upstash, Typesense and its host, whose flaws go to their
 own projects; and rate limits being reached by ordinary heavy use.

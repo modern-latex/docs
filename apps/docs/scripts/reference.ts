@@ -1,11 +1,11 @@
 /**
  * Writes the Package Reference, content/docs/reference/<subject>/<package>.mdx,
- * and the overview at content/docs/packages/index.mdx, from a checkout of the
- * engine: node scripts/reference.ts ../mlatex
+ * and the overview at content/docs/packages/index.mdx, from a checkout of
+ * mLaTeX: node scripts/reference.ts ../mlatex
  *
  * Each page is the package's purpose, how it is loaded and supported, the
- * commands it gives, any limits, and the document from the engine's
- * tests/packages that uses it, so every example is one the engine's own tests
+ * commands it gives, any limits, and the document from mLaTeX's
+ * tests/packages that uses it, so every example is one mLaTeX's own tests
  * compile. What the sources do not say -- each package's subject, some
  * summaries, the limits -- is in scripts/reference.json, to edit by hand.
  */
@@ -19,8 +19,8 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 
-const engine = process.argv[2];
-if (!engine || !existsSync(join(engine, "tests", "packages"))) {
+const checkout = process.argv[2];
+if (!checkout || !existsSync(join(checkout, "tests", "packages"))) {
 	console.error(
 		"Usage: node scripts/reference.ts <checkout of modern-latex/mlatex>",
 	);
@@ -40,15 +40,15 @@ const data: {
 );
 
 // Every sample document names a package or, as class-<name>, a class. A
-// package is a module of its own, provided by the engine, or another under a
+// package is a module of its own, provided by mLaTeX, or another under a
 // second name, as src/modules/core/compatibility.mtex says.
 const modules = new Set(
-	readdirSync(join(engine, "src", "modules"), { withFileTypes: true })
+	readdirSync(join(checkout, "src", "modules"), { withFileTypes: true })
 		.filter((entry) => entry.isDirectory())
 		.map((entry) => entry.name),
 );
 const compatibility = readFileSync(
-	join(engine, "src", "modules", "core", "compatibility.mtex"),
+	join(checkout, "src", "modules", "core", "compatibility.mtex"),
 	"utf8",
 );
 const provided = new Set(
@@ -72,13 +72,13 @@ type Row = {
 	target?: string;
 	sample: string;
 };
-const rows: Row[] = readdirSync(join(engine, "tests", "packages"))
+const rows: Row[] = readdirSync(join(checkout, "tests", "packages"))
 	.filter((file) => file.endsWith(".mtex"))
 	.sort()
 	.map((file) => {
 		const stem = file.slice(0, -".mtex".length);
 		const sample = readFileSync(
-			join(engine, "tests", "packages", file),
+			join(checkout, "tests", "packages", file),
 			"utf8",
 		).replace(/\r\n/g, "\n");
 		if (stem.startsWith("class-")) {
@@ -125,14 +125,14 @@ const subjects = { ...data.subjects };
 if ([...subject.values()].includes("others")) {
 	subjects.others = {
 		title: "Other Packages",
-		description: "Packages added to the engine that are not sorted yet.",
+		description: "Packages added to mLaTeX that are not sorted yet.",
 	};
 }
 
 // A module's header: the comment its main.mtex opens with, as one line.
 const headers = new Map<string, string>();
 for (const name of modules) {
-	const file = join(engine, "src", "modules", name, "main.mtex");
+	const file = join(checkout, "src", "modules", name, "main.mtex");
 	if (!existsSync(file)) continue;
 	const lines: string[] = [];
 	for (const line of readFileSync(file, "utf8").split(/\r?\n/)) {
@@ -200,7 +200,7 @@ const add = (name: string, command: string) => {
 for (const row of rows) {
 	if (row.kind !== "module") continue;
 	const source = readFileSync(
-		join(engine, "src", "modules", row.name, "main.mtex"),
+		join(checkout, "src", "modules", row.name, "main.mtex"),
 		"utf8",
 	)
 		.split(/\r?\n/)
@@ -217,7 +217,7 @@ for (const row of rows) {
 let section: string[] = [];
 let heading = false;
 for (const line of readFileSync(
-	join(engine, "assets", "glossary.mtex"),
+	join(checkout, "assets", "glossary.mtex"),
 	"utf8",
 ).split(/\r?\n/)) {
 	if (line.startsWith("% ----")) {
@@ -336,7 +336,7 @@ for (const [name, entry] of Object.entries(subjects)) {
 			`description: ${entry.description}`,
 			"---",
 			"",
-			`${members.length} ${noun}. Each page says how mLaTeX supports one, lists the commands it gives, and shows a document that uses it, taken from the engine's own tests so that it compiles as written.`,
+			`${members.length} ${noun}. Each page says how mLaTeX supports one, lists the commands it gives, and shows a document that uses it, taken from mLaTeX's own tests so that it compiles as written.`,
 			"",
 			"| Name | What it does |",
 			"| --- | --- |",
@@ -366,14 +366,14 @@ for (const [name, entry] of Object.entries(subjects)) {
 			"```",
 			"",
 			row.kind === "module"
-				? "A module of its own, compiled into mLaTeX: the package's commands are defined over the engine's primitives."
+				? "A module of its own, compiled into mLaTeX: the package's commands are defined over mLaTeX's primitives."
 				: row.kind === "provided"
-					? "Built into the engine. Loading it is accepted and reads nothing; what the package does is the engine's own work, and any command of it that the engine does not define comes from the glossary."
+					? "Built into mLaTeX. Loading it is accepted and reads nothing; what the package does is mLaTeX's own work, and any command of it that mLaTeX does not define comes from the glossary."
 					: row.kind === "alias"
 						? `Loads [\`${row.target}\`](${link(row.target ?? "")}) under this name, so a document asking for either gets the same.`
 						: row.kind === "glossary"
 							? "Not compiled in: loading it is a warning, and its commands come from the glossary the first time a document uses them."
-							: "A class of the engine's own: its paper, type size and columns are read from its options.",
+							: "A class of mLaTeX's own: its paper, type size and columns are read from its options.",
 			"",
 		];
 		const listed = commands.get(row.name);
@@ -393,7 +393,7 @@ for (const [name, entry] of Object.entries(subjects)) {
 		lines.push(
 			"## Example",
 			"",
-			"A document that uses it, from the engine's own tests, so it compiles as written:",
+			"A document that uses it, from mLaTeX's own tests, so it compiles as written:",
 			"",
 			`\`\`\`latex title="${row.name}.tex"`,
 			...body,
@@ -435,17 +435,17 @@ const overview = [
 	"description: Every package and class mLaTeX reads, how each one is supported, and what happens with the rest.",
 	"---",
 	"",
-	`mLaTeX reads **${packages.size} packages** and **${count("class")} document classes**, plus LaTeX's standard \`article\`, \`report\` and \`book\`. Each one is checked by a small document of its own that uses what the package is loaded for, and the engine's tests fail if any of them reports an error or an unknown command.`,
+	`mLaTeX reads **${packages.size} packages** and **${count("class")} document classes**, plus LaTeX's standard \`article\`, \`report\` and \`book\`. Each one is checked by a small document of its own that uses what the package is loaded for, and mLaTeX's tests fail if any of them reports an error or an unknown command.`,
 	"",
 	"## How a package is supported",
 	"",
 	"### A module of its own",
 	"",
-	`${count("module")} packages are written in mLaTeX's language and compiled into the program, their commands defined over the engine's own primitives.`,
+	`${count("module")} packages are written in mLaTeX's language and compiled into the program, their commands defined over mLaTeX's own primitives.`,
 	"",
 	"### Built in",
 	"",
-	`${count("provided")} packages need nothing loaded, because the engine already does their job. \`graphicx\` (\`\\includegraphics\` is part of the engine), \`xcolor\`, \`inputenc\`, \`microtype\` and the font packages are here. Any of their commands a document uses that the engine does not define comes from the glossary.`,
+	`${count("provided")} packages need nothing loaded, because mLaTeX already does their job. \`graphicx\` (\`\\includegraphics\` is part of mLaTeX), \`xcolor\`, \`inputenc\`, \`microtype\` and the font packages are here. Any of their commands a document uses that mLaTeX does not define comes from the glossary.`,
 	"",
 	"### Under another name",
 	"",
