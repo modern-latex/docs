@@ -1,4 +1,4 @@
-Document,Engine,Median (ms),Fastest (ms),90th percentile (ms),Spread (ms),First pass (ms),CPU (ms),Memory (MB),Pages,PDF (KB),Steps,Relative to mLaTeX
+Document,Program,Median (ms),Fastest (ms),90th percentile (ms),Spread (ms),First pass (ms),CPU (ms),Memory (MB),Pages,PDF (KB),Steps,Relative to mLaTeX
 Startup,mLaTeX,24.41,22.84,26.84,1.52,24.41,15.62,24.0,1,7,mlatex,1.00
 Startup,pdfLaTeX,513.12,502.92,526.12,8.99,513.12,515.62,131.7,1,15,pdflatex 1,21.02
 Startup,XeLaTeX,1056.03,1019.62,1105.43,35.42,1056.03,1046.88,343.8,1,4,xelatex 1,43.26
