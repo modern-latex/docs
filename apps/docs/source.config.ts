@@ -92,7 +92,7 @@ function preview() {
 	};
 }
 
-export const docs = defineDocs({
+export const doc = defineDocs({
 	dir: "./content/docs",
 	docs: {
 		postprocess: {
