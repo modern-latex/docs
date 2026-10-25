@@ -57,41 +57,6 @@ function place() {
 	};
 }
 
-// A LaTeX code block marked `preview`, as ```latex title="x.tex" preview,
-// is followed by <Preview />, which sets it live with mLaTeX in the browser
-// (components/preview.tsx). It runs before the code is highlighted, while the
-// block is still its text, and on the page alone: the page's Markdown, for
-// llms.txt, keeps only the code.
-function preview() {
-	return (tree: Root) => {
-		visit(tree, "element", (node, index, parent) => {
-			if (!parent || index === undefined || node.tagName !== "pre") return;
-			const code = node.children.find(
-				(child): child is Element =>
-					child.type === "element" && child.tagName === "code",
-			);
-			const meta = (code?.data as { meta?: string } | undefined)?.meta;
-			if (!code || !meta || !/(^|\s)preview(\s|$)/.test(meta)) return;
-			(code.data as { meta: string }).meta = meta
-				.replace(/(^|\s)preview(?=\s|$)/, "")
-				.trim();
-			const source = code.children
-				.map((child) => (child.type === "text" ? child.value : ""))
-				.join("")
-				.trimEnd();
-			parent.children.splice(index + 1, 0, {
-				type: "mdxJsxFlowElement",
-				name: "Preview",
-				attributes: [
-					{ type: "mdxJsxAttribute", name: "source", value: source },
-				],
-				children: [],
-			} as unknown as ElementContent);
-			return [SKIP, index + 2];
-		});
-	};
-}
-
 export const doc = defineDocs({
 	dir: "./content/docs",
 	docs: {
@@ -158,8 +123,47 @@ export default defineConfig({
 			},
 		},
 		remarkPlugins: [[remarkAutoTypeTable, { generator }]],
-		// Around the defaults, which highlight the code first.
-		rehypePlugins: (defaults) => [preview, mark, ...defaults, place],
+		// Around the defaults, which highlight the code first. Before them, a
+		// LaTeX code block marked `preview`, as ```latex title="x.tex" preview,
+		// is followed by <Preview />, which sets it live with mLaTeX in the
+		// browser (components/preview.tsx): while the block is still its text,
+		// and on the page alone, as the page's Markdown, for llms.txt, keeps
+		// only the code.
+		rehypePlugins: (defaults) => [
+			() => (tree: Root) => {
+				visit(tree, "element", (node, index, parent) => {
+					if (!parent || index === undefined || node.tagName !== "pre") return;
+					const code = node.children.find(
+						(child): child is Element =>
+							child.type === "element" && child.tagName === "code",
+					);
+					const meta = (code?.data as { meta?: string } | undefined)?.meta;
+					if (!code || !meta || !/(^|\s)preview(\s|$)/.test(meta)) return;
+					(code.data as { meta: string }).meta = meta
+						.replace(/(^|\s)preview(?=\s|$)/, "")
+						.trim();
+					parent.children.splice(index + 1, 0, {
+						type: "mdxJsxFlowElement",
+						name: "Preview",
+						attributes: [
+							{
+								type: "mdxJsxAttribute",
+								name: "source",
+								value: code.children
+									.map((child) => (child.type === "text" ? child.value : ""))
+									.join("")
+									.trimEnd(),
+							},
+						],
+						children: [],
+					} as unknown as ElementContent);
+					return [SKIP, index + 2];
+				});
+			},
+			mark,
+			...defaults,
+			place,
+		],
 		rehypeCodeOptions: {
 			...rehypeCodeDefaultOptions,
 			icon: {
