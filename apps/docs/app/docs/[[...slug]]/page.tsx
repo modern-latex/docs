@@ -29,6 +29,7 @@ import {
 	Speedups,
 	Timings,
 } from "@/components/benchmark";
+import { Preview } from "@/components/preview";
 import { createMetadata } from "@/lib/metadata";
 import { file, page as find, paths } from "@/lib/sources";
 import { release, versions } from "@/lib/versions";
@@ -120,6 +121,8 @@ export default async function Page({
 						Timings,
 						// What a page's x.y.z shows: see source.config.ts.
 						Release: () => number,
+						// A LaTeX example set live, after a code block marked preview.
+						Preview,
 						Callout: ({
 							children: content,
 							type: kind,
