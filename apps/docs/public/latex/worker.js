@@ -7,9 +7,6 @@ const version = new URL(self.location.href).search;
 
 importScripts(`mlatex.js${version}`);
 
-// A release before 0.1.3 names its factory Latex.
-const factory = self.mLatex ?? self.Latex;
-
 let session;
 let ready;
 
@@ -24,54 +21,51 @@ function start() {
 	session = undefined;
 	// The pages belonged to the module that aborted.
 	screens.clear();
-	ready = factory({
+	// A release before 0.1.3 names its factory Latex.
+	ready = (self.mLatex ?? self.Latex)({
 		locateFile: (path) =>
 			`${path.endsWith(".data") ? "mlatex.data.br" : path.endsWith(".wasm") ? "mlatex.wasm" : path}${version}`,
 	}).then((module) => {
 		session = new module.Session();
 	});
-	return ready;
 }
 start();
 
-// A US Letter page, in points: the largest a piece of an article sets on
-// when it is cropped to what it holds.
-const letter = { width: 612, height: 792 };
-
-/** The first page's width and height in points, from its MediaBox. */
-function measure(pdf) {
-	const text = new TextDecoder("latin1").decode(pdf);
-	const box =
-		/\/MediaBox\s*\[\s*([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s*\]/.exec(
-			text,
+/**
+ * Sets one example, cropped when it can be and as the whole document when
+ * not, and keeps its pages to draw from by the example's id.
+ */
+async function run(id, source) {
+	await ready;
+	const begin = performance.now();
+	let clean = false;
+	let cropped = false;
+	// An article is set as its preamble and body alone, without its class and
+	// its document environment, on a page cropped to it.
+	if (/^\s*\\documentclass\{article\}\s*$/m.test(source)) {
+		clean = session.snippet(
+			source
+				.split("\n")
+				.filter(
+					(line) =>
+						!/^\s*\\documentclass\b/.test(line) &&
+						!/^\s*\\(begin|end)\{document\}\s*$/.test(line),
+				)
+				.join("\n"),
 		);
-	if (!box) return null;
-	const [left, bottom, right, top] = box.slice(1).map(Number);
-	return { width: right - left, height: top - bottom };
-}
-
-/**
- * An article's preamble and body, without its class and its document
- * environment, for snippet to set on a page cropped to it; null for a
- * document of another class or with options, whose class makes the page.
- */
-function piece(source) {
-	if (!/^\s*\\documentclass\{article\}\s*$/m.test(source)) return null;
-	return source
-		.split("\n")
-		.filter(
-			(line) =>
-				!/^\s*\\documentclass\b/.test(line) &&
-				!/^\s*\\(begin|end)\{document\}\s*$/.test(line),
-		)
-		.join("\n");
-}
-
-/**
- * What the session last set: whether cleanly, its PDF, its log, and its
- * pages' sizes, which are kept to draw from when mLaTeX can draw them.
- */
-function settle(id, clean, cropped, begin) {
+		// A footnote or a float at the foot of the page, or a piece that draws
+		// nothing, leaves the cropped page as large as the page it was cut
+		// from -- larger than US Letter, 612 by 792 points -- and the whole
+		// document shows it as it is set instead.
+		const box =
+			/\/MediaBox\s*\[\s*([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s*\]/.exec(
+				new TextDecoder("latin1").decode(session.pdf()),
+			);
+		cropped =
+			clean && box !== null && box[3] - box[1] <= 612 && box[4] - box[2] <= 792;
+	}
+	// snippet reads a document of its own class as that class's document.
+	if (!cropped) clean = session.snippet(source);
 	const time = performance.now() - begin;
 	const pdf = session.pdf();
 	let sizes = null;
@@ -86,86 +80,59 @@ function settle(id, clean, cropped, begin) {
 	return { clean, pdf, sizes, log: session.error(), cropped, time };
 }
 
-/** Sets one example: cropped when it can be, and as the whole document when not. */
-async function run(id, source) {
-	await ready;
-	const begin = performance.now();
-	const cut = piece(source);
-	if (cut !== null) {
-		const clean = session.snippet(cut);
-		const pdf = session.pdf();
-		const size = pdf.length ? measure(pdf) : null;
-		// A footnote or a float at the foot of the page, or a piece that
-		// draws nothing, leaves the cropped page as tall as the page it was
-		// cut from: the whole document shows it as it is set.
-		if (
-			clean &&
-			size &&
-			size.width <= letter.width &&
-			size.height <= letter.height
-		) {
-			return settle(id, clean, true, begin);
-		}
-	}
-	// snippet reads a document of its own class as that class's document.
-	const clean = session.snippet(source);
-	return settle(id, clean, false, begin);
-}
-
-/** Draws a page of an example onto white, at so many pixels to the point, for the page to show. */
-function draw({ id, setting, page, scale }) {
-	const screen = screens.get(setting);
-	let image = null;
-	try {
-		if (screen && page < screen.count()) {
-			const canvas = new OffscreenCanvas(
-				Math.max(1, Math.floor(screen.width(page) * scale)),
-				Math.max(1, Math.floor(screen.height(page) * scale)),
-			);
-			const context = canvas.getContext("2d");
-			context.fillStyle = "#fff";
-			context.fillRect(0, 0, canvas.width, canvas.height);
-			screen.draw(context, page, scale);
-			image = canvas.transferToImageBitmap();
-		}
-	} catch {
-		image = null;
-	}
-	self.postMessage({ kind: "drawn", id, image }, image ? [image] : []);
-}
-
 // One thing at a time: an abort replaces the module, and one waiting on the
 // old module would otherwise reach for a session that is gone.
 let queue = Promise.resolve();
-self.onmessage = (event) => {
-	const { data } = event;
+self.onmessage = ({ data }) => {
 	if (data.kind === "release") {
 		// The page can no longer draw these pages.
 		screens.get(data.setting)?.delete();
 		screens.delete(data.setting);
 		return;
 	}
-	queue = queue.then(() => (data.kind === "draw" ? draw(data) : set(data)));
+	queue = queue.then(async () => {
+		if (data.kind === "draw") {
+			// A page of an example onto white, at so many pixels to the point.
+			const screen = screens.get(data.setting);
+			let image = null;
+			try {
+				if (screen && data.page < screen.count()) {
+					const canvas = new OffscreenCanvas(
+						Math.max(1, Math.floor(screen.width(data.page) * data.scale)),
+						Math.max(1, Math.floor(screen.height(data.page) * data.scale)),
+					);
+					const context = canvas.getContext("2d");
+					context.fillStyle = "#fff";
+					context.fillRect(0, 0, canvas.width, canvas.height);
+					screen.draw(context, data.page, data.scale);
+					image = canvas.transferToImageBitmap();
+				}
+			} catch {
+				image = null;
+			}
+			self.postMessage({ id: data.id, image }, image ? [image] : []);
+			return;
+		}
+		try {
+			const outcome = await run(data.id, data.source);
+			self.postMessage({ id: data.id, ...outcome, failure: "" }, [
+				outcome.pdf.buffer,
+			]);
+		} catch (failure) {
+			start();
+			self.postMessage({
+				id: data.id,
+				clean: false,
+				pdf: new Uint8Array(),
+				sizes: null,
+				log: "",
+				cropped: false,
+				time: 0,
+				failure: String(failure?.message ?? failure).replace(
+					" Build with -sASSERTIONS for more info.",
+					"",
+				),
+			});
+		}
+	});
 };
-
-async function set({ id, source }) {
-	try {
-		const outcome = await run(id, source);
-		self.postMessage({ id, ...outcome, failure: "" }, [outcome.pdf.buffer]);
-	} catch (failure) {
-		start();
-		self.postMessage({
-			id,
-			clean: false,
-			pdf: new Uint8Array(),
-			sizes: null,
-			log: "",
-			cropped: false,
-			time: 0,
-			failure: String(failure?.message ?? failure).replace(
-				" Build with -sASSERTIONS for more info.",
-				"",
-			),
-		});
-	}
-}
