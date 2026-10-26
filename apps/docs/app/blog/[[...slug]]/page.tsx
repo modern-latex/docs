@@ -14,14 +14,14 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 
-import { blogCollection } from "@/.source/server";
+import { blog } from "@/.source/server";
 import { Panel } from "@/components/blog/panel";
 import Footer from "@/components/landing/footer";
 import { createMetadata } from "@/lib/metadata";
 
 const blogs = loader({
 	baseUrl: "/blog",
-	source: toFumadocsSource(blogCollection, []),
+	source: toFumadocsSource(blog, []),
 });
 
 export default async function Page({

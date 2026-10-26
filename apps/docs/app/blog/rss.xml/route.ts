@@ -2,12 +2,12 @@ import { Feed } from "feed";
 import { loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 
-import { blogCollection } from "@/.source/server";
+import { blog } from "@/.source/server";
 import { url } from "@/lib/metadata";
 
 const blogs = loader({
 	baseUrl: "/blog",
-	source: toFumadocsSource(blogCollection, []),
+	source: toFumadocsSource(blog, []),
 });
 
 export const revalidate = false;
