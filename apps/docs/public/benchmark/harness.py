@@ -23,7 +23,7 @@ texbin = Path(os.environ.get("TEXBIN") or Path(shutil.which("pdflatex") or "pdfl
 mlatex = Path(os.environ.get("MLATEX") or shutil.which("mlatex") or "mlatex")
 typst = Path(os.environ.get("TYPST") or shutil.which("typst") or "typst").resolve()
 documents = ["startup", "structure", "expressions", "tabular", "graphics", "citations", "monograph"]
-engines = ["mlatex", "pdflatex", "xelatex", "lualatex", "typst"]
+programs = ["mlatex", "pdflatex", "xelatex", "lualatex", "typst"]
 
 # One hardware thread on each of the eight physical cores: on Zen, logical CPUs 2k and 2k+1 share core k.
 affinity = 0x5555
@@ -105,37 +105,37 @@ base = {
 rerun = re.compile(r"Rerun to get|Label\(s\) may have changed|Rerun LaTeX|There were undefined (references|citations)")
 
 
-def measure(engine, document, keep=False):
-    folder = Path(results, "runs", f"{engine}-{document}")
+def measure(program, document, keep=False):
+    folder = Path(results, "runs", f"{program}-{document}")
     shutil.rmtree(folder, ignore_errors=True)
     scratch = Path(folder, "tmp")
     scratch.mkdir(parents=True)
-    shutil.copy(Path(corpus, f"{document}.{'typ' if engine == 'typst' else 'tex'}"), folder)
+    shutil.copy(Path(corpus, f"{document}.{'typ' if program == 'typst' else 'tex'}"), folder)
     shutil.copy(Path(corpus, "references.bib"), folder)
     environment = {**base, "TEMP": str(scratch), "TMP": str(scratch)}
 
     steps = []
-    if engine == "mlatex":
+    if program == "mlatex":
         steps.append({"name": "mlatex", **execute([str(mlatex), "-q", "--offline", f"{document}.tex"], folder, environment)})
-    elif engine == "typst":
+    elif program == "typst":
         command = [str(typst), "compile", "--ignore-system-fonts", f"{document}.typ", f"{document}.pdf"]
         steps.append({"name": "typst", **execute(command, folder, environment)})
     else:
-        command = [str(Path(texbin, f"{engine}.exe")), "-interaction=batchmode", "-halt-on-error", "-no-shell-escape", f"{document}.tex"]
-        steps.append({"name": f"{engine} 1", **execute(command, folder, environment)})
+        command = [str(Path(texbin, f"{program}.exe")), "-interaction=batchmode", "-halt-on-error", "-no-shell-escape", f"{document}.tex"]
+        steps.append({"name": f"{program} 1", **execute(command, folder, environment)})
         aux = Path(folder, f"{document}.aux")
         if aux.exists() and "\\bibdata" in aux.read_text(errors="replace"):
             steps.append({"name": "bibtex", **execute([str(Path(texbin, "bibtex.exe")), "-terse", document], folder, environment)})
-            steps.append({"name": f"{engine} 2", **execute(command, folder, environment)})
+            steps.append({"name": f"{program} 2", **execute(command, folder, environment)})
         for _ in range(4):
             if not rerun.search(Path(folder, f"{document}.log").read_text(errors="replace")):
                 break
-            passes = sum(1 for step in steps if step["name"].startswith(engine))
-            steps.append({"name": f"{engine} {passes + 1}", **execute(command, folder, environment)})
+            passes = sum(1 for step in steps if step["name"].startswith(program))
+            steps.append({"name": f"{program} {passes + 1}", **execute(command, folder, environment)})
 
     pdf = Path(folder, f"{document}.pdf")
     record = {
-        "engine": engine, "document": document,
+        "program": program, "document": document,
         "wall": sum(step["wall"] for step in steps), "cpu": sum(step["cpu"] for step in steps),
         "peak": max(step["peak"] for step in steps), "ok": all(step["code"] == 0 for step in steps) and pdf.exists(),
         "first": steps[0]["wall"], "passes": len(steps), "steps": steps,
@@ -147,7 +147,7 @@ def measure(engine, document, keep=False):
         record["bytes"] = pdf.stat().st_size if pdf.exists() else 0
         if pdf.exists():
             Path(results, "pdfs").mkdir(exist_ok=True)
-            shutil.copy(pdf, Path(results, "pdfs", f"{document}-{engine}.pdf"))
+            shutil.copy(pdf, Path(results, "pdfs", f"{document}-{program}.pdf"))
     return record
 
 
@@ -163,30 +163,30 @@ machine = {
 binaries = {"mlatex": mlatex, "pdflatex": Path(texbin, "pdflatex.exe"), "xelatex": Path(texbin, "xelatex.exe"),
             "lualatex": Path(texbin, "lualatex.exe"), "typst": typst}
 versions = {}
-for engine, binary in binaries.items():
+for program, binary in binaries.items():
     try:
-        versions[engine] = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=30).stdout.splitlines()[0].strip()
+        versions[program] = subprocess.run([str(binary), "--version"], capture_output=True, text=True, timeout=30).stdout.splitlines()[0].strip()
     except Exception:
-        versions[engine] = "unknown"
+        versions[program] = "unknown"
 print(json.dumps(machine), json.dumps(versions), sep="\n", flush=True)
 
 started = datetime.datetime.now().astimezone()
 finals = {}
 for document in documents:
-    for engine in engines:
+    for program in programs:
         for _ in range(warmups):
-            measure(engine, document)
-        finals[(engine, document)] = measure(engine, document, keep=True)
-        print(f"Warmed {engine} on {document}: {finals[(engine, document)]['wall']:.3f}s", flush=True)
+            measure(program, document)
+        finals[(program, document)] = measure(program, document, keep=True)
+        print(f"Warmed {program} on {document}: {finals[(program, document)]['wall']:.3f}s", flush=True)
 
 samples = []
 chance = random.Random(20261015)
 for lap in range(rounds):
     for document in documents:
-        order = engines[:]
+        order = programs[:]
         chance.shuffle(order)
-        for engine in order:
-            record = measure(engine, document)
+        for program in order:
+            record = measure(program, document)
             record["round"] = lap
             samples.append(record)
     print(f"Round {lap + 1} of {rounds} done", flush=True)
@@ -196,13 +196,13 @@ report = {
     "started": started.isoformat(), "finished": datetime.datetime.now().astimezone().isoformat(),
     "machine": machine, "versions": versions, "rounds": rounds, "warmups": warmups,
     "sandbox": {
-        "affinity": hex(affinity), "priority": "high for each engine process (a job-wide priority needs admin rights)",
+        "affinity": hex(affinity), "priority": "high for each program process (a job-wide priority needs admin rights)",
         "memoryCap": ceiling, "environment": sorted([*base, "TEMP", "TMP"]),
         "network": "mlatex --offline; TeX with shell escape off; Typst with no packages to fetch",
         "writes": "openout_any=p: TeX writes only inside its run folder",
     },
-    "documents": documents, "engines": engines,
-    "finals": [finals[(engine, document)] for document in documents for engine in engines],
+    "documents": documents, "programs": programs,
+    "finals": [finals[(program, document)] for document in documents for program in programs],
     "samples": samples,
 }
 Path(results, "results.json").write_text(json.dumps(report, indent=1), encoding="utf-8")

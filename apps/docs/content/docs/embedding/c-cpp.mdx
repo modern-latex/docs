@@ -1,9 +1,9 @@
 ---
 title: C/C++
-description: The engine's C++ interface, latex::Session, and its C library, latex_ffi, with the one function it exports.
+description: mLaTeX's C++ interface, latex::Session, and its C library, latex_ffi, with the one function it exports.
 ---
 
-mLaTeX gives programs two interfaces. C++ programs use the engine's own header, `latex.hpp`, and link the `core` library. Every other language goes through the C library, `latex_ffi`, whose header is plain C; [Python](/docs/embedding/python) is one of them.
+mLaTeX gives programs two interfaces. C++ programs use mLaTeX's own header, `latex.hpp`, and link the `core` library. Every other language goes through the C library, `latex_ffi`, whose header is plain C; [Python](/docs/embedding/python) is one of them.
 
 | Interface | Header      | Link        | For                                                   |
 | --------- | ----------- | ----------- | ----------------------------------------------------- |
@@ -16,7 +16,7 @@ mLaTeX gives programs two interfaces. C++ programs use the engine's own header, 
 
 ### The library
 
-The engine is the `core` library, and its interface is `latex.hpp`, in the namespace `latex`. Link `core` from the mLaTeX build, as the `mlatex` program and every test do.
+mLaTeX is the `core` library, and its interface is `latex.hpp`, in the namespace `latex`. Link `core` from the mLaTeX build, as the `mlatex` program and every test do.
 
 ### A session
 

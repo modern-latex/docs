@@ -1,15 +1,15 @@
 ---
 title: Comparison
-description: How mLaTeX differs from TeX engines, Typst and online editors.
+description: How mLaTeX differs from other TeX programs, Typst and online editors.
 ---
 
 mLaTeX keeps LaTeX's language and replaces what runs it. That puts it somewhere new: closer to pdfLaTeX than to Typst in what you write, and closer to Typst than to pdfLaTeX in how it runs.
 
 ## vs. pdfLaTeX, XeLaTeX and LuaLaTeX
 
-These are the engines of a TeX distribution such as TeX Live or MiKTeX: TeX itself, with LaTeX's kernel and packages loaded as macros from thousands of files.
+These are the programs of a TeX distribution such as TeX Live or MiKTeX: TeX itself, with LaTeX's kernel and packages loaded as macros from thousands of files.
 
-|                   | TeX engines                                                        | mLaTeX                                                                   |
+|                   | TeX programs                                                       | mLaTeX                                                                   |
 | ----------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------ |
 | Install           | A distribution of several gigabytes, or packages fetched as needed | One program and its fonts                                                |
 | Runs per document | Two or three, plus BibTeX or Biber, plus makeindex                 | One                                                                      |
@@ -29,13 +29,13 @@ mLaTeX takes the other road: the language stays LaTeX, so existing papers, templ
 
 ## vs. Overleaf
 
-Overleaf is an online editor with collaboration, history and templates, running a TeX distribution on its servers. It is an editor and a service; mLaTeX is an engine.
+Overleaf is an online editor with collaboration, history and templates, running a TeX distribution on its servers. It is an editor and a service; mLaTeX is a typesetter.
 
 The two answer different questions, and they can be combined: mLaTeX can run on a server, inside another program through its C or C++ library, or in a browser through its WebAssembly build, which is how a live-preview editor could typeset without a round trip to a server at all.
 
 ## vs. Tectonic
 
-Tectonic is a self-contained TeX engine based on XeTeX that downloads the packages a document needs and runs as many passes as it takes. It removes the work of managing a distribution, while still running TeX and its macro packages underneath.
+Tectonic is a self-contained TeX program based on XeTeX that downloads the packages a document needs and runs as many passes as it takes. It removes the work of managing a distribution, while still running TeX and its macro packages underneath.
 
 mLaTeX goes one step further: there are no packages to download and no TeX underneath. That is where the speed comes from, and also why a package outside mLaTeX's list is approximated rather than run.
 

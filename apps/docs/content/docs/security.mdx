@@ -3,7 +3,7 @@ title: Security
 description: What a document can and cannot do, and how to compile documents you did not write.
 ---
 
-mLaTeX treats every document as untrusted input. Unlike a TeX distribution, it has no way to run code a document supplies outside the engine's own language, so compiling a stranger's document is far less risky than with pdfLaTeX and `--shell-escape`.
+mLaTeX treats every document as untrusted input. Unlike a TeX distribution, it has no way to run code a document supplies outside mLaTeX's own language, so compiling a stranger's document is far less risky than with pdfLaTeX and `--shell-escape`.
 
 ## What a document cannot do
 
@@ -17,7 +17,7 @@ mLaTeX treats every document as untrusted input. Unlike a TeX distribution, it h
 
 ### Load TeX code from disk
 
-`.sty` and `.cls` files are never read. Packages are compiled in, handed in by a program, or written as `name/main.mtex` folders in the engine's own language.
+`.sty` and `.cls` files are never read. Packages are compiled in, handed in by a program, or written as `name/main.mtex` folders in mLaTeX's own language.
 
 ### Read outside its folders
 
@@ -53,7 +53,7 @@ A document can make HTTP and HTTPS requests from the machine that compiles it, w
   </Tab>
 </Tabs>
 
-Each request is then refused and reported as an error, such as `\httpget of 'https://example.com' refused: the run is offline`, before anything is sent. A document cannot reach internal services or send data out. For defence in depth, also run the engine somewhere without network access. The WebAssembly module makes no requests at all.
+Each request is then refused and reported as an error, such as `\httpget of 'https://example.com' refused: the run is offline`, before anything is sent. A document cannot reach internal services or send data out. For defence in depth, also run mLaTeX somewhere without network access. The WebAssembly module makes no requests at all.
 
 ### Time and memory
 

@@ -654,8 +654,9 @@ export function Brand() {
 													Incomprehensible code? We have you covered with Lua.
 												</Callout>
 												<Callout type="warn" title="Careful">
-													Annoyed by a massive footprint just to run an engine?
-													We managed all of it in the backend with C++.
+													Annoyed by a massive footprint just to compile a
+													document? We managed all of it in the backend with
+													C++.
 												</Callout>
 												<Callout type="error" title="Broken">
 													Support for other languages—such as Fortran, R, and

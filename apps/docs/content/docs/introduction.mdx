@@ -3,7 +3,7 @@ title: Introduction
 description: What mLaTeX is, what it reads, and what it does differently.
 ---
 
-mLaTeX (Modernized LaTeX) is a LaTeX typesetting engine written from scratch in C++. It reads LaTeX documents as people already write them and turns them into PDF with a single program: no TeX distribution, no format files, no package tree on disk and no auxiliary files between runs.
+mLaTeX (Modernized LaTeX) is a LaTeX typesetter written from scratch in C++. It reads LaTeX documents as people already write them and turns them into PDF with a single program: no TeX distribution, no format files, no package tree on disk and no auxiliary files between runs.
 
 ```bash
 mlatex paper.tex
@@ -15,7 +15,7 @@ paper.tex
 Output written on paper.pdf (11 pages, 423273 bytes).
 ```
 
-The language is the same. The machinery underneath is new: the lexer, the macro expander, the parser, the line breaker, the page builder, the font shaper and the PDF writer are one engine, and the work LaTeX does with thousands of lines of TeX macros is done once, in compiled code.
+The language is the same. The machinery underneath is new: the lexer, the macro expander, the parser, the line breaker, the page builder, the font shaper and the PDF writer are one program, and the work LaTeX does with thousands of lines of TeX macros is done once, in compiled code.
 
 ***
 
@@ -41,11 +41,11 @@ Cross-references, page numbers and the table of contents are resolved in a secon
 
 ### No separate tools
 
-Bibliographies are read straight from `.bib` files and indexes are sorted by the engine, so there is no BibTeX, Biber or makeindex step.
+Bibliographies are read straight from `.bib` files and indexes are sorted by mLaTeX, so there is no BibTeX, Biber or makeindex step.
 
 ### Packages are compiled in
 
-Packages are written in the engine's own language and compiled into the program. `.sty` and `.cls` files are never read from disk.
+Packages are written in mLaTeX's own language and compiled into the program. `.sty` and `.cls` files are never read from disk.
 
 ### Safe by design
 

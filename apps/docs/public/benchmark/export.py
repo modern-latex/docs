@@ -15,7 +15,7 @@ app = Path(sys.argv[2])
 texbin = Path(os.environ.get("TEXBIN") or Path(shutil.which("pdftoppm") or "pdftoppm").parent)
 results = Path(bench, "results")
 data = json.loads(Path(results, "results.json").read_text(encoding="utf-8"))
-engines, documents = data["engines"], data["documents"]
+programs, documents = data["programs"], data["documents"]
 labels = {"mlatex": "mLaTeX", "pdflatex": "pdfLaTeX", "xelatex": "XeLaTeX", "lualatex": "LuaLaTeX", "typst": "Typst"}
 
 public = Path(app, "public", "benchmark")
@@ -33,14 +33,14 @@ def summary(values):
     }
 
 
-finals = {(final["engine"], final["document"]): final for final in data["finals"]}
+finals = {(final["program"], final["document"]): final for final in data["finals"]}
 rows = []
 for document in documents:
-    for engine in engines:
-        samples = [sample for sample in data["samples"] if sample["engine"] == engine and sample["document"] == document]
-        final = finals[(engine, document)]
+    for program in programs:
+        samples = [sample for sample in data["samples"] if sample["program"] == program and sample["document"] == document]
+        final = finals[(program, document)]
         rows.append({
-            "engine": engine, "document": document, "runs": len(samples),
+            "program": program, "document": document, "runs": len(samples),
             "ok": all(sample["ok"] for sample in samples),
             "wall": summary([sample["wall"] for sample in samples]),
             "first": summary([sample["first"] for sample in samples]),
@@ -51,10 +51,10 @@ for document in documents:
             "pages": final.get("pages", 0), "bytes": final.get("bytes", 0),
             "raw": [round(sample["wall"], 5) for sample in samples],
         })
-table = {(row["engine"], row["document"]): row for row in rows}
+table = {(row["program"], row["document"]): row for row in rows}
 
 speedups = {}
-for other in engines[1:]:
+for other in programs[1:]:
     ratios = [table[(other, document)]["wall"]["median"] / table[("mlatex", document)]["wall"]["median"] for document in documents]
     firsts = [table[(other, document)]["first"]["median"] / table[("mlatex", document)]["first"]["median"] for document in documents]
     speedups[other] = {
@@ -68,19 +68,19 @@ scratch = Path(bench, "render")
 shutil.rmtree(scratch, ignore_errors=True)
 scratch.mkdir()
 for document in documents:
-    last = min(6, max(finals[(engine, document)].get("pages", 0) for engine in engines))
-    for engine in engines:
-        pdf = Path(results, "pdfs", f"{document}-{engine}.pdf")
+    last = min(6, max(finals[(program, document)].get("pages", 0) for program in programs))
+    for program in programs:
+        pdf = Path(results, "pdfs", f"{document}-{program}.pdf")
         shutil.copy(pdf, Path(public, "pdfs", pdf.name))
         subprocess.run([str(Path(texbin, "pdftoppm.exe")), "-png", "-r", "100", "-f", "1", "-l", str(last), str(pdf),
-                        str(Path(scratch, f"{document}-{engine}"))], check=True)
-        renders = sorted(scratch.glob(f"{document}-{engine}-*.png"), key=lambda render: int(render.stem.rsplit("-", 1)[1]))
+                        str(Path(scratch, f"{document}-{program}"))], check=True)
+        renders = sorted(scratch.glob(f"{document}-{program}-*.png"), key=lambda render: int(render.stem.rsplit("-", 1)[1]))
         paths = []
         for number, render in enumerate(renders, 1):
-            name = f"{document}-{engine}-{number}.webp"
+            name = f"{document}-{program}-{number}.webp"
             Image.open(render).save(Path(public, "pages", name), "WEBP", lossless=True, method=6)
             paths.append(f"/benchmark/pages/{name}")
-        images[f"{document}-{engine}"] = paths
+        images[f"{document}-{program}"] = paths
 shutil.rmtree(scratch)
 
 sources = {}
@@ -94,28 +94,28 @@ shutil.copy(Path(results, "results.json"), Path(public, "results.json"))
 
 with open(Path(public, "results.csv"), "w", newline="", encoding="utf-8") as file:
     sheet = csv.writer(file)
-    sheet.writerow(["Document", "Engine", "Median (ms)", "Fastest (ms)", "90th percentile (ms)", "Spread (ms)",
+    sheet.writerow(["Document", "Program", "Median (ms)", "Fastest (ms)", "90th percentile (ms)", "Spread (ms)",
                     "First pass (ms)", "CPU (ms)", "Memory (MB)", "Pages", "PDF (KB)", "Steps", "Relative to mLaTeX"])
     for row in rows:
         baseline = table[("mlatex", row["document"])]["wall"]["median"]
-        sheet.writerow([row["document"].capitalize(), labels[row["engine"]], f"{row['wall']['median'] * 1000:.2f}",
+        sheet.writerow([row["document"].capitalize(), labels[row["program"]], f"{row['wall']['median'] * 1000:.2f}",
                         f"{row['wall']['min'] * 1000:.2f}", f"{row['wall']['p90'] * 1000:.2f}",
                         f"{row['wall']['stdev'] * 1000:.2f}", f"{row['first']['median'] * 1000:.2f}",
                         f"{row['cpu']['median'] * 1000:.2f}", f"{row['peakMedian'] / 1048576:.1f}", row["pages"],
                         f"{row['bytes'] / 1024:.0f}", " + ".join(row["steps"]), f"{row['wall']['median'] / baseline:.2f}"])
 with open(Path(public, "builds.csv"), "w", newline="", encoding="utf-8") as file:
     sheet = csv.writer(file)
-    sheet.writerow(["Round", "Document", "Engine", "Wall (ms)", "First pass (ms)", "CPU (ms)", "Memory (MB)", "Steps"])
+    sheet.writerow(["Round", "Document", "Program", "Wall (ms)", "First pass (ms)", "CPU (ms)", "Memory (MB)", "Steps"])
     for sample in data["samples"]:
-        sheet.writerow([sample["round"] + 1, sample["document"].capitalize(), labels[sample["engine"]],
+        sheet.writerow([sample["round"] + 1, sample["document"].capitalize(), labels[sample["program"]],
                         f"{sample['wall'] * 1000:.2f}", f"{sample['first'] * 1000:.2f}", f"{sample['cpu'] * 1000:.2f}",
                         f"{sample['peak'] / 1048576:.1f}", " + ".join(step["name"] for step in sample["steps"])])
 
 payload = {
     "started": data["started"], "finished": data["finished"], "machine": data["machine"],
-    "versions": {engine: text.removeprefix("This is ") for engine, text in data["versions"].items()},
+    "versions": {program: text.removeprefix("This is ") for program, text in data["versions"].items()},
     "rounds": data["rounds"], "warmups": data["warmups"], "sandbox": data["sandbox"],
-    "engines": engines, "documents": documents,
+    "programs": programs, "documents": documents,
     "rows": rows, "speedups": speedups, "images": images, "sources": sources,
     "samples": len(data["samples"]),
 }

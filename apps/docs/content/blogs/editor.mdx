@@ -8,7 +8,7 @@ author:
 tags: ["roadmap", "editor"]
 ---
 
-mLaTeX already runs in a web page. The engine compiles to WebAssembly, and the `mlatex` package on npm carries it for anyone to embed. The next step is to build the place most people will meet it first: an editor in the browser, in the spirit of Overleaf, rebuilt around an engine that sets a document in milliseconds instead of seconds.
+mLaTeX already runs in a web page. It compiles to WebAssembly, and the `mlatex` package on npm carries it for anyone to embed. The next step is to build the place most people will meet it first: an editor in the browser, in the spirit of Overleaf, rebuilt around a typesetter that sets a document in milliseconds instead of seconds.
 
 This post is about what that editor will do, and what is still to come.
 
@@ -16,7 +16,7 @@ This post is about what that editor will do, and what is still to come.
 
 Most online LaTeX editors send your document to a server, run a TeX distribution there, and send a PDF back. That round trip is why a compile takes seconds, and why your unfinished thesis lives on someone else's computer while it sets.
 
-The mLaTeX editor sets the document in your browser instead. The engine runs in a worker beside the page, so the PDF follows your typing without a compile queue, without a server and without sending your text anywhere. It works the same offline.
+The mLaTeX editor sets the document in your browser instead. mLaTeX runs in a worker beside the page, so the PDF follows your typing without a compile queue, without a server and without sending your text anywhere. It works the same offline.
 
 ## Errors where they happened
 
@@ -36,6 +36,6 @@ Typesetting stays on your device even then. Only saving and sharing reach our se
 
 ## What we're not doing
 
-The editor won't replace your local setup. The same engine, the same packages and the same documents work from the command line, so a project can move between the browser and your terminal without changing a line.
+The editor won't replace your local setup. The same mLaTeX, the same packages and the same documents work from the command line, so a project can move between the browser and your terminal without changing a line.
 
 If there's something you'd want from an editor like this, tell us on [Discord](https://discord.gg/UUbPg5YtJF).

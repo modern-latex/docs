@@ -1,5 +1,5 @@
 {
-  "$comment": "The Package Reference's hand-written part: each subject's title and description, the packages in it, and the summaries, limits and class descriptions the engine's sources do not give. scripts/reference.ts reads it.",
+  "$comment": "The Package Reference's hand-written part: each subject's title and description, the packages in it, and the summaries, limits and class descriptions mLaTeX's sources do not give. scripts/reference.ts reads it.",
   "subjects": {
     "documents": {
       "title": "Documents and Pages",
@@ -613,7 +613,7 @@
   "summaries": {
     "afterpage": "Code to run once the page being set is finished",
     "algorithm": "The float pseudocode is set in, in the ruled style",
-    "amsmath": "Displays, alignments, matrices and the rest; most of it is part of the engine already",
+    "amsmath": "Displays, alignments, matrices and the rest; most of it is part of mLaTeX already",
     "amssymb": "Its symbols, which are already in the mathematics font",
     "array": "More column types and `\\newcolumntype`, read by `tabular` itself",
     "bidi": "Paragraphs right to left or left to right, with `\\setRTL` and `\\setLTR`",

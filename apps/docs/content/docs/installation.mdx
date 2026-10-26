@@ -89,7 +89,7 @@ The Python package is `mlatex`, published on PyPI. It carries the C library, `la
 
 ### JavaScript
 
-The JavaScript package is `mlatex`, published on npm. It carries the WebAssembly module, `latex.js`, `latex.wasm` and `latex.data`, for web pages, workers and Node; see [JavaScript](/docs/embedding/javascript).
+The JavaScript package is `mlatex`, published on npm. It carries the WebAssembly module, `mlatex.js`, `mlatex.wasm` and `mlatex.data`, for web pages, workers and Node; see [JavaScript](/docs/embedding/javascript).
 
 ```npm
 npm install mlatex
@@ -132,7 +132,7 @@ npm install mlatex
     cmake --preset release
     ```
 
-    If the toolchain file is left out, the build looks for vcpkg in `VCPKG_ROOT`, then in `C:/vcpkg`. On Windows it also picks Visual Studio's `clang-cl` by itself when your IDE profile names MSVC's `cl` or MinGW, neither of which can compile the engine.
+    If the toolchain file is left out, the build looks for vcpkg in `VCPKG_ROOT`, then in `C:/vcpkg`. On Windows it also picks Visual Studio's `clang-cl` by itself when your IDE profile names MSVC's `cl` or MinGW, neither of which can compile mLaTeX.
   </Step>
 
   <Step>

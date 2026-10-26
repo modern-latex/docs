@@ -1,23 +1,20 @@
-<h1 align="center">mLaTeX Docs</h1>
+# mLaTeX Docs
 
-<p align="center">
-  <b>The documentation site for <a href="https://github.com/modern-latex/mlatex">mLaTeX</a>, a LaTeX typesetting engine rewritten from the ground up in modern C++.</b>
-</p>
+Everything you read about mLaTeX is written here: how to install it, how to set a document, how to call it from C, C++, Python or JavaScript, what every command and package does, and what changed in each release.
 
-<p align="center">
-  <a href="https://github.com/modern-latex/mlatex">Engine</a> ·
-  <a href="https://github.com/modern-latex/mlatex/releases">Releases</a> ·
-  <a href="https://www.npmjs.com/package/mlatex">npm</a> ·
-  <a href="https://github.com/modern-latex/mlatex/issues">Issues</a>
-</p>
+## What's on the site
 
----
+- **Guides** for getting started, the command line, moving over from another TeX, and the problems people run into most.
+- **Typesetting** pages, one per subject: mathematics, tables, pictures, diagrams, bibliographies, slides, languages and more.
+- **Embedding**, for running mLaTeX inside your own program instead of from a terminal.
+- **The Command and Package Reference**, written from mLaTeX's own sources rather than by hand, so it can't drift from what mLaTeX actually supports.
+- **The changelog and the blog.**
 
-This repository holds the guides, the command reference, the package reference, the changelog and the blog for mLaTeX. The engine itself lives in [modern-latex/mlatex](https://github.com/modern-latex/mlatex).
+There's also a docs chat that searches the pages and mLaTeX's code, and full-text search across the site.
 
-## Running it
+## Working on it
 
-You need Node 24 and pnpm 11.
+Node 24 and pnpm 11, then:
 
 ```bash
 pnpm install
@@ -27,9 +24,9 @@ pnpm install
 pnpm --filter @mlatex/docs dev
 ```
 
-The site is served on [localhost:3000](http://localhost:3000). Copy `apps/docs/.env.example` to `apps/docs/.env.local` for the parts that need keys: the GitHub token for higher API limits, OpenRouter and Upstash for the docs chat, and Typesense for search. Every page renders without them.
+It opens on [localhost:3000](http://localhost:3000). Every page renders with no setup. The chat, search and higher GitHub API limits need keys: copy `apps/docs/.env.example` to `apps/docs/.env.local` and fill in what you want.
 
-Before a pull request, run the checks the pre-commit hook runs:
+Pages are MDX under `apps/docs/content/docs`. Before opening a pull request, run what the pre-commit hook runs:
 
 ```bash
 pnpm lint
@@ -39,18 +36,20 @@ pnpm lint
 pnpm lint:spell
 ```
 
-## Kept in step with mLaTeX
+## What updates itself
 
-The site follows the engine on its own, so a release needs no change here.
+A new mLaTeX release needs nothing from this repo.
 
-- **Versions and changelog** are read from the engine's tags and GitHub releases, and refreshed every hour.
-- **The Package Reference** and the Supported Packages page are written from the engine's sources by `apps/docs/scripts/reference.ts`. The [Reference workflow](.github/workflows/reference.yml) runs it as soon as mLaTeX's release workflow sends it the new tag, and once a day besides, and opens a pull request to read and merge. What the sources do not say, such as each package's subject, is in `apps/docs/scripts/reference.json`.
-- **The code of conduct** is the engine's, copied from it by the same workflow.
+- The version picker and the changelog come straight from mLaTeX's tags and GitHub releases, refreshed hourly.
+- The Package Reference and the Supported Packages page are rebuilt by `apps/docs/scripts/reference.ts`. The [Reference workflow](.github/workflows/reference.yml) runs it when a release goes out, and daily besides, then opens a pull request. Anything the sources can't say, like which subject a package belongs to, lives in `apps/docs/scripts/reference.json`.
+- The code of conduct is copied over from mLaTeX by the same workflow.
 
 ## Contributing
 
-Corrections and new pages are welcome as pull requests. A problem with the engine itself, such as a document that sets wrongly, belongs in the [engine's issues](https://github.com/modern-latex/mlatex/issues). Everyone taking part agrees to the [code of conduct](CODE_OF_CONDUCT.md), and security issues are reported privately, as [SECURITY.md](SECURITY.md) explains.
+Spotted a mistake, or a page that's missing? Pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) explains how. If a document sets wrongly, that's a bug in mLaTeX itself, so it goes in [its issues](https://github.com/modern-latex/mlatex/issues) rather than here.
+
+By taking part you agree to the [code of conduct](CODE_OF_CONDUCT.md). Please report security issues privately, as [SECURITY.md](SECURITY.md) describes.
 
 ## Acknowledgements
 
-This site began as a fork of the [Better Auth](https://github.com/better-auth/better-auth) documentation. I fell in love with its design, so the look of these pages, their layout and much of the component work come from it. My thanks to Bereket Engida and the Better Auth community for building something this good and sharing it openly. Their MIT license and copyright notice are kept in [LICENSE.md](LICENSE.md).
+This site started life as a fork of the [Better Auth](https://github.com/better-auth/better-auth) docs. I fell in love with that design, and the look, the layout and a lot of the components here come from it. Thank you to Bereket Engida and the Better Auth community for building something this good and sharing it openly. Their MIT license and copyright notice are kept in [LICENSE.md](LICENSE.md).
