@@ -10,7 +10,7 @@ import {
 	createGenerator,
 	remarkAutoTypeTable,
 } from "fumadocs-typescript";
-import type { ElementContent, Root } from "hast";
+import type { Element, ElementContent, Root } from "hast";
 import { SKIP, visit } from "unist-util-visit";
 import * as z from "zod";
 
@@ -53,6 +53,41 @@ function place() {
 			]);
 			parent.children.splice(index, 1, ...children);
 			return [SKIP, index + children.length];
+		});
+	};
+}
+
+// A LaTeX code block marked `preview`, as ```latex title="x.tex" preview,
+// is followed by <Preview />, which sets it live with mLaTeX in the browser
+// (components/preview.tsx). It runs before the code is highlighted, while the
+// block is still its text, and on the page alone: the page's Markdown, for
+// llms.txt, keeps only the code.
+function preview() {
+	return (tree: Root) => {
+		visit(tree, "element", (node, index, parent) => {
+			if (!parent || index === undefined || node.tagName !== "pre") return;
+			const code = node.children.find(
+				(child): child is Element =>
+					child.type === "element" && child.tagName === "code",
+			);
+			const meta = (code?.data as { meta?: string } | undefined)?.meta;
+			if (!code || !meta || !/(^|\s)preview(\s|$)/.test(meta)) return;
+			(code.data as { meta: string }).meta = meta
+				.replace(/(^|\s)preview(?=\s|$)/, "")
+				.trim();
+			const source = code.children
+				.map((child) => (child.type === "text" ? child.value : ""))
+				.join("")
+				.trimEnd();
+			parent.children.splice(index + 1, 0, {
+				type: "mdxJsxFlowElement",
+				name: "Preview",
+				attributes: [
+					{ type: "mdxJsxAttribute", name: "source", value: source },
+				],
+				children: [],
+			} as unknown as ElementContent);
+			return [SKIP, index + 2];
 		});
 	};
 }
@@ -124,7 +159,7 @@ export default defineConfig({
 		},
 		remarkPlugins: [[remarkAutoTypeTable, { generator }]],
 		// Around the defaults, which highlight the code first.
-		rehypePlugins: (defaults) => [mark, ...defaults, place],
+		rehypePlugins: (defaults) => [preview, mark, ...defaults, place],
 		rehypeCodeOptions: {
 			...rehypeCodeDefaultOptions,
 			icon: {

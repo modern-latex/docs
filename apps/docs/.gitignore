@@ -11,3 +11,7 @@ content/docs-beta/*
 content/docs-archive/*
 !content/docs-archive/.gitkeep
 .versions-sync-tmp/
+
+# mLaTeX and pdf.js, copied in by scripts/assets.ts
+/public/latex/mlatex.*
+/public/latex/pdf.worker.min.mjs

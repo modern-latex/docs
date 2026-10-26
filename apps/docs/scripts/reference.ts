@@ -393,9 +393,10 @@ for (const [name, entry] of Object.entries(subjects)) {
 		lines.push(
 			"## Example",
 			"",
-			"A document that uses it, from mLaTeX's own tests, so it compiles as written:",
+			"A document that uses it, from mLaTeX's own tests, so it compiles as written, and below it what mLaTeX sets from it in your browser:",
 			"",
-			`\`\`\`latex title="${row.name}.tex"`,
+			// preview sets it live under the code: see source.config.ts.
+			`\`\`\`latex title="${row.name}.tex" preview`,
 			...body,
 			"```",
 			"",
