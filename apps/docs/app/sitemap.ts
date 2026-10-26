@@ -3,11 +3,11 @@ import type { MetadataRoute } from "next";
 import { loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 
-import { blog, docs } from "@/.source/server";
+import { blog, doc } from "@/.source/server";
 
-const source = loader({
+const docs = loader({
 	baseUrl: "/docs",
-	source: docs.toFumadocsSource(),
+	source: doc.toFumadocsSource(),
 });
 
 const blogs = loader({
@@ -47,7 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	pages = pages.concat(
 		await Promise.all(
-			source.getPages().map(async (page) => {
+			docs.getPages().map(async (page) => {
 				const { lastModified } = await page.data.load();
 				return {
 					url: `${url}${page.url}`,

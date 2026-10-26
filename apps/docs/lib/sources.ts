@@ -1,12 +1,12 @@
 import { loader } from "fumadocs-core/source";
 
-import { docs, docsArchive, docsBeta } from "@/.source/server";
+import { doc, docsArchive, docsBeta } from "@/.source/server";
 import type { Version } from "@/lib/versions";
 import { archived } from "@/lib/versions";
 
 const latest = loader({
 	baseUrl: "/docs",
-	source: docs.toFumadocsSource(),
+	source: doc.toFumadocsSource(),
 });
 
 const beta = loader({

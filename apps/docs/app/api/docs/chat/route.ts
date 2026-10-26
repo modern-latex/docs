@@ -10,12 +10,12 @@ import {
 import { loader } from "fumadocs-core/source";
 import * as zod from "zod";
 
-import { docs } from "@/.source/server";
+import { doc } from "@/.source/server";
 import { release, versions } from "@/lib/versions";
 
 const source = loader({
 	baseUrl: "/docs",
-	source: docs.toFumadocsSource(),
+	source: doc.toFumadocsSource(),
 });
 
 const router = createOpenRouter({ apiKey: process.env.OPENROUTER_API_KEY });
