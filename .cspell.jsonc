@@ -90,6 +90,8 @@
 		"*.config.ts",
 		"*.json",
 		"apps/docs/public/benchmark/corpus",
-		".gitignore"
+		".gitignore",
+		".agents/skills",
+		".claude/skills"
 	]
 }
