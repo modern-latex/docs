@@ -530,7 +530,7 @@ export const contents: Contents[] = [
 				),
 			},
 			{
-				title: "The mtex Language",
+				title: "mTex Language",
 				href: "/docs/packages/language",
 				icon: () => (
 					<svg
