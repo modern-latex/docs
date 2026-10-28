@@ -10,7 +10,12 @@ import { createMDX } from "fumadocs-mdx/next";
  * only fetches them again when a new build changes it.
  */
 const engine = createHash("sha256");
-for (const name of ["mlatex.js", "mlatex.wasm", "mlatex.data"]) {
+for (const name of [
+	"mlatex.js",
+	"mlatex.wasm",
+	"mlatex.data",
+	"fallback/fonts.json",
+]) {
 	const file = join(process.cwd(), "public", "latex", name);
 	if (existsSync(file)) engine.update(readFileSync(file));
 }
@@ -38,12 +43,21 @@ const nextConfig = {
 				source: "/latex/:name(mlatex\\.js|mlatex\\.wasm)",
 				headers: lasting,
 			},
-			// The fonts are sent as compressed by scripts/assets.ts, for the browser to undo.
+			// The fonts, and the faces lent for other scripts, are sent as
+			// compressed by scripts/assets.ts, for the browser to undo.
 			{
 				source: "/latex/mlatex.data.br",
 				headers: [
 					{ key: "Content-Encoding", value: "br" },
 					{ key: "Content-Type", value: "application/octet-stream" },
+					...lasting,
+				],
+			},
+			{
+				source: "/latex/fallback/:name(.+\\.br)",
+				headers: [
+					{ key: "Content-Encoding", value: "br" },
+					{ key: "Content-Type", value: "font/otf" },
 					...lasting,
 				],
 			},

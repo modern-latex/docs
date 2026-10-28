@@ -11,12 +11,13 @@ import {
 	copyFileSync,
 	existsSync,
 	mkdirSync,
+	readdirSync,
 	readFileSync,
 	statSync,
 	writeFileSync,
 } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { brotliCompressSync, constants } from "node:zlib";
 
 const target = join(import.meta.dirname, "..", "public", "latex");
@@ -56,16 +57,41 @@ if (source && prefix) {
 	);
 }
 
-// The fonts, 36 MB, go out compressed as brotli, which the browser undoes
-// itself: once for each build of mLaTeX, and best for a build for production.
-const data = join(target, "mlatex.data");
-const packed = `${data}.br`;
-if (
-	existsSync(data) &&
-	(!existsSync(packed) || statSync(packed).mtimeMs < statSync(data).mtimeMs)
-) {
-	const best = process.env.npm_lifecycle_event === "prebuild";
-	const raw = readFileSync(data);
+// Beside the build, the faces mLaTeX lends a page for a script or symbols it
+// carries none of -- Chinese, Thai, emoji -- and fonts.json, which says what
+// each draws: the worker fetches one only when an example needs it.
+const lent = source && join(source, "fallback");
+if (lent && existsSync(lent)) {
+	mkdirSync(join(target, "fallback"), { recursive: true });
+	for (const name of readdirSync(lent)) {
+		const from = join(lent, name);
+		const to = join(target, "fallback", name);
+		if (!existsSync(to) || !readFileSync(from).equals(readFileSync(to))) {
+			copyFileSync(from, to);
+		}
+	}
+}
+
+// The fonts, 36 MB and the lent faces beside them, go out compressed as
+// brotli, which the browser undoes itself: once for each build of mLaTeX,
+// and best for a build for production.
+const best = process.env.npm_lifecycle_event === "prebuild";
+for (const file of [
+	join(target, "mlatex.data"),
+	...(existsSync(join(target, "fallback"))
+		? readdirSync(join(target, "fallback"))
+				.filter((name) => /\.(otf|ttf)$/.test(name))
+				.map((name) => join(target, "fallback", name))
+		: []),
+]) {
+	const packed = `${file}.br`;
+	if (
+		!existsSync(file) ||
+		(existsSync(packed) && statSync(packed).mtimeMs >= statSync(file).mtimeMs)
+	) {
+		continue;
+	}
+	const raw = readFileSync(file);
 	writeFileSync(
 		packed,
 		brotliCompressSync(raw, {
@@ -76,6 +102,6 @@ if (
 		}),
 	);
 	console.log(
-		`Compressed the fonts, ${(raw.length / 1e6).toFixed(1)} MB to ${(statSync(packed).size / 1e6).toFixed(1)} MB`,
+		`Compressed ${basename(file)}, ${(raw.length / 1e6).toFixed(1)} MB to ${(statSync(packed).size / 1e6).toFixed(1)} MB`,
 	);
 }

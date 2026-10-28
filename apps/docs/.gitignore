@@ -14,4 +14,5 @@ content/docs-archive/*
 
 # mLaTeX and pdf.js, copied in by scripts/assets.ts
 /public/latex/mlatex.*
+/public/latex/fallback/
 /public/latex/pdf.worker.min.mjs
