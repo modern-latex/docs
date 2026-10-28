@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 
 import { use, useMemo } from "react";
 
+import { useDocsSearch } from "fumadocs-core/search/client";
+import { fetchClient } from "fumadocs-core/search/client/fetch";
 import type {
 	SearchItemType,
 	SharedProps,
@@ -25,24 +27,13 @@ import { useTypesenseSearch } from "typesense-fumadocs-adapter/client";
 
 import { Context } from "@/app/docs/provider";
 
+// Typesense when its server and key are set, and otherwise the docs' own
+// search at /api/search: never a Typesense server that isn't there.
 const client = (() => {
 	const url = process.env.NEXT_PUBLIC_TYPESENSE_SERVER_URL;
 	const key = process.env.NEXT_PUBLIC_TYPESENSE_SEARCH_API_KEY;
-	if (!url || !key) {
-		return new Client({
-			nodes: [{ host: "localhost", port: 8108, protocol: "http" }],
-			apiKey: "dummy",
-		});
-	}
-	let uri: URL;
-	try {
-		uri = new URL(url);
-	} catch {
-		return new Client({
-			nodes: [{ host: "localhost", port: 8108, protocol: "http" }],
-			apiKey: "dummy",
-		});
-	}
+	if (!url || !key || !URL.canParse(url)) return null;
+	const uri = new URL(url);
 	return new Client({
 		nodes: [
 			{
@@ -55,12 +46,17 @@ const client = (() => {
 	});
 })();
 
+const useSearch = client
+	? () =>
+			useTypesenseSearch({
+				typesenseCollectionName: "better-auth-docs",
+				client,
+				legacy: true,
+			})
+	: () => useDocsSearch({ client: fetchClient({ api: "/api/search" }) });
+
 export default function Dialog(props: SharedProps) {
-	const { search, setSearch, query } = useTypesenseSearch({
-		typesenseCollectionName: "better-auth-docs",
-		client: client!,
-		legacy: true,
-	});
+	const { search, setSearch, query } = useSearch();
 
 	const context = use(Context);
 	const router = useRouter();
@@ -161,19 +157,21 @@ export default function Dialog(props: SharedProps) {
 						/>
 					)}
 				/>
-				<SearchDialogFooter>
-					<span className="text-xs text-fd-muted-foreground">
-						Search powered by{" "}
-						<a
-							href="https://typesense.org"
-							target="_blank"
-							rel="noreferrer noopener"
-							className="underline hover:text-fd-foreground transition-colors"
-						>
-							Typesense
-						</a>
-					</span>
-				</SearchDialogFooter>
+				{client && (
+					<SearchDialogFooter>
+						<span className="text-xs text-fd-muted-foreground">
+							Search powered by{" "}
+							<a
+								href="https://typesense.org"
+								target="_blank"
+								rel="noreferrer noopener"
+								className="underline hover:text-fd-foreground transition-colors"
+							>
+								Typesense
+							</a>
+						</span>
+					</SearchDialogFooter>
+				)}
 			</SearchDialogContent>
 		</SearchDialog>
 	);
