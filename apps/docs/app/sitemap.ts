@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { loader } from "fumadocs-core/source";
 import { toFumadocsSource } from "fumadocs-mdx/runtime/server";
 
-import { blogCollection, docs } from "@/.source/server";
+import { blog, docs } from "@/.source/server";
 
 const source = loader({
 	baseUrl: "/docs",
@@ -12,7 +12,7 @@ const source = loader({
 
 const blogs = loader({
 	baseUrl: "/blog",
-	source: toFumadocsSource(blogCollection, []),
+	source: toFumadocsSource(blog, []),
 });
 
 const url = process.env.NEXT_PUBLIC_APP_URL!;

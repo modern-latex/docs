@@ -123,7 +123,7 @@ export const docsArchive = defineDocs({
 	},
 });
 
-export const blogCollection = defineCollections({
+export const blog = defineCollections({
 	type: "doc",
 	dir: "./content/blogs",
 	schema: z.object({
