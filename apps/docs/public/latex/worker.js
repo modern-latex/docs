@@ -16,11 +16,50 @@ let ready;
 // the PDF with pdf.js instead.
 const screens = new Map();
 
+// The faces mLaTeX lends a page for a script or symbols it carries none of --
+// Chinese, Thai, emoji -- read from fonts.json with what each draws, and those
+// handed to the module so far: each fetched only once an example lacks a
+// character it draws.
+let lent;
+const handed = new Set();
+
+/** Hands the module the faces that draw what the pages it just made lack; whether it was handed any. */
+async function lend() {
+	if (typeof session.font !== "function") return false;
+	const kept = session.screen();
+	const missing = kept.missing?.() ?? [];
+	kept.delete();
+	if (!missing.length) return false;
+	lent ??= fetch(`fallback/fonts.json${version}`)
+		.then((response) => (response.ok ? response.json() : {}))
+		.catch(() => ({}));
+	const drawn = await lent;
+	let any = false;
+	for (const name of new Set(
+		missing.map((code) =>
+			Object.keys(drawn).find((face) =>
+				drawn[face].some(([from, to]) => code >= from && code <= to),
+			),
+		),
+	)) {
+		if (!name || handed.has(name)) continue;
+		const response = await fetch(`fallback/${name}.br${version}`).catch(
+			() => null,
+		);
+		if (!response?.ok) continue;
+		session.font(name, new Uint8Array(await response.arrayBuffer()));
+		handed.add(name);
+		any = true;
+	}
+	return any;
+}
+
 /** Loads mLaTeX afresh: at first, and again after it aborts, which leaves it unusable. */
 function start() {
 	session = undefined;
-	// The pages belonged to the module that aborted.
+	// The pages, and the faces handed over, belonged to the module that aborted.
 	screens.clear();
+	handed.clear();
 	// A release before 0.1.3 names its factory Latex.
 	ready = (self.mLatex ?? self.Latex)({
 		locateFile: (path) =>
@@ -37,35 +76,45 @@ start();
  */
 async function run(id, source) {
 	await ready;
-	const begin = performance.now();
+	let begin = 0;
 	let clean = false;
 	let cropped = false;
-	// An article is set as its preamble and body alone, without its class and
-	// its document environment, on a page cropped to it.
-	if (/^\s*\\documentclass\{article\}\s*$/m.test(source)) {
-		clean = session.snippet(
-			source
-				.split("\n")
-				.filter(
-					(line) =>
-						!/^\s*\\documentclass\b/.test(line) &&
-						!/^\s*\\(begin|end)\{document\}\s*$/.test(line),
-				)
-				.join("\n"),
-		);
-		// A footnote or a float at the foot of the page, or a piece that draws
-		// nothing, leaves the cropped page as large as the page it was cut
-		// from -- larger than US Letter, 612 by 792 points -- and the whole
-		// document shows it as it is set instead.
-		const box =
-			/\/MediaBox\s*\[\s*([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s*\]/.exec(
-				new TextDecoder("latin1").decode(session.pdf()),
+	// Set once, and again when the pages lacked characters a face fetched for
+	// them now draws.
+	for (let again = true; again; again = await lend()) {
+		begin = performance.now();
+		cropped = false;
+		// An article is set as its preamble and body alone, without its class
+		// and its document environment, on a page cropped to it.
+		if (/^\s*\\documentclass\{article\}\s*$/m.test(source)) {
+			clean = session.snippet(
+				source
+					.split("\n")
+					.filter(
+						(line) =>
+							!/^\s*\\documentclass\b/.test(line) &&
+							!/^\s*\\(begin|end)\{document\}\s*$/.test(line),
+					)
+					.join("\n"),
 			);
-		cropped =
-			clean && box !== null && box[3] - box[1] <= 612 && box[4] - box[2] <= 792;
+			// A footnote or a float at the foot of the page, or a piece that
+			// draws nothing, leaves the cropped page as large as the page it
+			// was cut from -- larger than US Letter, 612 by 792 points -- and
+			// the whole document shows it as it is set instead.
+			const box =
+				/\/MediaBox\s*\[\s*([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\s*\]/.exec(
+					new TextDecoder("latin1").decode(session.pdf()),
+				);
+			cropped =
+				clean &&
+				box !== null &&
+				box[3] - box[1] <= 612 &&
+				box[4] - box[2] <= 792;
+		}
+		// snippet reads a document of its own class as that class's document.
+		if (!cropped) clean = session.snippet(source);
+		if (typeof session.screen !== "function") break;
 	}
-	// snippet reads a document of its own class as that class's document.
-	if (!cropped) clean = session.snippet(source);
 	const time = performance.now() - begin;
 	const pdf = session.pdf();
 	let sizes = null;
