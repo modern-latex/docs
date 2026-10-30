@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { loader } from "fumadocs-core/source";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 
-import { docs } from "@/.source/server";
+import { doc } from "@/.source/server";
 import type { Entry } from "@/app/docs/provider";
 import { DocsProvider } from "@/app/docs/provider";
 import { Chat, Panel, Trigger } from "@/components/chat";
@@ -13,7 +13,7 @@ import { releases } from "@/lib/versions";
 
 const source = loader({
 	baseUrl: "/docs",
-	source: docs.toFumadocsSource(),
+	source: doc.toFumadocsSource(),
 });
 
 const entries: Entry[] = source.getPages().map((page) => ({
