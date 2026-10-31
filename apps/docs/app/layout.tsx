@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 						{children}
 					</div>
 				</Providers>
-				<Analytics />
+				{process.env.NODE_ENV === "production" && <Analytics />}
 			</body>
 		</html>
 	);
