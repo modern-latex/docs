@@ -16,11 +16,17 @@ export async function POST(request: Request) {
 			return NextResponse.json({});
 		}
 
-		if (process.env.NODE_ENV === "production") {
+		// Five an hour from each address, once Upstash is set up: without it the
+		// limit can't be kept, and the form would fail for everyone.
+		if (
+			process.env.NODE_ENV === "production" &&
+			process.env.UPSTASH_REDIS_REST_URL &&
+			process.env.UPSTASH_REDIS_REST_TOKEN
+		) {
 			ratelimit ??= new Ratelimit({
 				redis: new Redis({
-					url: process.env.UPSTASH_REDIS_REST_URL!,
-					token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+					url: process.env.UPSTASH_REDIS_REST_URL,
+					token: process.env.UPSTASH_REDIS_REST_TOKEN,
 				}),
 				limiter: Ratelimit.slidingWindow(5, "1 h"),
 				prefix: "contact-form",
@@ -58,8 +64,8 @@ export async function POST(request: Request) {
 
 		const { name, email, description } = payload.data;
 
-		if (!process.env.SUPPORT_EMAIL || !process.env.RESEND_API_KEY) {
-			console.error("Missing SUPPORT_EMAIL or RESEND_API_KEY");
+		if (!process.env.RESEND_API_KEY) {
+			console.error("Missing RESEND_API_KEY");
 			return NextResponse.json(
 				{ message: "Server configuration error" },
 				{ status: 500 },
@@ -67,12 +73,16 @@ export async function POST(request: Request) {
 		}
 
 		const resend = new Resend(process.env.RESEND_API_KEY);
+		// Resend sends only from a domain verified with it, mlatex.org; the
+		// messages go to SUPPORT_EMAIL, or else support@mlatex.org.
+		const support = process.env.SUPPORT_EMAIL || "support@mlatex.org";
 
 		const emails = await Promise.all([
 			resend.emails
 				.send({
-					from: "Support Team <support@mlatex.com>",
-					to: process.env.SUPPORT_EMAIL,
+					from: "mLaTeX Support <support@mlatex.org>",
+					to: support,
+					replyTo: email,
 					subject: `Contact Inquiry from ${name}`,
 					html: `
                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
@@ -93,16 +103,11 @@ export async function POST(request: Request) {
 				.catch((error) => ({ error, data: null })),
 			resend.emails
 				.send({
-					from: "Support Team <support@mlatex.com>",
+					from: "mLaTeX Support <support@mlatex.org>",
 					to: email,
-					cc: process.env.SUPPORT_EMAIL,
+					replyTo: support,
 					subject: "Re: Contact Inquiry",
-					text: `Hi ${name.trim().split(/\s+/)[0] || "there"},
-					Thanks for reaching out. 
-					We've received your message and someone from our team will follow up shortly.
-					  
-					Best,
-					mLaTeX's Support Team`,
+					text: `Hi ${name.trim().split(/\s+/)[0] || "there"},\n\nThanks for reaching out. We've received your message and someone from our team will follow up shortly.\n\nBest,\nmLaTeX's Support Team`,
 				})
 				.catch((error) => ({ error, data: null })),
 		]).then(([primary, secondary]) => ({ primary, secondary }));
