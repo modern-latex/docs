@@ -101,5 +101,5 @@ A document runs on the thread that asked for it, and the module starts no thread
 The module makes no network requests. A picture from a URL is not fetched from inside it: the page fetches it and hands the bytes in with `provide`, under the name the document uses.
 
 <Callout type="info">
-  No prebuilt WebAssembly module has been published yet, and the `--target=wasm` option of the command line is reserved for it.
+  Each release on [GitHub](https://github.com/modern-latex/mlatex/releases) carries the module as `mlatex-x.y.z-wasm.zip`, holding `mlatex.js`, `mlatex.wasm` and `mlatex.data`.
 </Callout>
