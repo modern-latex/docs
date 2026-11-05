@@ -102,7 +102,7 @@ npm install mlatex
 
     * CMake 3.25 or later, and Ninja.
     * A C++26 compiler with `#embed`: Clang 19 or later, or GCC 15 or later. On Windows, use the `clang-cl` that Visual Studio installs under `VC/Tools/Llvm`.
-    * [vcpkg](https://vcpkg.io), for the libraries.
+    * [vcpkg](https://vcpkg.io), for the libraries: HarfBuzz, libpng, libjpeg-turbo, libwebp, zlib and asmjit. The WebAssembly build doesn't need asmjit.
     * [gperf](https://www.gnu.org/software/gperf/).
 
     Optional: libcurl on Linux and macOS, for pictures fetched from `https://` addresses (Windows uses WinHTTP), and Doxygen, for the API reference.
