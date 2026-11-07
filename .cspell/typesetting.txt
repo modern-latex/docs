@@ -810,3 +810,4 @@ nabla
 Kolmogorov
 stex
 asmjit
+wixext
