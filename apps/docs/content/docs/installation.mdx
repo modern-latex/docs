@@ -196,4 +196,4 @@ An `.msi` needs WiX: version 3, or the `wix` .NET tool, version 4 or later. WiX 
 
 ### Other architectures
 
-Another architecture is another build, for example `clang-cl` targeting ARM64 with the `arm64-windows` triplet.
+Another architecture is another build, for example `clang-cl` targeting ARM64 with the `arm64-windows` triplet. On macOS, `-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"` with universal libraries makes one disk image for both.
