@@ -33,7 +33,7 @@ export const versions: Version[] = [
 	{
 		label: "Latest Version",
 		version: "0.1",
-		release: "0.1.2",
+		release: "0.1.0",
 		branch: "main",
 		slug: null,
 		badge: null,
@@ -41,7 +41,7 @@ export const versions: Version[] = [
 	{
 		label: "Beta",
 		version: "0.2",
-		release: "",
+		release: "0.2.0-beta.2",
 		branch: "next",
 		slug: "beta",
 		badge: null,
@@ -49,7 +49,7 @@ export const versions: Version[] = [
 	// When a new line is released, the one it replaces is kept here, with its
 	// pages on a branch of its own, and served under its number: for 0.1, cut a
 	// `v0.1` branch from `main` before 0.2's pages land, then add
-	// { label: "0.1", version: "0.1", release: "0.1.2", branch: "v0.1",
+	// { label: "0.1", version: "0.1", release: "0.1.0", branch: "v0.1",
 	//   slug: "0.1", badge: null }.
 ];
 
