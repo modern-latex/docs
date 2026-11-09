@@ -5,6 +5,10 @@ description: Install mLaTeX from a package, or build it from source.
 
 ## From a package
 
+<Callout type="info">
+  Until a version is released in full, its releases are numbered as alphas and betas, such as `0.2.0-beta.2`, and GitHub marks them as pre-releases. The newest full release is the one GitHub shows as Latest.
+</Callout>
+
 ### Packages for each system
 
 Prebuilt packages are attached to each release on [GitHub](https://github.com/modern-latex/mlatex/releases). Each one is named for its system and architecture, such as `mlatex-x.y.z-windows-x64.msi` or `mlatex_x.y.z_arm64.deb`.
@@ -90,6 +94,12 @@ The JavaScript package is `mlatex`, published on npm. It carries the WebAssembly
 
 ```npm
 npm install mlatex
+```
+
+A pre-release, such as `0.2.0-beta.2`, is published under the `next` tag instead:
+
+```npm
+npm install mlatex@next
 ```
 
 ***
